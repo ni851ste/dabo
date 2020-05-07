@@ -19,3 +19,12 @@ yarn-error.log*
 *.njsproj
 *.sln
 *.sw?
+
+**/logs
+
+**/.idea
+*.iml
+./project/project/
+**/target/
+
+**/node_modules
