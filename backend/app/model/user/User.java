@@ -4,26 +4,27 @@ import java.util.*;
 
 
 public class User {
-    Map<Integer, List> users = new HashMap<>();
-    int id = 0;
+    Map<Integer, List<String>> users = new HashMap<>();
+    int globalIdCounter = 0;
 
-    public void createUser(String name, String email, String lastName){
+    public boolean createUser(String name, String email, String lastName) {
+        int localIdCounter = this.globalIdCounter;
         List<String> values = new ArrayList<>();
         values.add(name);
         values.add(email);
         values.add(lastName);
-        users.put(this.id, values);
-        this.id += 1;
-        System.out.println("Person: " + values.get(2) +
-                "\n\twas created with the Username: " + values.get(0) +
-                "\n\twith the id: " + this.id);
+        users.put(this.globalIdCounter, values);
+        this.globalIdCounter += 1;
+        return users.containsKey(localIdCounter);
     }
 
-    public void deleteUser(int index){
-        List<String> values = new ArrayList<>();
-        values.add("User is removed");
-        users.remove(index);
-        users.put(index, values);
+
+    public boolean deleteUser(int userId) {
+        if (users.containsKey(userId)) {
+            users.remove(userId);
+            return true;
+        }
+        return false;
     }
 
 }
