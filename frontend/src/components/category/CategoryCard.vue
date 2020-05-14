@@ -1,12 +1,14 @@
 <template>
     <div class="col-sm-4">
         <div class="card">
-            <div class="card-body">
-                <img class="card-img-top" :src="require(`@/assets/categoryImgs/${img}`)" alt="Card image cap">
-                <h5 class="categoryLabel">
-                    {{category}}
-                </h5>
-            </div>
+            <router-link to="/articles">
+                <div class="card-body">
+                    <img class="card-img-top" :src="require(`@/assets/categoryImgs/${img}`)" alt="Card image cap">
+                    <h5 class="categoryLabel">
+                        {{category}}
+                    </h5>
+                </div>
+            </router-link>
         </div>
     </div>
 </template>
