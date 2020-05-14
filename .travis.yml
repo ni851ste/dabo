@@ -1,0 +1,17 @@
+matrix:
+  include:
+    - language: scala
+      scala:
+        - 2.12.8
+      before_script:
+        - cd backend
+      script:
+        - sbt clean test
+
+    - language: node_js
+      node_js:
+        - node
+      before_script:
+        - cd frontend
+      script:
+        - npm run build
