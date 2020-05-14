@@ -11,7 +11,9 @@ matrix:
     - language: node_js
       node_js:
         - node
-      before_script:
-        - cd frontend
+      install:
+        - cd frontend && npm install
       script:
         - npm run build
+
+
