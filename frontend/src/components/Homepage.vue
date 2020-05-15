@@ -5,11 +5,11 @@
 <!--        {{msg}}-->
 <!--        Homepage-->
 
-<!--        <router-link to="/">-->
-<!--            <button type="button" class="btn btn-dark " >-->
-<!--                Test-->
-<!--            </button>-->
-<!--        </router-link>-->
+        <router-link to="/sap">
+            <button type="button" class="btn btn-dark " >
+                Test
+            </button>
+        </router-link>
 
     </div>
 </template>
