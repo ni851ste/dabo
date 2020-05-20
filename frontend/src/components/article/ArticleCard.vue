@@ -38,7 +38,7 @@
 
     .article {
         width: 60vw;
-        height: 15vh;
+        height: 20vh;
         margin: auto;
         margin-bottom: 15px;
     }
