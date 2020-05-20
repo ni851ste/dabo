@@ -24,7 +24,8 @@
 
 <style scoped>
     .card {
-        margin: 8px;
+        /*margin: 8px;*/
+        margin: 15px 7.5px 0 7.5px;
     }
 
     .categoryLabel {
@@ -42,6 +43,7 @@
         height: 250px;
         width: 400px;
         filter: brightness(70%);
+        border-radius: calc(.25rem - 1px);
     }
 
     .card-body {
