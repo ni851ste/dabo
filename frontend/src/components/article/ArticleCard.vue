@@ -35,10 +35,10 @@
     }
 
     .article {
-        width: 100vh;
+        width: 60vw;
         height: 15vh;
         margin: auto;
-        margin-top: 15px;
+        margin-bottom: 15px;
     }
 
     .card-body {

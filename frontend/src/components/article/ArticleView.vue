@@ -1,7 +1,7 @@
 <template>
     <div>
         <NavigationBar msg="hallo"></NavigationBar>
-        <div class="articleView">
+        <div class="contentLayout">
             <ArticleCard v-for="article in articles" :article="article"></ArticleCard>
         </div>
     </div>
@@ -29,7 +29,4 @@
 </script>
 
 <style scoped>
-    .articleView {
-        margin-top: 75px;
-    }
 </style>
