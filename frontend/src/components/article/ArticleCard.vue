@@ -38,9 +38,9 @@
 
     .article {
         width: 60vw;
-        height: 20vh;
+        height: 15vh;
         margin: auto;
-        margin-top: 15px;
+        margin-bottom: 15px;
     }
 
     .card-body {

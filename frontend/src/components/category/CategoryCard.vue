@@ -1,15 +1,14 @@
+
 <template>
-    <div class="col-sm-4">
-        <div class="card">
-            <router-link to="/articles">
-                <div class="card-body">
-                    <img class="card-img-top" :src="require(`@/assets/categoryImgs/${img}`)" alt="Card image cap">
-                    <h5 class="categoryLabel">
-                        {{category}}
-                    </h5>
-                </div>
-            </router-link>
-        </div>
+    <div class="card">
+        <router-link to="/articles">
+            <div class="card-body">
+                <img class="card-img-top" :src="require(`@/assets/categoryImgs/${img}`)" alt="Card image cap">
+                <h5 class="categoryLabel">
+                    {{category}}
+                </h5>
+            </div>
+        </router-link>
     </div>
 </template>
 
@@ -24,6 +23,11 @@
 </script>
 
 <style scoped>
+    .card {
+        /*margin: 8px;*/
+        margin: 15px 7.5px 0 7.5px;
+    }
+
     .categoryLabel {
         position: absolute;
         top: 50%;
@@ -34,15 +38,12 @@
         font-size: 30px;
     }
 
-    .col-sm-4 {
-        padding-bottom: 15px;
-        padding-top: 15px;
-    }
-
     .card-img-top {
+        object-fit: cover;
         height: 250px;
         width: 400px;
         filter: brightness(70%);
+        border-radius: calc(.25rem - 1px);
     }
 
     .card-body {
