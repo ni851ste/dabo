@@ -2,15 +2,17 @@ package model.user;
 
 import org.junit.Test;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.junit.Assert.*;
-import static play.mvc.Http.Status.OK;
 
 
-public class UserTest {
+public class UserManagementTest {
 
     @Test
     public void testCreateANewUser() {
-        User tester = new User();
+        UserManagement tester = new UserManagement();
 
 
         assertTrue(tester.createUser("Herbert", "Herbert@cool.de", "Mustermann"));
@@ -22,8 +24,8 @@ public class UserTest {
 
 
     @Test
-    public void testDeleteAUserUser(){
-        User tester = new User();
+    public void testDeleteAUser(){
+        UserManagement tester = new UserManagement();
 
         assertTrue(tester.createUser("Herbert", "Herbert@cool.de", "Mustermann"));
         assertTrue(tester.createUser("Ron", "Ron@cool.de", "Rot"));
@@ -31,5 +33,21 @@ public class UserTest {
         assertTrue(tester.createUser("Liz", "Liz@cool.de", "Neu"));
         assertTrue(tester.deleteUser(1));
         assertFalse(tester.deleteUser(6));
+    }
+
+
+    @Test
+    public void testUpdateAUser() {
+    UserManagement tester = new UserManagement();
+
+    tester.createUser("Herbert", "Herbert@cool.de", "Mustermann");
+    tester.createUser("Ron", "Ron@cool.de", "Rot");
+    tester.createUser("Ute", "Ute@cool.de", "Blau");
+    List<String> test1 = new ArrayList<>();
+    test1.add("Hermann");
+    test1.add("Hermann@cool.de");
+    test1.add("Mustermann");
+    assertTrue(tester.updateUser(0, test1));
+    assertFalse(tester.updateUser(5, test1));
     }
 }
