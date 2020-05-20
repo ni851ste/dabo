@@ -29,5 +29,8 @@
     .categoryView {
         margin-left: 15vh;
         margin-right: 15vh;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
     }
 </style>
