@@ -27,10 +27,10 @@ public class UserManagementTest {
     public void testDeleteAUser(){
         UserManagement tester = new UserManagement();
 
-        assertTrue(tester.createUser("Herbert", "Herbert@cool.de", "Mustermann"));
-        assertTrue(tester.createUser("Ron", "Ron@cool.de", "Rot"));
-        assertTrue(tester.createUser("Ute", "Ute@cool.de", "Blau"));
-        assertTrue(tester.createUser("Liz", "Liz@cool.de", "Neu"));
+        assertTrue(tester.createUser("Herbert", "Herbert@cool.de", "Herbert Mustermann"));
+        assertTrue(tester.createUser("Ron", "Ron@cool.de", "Ron Rot"));
+        assertTrue(tester.createUser("Ute", "Ute@cool.de", "Ute Blau"));
+        assertTrue(tester.createUser("Liz", "Liz@cool.de", "Liz Neu"));
         assertTrue(tester.deleteUser(1));
         assertFalse(tester.deleteUser(6));
     }
@@ -40,9 +40,9 @@ public class UserManagementTest {
     public void testUpdateAUser() {
     UserManagement tester = new UserManagement();
 
-    tester.createUser("Herbert", "Herbert@cool.de", "Mustermann");
-    tester.createUser("Ron", "Ron@cool.de", "Rot");
-    tester.createUser("Ute", "Ute@cool.de", "Blau");
+    tester.createUser("Herbert", "Herbert@cool.de", "Herbert Mustermann");
+    tester.createUser("Ron", "Ron@cool.de", "Ron Rot");
+    tester.createUser("Ute", "Ute@cool.de", "Ute Blau");
     List<String> test1 = new ArrayList<>();
     test1.add("Hermann");
     test1.add("Hermann@cool.de");
