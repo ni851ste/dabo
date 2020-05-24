@@ -1,12 +1,12 @@
 <template>
     <div class="row categoryView">
-        <CategoryCard v-for="item in this.categories" :category="item.category" :img="item.img"></CategoryCard>
+        <CategoryCard v-for="item in categories" :category="item.category" :img="item.img"></CategoryCard>
     </div>
 </template>
 
 <script lang="ts">
     import { Component, Prop, Vue } from 'vue-property-decorator';
-    import CategoryCard from "@/components/CategoryCard.vue";
+    import CategoryCard from "@/components/category/CategoryCard.vue";
     @Component({
         components: {CategoryCard}
     })
@@ -29,5 +29,8 @@
     .categoryView {
         margin-left: 15vh;
         margin-right: 15vh;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
     }
 </style>
