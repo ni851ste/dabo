@@ -1,12 +1,12 @@
 import Vue from 'vue'
-import App from './App.vue'
-import VueRouter from "vue-router";
-import Homepage from "@/components/Homepage.vue";
 import "bootstrap-vue"
 import "bootstrap"
 import "bootstrap/dist/css/bootstrap.min.css"
 import ArticleView from "@/components/article/ArticleView.vue";
 import BootstrapVue, {BootstrapVueIcons} from "bootstrap-vue";
+import App from './App.vue'
+import VueRouter from "vue-router";
+import Homepage from "@/components/Homepage.vue";
 
 Vue.config.productionTip = false
 
