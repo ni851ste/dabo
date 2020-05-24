@@ -1,9 +1,16 @@
 <template>
     <div>
         <nav class="navbar navbar-expand-lg ">
-            <a class="navbar-brand" href="#">dabo</a>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav row">
+            <a class="navbar-brand logo-a" href="#">
+                <img class="logo" :src="require(`@/assets/logoImgs/dabo_logo_quadrat.png`)" height="40" alt="">
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse navbar-header" id="navbarNav">
+                <ul class="navbar-nav">
+                    <!--                <ul class="navbar-nav row">-->
                     <RouterLink to="/">
                         <li class="nav-item ">
                             <a class="nav-link" href="#">Home</a>
@@ -27,7 +34,7 @@
 </template>
 
 <script lang="ts">
-    import { Component, Prop, Vue } from 'vue-property-decorator';
+    import {Component, Prop, Vue} from 'vue-property-decorator';
 
     @Component
     export default class NavigationBar extends Vue {
@@ -51,8 +58,25 @@
         z-index: 100;
     }
 
+    .navbar-header {
+        margin-left: 40px;
+    }
+
     .login {
         float: right;
+    }
+
+    .logo {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        margin: auto;
+    }
+
+    .logo-a {
+        position: relative;
+        width: 170px;
+        height: 50px;
     }
 
     a {
