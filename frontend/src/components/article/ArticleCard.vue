@@ -32,10 +32,6 @@
 </script>
 
 <style scoped>
-    .card {
-        /*border: .5vh solid;*/
-    }
-
     .article {
         width: 60vw;
         height: 20vh;
@@ -55,13 +51,9 @@
 
     .card-img-top {
         object-fit: cover;
-        /*height: calc(15vh-2px);*/
         height: 100%;
         width: 20vh;
         border-radius: 3px 0 0 3px;
-        /*height: 150px;*/
-        /*width: 150px;*/
-
     }
 
     .card-title {
@@ -76,10 +68,6 @@
         display: flex;
         padding-right: 15px;
         text-align: left;
-    }
-
-    .location {
-        /*padding-right: 15px;*/
     }
 
     .description {
