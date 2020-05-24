@@ -10,5 +10,5 @@ GET     /                           controllers.HomeController.index
 GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
 
 #Article
-GET		/users/articles/create              model.article.ArticleHttpAdapter.createUserAdapter()
-POST	/users/articles/delete              model.article.AdapterArticle.createArticleAdapter()
+GET		/users/articles/create         model.article.ArticleHttpAdapter.createArticleAdapter()
+POST	/users/articles/delete/:id     model.article.ArticleHttpAdapter.deleteArticleAdapter(id: int)
