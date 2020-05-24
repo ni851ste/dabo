@@ -24,7 +24,6 @@
 
 <style scoped>
     .card {
-        /*margin: 8px;*/
         margin: 15px 7.5px 0 7.5px;
     }
 

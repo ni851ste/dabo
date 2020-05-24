@@ -7,12 +7,10 @@ import "bootstrap-vue"
 import "bootstrap"
 import "bootstrap/dist/css/bootstrap.min.css"
 import ArticleView from "@/components/article/ArticleView.vue";
+import ArticleCreationView from "@/components/article/ArticleCreationView.vue";
 import BootstrapVue, {BootstrapVueIcons} from "bootstrap-vue";
 
-Vue.config.productionTip = false
-
-Vue.use(BootstrapVue)
-
+Vue.config.productionTip = false;
 Vue.use(VueRouter);
 Vue.use(BootstrapVue);
 Vue.use(BootstrapVueIcons);
@@ -20,6 +18,7 @@ const routes = [
   {path: '/', component: Homepage },
   {path: '/articlePage', component: SingleArticlePage },
   {path: '/articles', component: ArticleView },
+  {path: '/createArticle', component: ArticleCreationView}
 ];
 const router = new VueRouter({
   routes: routes
@@ -27,4 +26,4 @@ const router = new VueRouter({
 new Vue({
   render: h => h(App),
   router: router
-}).$mount('#app')
+}).$mount('#app');
