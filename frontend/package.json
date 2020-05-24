@@ -7,13 +7,18 @@
     "build": "vue-cli-service build"
   },
   "dependencies": {
+    "bootstrap": "^4.5.0",
+    "bootstrap-vue": "^2.14.0",
     "core-js": "^3.6.4",
+    "jquery": "^3.5.1",
+    "moment": "latest",
     "vue": "^2.6.11",
     "vue-class-component": "^7.2.3",
     "vue-property-decorator": "^8.4.1",
     "vue-router": "^3.1.6"
   },
   "devDependencies": {
+    "@types/jquery": "^3.3.38",
     "@vue/cli-plugin-babel": "~4.3.0",
     "@vue/cli-plugin-typescript": "~4.3.0",
     "@vue/cli-service": "~4.3.0",
