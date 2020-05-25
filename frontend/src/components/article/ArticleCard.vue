@@ -1,27 +1,29 @@
 <template>
-    <div class="card article">
-        <div class="card-body">
-            <img class="card-img-top articleImg" src="../../assets/categoryImgs/sonstiges.jpg" alt="Card image cap">
-            <h5 class="card-title" v-html="article.name"></h5>
-            <b-form-rating class="rating" variant="warning" readonly v-model="value"></b-form-rating>
-            <p class="card-text description" v-html="article.description"></p>
-            <p class="card-text location">
-                <b-icon-geo-alt font-scale="1.2"></b-icon-geo-alt>
-                <span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span>
-                {{article.location}}
-            </p>
+    <router-link :to="{ name: 'articlePage', params: {article: article}}">
+        <div class="card article">
+                <div class="card-body">
+                    <img class="card-img-top articleImg" src="../../assets/categoryImgs/sonstiges.jpg" alt="Card image cap">
+                    <h5 class="card-title" v-html="article.name"></h5>
+                    <b-form-rating class="rating" variant="warning" readonly v-model="value"></b-form-rating>
+                    <p class="card-text description" v-html="article.description"></p>
+                    <p class="card-text location">
+                        <b-icon-geo-alt font-scale="1.2"></b-icon-geo-alt>
+                        <span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span>
+                        {{article.location}}
+                    </p>
+                </div>
         </div>
-    </div>
+    </router-link>
 </template>
 
 <script lang="ts">
     import {Component, Prop, Vue} from "vue-property-decorator";
-    import Article from "@/components/article/Article";
     import moment from "moment"
+    import Article from "@/components/article/Article";
 
     @Component
     export default class ArticleCard extends Vue {
-        @Prop() private article!: Article
+        @Prop() private article!: Article;
 
         getDate(): string {
             return moment(this.article.insertionDate).format(" DD MMMM YYYY")
@@ -81,6 +83,15 @@
         display: inline-flex !important;
         margin-left: 10px;
         border: none;
+    }
+
+    a {
+        text-decoration: none!important;
+        color: #484848;
+    }
+
+    a:hover {
+        text-decoration:none!important;
     }
 
 </style>

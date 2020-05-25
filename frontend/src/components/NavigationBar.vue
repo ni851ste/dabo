@@ -63,7 +63,7 @@
 
     .login {
         float: right;
-        margin-right: 10px;
+        margin-right: 15px;
     }
 
     .logo {
@@ -84,6 +84,20 @@
         padding: 0;
         right: 20vw;
         margin-right: 15px;
+    }
+
+    .addArticle:hover > a {
+        color: #d0f2e1;
+        border: #d0f2e1 solid;
+        border-radius: 3px;
+    }
+
+    .addArticle {
+        float: right;
+        background-color: #d0f2e1;
+        padding: 0;
+        right: 20vw;
+        margin-right: 10px;
     }
 
     .addArticle:hover > a {
