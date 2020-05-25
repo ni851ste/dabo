@@ -19,10 +19,10 @@
                     :total-rows="rows()"
                     :per-page="perPage"
                     aria-controls="cards"
-            ></b-pagination>
-        </div>
+            >
+            </b-pagination>
 
-<!--            <ArticleCard v-for="article in articles" :article="article"></ArticleCard>-->
+        </div>
     </div>
 </template>
 
@@ -36,34 +36,32 @@
     })
     export default class ArticleView extends Vue {
         articles: Article[] = [];
-        perPage = 5
-        currentPage = 1
+        perPage = 5;
+        currentPage = 1;
 
         constructor() {
             super();
             let article: Article = new Article("Beerpong table", "Awesome beerpong table", "", "Konstanz", new Date());
             let article2: Article = new Article("Bohrmaschine", "Toll zum bohren", "", "Konstanz", new Date());
-            this.articles.push(article)
-            this.articles.push(article2)
-            this.articles.push(article2)
-            this.articles.push(article2)
-            this.articles.push(article2)
-            this.articles.push(article)
+            this.articles.push(article);
+            this.articles.push(article2);
+            this.articles.push(article2);
+            this.articles.push(article2);
+            this.articles.push(article2);
+            this.articles.push(article);
         }
 
-        lists () {
-            const items = this.articles
-            // Return just page of items needed
+        lists(): Article[] {
+            const items = this.articles;
             return items.slice(
                 (this.currentPage - 1) * this.perPage,
                 this.currentPage * this.perPage
             )
         }
 
-        rows() {
-            console.log(this.articles.length)
+        rows(): number {
             return this.articles.length
-    }
+        }
     }
 </script>
 

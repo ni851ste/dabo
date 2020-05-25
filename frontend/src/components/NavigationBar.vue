@@ -8,9 +8,8 @@
                     aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="collapse navbar-collapse navbar-header" id="navbarNav">
+            <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav">
-                    <!--                <ul class="navbar-nav row">-->
                     <RouterLink to="/">
                         <li class="nav-item ">
                             <a class="nav-link" href="#">Home</a>
@@ -24,6 +23,11 @@
                     </li>
                 </ul>
                 <ul class="navbar-nav ml-auto">
+                    <RouterLink to="/createArticle">
+                        <b-button class="nav-item addArticle">
+                            <a class="nav-link disabled" href="#">Artikel hinzufügen</a>
+                        </b-button>
+                    </RouterLink>
                     <li class="nav-item login">
                         <a class="nav-link disabled" href="#">Login</a>
                     </li>
@@ -64,6 +68,7 @@
 
     .login {
         float: right;
+        margin-right: 15px;
     }
 
     .logo {
@@ -75,8 +80,22 @@
 
     .logo-a {
         position: relative;
-        width: 170px;
+        width: 10vw;
         height: 50px;
+    }
+
+    .addArticle {
+        float: right;
+        background-color: #d0f2e1;
+        padding: 0;
+        right: 20vw;
+        margin-right: 10px;
+    }
+
+    .addArticle:hover > a {
+        color: #d0f2e1;
+        border: #d0f2e1 solid;
+        border-radius: 3px;
     }
 
     a {
