@@ -7,7 +7,7 @@
 
                 <div class="form-group">
                     <label for="articleNameInput">Artikelbezeichnung:</label>
-                    <input type="name" class="form-control" id="articleNameInput">
+                    <input type="text" class="form-control" id="articleNameInput">
                 </div>
 
                 <div class="form-contol">
@@ -59,17 +59,17 @@
                 <h4>Standort</h4>
                 <div class="form-group">
                     <label for="countryInput">Land:</label>
-                    <input type="string" class="form-control" id="countryInput">
+                    <input type="text" class="form-control" id="countryInput">
                 </div>
                 <div class="form-group">
                     <label for="cityInput">Stadt:</label>
-                    <input type="string" class="form-control" id="cityInput">
+                    <input type="text" class="form-control" id="cityInput">
                 </div>
             </div>
 
             <div class="borderbox">
                 <div>
-                    <button type="button" class="btn btn-primary btn-block">Artikel hinzufügen</button>                </div>
+                    <button type="button" class="btn btn-primary btn-block" v-on:click="createArticle">Artikel hinzufügen</button>                </div>
                 </div>
             </div>
 
@@ -79,6 +79,8 @@
     <script lang="ts">
     import NavigationBar from "@/components/NavigationBar.vue";
     import { Component, Vue } from 'vue-property-decorator';
+    import Article from "@/components/article/Article";
+    import $ from "jquery";
     @Component({
         components: {NavigationBar}
     })
@@ -99,6 +101,29 @@
                     { text: 'Werkzeug', value: 'tools' }
                 ]
             }
+        }
+
+        createArticle(): void {
+            let name: string = (<HTMLInputElement>document.getElementById("articleNameInput")).value;
+            let description: string = (<HTMLInputElement>document.getElementById("articleDescriptionInput"))!.value;
+            let image: any = null;
+            let location: string = (<HTMLInputElement>document.getElementById("cityInput"))!.value;
+            let insertionDate: Date = new Date();
+
+            // let article: Article = new Article(name, description, image, location, insertionDate)
+
+            $.ajax({
+                url: "http://localhost:8080/users/articles/create",
+                type: "POST",
+                data: {name: name, description: description, image: image, location: location, insertionDate: insertionDate },
+                dataType: "application/json",
+                success: result => {
+                    console.log("success ", result)
+                },
+                error: error => {
+                    console.log("error ", error)
+                }
+            });
         }
 
     }
