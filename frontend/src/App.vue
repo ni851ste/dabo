@@ -24,6 +24,7 @@ export default class App extends Vue {}
     text-align: center;
     color: #484848;
     margin-top: 60px;
+    margin-bottom: 15px;
   }
 
   .contentLayout {

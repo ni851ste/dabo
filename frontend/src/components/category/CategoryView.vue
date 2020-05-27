@@ -27,8 +27,8 @@
 
 <style scoped>
     .categoryView {
-        margin-left: 15vh;
-        margin-right: 15vh;
+        margin-left: 7vw;
+        margin-right: 7vw;
         display: flex;
         flex-wrap: wrap;
         justify-content: center;

@@ -1,14 +1,12 @@
 <template>
     <div>
         <nav class="navbar navbar-expand-lg ">
-            <a class="navbar-brand logo-a" href="#">
-                <img class="logo" :src="require(`@/assets/logoImgs/dabo_logo_quadrat.png`)" height="40" alt="">
-            </a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
-                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
+            <RouterLink to="/">
+                <a class="navbar-brand logo-a" href="#">
+                    <img class="logo" :src="require(`@/assets/logoImgs/dabo_logo_quadrat.png`)" height="40" alt="">
+                </a>
+            </RouterLink>
+            <div class="collapse navbar-collapse userActions" id="navbarNav">
                 <ul class="navbar-nav">
                     <RouterLink to="/">
                         <li class="nav-item ">
@@ -60,10 +58,7 @@
         top: 0;
         width: 100%;
         z-index: 100;
-    }
-
-    .navbar-header {
-        margin-left: 40px;
+        height: 60px!important;
     }
 
     .login {
@@ -82,6 +77,7 @@
         position: relative;
         width: 10vw;
         height: 50px;
+        margin-top: 5px;
     }
 
     .addArticle {
