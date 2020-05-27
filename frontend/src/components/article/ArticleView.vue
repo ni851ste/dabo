@@ -2,8 +2,27 @@
     <div>
         <NavigationBar msg="hallo"></NavigationBar>
         <div class="contentLayout">
-            <ArticleCard v-for="article in articles" :article="article"></ArticleCard>
+
+            <ArticleCard
+                    :key="article.name"
+                    id="cards"
+                    v-for="article in lists()"
+                    :article="article"
+                    :per-page="perPage"
+                    :current-page="currentPage"
+                    small
+            >
+            </ArticleCard>
+            <b-pagination
+                    class="customPagination"
+                    v-model="currentPage"
+                    :total-rows="rows()"
+                    :per-page="perPage"
+                    aria-controls="cards"
+            ></b-pagination>
         </div>
+
+<!--            <ArticleCard v-for="article in articles" :article="article"></ArticleCard>-->
     </div>
 </template>
 
@@ -17,6 +36,8 @@
     })
     export default class ArticleView extends Vue {
         articles: Article[] = [];
+        perPage = 5
+        currentPage = 1
 
         constructor() {
             super();
@@ -24,9 +45,47 @@
             let article2: Article = new Article("Bohrmaschine", "Toll zum bohren", "", "Konstanz", new Date());
             this.articles.push(article)
             this.articles.push(article2)
+            this.articles.push(article2)
+            this.articles.push(article2)
+            this.articles.push(article2)
+            this.articles.push(article)
         }
+
+        lists () {
+            const items = this.articles
+            // Return just page of items needed
+            return items.slice(
+                (this.currentPage - 1) * this.perPage,
+                this.currentPage * this.perPage
+            )
+        }
+
+        rows() {
+            console.log(this.articles.length)
+            return this.articles.length
+    }
     }
 </script>
 
-<style scoped>
+<style >
+
+    .page-item.active .page-link {
+        border-color: #d0f2e1;
+    }
+
+    .customPagination {
+        border: #d0f2e1!important;
+    }
+
+    .customPagination > li.active > button,
+    .customPagination > li > button:hover
+    {
+        color: black;
+        background-color: #484848!important;
+        border-color: #d0f2e1;
+    }
+
+    .page-link {
+        color: black;
+    }
 </style>
