@@ -62,14 +62,20 @@
 
             <div class="borderbox">
                 <h1>Verfügbarkeit</h1>
-                <date-range-picker
-                        :startDate="startDate"
-                        :endDate="endDate"
-                        @update="console.log(value)"
-                        :locale-data="locale"
-                >
-                    <div slot="input" slot-scope="picker">...</div>
-                </date-range-picker>
+                <b-container>
+                    <b-row>
+                        <b-col>
+                            <div>
+                            <label>von</label>
+                            <b-form-datepicker id="example-datepicker" v-model="value" class="mb-2"></b-form-datepicker>
+                        </div></b-col>
+                        <b-col>
+                            <div>
+                                <label>bis</label>
+                                <b-form-datepicker id="example-datepicker" v-model="value" class="mb-2"></b-form-datepicker>
+                            </div></b-col>
+                    </b-row>
+                </b-container>
             </div>
 
             <div class="borderbox">
@@ -125,12 +131,6 @@
             {text: 'Unterhaltung', value: 'entertainment'},
             {text: 'Werkzeug', value: 'tools'}
         ]
-
-        data() {
-            return {
-                imageFile: null
-            }
-        }
     }
 </script>
 
@@ -164,7 +164,6 @@
         width: 100%;
         margin-top: 15px;
         margin-bottom: 25px;
-        border: solid #d0f2e1;
         border-radius: 8px;
     }
 
