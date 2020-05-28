@@ -113,7 +113,7 @@
             // let article: Article = new Article(name, description, image, location, insertionDate)
 
             $.ajax({
-                url: "http://localhost:8080/users/articles/create",
+                url: "http://localhost:9000/users/articles/create",
                 type: "POST",
                 data: {name: name, description: description, image: image, location: location, insertionDate: insertionDate },
                 dataType: "application/json",
