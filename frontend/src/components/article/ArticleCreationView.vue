@@ -6,7 +6,7 @@
                 <h1> Allgemein</h1>
                 <div class="form-group">
                     <label for="articleNameInput">Artikelbezeichnung:</label>
-                    <input type="name" class="form-control" id="articleNameInput">
+                    <input type="text" class="form-control" id="articleNameInput">
                 </div>
                 <div>
                     <label>Artikelbeschreibung</label>
@@ -82,11 +82,11 @@
                 <h1>Standort</h1>
                 <div class="form-group">
                     <label for="countryInput">Land:</label>
-                    <input type="string" class="form-control" id="countryInput">
+                    <input type="text" class="form-control" id="countryInput">
                 </div>
                 <div class="form-group">
                     <label for="cityInput">Stadt:</label>
-                    <input type="string" class="form-control" id="cityInput">
+                    <input type="text" class="form-control" id="cityInput">
                 </div>
             </div>
 
