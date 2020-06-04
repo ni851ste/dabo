@@ -4,13 +4,15 @@
         <div class="contentLayout my-buttons">
             <div class="borderbox b-container b-form-checkbox-group">
                 <h1> Allgemein</h1>
-                <div class="form-group">
-                    <label for="articleNameInput">Artikelbezeichnung:</label>
-                    <input type="text" class="form-control" id="articleNameInput">
+                <div class="form-group validation">
+                    <label for="articleNameInput">Artikelbezeichnung: *</label>
+                    <input type="text" class="form-control" id="articleNameInput" required>
+                    <div class="invalid-feedback">Example invalid custom file feedback</div>
                 </div>
                 <div>
                     <label>Artikelbeschreibung</label>
-                    <textarea class="form-control" v-on:keyup="countdown" v-model="message"></textarea>
+                    <textarea class="form-control" id="articleDescription" v-on:keyup="countdown" v-model="message"
+                              required></textarea>
                     <p class='text-right text-small' v-bind:class="{'text-danger': hasError }">{{charCount + '/' +
                         maxCount}}</p>
                 </div>
@@ -22,6 +24,7 @@
                                 v-model="selected"
                                 :options="categories"
                                 name="category"
+                                required
                         ></b-form-checkbox-group>
                     </b-row>
                 </b-container>
@@ -72,7 +75,6 @@
                                 </b-form-datepicker>
                             </div>
                         </b-col>
-
                         <b-col>
                             <div>
                                 <b-form-datepicker
@@ -82,18 +84,35 @@
                         </b-col>
                     </b-row>
                 </b-container>
+                <br>
+                <div>
+                    <b-form-checkbox class="availableCheck" id="availabilityCheck" v-model="status"> Keine Begrenzung</b-form-checkbox>
+                </div>
             </div>
 
             <div class="borderbox">
                 <h1>Standort</h1>
-                <div class="form-group">
-                    <label for="countryInput">Land:</label>
-                    <input type="text" class="form-control" id="countryInput">
+                <div class="form-group validation">
+                    <label for="countryInput">Land: *</label>
+                    <input type="text" class="form-control" id="countryInput" required>
                 </div>
-                <div class="form-group">
-                    <label for="cityInput">Stadt:</label>
-                    <input type="text" class="form-control" id="cityInput">
-                </div>
+
+                <b-row>
+                    <b-col md="3">
+                        <div class="form-group validation">
+                            <label for="plzInput">PLZ: *</label>
+                            <input type="text" class="form-control" id="plzInput" required>
+                        </div>
+                    </b-col>
+                    <b-col>
+                        <div class="form-group validation">
+                            <label for="cityInput">Stadt: *</label>
+                            <input type="text" class="form-control" id="cityInput" required>
+                        </div>
+                    </b-col>
+                </b-row>
+
+
             </div>
 
             <div class="addButton">
@@ -141,7 +160,6 @@
 
         today = new Date(moment().format("YYYY-MM-DD"));
         minDate: Date = new Date()
-
     }
 </script>
 
@@ -168,6 +186,18 @@
         alignment: left;
     }
 
+    .validation input:required:focus:valid {
+        border: green solid 1px;
+    }
+
+    .validation input:focus:invalid {
+        border: red solid 1px;
+    }
+
+    .availableCheck {
+        margin-left: 1vw;
+    }
+
     .addButton {
         background-color: #d0f2e1;
         border-color: #d0f2e1;
@@ -180,6 +210,7 @@
 
     textarea.form-control {
         height: 100px;
+        resize: none;
     }
 
     .text-small {
