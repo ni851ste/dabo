@@ -4,13 +4,13 @@
         <div class="filterOption">
             <b-input-group>
                 <b-input
-                        id="input-1"
-                        v-model="form"
-                        type="email"
+                        id="searchInput"
+                        v-model="searchString"
+                        type="text"
                         required
                         placeholder="Suche"
-
                 ></b-input>
+                <p>{{location}}</p>
             </b-input-group>
 
         </div>
@@ -21,9 +21,9 @@
                 Standort
             </label>
             <b-form-input
-                    id="input-1"
-                    v-model="form"
-                    type="email"
+                    id="locationInput"
+                    v-model="location"
+                    type="text"
                     required
                     placeholder="Standort"
             ></b-form-input>
@@ -35,14 +35,14 @@
                 Kategorien</label>
             <b-form-checkbox
                     class="categoryCheckbox"
-                    :id="category.category"
+                    :id="categoryName"
                     v-model="status"
                     name="checkbox-1"
                     value="accepted"
                     unchecked-value="not_accepted"
-                    v-for="category in categories"
+                    v-for="categoryName in categories"
             >
-                {{category.category}}
+                {{categoryName}}
             </b-form-checkbox>
         </div>
         <b-button class="applyFilter">
@@ -56,20 +56,52 @@
 
 <script lang="ts">
     import {Component, Prop, Vue} from 'vue-property-decorator';
+    import Category from "@/components/category/Category";
 
     @Component
     export default class FilterPanel extends Vue {
-        categories = [
-            {category: "Haushalt", img: "haushalt.jpg"},
-            {category: "Garten", img: "garten.jpg"},
-            {category: "Werkzeug", img: "werkzeug.jpg"},
-            {category: "Unterhaltung", img: "unterhaltung.jpg"},
-            {category: "Elektronik", img: "elektronik.jpg"},
-            {category: "Sport & Freizeit", img: "sport&freizeit.jpg"},
-            {category: "Sonstiges", img: "sonstiges.jpg"},
-            {category: "Auto & Motorrad", img: "auto&motorrad.jpg"},
-            {category: "Kleidung", img: "kleider.jpg"},
-        ]
+        categories: Category[] = this.getCategories();
+        constructor() {
+            super();
+            console.log(this.categories);
+            console.log(this.categories[1]);
+        }
+
+
+        getCategories(): Category[] {
+            return Object.values(Category)
+        }
+
+        location: string = "";
+        searchString: string = "";
+
+        filterCcategories: Category[] = [];
+
+        createArticle(): void {
+            //
+            // $.ajax({
+            //     url: "http://localhost:8080/users/articles/create",
+            //     type: "POST",
+            //     data: {
+            //         name: name,
+            //         description: description,
+            //         image: image,
+            //         location: location,
+            //         insertionDate: insertionDate
+            //     },
+            //     dataType: "application/json",
+            //     success: result => {
+            //         console.log("success ", result)
+            //     },
+            //     error: error => {
+            //         console.log("error ", error)
+            //     }
+            // });
+        }
+
+        getFilteredArticles(): void {
+
+        }
     }
 
 </script>
