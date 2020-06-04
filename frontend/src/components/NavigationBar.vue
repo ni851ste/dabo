@@ -63,7 +63,7 @@
 
     .login {
         float: right;
-        margin-right: 15px;
+        margin-right: 10px;
     }
 
     .logo {
@@ -73,7 +73,6 @@
     }
 
     .logo-a {
-        position: relative;
         height: 50px;
         margin-left: calc(2vw - 5px);
     }
