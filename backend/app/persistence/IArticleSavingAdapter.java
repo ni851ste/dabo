@@ -1,8 +1,12 @@
 package persistence;
 
+import scala.Tuple6;
+
+import java.util.Optional;
+
 public interface IArticleSavingAdapter
 {
-    int getArticleById(int id);
+    Optional<Tuple6<String, String, String, String, String, String>> getArticleById(int id);
 
 
     boolean createArticle(int id,

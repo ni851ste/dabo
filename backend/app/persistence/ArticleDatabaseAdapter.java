@@ -1,6 +1,7 @@
 package persistence;
 
 import com.mongodb.*;
+import scala.Tuple6;
 
 import java.util.Optional;
 
@@ -21,7 +22,7 @@ public class ArticleDatabaseAdapter implements IArticleSavingAdapter
     }
 
     @Override
-    public int getArticleById(int id)
+    public Optional<Tuple6<String, String, String, String, String, String>> getArticleById(int id)
     {
         DBObject query = new BasicDBObject("_id", id);
 
@@ -31,12 +32,19 @@ public class ArticleDatabaseAdapter implements IArticleSavingAdapter
         if (queryResult.isPresent())
         {
             System.out.println(queryResult.toString());
-            return id;
+            DBObject qR = queryResult.get();
+
+            return Optional.of(Tuple6.apply(qR.get("_id").toString(),
+                    qR.get("name").toString(),
+                    qR.get("description").toString(),
+                    qR.get("image").toString(),
+                    qR.get("location").toString(),
+                    qR.get("insertionDate").toString()));
         }
         else
         {
             System.out.println("Query had no answers");
-            return -1;
+            return Optional.empty();
         }
     }
 
