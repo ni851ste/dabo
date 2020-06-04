@@ -1,7 +1,10 @@
 package persistence;
 
+import scala.Tuple6;
+
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 public class ArticleMapAdapter implements IArticleSavingAdapter
 {
@@ -12,9 +15,9 @@ public class ArticleMapAdapter implements IArticleSavingAdapter
     }
 
     @Override
-    public int getArticleById(int id)
+    public Optional<Tuple6<String, String, String, String, String, String>> getArticleById(int id)
     {
-        return 0;
+        return null;
     }
 
     @Override
