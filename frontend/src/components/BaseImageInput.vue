@@ -44,7 +44,7 @@
         background-size: cover;
         background-position: center center;
         margin-right: 10px;
-        margin-left: 30px;
+        margin-left: 10px;
         border: #d0f2e1 solid 3px;
         border-radius: 8px;
     }

@@ -31,31 +31,31 @@
                 <h1>Bilder</h1>
                 <div class="b-container">
                     <b-row>
-                        <div b-col>
+                        <b-col>
                             <div class="imageUpload">
-                                <base-image-input v-model="imageFile"/>
+                                <base-image-input v-model="image1"/>
                             </div>
-                        </div>
-                        <div b-col>
+                        </b-col>
+                        <b-col>
                             <div class="imageUpload">
-                                <base-image-input v-model="imageFile"/>
+                                <base-image-input v-model="image2"/>
                             </div>
-                        </div>
-                        <div b-col>
+                        </b-col>
+                        <b-col>
                             <div class="imageUpload">
-                                <base-image-input v-model="imageFile"/>
+                                <base-image-input v-model="image3"/>
                             </div>
-                        </div>
-                        <div b-col>
+                        </b-col>
+                        <b-col>
                             <div class="imageUpload">
-                                <base-image-input v-model="imageFile"/>
+                                <base-image-input v-model="image4"/>
                             </div>
-                        </div>
-                        <div b-col>
+                        </b-col>
+                        <b-col>
                             <div class="imageUpload">
-                                <base-image-input v-model="imageFile"/>
+                                <base-image-input v-model="image5"/>
                             </div>
-                        </div>
+                        </b-col>
                     </b-row>
                 </div>
             </div>
@@ -65,15 +65,21 @@
                 <b-container>
                     <b-row>
                         <b-col>
+
                             <div>
-                            <label>von</label>
-                            <b-form-datepicker id="example-datepicker" v-model="value" class="mb-2"></b-form-datepicker>
-                        </div></b-col>
+                                <b-form-datepicker
+                                        v-model="minDate" :min="today" locale="de">
+                                </b-form-datepicker>
+                            </div>
+                        </b-col>
+
                         <b-col>
                             <div>
-                                <label>bis</label>
-                                <b-form-datepicker id="example-datepicker" v-model="value" class="mb-2"></b-form-datepicker>
-                            </div></b-col>
+                                <b-form-datepicker
+                                        v-model="value" :min="minDate" locale="de">
+                                </b-form-datepicker>
+                            </div>
+                        </b-col>
                     </b-row>
                 </b-container>
             </div>
@@ -104,6 +110,7 @@
     import NavigationBar from "@/components/NavigationBar.vue";
     import BaseImageInput from "@/components/BaseImageInput.vue";
     import {Component, Vue} from 'vue-property-decorator';
+    import moment from "moment"
 
     @Component({
         components: {NavigationBar, BaseImageInput}
@@ -131,6 +138,10 @@
             {text: 'Unterhaltung', value: 'entertainment'},
             {text: 'Werkzeug', value: 'tools'}
         ]
+
+        today = new Date(moment().format("YYYY-MM-DD"));
+        minDate: Date = new Date()
+
     }
 </script>
 
