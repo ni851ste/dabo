@@ -1,6 +1,9 @@
 package model.user;
 
-
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import play.mvc.Http;
 import play.mvc.Result;
 
 import java.util.ArrayList;
@@ -13,24 +16,29 @@ public class UserHttpAdapter {
 
     UserManagement adabter = new UserManagement();
 
-    public Result createUserAdapter(){
-        adabter.createUser("Test", "Test@mail.com", "Test2");
-        return ok();
+    public UserHttpAdapter() throws JsonProcessingException {
     }
 
-    public Result deleteUserAdapter(){
-        adabter.deleteUser(0);
-        return ok();
+    public Result createUserAdapter(Http.Request create) {
+        JsonNode json = create.body().asJson();
+        adabter.createUser(json.get("username").toString(), json.get("email").toString(), json.get("name").toString(), Integer.parseInt(json.get("age").textValue()));
+        return ok("Username: "+ json.get("username").toString() + "\nName: " + json.get("name").toString() + "\nAge: " + Integer.parseInt(json.get("age").textValue()) + "\nemail: " + json.get("email").toString());
     }
 
-    public Result updateUserAdapter(){
-        List<String> newList = new ArrayList<String>();
-        newList.add("hallo");
-        newList.add("Hallo@hallo.de");
-        newList.add("Tschuess");
-
-        adabter.updateUser(0, newList);
-        return ok();
+    public Result deleteUserAdapter(int id) {
+        String answer = adabter.deleteUser(id);
+        if(answer.contains("User is not known")) {
+            return ok("not a User");
+        } else {
+            return ok(answer);
+        }
     }
 
+
+    public Result updateUserAdapter(Http.Request update) {
+        JsonNode json = update.body().asJson();
+        //System.out.println(json);
+        String result = adabter.updateUser(json);
+        return ok(result);
+    }
 }

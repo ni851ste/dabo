@@ -1,5 +1,8 @@
 package model.user;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -12,14 +15,17 @@ public class UserManagementTest {
 
     @Test
     public void testCreateANewUser() {
-        UserManagement tester = new UserManagement();
-
-
-        assertTrue(tester.createUser("Herbert", "Herbert@cool.de", "Mustermann"));
-        assertTrue(tester.createUser("Gisela", "Gisela@nice.com", "Neumann"));
-        assertEquals("Neumann", tester.users.get(1).get(2));
-        assertEquals("Gisela@nice.com", tester.users.get(1).get(1));
-        assertNotEquals("Herbert", tester.users.get(1).get(0));
+//        UserManagement tester = new UserManagement();
+//
+//        assertTrue(tester.createUser("Herby", "Herbert@cool.de", "Herbert Mustermann", 34));
+//        assertTrue(tester.createUser("Gise", "Gisela@nice.com", "Gisela Neumann", 39));
+//        assertEquals("Gisela Neumann", tester.users.get(1).get(2));
+//        assertEquals("Gisela@nice.com", tester.users.get(1).get(1));
+//        assertNotEquals("Herby", tester.users.get(1).get(0));
+//        assertEquals("Herby", tester.users.get(0).get(0));
+//        assertEquals("39", tester.users.get(1).get(3));
+//        assertEquals("34", tester.users.get(0).get(3));
+//
     }
 
 
@@ -27,27 +33,42 @@ public class UserManagementTest {
     public void testDeleteAUser(){
         UserManagement tester = new UserManagement();
 
-        assertTrue(tester.createUser("Herbert", "Herbert@cool.de", "Herbert Mustermann"));
-        assertTrue(tester.createUser("Ron", "Ron@cool.de", "Ron Rot"));
-        assertTrue(tester.createUser("Ute", "Ute@cool.de", "Ute Blau"));
-        assertTrue(tester.createUser("Liz", "Liz@cool.de", "Liz Neu"));
-        assertTrue(tester.deleteUser(1));
-        assertFalse(tester.deleteUser(6));
+        assertTrue(tester.createUser("Herby", "Herbert@cool.de", "Herbert Mustermann" ,34));
+        assertTrue(tester.createUser("Ron", "Ron@cool.de", "Ronald Rot", 45));
+        assertTrue(tester.createUser("Uzzy", "Ute@cool.de", "Ute Blau", 23));
+        assertTrue(tester.createUser("Lisele", "Liz@cool.de", "Liz Neu", 45));
+        assertTrue(tester.deleteUser(1).contains("User: Ron is deleted"));
+        assertTrue(tester.deleteUser(6).contains("User is not known"));
     }
 
 
     @Test
-    public void testUpdateAUser() {
+    public void testUpdateAUser() throws JsonProcessingException {
     UserManagement tester = new UserManagement();
+//    // JSON string
+//    String json = "{\"id\":1,\"name\":\"John Doe\"}";
+//
+//    // create object mapper instance
+//    ObjectMapper mapper = new ObjectMapper();
+//
+//    // convert JSON string to `JsonNode`
+//    JsonNode node = mapper.readTree(json);
 
-    tester.createUser("Herbert", "Herbert@cool.de", "Herbert Mustermann");
-    tester.createUser("Ron", "Ron@cool.de", "Ron Rot");
-    tester.createUser("Ute", "Ute@cool.de", "Ute Blau");
-    List<String> test1 = new ArrayList<>();
-    test1.add("Hermann");
-    test1.add("Hermann@cool.de");
-    test1.add("Mustermann");
-    assertTrue(tester.updateUser(0, test1));
-    assertFalse(tester.updateUser(5, test1));
+    tester.createUser("Herby", "Herbert@cool.de", "Herbert Mustermann", 34);
+    tester.createUser("Ron", "Ron@cool.de", "Ronald Rot", 74);
+    tester.createUser("Ute", "Ute@cool.de", "Ute Blau",19);
+    String json = "{\"id\":\"0\",\"name\":\"John Doe\",\"username\":\"Herby\",\"email\":\"Herbert@cool.de\",\"age\":\"34\"}";
+    ObjectMapper mapper = new ObjectMapper();
+    JsonNode node = mapper.readTree(json);
+    String json1 = "{\"id\":\"1\",\"name\":\"Ronald Rot\",\"username\":\"Ron\",\"email\":\"Ron@cool.de\",\"age\":\"34\"}";
+    ObjectMapper mapper1 = new ObjectMapper();
+    JsonNode node1 = mapper1.readTree(json1);
+//        List<String> test1 = new ArrayList<>();
+//        test1.add("Hermann");
+//        test1.add("Hermann@cool.de");
+//        test1.add("Mustermann");
+    System.out.println("New Data:\n\tUsername:\tHerby\n\tAge:\t\t34\n\tEmail:\t\tHerbert@cool.de\n\tName:\t\tHerbert Mustermann\n\tUserId:\t\t0");
+//    assertTrue(tester.updateUser(node).contains("New Data:\n\tUsername:\tHerby\n\tAge:\t\t34\n\tEmail:\t\tHerbert@cool.de\n\tName:\t\tHerbert Mustermann\n\tUserId:\t\t0"));
+    assertFalse(tester.updateUser(node1).contains("New Data:\n\tUsername:\tHerby\n\tAge:\t\t34\n\tEmail:\t\tHerbert@cool.de\n\tName:\t\tHerbert Mustermann\n\tUserId:\t\t0"));
     }
 }

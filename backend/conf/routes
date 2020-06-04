@@ -10,6 +10,6 @@ GET     /                           controllers.HomeController.index
 GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
 
 #Usermanagement
-POST    /user/create                model.user.UserHttpAdapter.createUserAdapter()
-POST    /user/delete                model.user.UserHttpAdapter.deleteUserAdapter()
-POST    /user/update                model.user.UserHttpAdapter.updateUserAdapter()
+POST    /user/create                model.user.UserHttpAdapter.createUserAdapter(request: Request)
+POST    /user/delete/:id            model.user.UserHttpAdapter.deleteUserAdapter(id: Int)
+POST    /user/update                model.user.UserHttpAdapter.updateUserAdapter(request: Request)
