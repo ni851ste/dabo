@@ -11,7 +11,6 @@ import java.util.List;
 
 import static play.mvc.Results.ok;
 
-
 public class UserHttpAdapter {
 
     UserManagement adabter = new UserManagement();
@@ -37,8 +36,16 @@ public class UserHttpAdapter {
 
     public Result updateUserAdapter(Http.Request update) {
         JsonNode json = update.body().asJson();
-        //System.out.println(json);
         String result = adabter.updateUser(json);
         return ok(result);
+
     }
+
+    public Result findeUserAdapter(String name) throws JsonProcessingException {
+        JsonNode result = adabter.findeUser(name);
+        return ok(result);
+    }
+
+
 }
+

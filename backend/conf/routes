@@ -13,3 +13,4 @@ GET     /assets/*file               controllers.Assets.versioned(path="/public",
 POST    /user/create                model.user.UserHttpAdapter.createUserAdapter(request: Request)
 POST    /user/delete/:id            model.user.UserHttpAdapter.deleteUserAdapter(id: Int)
 POST    /user/update                model.user.UserHttpAdapter.updateUserAdapter(request: Request)
+POST    /user/finde/:name           model.user.UserHttpAdapter.findeUserAdapter(name: String)
