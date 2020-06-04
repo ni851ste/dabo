@@ -11,5 +11,5 @@ GET     /assets/*file               controllers.Assets.versioned(path="/public",
 
 #Article
 GET        /users/articles/:id             model.article.ArticleHttpAdapter.showArticleAdapter(id: Int)
-POST        /users/articles/create         model.article.ArticleHttpAdapter.addArticleAdapter()
+POST        /users/articles/create         model.article.ArticleHttpAdapter.addArticleAdapter(request: Request)
 POST        /users/articles/delete/:id     model.article.ArticleHttpAdapter.deleteArticleAdapter(id: Int)
