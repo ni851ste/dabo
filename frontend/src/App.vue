@@ -28,7 +28,7 @@ export default class App extends Vue {}
   }
 
   .contentLayout {
-    margin-left: 20vw;
+    margin-left: 19vw;
     margin-right: 20vw;
     display: flex;
     flex-wrap: wrap;

@@ -6,16 +6,13 @@
                     <img class="logo" :src="require(`@/assets/logoImgs/dabo_logo_quadrat.png`)" height="40" alt="">
                 </a>
             </RouterLink>
-            <div class="collapse navbar-collapse userActions" id="navbarNav">
-                <ul class="navbar-nav">
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav navBarLeft">
                     <RouterLink to="/">
                         <li class="nav-item ">
-                            <a class="nav-link" href="#">Home</a>
+                            <a class="nav-link" href="#">Angebote</a>
                         </li>
                     </RouterLink>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Angebote</a>
-                    </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#">Gesuche</a>
                     </li>
@@ -26,9 +23,11 @@
                             <a class="nav-link disabled" href="#">Artikel hinzufügen</a>
                         </b-button>
                     </RouterLink>
-                    <li class="nav-item login">
-                        <a class="nav-link disabled" href="#">Login</a>
-                    </li>
+                    <RouterLink to="/">
+                        <li class="nav-item login">
+                            <a class="nav-link disabled" href="#">Login</a>
+                        </li>
+                    </RouterLink>
                 </ul>
             </div>
         </nav>
@@ -40,6 +39,7 @@
 
     @Component
     export default class NavigationBar extends Vue {
+        @Prop() withContentLayout!: boolean;
     }
 </script>
 
@@ -58,26 +58,23 @@
         top: 0;
         width: 100%;
         z-index: 100;
-        height: 60px!important;
+        height: 60px !important;
     }
 
     .login {
         float: right;
-        margin-right: 15px;
+        margin-right: 10px;
     }
 
     .logo {
-        position: absolute;
         top: 0;
         bottom: 0;
         margin: auto;
     }
 
     .logo-a {
-        position: relative;
-        width: 10vw;
         height: 50px;
-        margin-top: 5px;
+        margin-left: calc(2vw - 5px);
     }
 
     .addArticle {
@@ -85,7 +82,7 @@
         background-color: #d0f2e1;
         padding: 0;
         right: 20vw;
-        margin-right: 10px;
+        margin-right: 15px;
     }
 
     .addArticle:hover > a {
@@ -96,5 +93,9 @@
 
     a {
         color: white;
+    }
+
+    .navBarLeft {
+        margin-left: 10px;
     }
 </style>
