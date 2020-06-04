@@ -1,7 +1,9 @@
 <template>
     <div>
-        <NavigationBar msg="hallo"></NavigationBar>
+        <NavigationBar msg="hallo" with-content-layout="true"></NavigationBar>
+        <FilterPanel></FilterPanel>
         <div class="contentLayout">
+<div class="articleView">
 
             <ArticleCard
                     :key="article.name"
@@ -23,6 +25,7 @@
             </b-pagination>
 
         </div>
+</div>
     </div>
 </template>
 
@@ -31,8 +34,10 @@
     import Article from "@/components/article/Article.ts";
     import ArticleCard from "@/components/article/ArticleCard.vue";
     import NavigationBar from "@/components/NavigationBar.vue";
+    import Filter from "@/components/filter/FilterPanel.vue";
+    import FilterPanel from "@/components/filter/FilterPanel.vue";
     @Component({
-        components: {ArticleCard, NavigationBar}
+        components: {FilterPanel, ArticleCard, NavigationBar}
     })
     export default class ArticleView extends Vue {
         articles: Article[] = [];
@@ -86,4 +91,9 @@
     .page-link {
         color: black;
     }
+
+    .articleView {
+        margin-top: 5px;
+    }
+
 </style>
