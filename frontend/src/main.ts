@@ -16,7 +16,7 @@ Vue.use(BootstrapVue);
 Vue.use(BootstrapVueIcons);
 const routes = [
   {path: '/', component: Homepage },
-  {path: '/articlePage/:article', name: 'articlePage', component: SingleArticlePage },
+  {path: '/articlePage/:article', name: 'articlePage', component: SingleArticlePage, props: true},
   {path: '/articles', component: ArticleView },
   {path: '/createArticle', component: ArticleCreationView}
 ];

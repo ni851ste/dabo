@@ -14,15 +14,15 @@
                             </ol>
                             <div class="carousel-inner">
                                 <div class="carousel-item active">
-                                    <img class="d-block w-100" :src="require(`@/assets/categoryImgs/haushalt.jpg`)"
+                                    <img class="d-block w-100" :src="require(`@/assets/categoryImgs/sonstiges.jpg`)"
                                          alt="First slide">
                                 </div>
                                 <div class="carousel-item">
-                                    <img class="d-block w-100" :src="require(`@/assets/categoryImgs/haushalt.jpg`)"
+                                    <img class="d-block w-100" :src="require(`@/assets/categoryImgs/sonstiges.jpg`)"
                                          alt="Second slide">
                                 </div>
                                 <div class="carousel-item">
-                                    <img class="d-block w-100" :src="require(`@/assets/categoryImgs/haushalt.jpg`)"
+                                    <img class="d-block w-100" :src="require(`@/assets/categoryImgs/sonstiges.jpg`)"
                                          alt="Third slide">
                                 </div>
                             </div>
@@ -89,13 +89,8 @@
     })
     export default class SingleArticlePage extends Vue {
         //TODO: User prop
-        @Prop() private article: Article = new Article("Staubsauger",
-            "Cooler Staubsauger saugt Staub.</br>Nur zum Abholen.",
-            "",
-            "Musterstaße 10</br>78462 Konstanz",
-            new Date(),
-        []);
-        private value: number = 3.5555
+        @Prop() private article!: Article
+        private value: number = 2
 
         getDate(): string {
             return moment(this.article.insertionDate).format(" DD MMMM YYYY")
