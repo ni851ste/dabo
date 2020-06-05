@@ -13,3 +13,4 @@ GET     /assets/*file               controllers.Assets.versioned(path="/public",
 GET        /users/articles/:id             model.article.ArticleHttpAdapter.showArticleAdapter(id: Int)
 POST        /users/articles/create         model.article.ArticleHttpAdapter.addArticleAdapter(request: Request)
 POST        /users/articles/delete/:id     model.article.ArticleHttpAdapter.deleteArticleAdapter(id: Int)
+POST        /users/articles/update/:id     model.article.ArticleHttpAdapter.updateArticleAdapter(id: Int,request: Request)
