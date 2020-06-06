@@ -17,7 +17,7 @@ public class ArticleManagementTest extends WithApplication {
     public void testCreateANewArticle() {
         ArticleManagement testArticel = new ArticleManagement();
 
-      int artikleTestID =   testArticel.addArticle("Bierpong-tisch","only used twice",
+      int artikleTestID =   testArticel.createArticle("Bierpong-tisch","only used twice",
                 "20.02.1996", "Berlin");
         assertEquals("Bierpong-tisch",testArticel.articleMap.get(0).get(0));
         assertEquals("only used twice",testArticel.articleMap.get(0).get(1));
@@ -32,7 +32,7 @@ public class ArticleManagementTest extends WithApplication {
     public void testDeleteArticel() {
         ArticleManagement testArticel = new ArticleManagement();
 
-        testArticel.addArticle("Bierpong-tisch", "only used twice",
+        testArticel.createArticle("Bierpong-tisch", "only used twice",
                 "20.02.1996", "Berlin");
         assertTrue(testArticel.deleteArticle(0));
 
@@ -43,10 +43,10 @@ public class ArticleManagementTest extends WithApplication {
         ArticleManagement testArticel = new ArticleManagement();
 
 
-      int artikleTestID =   testArticel.addArticle("\"Bierpong-tisch\"","\"only used twice\"",
+      int artikleTestID =   testArticel.createArticle("\"Bierpong-tisch\"","\"only used twice\"",
                 "\"20.02.1996\"", "\"Berlin\"");
 
-     JsonNode json = testArticel.getArticle(artikleTestID);
+     JsonNode json = testArticel.getArticleById(artikleTestID);
         String name  = json.get("name").toString();
         String description = json.get("description").toString();
         String location = json.get("location").toString();
@@ -64,7 +64,7 @@ public class ArticleManagementTest extends WithApplication {
 
         ArticleManagement testArticel = new ArticleManagement();
 
-        int artikleTestID =   testArticel.addArticle("\"Bierpong-tisch\"","\"only used twice\"",
+        int artikleTestID =   testArticel.createArticle("\"Bierpong-tisch\"","\"only used twice\"",
                 "\"20.02.1996\"", "\"Berlin\"");
 
         JsonNode json =   testArticel.updateArticle(artikleTestID,"\"Bierpong-tisch\"","\"Never used\"",

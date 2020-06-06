@@ -5,7 +5,7 @@ import scala.Tuple6;
 
 import java.util.Optional;
 
-public class ArticleDatabaseAdapter implements IArticleSavingAdapter
+public class ArticleDatabaseAdapter implements IArticlePersistenceAdapter
 {
     DBCollection articleCollection;
     DBCollection userCollection;

@@ -1,103 +1,97 @@
 package model.article;
 
-import com.fasterxml.jackson.core.JsonFactory;
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import org.javatuples.Quartet;
+import org.javatuples.Quintet;
+import persistence.ArticleMapAdapter;
+import persistence.IArticlePersistenceAdapter;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.Optional;
 
 
 public class ArticleManagement
 {
-    Map<Integer, List<String>> articleMap = new HashMap<>();
     int globalIdCounter = 0;
+    //TODO make this dependent on app.config var
+    IArticlePersistenceAdapter database = new ArticleMapAdapter();
+
 
     // TODO add image, notAvailableDate, rating, category
-    public int addArticle(String name, String description, String insertionDate,
-                          String location)
+
+    /**
+     * @param data The data of the article that is requested to be created
+     *             data[0]: Name
+     *             data[1]: Description
+     *             data[2]: Insertion Date
+     *             data[3]: City - Location
+     * @return if successful: return created article with all its data
+     * if failed: returns empty Quintet with -1 as Id
+     * quintet[0]: Id
+     * quintet[1]: Name
+     * quintet[2]: Description
+     * quintet[3]: Insertion Date
+     * quintet[4]: City - Location
+     */
+    // TODO can this method fail?
+    public Quintet<Integer, String, String, String, String> createArticle(Quartet<String, String, String, String> data)
     {
         int localIdCounter = this.globalIdCounter;
-        List<String> values = new ArrayList<>();
-        values.add(name);
-        values.add(description);
-        values.add(insertionDate);
-        values.add(location);
-        articleMap.put(this.globalIdCounter, values);
-        System.out.println("Name: " + name);
+
+        // TODO do some basic checks of data is correct
+
+        Optional<Quintet<Integer, String, String, String, String>> returnValue = database.createArticle(localIdCounter, data);
+
         this.globalIdCounter += 1;
-        return localIdCounter;
+        // Return value is never Optional.empty since this method does not fail to date
+        return returnValue.orElseGet(() -> new Quintet<>(-1, "", "", "", ""));
     }
 
-    public boolean deleteArticle(int articleId)
+    /**
+     * @param articleId Find article with given Id
+     * @return if successful: return created article with all its data
+     * if failed: returns empty Quintet with -1 as Id
+     * quintet[0]: Id
+     * quintet[1]: Name
+     * quintet[2]: Description
+     * quintet[3]: Insertion Date
+     * quintet[4]: City - Location
+     */
+    public Quintet<Integer, String, String, String, String> getArticleById(int articleId)
     {
-        if (articleMap.containsKey(articleId))
-        {
-            articleMap.remove(articleId);
-            return true;
-        }
-        return false;
+        Optional<Quintet<Integer, String, String, String, String>> searchedArticle = database.getArticleById(articleId);
+        return searchedArticle.orElseGet(() -> new Quintet<>(-1, "", "", "", ""));
     }
 
-    public JsonNode getArticle(int articleId) throws IOException
+    /**
+     * @param articleId to identify article that wants to be updated
+     * @param data      data to update article
+     * @return if successful: return created article with all its data
+     * if failed: returns empty Quintet with -1 as Id
+     * quintet[0]: Id
+     * quintet[1]: Name
+     * quintet[2]: Description
+     * quintet[3]: Insertion Date
+     * quintet[4]: City - Location
+     */
+    public Quintet<Integer, String, String, String, String> updateArticle(int articleId, Quartet<String, String, String, String> data)
     {
-        if (articleMap.containsKey(articleId))
-        {
-
-            String name = articleMap.get(articleId).get(0);
-            String description = articleMap.get(articleId).get(1);
-            String insertionDate = articleMap.get(articleId).get(2);
-            String location = articleMap.get(articleId).get(3);
-
-
-            String input = "{" +
-                    "\"name\": " + name + "," +
-                    "\"description\": " + description + ", " +
-                    "\"location\": " + location + "," +
-                    "\"insertionDate\": " + insertionDate + "" +
-                    "}";
-
-            ObjectMapper mapper = new ObjectMapper();
-            JsonFactory factory = mapper.getFactory();
-            JsonParser jp = factory.createParser(input);
-            JsonNode jsonNode = mapper.readTree(jp);
-
-            return jsonNode;
-        }
-        return null;
+        Optional<Quintet<Integer, String, String, String, String>> updatedArticle = database.updateArticle(articleId, data);
+        return updatedArticle.orElseGet(() -> new Quintet<>(-1, "", "", "", ""));
     }
 
-    public JsonNode updateArticle(int articleId, String name, String description, String insertionDate,
-                                  String location) throws IOException
+    /**
+     * @param articleId to identify article that wants to be deleted
+     * @return if successful: return created article with all its data
+     * if failed: returns empty Quintet with -1 as Id
+     * quintet[0]: Id
+     * quintet[1]: Name
+     * quintet[2]: Description
+     * quintet[3]: Insertion Date
+     * quintet[4]: City - Location
+     */
+    public Quintet<Integer, String, String, String, String> deleteArticle(int articleId)
     {
-        if (articleMap.containsKey(articleId))
-        {
-            List<String> values = new ArrayList<>();
-            values.add(name);
-            values.add(description);
-            values.add(insertionDate);
-            values.add(location);
-            articleMap.replace(articleId, values);
-
-            String input = "{" +
-                    "\"name\": " + name + "," +
-                    "\"description\": " + description + ", " +
-                    "\"location\": " + location + "," +
-                    "\"insertionDate\": " + insertionDate + "" +
-                    "}";
-            ObjectMapper mapper = new ObjectMapper();
-            JsonFactory factory = mapper.getFactory();
-            JsonParser jp = factory.createParser(input);
-            JsonNode jsonNode = mapper.readTree(jp);
-
-            return jsonNode;
-        }
-        System.out.println("hat keinen Artikel");
-        return null;
+        Optional<Quintet<Integer, String, String, String, String>> deletedArticle = database.deleteArticle(articleId);
+        return deletedArticle.orElseGet(() -> new Quintet<>(-1, "", "", "", ""));
     }
 
 

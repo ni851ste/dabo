@@ -1,34 +1,82 @@
 package persistence;
 
-import scala.Tuple6;
+import org.javatuples.Quartet;
+import org.javatuples.Quintet;
 
-import java.util.List;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
-public class ArticleMapAdapter implements IArticleSavingAdapter
+public class ArticleMapAdapter implements IArticlePersistenceAdapter
 {
-    Map<String, List<String>> articleCollection;
+    Map<Integer, Quartet<String, String, String, String>> articleCollection;
 
-    public ArticleMapAdapter() {
-
+    public ArticleMapAdapter()
+    {
+        this.articleCollection = new HashMap<>();
     }
 
     @Override
-    public Optional<Tuple6<String, String, String, String, String, String>> getArticleById(int id)
+    public Optional<Quintet<Integer, String, String, String, String>> createArticle(int id,
+                                                                                    Quartet<String, String, String, String> data)
     {
-        return null;
+        articleCollection.put(id, data);
+
+        return Optional.of(new Quintet<>(id, data.getValue0(), data.getValue1(), data.getValue2(), data.getValue3()));
     }
 
     @Override
-    public boolean createArticle(int id, String name, String description, String image, String location, String insertionDate)
+    public Optional<Quintet<Integer, String, String, String, String>> getArticleById(int id)
     {
-        return false;
+        if (!articleCollection.containsKey(id))
+        {
+            return Optional.empty();
+        }
+
+        Quartet<String, String, String, String> article = articleCollection.get(id);
+
+        return Optional.of(
+                new Quintet<>(id,
+                        article.getValue0(),
+                        article.getValue1(),
+                        article.getValue2(),
+                        article.getValue3()));
     }
 
     @Override
-    public boolean deleteArticle(int id)
+    public Optional<Quintet<Integer, String, String, String, String>> updateArticle(int id,
+                                                                                    Quartet<String, String, String, String> data)
     {
-        return false;
+        if (!articleCollection.containsKey(id))
+        {
+            return Optional.empty();
+        }
+
+        articleCollection.put(id, data);
+
+        return Optional.of(
+                new Quintet<>(id,
+                        data.getValue0(),
+                        data.getValue1(),
+                        data.getValue2(),
+                        data.getValue3()));
+    }
+
+    @Override
+    public Optional<Quintet<Integer, String, String, String, String>> deleteArticle(int id)
+    {
+        if (!articleCollection.containsKey(id))
+        {
+            return Optional.empty();
+        }
+
+        Quartet<String, String, String, String> removedArticle = articleCollection.remove(id);
+
+        return Optional.of(
+                new Quintet<>(id,
+                        removedArticle.getValue0(),
+                        removedArticle.getValue1(),
+                        removedArticle.getValue2(),
+                        removedArticle.getValue3()));
     }
 }
