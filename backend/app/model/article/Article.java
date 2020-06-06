@@ -89,5 +89,7 @@ public class Article {
         System.out.println("hat keinen Artikel");
         return null;
     }
+
+
 }
 

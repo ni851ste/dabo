@@ -71,14 +71,19 @@ public class ArticleHttpAdapterTest extends WithApplication {
 //        JsonNode jsonNode = mapper.readTree(jp);
 //
 //
-//       new Http.RequestBuilder()
+//        Http.RequestBuilder requestshow =new Http.RequestBuilder()
 //                .method(POST)
 //                .uri("/users/articles/create")
 //                .bodyJson(jsonNode);
 //
+//        System.out.println("show" + requestshow.body().toString());
+//
 //        Http.RequestBuilder request = new Http.RequestBuilder()
 //                .method(GET)
 //                .uri("/users/articles/0");
+//
+//        System.out.println("show" + request.body().toString());
+//
 //
 //        Result result = route(app,request);
 //        assertEquals(OK, result.status());

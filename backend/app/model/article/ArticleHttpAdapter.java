@@ -21,13 +21,14 @@ public class ArticleHttpAdapter {
     public Result addArticleAdapter(Http.Request request){
 
     JsonNode json = request.body().asJson();
+    System.out.println("add Artikel");
+
+
 
     String name  = json.get("name").toString();
     String description = json.get("description").toString();
     String location = json.get("location").toString();
     String insertionDate = json.get("insertionDate").toString();
-
-
 
     int artikelID = adapter.addArticle(name, description, insertionDate, location);
 
@@ -35,6 +36,7 @@ public class ArticleHttpAdapter {
     }
 
     public Result deleteArticleAdapter(int id){
+        System.out.println(id);
         boolean request = adapter.deleteArticle(id);
         if(request)
             return ok("Artikle: " + id + " gelöscht");
@@ -46,11 +48,13 @@ public class ArticleHttpAdapter {
 
        JsonNode json = adapter.showArticle(id);
 
+
            return ok(json);
    }
 
    public Result updateArticleAdapter(int id,Http.Request request) throws IOException {
        JsonNode json = request.body().asJson();
+
 
        String name  = json.get("name").toString();
        String description = json.get("description").toString();
@@ -60,5 +64,11 @@ public class ArticleHttpAdapter {
        JsonNode updateJson = adapter.updateArticle(id,name, description, insertionDate,location);
        return ok(updateJson);
    }
+
+//   public Result filterArticleAdapter(Http.Request request){
+//
+//        JsonNode json = request.body().asJson();
+//        JsonNode filterJson = adapter.
+//   }
 
 }
