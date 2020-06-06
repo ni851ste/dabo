@@ -31,6 +31,7 @@
     import Article from "@/components/article/Article.ts";
     import ArticleCard from "@/components/article/ArticleCard.vue";
     import NavigationBar from "@/components/NavigationBar.vue";
+    import Category from "@/components/category/Category";
     @Component({
         components: {ArticleCard, NavigationBar}
     })
@@ -41,8 +42,20 @@
 
         constructor() {
             super();
-            let article: Article = new Article("Beerpong table", "Awesome beerpong table", "", "Konstanz", new Date());
-            let article2: Article = new Article("Bohrmaschine", "Toll zum bohren", "", "Konstanz", new Date());
+            let article: Article = new Article("Beerpong table",
+                "Awesome beerpong table",
+                "",
+                "Konstanz",
+                new Date(),
+            []);
+
+            let article2: Article = new Article("Bohrmaschine",
+                "Toll zum bohren",
+                "",
+                "Konstanz",
+                new Date(),
+                []);
+
             this.articles.push(article);
             this.articles.push(article2);
             this.articles.push(article2);
