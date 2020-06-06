@@ -62,35 +62,40 @@ public class UserManagement {
         }
     }
 
-    public JsonNode findeUser(String toFinde) throws JsonProcessingException {
-        System.out.println(toFinde);
-        for (int i = 0; i < globalIdCounter; i++) {
-            List<String> search = users.get(i);
-            if (search.contains(toFinde)) {
-                String username = search.get(0);
-                String email = search.get(1);
-                String name = search.get(2);
-                String age = search.get(3);
+    public JsonNode findUser(String tofind) throws JsonProcessingException {
+        System.out.println(tofind);
+        if (!users.isEmpty()) {
+            for (int i = 0; i < globalIdCounter; i++) {
+                List<String> search = users.get(i);
+                for (String str : search) {
+                    if (str.substring(1, str.length() - 1).equals(tofind)) {
+                        String username = search.get(0);
+                        String email = search.get(1);
+                        String name = search.get(2);
+                        String age = search.get(3);
+                        String json = "{\"id\":" + i + ",\"username\":" + username + ",\"email\":" + email + ",\"name\":" + name + ",\"age\":" + age + "}";
+                        // create object mapper instance
+                        ObjectMapper mapper = new ObjectMapper();
+                        // convert JSON string to `JsonNode`
+                        //System.out.println(mapper);
+                        //System.out.println(json);
+                        JsonNode node = mapper.readTree(json);
 
-                String json = "{\"id\":" + i + ",\"username\":\"" + username + "\",\"email\":\"" + email + "\",\"name\":\"" + name + "\",\"age\":\"" + age + "\"}";
-                // create object mapper instance
-                ObjectMapper mapper = new ObjectMapper();
-                // convert JSON string to `JsonNode`
-                System.out.println(mapper);
-                System.out.println(json);
-                JsonNode node = mapper.readTree(json);
-                System.out.println(node);
-                return node;
-            } else {
-                continue;
+                        return node;
+
+                    } else {
+                        continue;
+                    }
+                }
             }
-        }// JSON string
+        }
+        // JSON string
         String json = "{\"message\":\"User not found\"}";
         // create object mapper instance
         ObjectMapper mapper = new ObjectMapper();
         // convert JSON string to `JsonNode`
         JsonNode node1 = mapper.readTree(json);
-        System.out.println(node1);
+        //System.out.println(node1);
         return node1;
     }
 

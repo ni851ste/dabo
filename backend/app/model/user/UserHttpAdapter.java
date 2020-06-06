@@ -41,8 +41,9 @@ public class UserHttpAdapter {
 
     }
 
-    public Result findeUserAdapter(String name) throws JsonProcessingException {
-        JsonNode result = adabter.findeUser(name);
+    public Result findUserAdapter(String name) throws JsonProcessingException {
+        JsonNode result = adabter.findUser(name);
+        System.out.println(result);
         return ok(result);
     }
 
