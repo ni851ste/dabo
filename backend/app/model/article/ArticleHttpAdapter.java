@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 import org.javatuples.Quartet;
 import org.javatuples.Quintet;
 import org.json.JSONObject;
-import org.springframework.util.MimeType;
 import play.mvc.Http.Request;
 import play.mvc.Result;
 
@@ -18,7 +17,11 @@ public class ArticleHttpAdapter
 
     public Result createArticle(Request request)
     {
+        System.out.println("Request:\n" + request.body().asJson().asText());
+
+
         JsonNode json = request.body().asJson();
+        System.out.println("JSON:\n" + json.asText());
 
         Quartet<String, String, String, String> toBeCreatedArticle =
                 new Quartet<>(json.get("name").asText(),
@@ -29,7 +32,7 @@ public class ArticleHttpAdapter
         Quintet<Integer, String, String, String, String> createdArticle = articleManagement.createArticle(toBeCreatedArticle);
 
         // creating an article can not fail to date
-        // this will always go into the else tree
+        // this will always go into the else case
         if (createdArticle.getValue0() == -1)
         {
             return badRequest();
@@ -44,7 +47,7 @@ public class ArticleHttpAdapter
                             .put("insertionDate", createdArticle.getValue3())
                             .put("location", createdArticle.getValue4())
                             .toString())
-                    .as("text/json");
+                    .as("application/json");
         }
     }
 
@@ -66,7 +69,7 @@ public class ArticleHttpAdapter
                             .put("insertionDate", article.getValue3())
                             .put("location", article.getValue4())
                             .toString())
-                    .as("text/json");
+                    .as("application/json");
         }
     }
 
@@ -96,7 +99,7 @@ public class ArticleHttpAdapter
                             .put("insertionDate", updatedArticle.getValue3())
                             .put("location", updatedArticle.getValue4())
                             .toString())
-                    .as("text/json");
+                    .as("application/json");
         }
     }
 
@@ -118,7 +121,7 @@ public class ArticleHttpAdapter
                             .put("insertionDate", deletedArticle.getValue3())
                             .put("location", deletedArticle.getValue4())
                             .toString())
-                    .as("text/json");
+                    .as("application/json");
         }
     }
 
