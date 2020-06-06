@@ -5,7 +5,8 @@ import scala.Tuple6;
 
 import java.util.Optional;
 
-public class ArticleDatabaseAdapter implements IArticlePersistenceAdapter
+public class ArticleDatabaseAdapter
+//        implements IArticlePersistenceAdapter
 {
     DBCollection articleCollection;
     DBCollection userCollection;
@@ -21,7 +22,7 @@ public class ArticleDatabaseAdapter implements IArticlePersistenceAdapter
 
     }
 
-    @Override
+//    @Override
     public Optional<Tuple6<String, String, String, String, String, String>> getArticleById(int id)
     {
         DBObject query = new BasicDBObject("_id", id);
@@ -48,7 +49,7 @@ public class ArticleDatabaseAdapter implements IArticlePersistenceAdapter
         }
     }
 
-    @Override
+//    @Override
     public boolean createArticle(int id,
                                  String name,
                                  String description,
@@ -71,7 +72,7 @@ public class ArticleDatabaseAdapter implements IArticlePersistenceAdapter
         return result.wasAcknowledged() && !result.isUpdateOfExisting();
     }
 
-    @Override
+//    @Override
     public boolean deleteArticle(int id)
     {
 

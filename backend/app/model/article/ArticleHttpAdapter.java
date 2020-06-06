@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import org.javatuples.Quartet;
 import org.javatuples.Quintet;
 import org.json.JSONObject;
+import org.springframework.util.MimeType;
 import play.mvc.Http.Request;
 import play.mvc.Result;
 
@@ -15,16 +16,15 @@ public class ArticleHttpAdapter
 {
     ArticleManagement articleManagement = new ArticleManagement();
 
-    //TODO speichert artikel mit ""
     public Result createArticle(Request request)
     {
         JsonNode json = request.body().asJson();
 
         Quartet<String, String, String, String> toBeCreatedArticle =
-                new Quartet<>(json.get("name").toString(),
-                        json.get("description").toString(),
-                        json.get("location").toString(),
-                        json.get("insertionDate").toString());
+                new Quartet<>(json.get("name").asText(),
+                        json.get("description").asText(),
+                        json.get("location").asText(),
+                        json.get("insertionDate").asText());
 
         Quintet<Integer, String, String, String, String> createdArticle = articleManagement.createArticle(toBeCreatedArticle);
 
@@ -43,7 +43,8 @@ public class ArticleHttpAdapter
                             .put("description", createdArticle.getValue2())
                             .put("insertionDate", createdArticle.getValue3())
                             .put("location", createdArticle.getValue4())
-                            .toString());
+                            .toString())
+                    .as("text/json");
         }
     }
 
@@ -64,7 +65,8 @@ public class ArticleHttpAdapter
                             .put("description", article.getValue2())
                             .put("insertionDate", article.getValue3())
                             .put("location", article.getValue4())
-                            .toString());
+                            .toString())
+                    .as("text/json");
         }
     }
 
@@ -73,10 +75,10 @@ public class ArticleHttpAdapter
         JsonNode json = request.body().asJson();
 
         Quartet<String, String, String, String> toBeUpdatedArticle =
-                new Quartet<>(json.get("name").toString(),
-                        json.get("description").toString(),
-                        json.get("location").toString(),
-                        json.get("insertionDate").toString());
+                new Quartet<>(json.get("name").asText(),
+                        json.get("description").asText(),
+                        json.get("location").asText(),
+                        json.get("insertionDate").asText());
 
         Quintet<Integer, String, String, String, String> updatedArticle = articleManagement.updateArticle(id, toBeUpdatedArticle);
 
@@ -93,7 +95,8 @@ public class ArticleHttpAdapter
                             .put("description", updatedArticle.getValue2())
                             .put("insertionDate", updatedArticle.getValue3())
                             .put("location", updatedArticle.getValue4())
-                            .toString());
+                            .toString())
+                    .as("text/json");
         }
     }
 
@@ -114,7 +117,8 @@ public class ArticleHttpAdapter
                             .put("description", deletedArticle.getValue2())
                             .put("insertionDate", deletedArticle.getValue3())
                             .put("location", deletedArticle.getValue4())
-                            .toString());
+                            .toString())
+                    .as("text/json");
         }
     }
 
