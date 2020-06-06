@@ -15,45 +15,45 @@ import static org.junit.Assert.assertEquals;
 import static play.mvc.Http.Status.OK;
 import static play.test.Helpers.*;
 
-public class ArticleHttpAdapterTest extends WithApplication {
+public class ArticleManagementHttpAdapterTest extends WithApplication {
 
-    @Test
-    public void testRequestAddArtikel() throws IOException {
-
-        String input = "{" +
-                "\"name\": \"BierPong3\"," +
-                "\"description\": \"guter Zustand\", " +
-                "\"image\": \"image\"," +
-                "\"location\": \"Berlin\"," +
-                "\"insertionDate\": \"20.02.13\"" +
-                "}";
-
-        ObjectMapper mapper = new ObjectMapper();
-        JsonFactory factory = mapper.getFactory();
-        JsonParser jp = factory.createParser(input);
-        JsonNode jsonNode = mapper.readTree(jp);
-
-        //System.out.println(jsonNode.toString());
-
-        Http.RequestBuilder request = new Http.RequestBuilder()
-                .method(POST)
-                .uri("/users/articles/create")
-                .bodyJson(jsonNode);
-
-        Result result = route(app,request);
-        assertEquals(OK, result.status());
-    }
-
-    @Test
-    public void testRequestDeleteArtikel() throws IOException {
-
-        Http.RequestBuilder request = new Http.RequestBuilder()
-                .method(POST)
-                .uri("/users/articles/delete/0");
-
-        Result result = route(app,request);
-        assertEquals(OK, result.status());
-    }
+//    @Test
+//    public void testRequestAddArtikel() throws IOException {
+//
+//        String input = "{" +
+//                "\"name\": \"BierPong3\"," +
+//                "\"description\": \"guter Zustand\", " +
+//                "\"image\": \"image\"," +
+//                "\"location\": \"Berlin\"," +
+//                "\"insertionDate\": \"20.02.13\"" +
+//                "}";
+//
+//        ObjectMapper mapper = new ObjectMapper();
+//        JsonFactory factory = mapper.getFactory();
+//        JsonParser jp = factory.createParser(input);
+//        JsonNode jsonNode = mapper.readTree(jp);
+//
+//        //System.out.println(jsonNode.toString());
+//
+//        Http.RequestBuilder request = new Http.RequestBuilder()
+//                .method(POST)
+//                .uri("/users/articles/create")
+//                .bodyJson(jsonNode);
+//
+//        Result result = route(app,request);
+//        assertEquals(OK, result.status());
+//    }
+//
+//    @Test
+//    public void testRequestDeleteArtikel() throws IOException {
+//
+//        Http.RequestBuilder request = new Http.RequestBuilder()
+//                .method(POST)
+//                .uri("/users/articles/delete/0");
+//
+//        Result result = route(app,request);
+//        assertEquals(OK, result.status());
+//    }
 
 //    @Test
 //    public void testRequestShowArtikel() throws IOException {

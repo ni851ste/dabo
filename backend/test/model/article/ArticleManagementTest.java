@@ -1,10 +1,7 @@
 package model.article;
 
 
-import com.fasterxml.jackson.core.JsonFactory;
-import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
 import play.test.WithApplication;
 
@@ -14,11 +11,11 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 
-public class ArticleTest extends WithApplication {
+public class ArticleManagementTest extends WithApplication {
 
     @Test
     public void testCreateANewArticle() {
-        Article testArticel = new Article();
+        ArticleManagement testArticel = new ArticleManagement();
 
       int artikleTestID =   testArticel.addArticle("Bierpong-tisch","only used twice",
                 "20.02.1996", "Berlin");
@@ -33,7 +30,7 @@ public class ArticleTest extends WithApplication {
 
     @Test
     public void testDeleteArticel() {
-        Article testArticel = new Article();
+        ArticleManagement testArticel = new ArticleManagement();
 
         testArticel.addArticle("Bierpong-tisch", "only used twice",
                 "20.02.1996", "Berlin");
@@ -43,13 +40,13 @@ public class ArticleTest extends WithApplication {
 
     @Test
     public void showArticleTest() throws IOException {
-        Article testArticel = new Article();
+        ArticleManagement testArticel = new ArticleManagement();
 
 
       int artikleTestID =   testArticel.addArticle("\"Bierpong-tisch\"","\"only used twice\"",
                 "\"20.02.1996\"", "\"Berlin\"");
 
-     JsonNode json = testArticel.showArticle(artikleTestID);
+     JsonNode json = testArticel.getArticle(artikleTestID);
         String name  = json.get("name").toString();
         String description = json.get("description").toString();
         String location = json.get("location").toString();
@@ -65,7 +62,7 @@ public class ArticleTest extends WithApplication {
     @Test
     public void updateArticleTest() throws IOException {
 
-        Article testArticel = new Article();
+        ArticleManagement testArticel = new ArticleManagement();
 
         int artikleTestID =   testArticel.addArticle("\"Bierpong-tisch\"","\"only used twice\"",
                 "\"20.02.1996\"", "\"Berlin\"");
