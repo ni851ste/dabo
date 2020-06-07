@@ -89,7 +89,7 @@
     })
     export default class SingleArticlePage extends Vue {
         //TODO: User prop
-        @Prop() private article: Article = new Article("Staubsauger", "Cooler Staubsauger saugt Staub.</br>Nur zum Abholen.", "", "Musterstaße 10</br>78462 Konstanz", new Date());
+        @Prop() private article: Article = new Article("Staubsauger", "Cooler Staubsauger saugt Staub.</br>Nur zum Abholen.", "", "Musterstaße 10</br>78462 Konstanz", new Date(), []);
         private value: number = 3.5555
 
         getDate(): string {
