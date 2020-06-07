@@ -79,7 +79,7 @@
             console.log("filter articles by ", this.selectedCategories);
             $.ajax({
                 url: "http://localhost:9000/users/articles",
-                type: "GET",
+                type: "POST",
                 data: JSON.stringify({
                     categories: this.testCategories,
                 }),
