@@ -32,20 +32,20 @@
         <div class="categoryCheckboxes filterOption">
             <label>
                 <b-icon-list-ul font-scale="1.2"></b-icon-list-ul>
-                Kategorien</label>
-            <b-form-checkbox
-                    class="categoryCheckbox"
-                    :id="categoryName"
-                    v-model="status"
-                    name="checkbox-1"
-                    value="accepted"
-                    unchecked-value="not_accepted"
-                    v-for="categoryName in categories"
-            >
-                {{categoryName}}
-            </b-form-checkbox>
+                Kategorien
+            </label>
+            <b-form-group>
+                <b-form-checkbox-group
+                        v-on:click=""
+                        id="category-checkbox-group"
+                        v-model="selectedCategories"
+                        :key="uuid"
+                        :options="categories"
+                >
+                </b-form-checkbox-group>
+            </b-form-group>
         </div>
-        <b-button class="applyFilter">
+        <b-button class="applyFilter" v-on:click="getFilteredArticles()">
             <a class="nav-link disabled" href="#">
                 <b-icon-funnel font-scale="1.2"></b-icon-funnel>
                 Filter anwenden
@@ -57,16 +57,12 @@
 <script lang="ts">
     import {Component, Prop, Vue} from 'vue-property-decorator';
     import Category from "@/components/category/Category";
+    import $ from "jquery";
+    import {v4 as uuid} from 'uuid'
 
     @Component
     export default class FilterPanel extends Vue {
         categories: Category[] = this.getCategories();
-        constructor() {
-            super();
-            console.log(this.categories);
-            console.log(this.categories[1]);
-        }
-
 
         getCategories(): Category[] {
             return Object.values(Category)
@@ -75,32 +71,27 @@
         location: string = "";
         searchString: string = "";
 
-        filterCcategories: Category[] = [];
-
-        createArticle(): void {
-            //
-            // $.ajax({
-            //     url: "http://localhost:8080/users/articles/create",
-            //     type: "POST",
-            //     data: {
-            //         name: name,
-            //         description: description,
-            //         image: image,
-            //         location: location,
-            //         insertionDate: insertionDate
-            //     },
-            //     dataType: "application/json",
-            //     success: result => {
-            //         console.log("success ", result)
-            //     },
-            //     error: error => {
-            //         console.log("error ", error)
-            //     }
-            // });
-        }
+        testCategories: Category[] = [Category.cars, Category.clothes];
+        selectedCategories: Category[] = [];
 
         getFilteredArticles(): void {
-
+            console.log("filter articles by ", this.testCategories);
+            console.log("filter articles by ", this.selectedCategories);
+            $.ajax({
+                url: "http://localhost:9000/users/articles",
+                type: "POST",
+                data: JSON.stringify({
+                    categories: this.testCategories,
+                }),
+                dataType: "json",
+                contentType: "application/json",
+                success: result => {
+                    console.log("success ", result)
+                },
+                error: error => {
+                    console.log("error ", error)
+                }
+            });
         }
     }
 
@@ -155,6 +146,10 @@
         color: #d0f2e1;
         border: #d0f2e1 solid;
         border-radius: 3px;
+    }
+
+    :focus {
+        outline: none !important;
     }
 
 </style>
