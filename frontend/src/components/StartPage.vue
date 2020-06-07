@@ -14,7 +14,7 @@
                         <b-form-input placeholder="Stadt"></b-form-input>
                     </div>
                     <div class="form-group input button">
-                        <select class="form-control input" id="class" name="class">
+                        <select class="form-control input dropdown" id="class" name="class">
                             <option class="dropdown-item" value="angebote">Angebote</option>
                             <option class="dropdown-item" value="gesuche">Gesuche</option>
                         </select>
@@ -112,17 +112,11 @@
         margin-bottom: 0.2vw;
     }
 
-    .btn:hover {
+    .button:hover {
         color: #484848;
-        background-color: #badbca;
-        border-color: #badbca;
+        background-color: #abc7b8;
+        border-color: #abc7b8;
         text-decoration: none;
-    }
-
-    .btn-info:hover {
-        color: #484848;
-        background-color: #badbca;
-        border-color: #badbca;
     }
 
     b-img {
@@ -133,16 +127,17 @@
         z-index: -1;
     }
 
-    .dropdown {
-        position: relative;
-        width: 10.5vw;
-    }
-
     .dropdown-item {
         color: #484848;
         background-color: #d0f2e1;
         width: 10.5vw;
     }
 
+    .dropdown:hover {
+        color: #484848;
+        background-color: #abc7b8;
+        border-color: #abc7b8;
+        text-decoration: none;
+    }
 
 </style>
