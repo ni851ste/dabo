@@ -24,7 +24,8 @@ public class ArticleHttpAdapter
         JsonNode json = request.body().asJson();
 
         List<String> categoryList = new ArrayList<>();
-        json.get("categories").forEach(node -> categoryList.add(node.asText()));
+        // TODO for demo purposes disabled categories
+                json.get("categories").forEach(node -> categoryList.add(node.asText()));
 
         Quintet<String, String, String, String, List<String>> toBeCreatedArticle =
                 new Quintet<>(json.get("name").asText(),
@@ -35,7 +36,6 @@ public class ArticleHttpAdapter
 
         Sextet<Integer, String, String, String, String, List<String>> createdArticle = articleManagement.createArticle(toBeCreatedArticle);
 
-        // TODO Use 6th value in sextet
 
         // creating an article can not fail to date
         // this will always go into the else case
@@ -70,14 +70,17 @@ public class ArticleHttpAdapter
         }
         else
         {
-            return ok(
-                    new JSONObject()
-                            .put("id", article.getValue0())
-                            .put("name", article.getValue1())
-                            .put("description", article.getValue2())
-                            .put("insertionDate", article.getValue3())
-                            .put("location", article.getValue4())
-                            .toString())
+            JSONObject returnJson = new JSONObject()
+                    .put("id", article.getValue0())
+                    .put("name", article.getValue1())
+                    .put("description", article.getValue2())
+                    .put("insertionDate", article.getValue3())
+                    .put("location", article.getValue4());
+
+
+            article.getValue5().forEach(category -> returnJson.append("categories", category));
+
+            return ok(returnJson.toString())
                     .as("application/json");
         }
     }
@@ -86,16 +89,17 @@ public class ArticleHttpAdapter
     {
         JsonNode json = request.body().asJson();
 
+        List<String> categoryList = new ArrayList<>();
+        json.get("categories").forEach(node -> categoryList.add(node.asText()));
+
         Quintet<String, String, String, String, List<String>> toBeUpdatedArticle =
                 new Quintet<>(json.get("name").asText(),
                         json.get("description").asText(),
                         json.get("location").asText(),
                         json.get("insertionDate").asText(),
-                        json.findValuesAsText("categories"));
+                        categoryList);
 
         Sextet<Integer, String, String, String, String, List<String>> updatedArticle = articleManagement.updateArticle(id, toBeUpdatedArticle);
-
-        // TODO use 6th value
 
         if (updatedArticle.getValue0() == -1)
         {
@@ -103,14 +107,17 @@ public class ArticleHttpAdapter
         }
         else
         {
-            return ok(
-                    new JSONObject()
-                            .put("id", updatedArticle.getValue0())
-                            .put("name", updatedArticle.getValue1())
-                            .put("description", updatedArticle.getValue2())
-                            .put("insertionDate", updatedArticle.getValue3())
-                            .put("location", updatedArticle.getValue4())
-                            .toString())
+            JSONObject returnJson = new JSONObject()
+                    .put("id", updatedArticle.getValue0())
+                    .put("name", updatedArticle.getValue1())
+                    .put("description", updatedArticle.getValue2())
+                    .put("insertionDate", updatedArticle.getValue3())
+                    .put("location", updatedArticle.getValue4());
+
+
+            updatedArticle.getValue5().forEach(category -> returnJson.append("categories", category));
+
+            return ok(returnJson.toString())
                     .as("application/json");
         }
     }
@@ -119,22 +126,23 @@ public class ArticleHttpAdapter
     {
         Sextet<Integer, String, String, String, String, List<String>> deletedArticle = articleManagement.deleteArticle(id);
 
-        // TODO use 6th value
-
         if (deletedArticle.getValue0() == -1)
         {
             return badRequest();
         }
         else
         {
-            return ok(
-                    new JSONObject()
-                            .put("id", deletedArticle.getValue0())
-                            .put("name", deletedArticle.getValue1())
-                            .put("description", deletedArticle.getValue2())
-                            .put("insertionDate", deletedArticle.getValue3())
-                            .put("location", deletedArticle.getValue4())
-                            .toString())
+            JSONObject returnJson = new JSONObject()
+                    .put("id", deletedArticle.getValue0())
+                    .put("name", deletedArticle.getValue1())
+                    .put("description", deletedArticle.getValue2())
+                    .put("insertionDate", deletedArticle.getValue3())
+                    .put("location", deletedArticle.getValue4());
+
+
+            deletedArticle.getValue5().forEach(category -> returnJson.append("categories", category));
+
+            return ok(returnJson.toString())
                     .as("application/json");
         }
     }
@@ -152,16 +160,32 @@ public class ArticleHttpAdapter
     {
         JsonNode json = request.body().asJson();
 
-        String nameFilter = json.get("nameFilter").asText();
-        String locationFilter = json.get("location").asText();
+        //        String nameFilter = json.get("nameFilter").asText();
+        //        String locationFilter = json.get("location").asText();
 
 
         List<String> categoryFilterList = new ArrayList<>();
         json.get("categories").forEach(node -> categoryFilterList.add(node.asText()));
 
-        List<Sextet<Integer, String, String, String, String, List<String>>> filteredArticles = articleManagement.filterArticles(nameFilter, locationFilter, categoryFilterList);
+        List<Sextet<Integer, String, String, String, String, List<String>>> filteredArticles = articleManagement.filterArticles(
+                //                nameFilter, locationFilter,
+                categoryFilterList);
 
         JSONArray foundArticles = new JSONArray();
+
+        for (Sextet<Integer, String, String, String, String, List<String>> article : filteredArticles)
+        {
+            JSONObject foundArticleJson = new JSONObject();
+
+            foundArticleJson.put("id", article.getValue0())
+                    .put("name", article.getValue1())
+                    .put("description", article.getValue2())
+                    .put("insertionDate", article.getValue3())
+                    .put("location", article.getValue4());
+
+            article.getValue5().forEach(category -> foundArticleJson.append("categories", category));
+
+        }
 
         filteredArticles.forEach(article -> {
             foundArticles.put(new JSONObject()

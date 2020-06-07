@@ -108,7 +108,9 @@ public class ArticleManagement
      * @param categoryFilter List of Strings to filter categories
      * @return List of found articles that match the filter
      */
-    public List<Sextet<Integer, String, String, String, String, List<String>>> filterArticles(String nameFilter, String locationFilter, List<String> categoryFilter)
+    public List<Sextet<Integer, String, String, String, String, List<String>>> filterArticles(
+//            String nameFilter, String locationFilter,
+            List<String> categoryFilter)
     {
         // TODO some empty field or error checks
 
