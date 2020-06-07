@@ -1,10 +1,12 @@
 package model.article;
 
-import org.javatuples.Quartet;
 import org.javatuples.Quintet;
+import org.javatuples.Sextet;
 import persistence.ArticleMapAdapter;
 import persistence.IArticlePersistenceAdapter;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 
@@ -23,6 +25,7 @@ public class ArticleManagement
      *             data[1]: Description
      *             data[2]: Insertion Date
      *             data[3]: City - Location
+     *             data[4]: Categories List
      * @return if successful: return created article with all its data
      * if failed: returns empty Quintet with -1 as Id
      * quintet[0]: Id
@@ -32,17 +35,17 @@ public class ArticleManagement
      * quintet[4]: City - Location
      */
     // TODO can this method fail?
-    public Quintet<Integer, String, String, String, String> createArticle(Quartet<String, String, String, String> data)
+    public Sextet<Integer, String, String, String, String, List<String>> createArticle(Quintet<String, String, String, String, List<String>> data)
     {
         int localIdCounter = this.globalIdCounter;
 
         // TODO do some basic checks of data is correct
 
-        Optional<Quintet<Integer, String, String, String, String>> returnValue = database.createArticle(localIdCounter, data);
+        Optional<Sextet<Integer, String, String, String, String, List<String>>> returnValue = database.createArticle(localIdCounter, data);
 
         this.globalIdCounter += 1;
         // Return value is never Optional.empty since this method does not fail to date
-        return returnValue.orElseGet(() -> new Quintet<>(-1, "", "", "", ""));
+        return returnValue.orElseGet(() -> new Sextet<>(-1, "", "", "", "", new ArrayList<>()));
     }
 
     /**
@@ -55,15 +58,20 @@ public class ArticleManagement
      * quintet[3]: Insertion Date
      * quintet[4]: City - Location
      */
-    public Quintet<Integer, String, String, String, String> getArticleById(int articleId)
+    public Sextet<Integer, String, String, String, String, List<String>> getArticleById(int articleId)
     {
-        Optional<Quintet<Integer, String, String, String, String>> searchedArticle = database.getArticleById(articleId);
-        return searchedArticle.orElseGet(() -> new Quintet<>(-1, "", "", "", ""));
+        Optional<Sextet<Integer, String, String, String, String, List<String>>> searchedArticle = database.getArticleById(articleId);
+        return searchedArticle.orElseGet(() -> new Sextet<>(-1, "", "", "", "", new ArrayList<>()));
     }
 
     /**
      * @param articleId to identify article that wants to be updated
      * @param data      data to update article
+     *                  data[0]: Name
+     *                  data[1]: Description
+     *                  data[2]: Insertion Date
+     *                  data[3]: City - Location
+     *                  data[4]: Categories List
      * @return if successful: return created article with all its data
      * if failed: returns empty Quintet with -1 as Id
      * quintet[0]: Id
@@ -72,10 +80,10 @@ public class ArticleManagement
      * quintet[3]: Insertion Date
      * quintet[4]: City - Location
      */
-    public Quintet<Integer, String, String, String, String> updateArticle(int articleId, Quartet<String, String, String, String> data)
+    public Sextet<Integer, String, String, String, String, List<String>> updateArticle(int articleId, Quintet<String, String, String, String, List<String>> data)
     {
-        Optional<Quintet<Integer, String, String, String, String>> updatedArticle = database.updateArticle(articleId, data);
-        return updatedArticle.orElseGet(() -> new Quintet<>(-1, "", "", "", ""));
+        Optional<Sextet<Integer, String, String, String, String, List<String>>> updatedArticle = database.updateArticle(articleId, data);
+        return updatedArticle.orElseGet(() -> new Sextet<>(-1, "", "", "", "", new ArrayList<>()));
     }
 
     /**
@@ -88,10 +96,25 @@ public class ArticleManagement
      * quintet[3]: Insertion Date
      * quintet[4]: City - Location
      */
-    public Quintet<Integer, String, String, String, String> deleteArticle(int articleId)
+    public Sextet<Integer, String, String, String, String, List<String>> deleteArticle(int articleId)
     {
-        Optional<Quintet<Integer, String, String, String, String>> deletedArticle = database.deleteArticle(articleId);
-        return deletedArticle.orElseGet(() -> new Quintet<>(-1, "", "", "", ""));
+        Optional<Sextet<Integer, String, String, String, String, List<String>>> deletedArticle = database.deleteArticle(articleId);
+        return deletedArticle.orElseGet(() -> new Sextet<>(-1, "", "", "", "", new ArrayList<>()));
+    }
+
+    /**
+     * @param nameFilter     String to filter article names
+     * @param locationFilter String to filter article locations
+     * @param categoryFilter List of Strings to filter categories
+     * @return List of found articles that match the filter
+     */
+    public List<Sextet<Integer, String, String, String, String, List<String>>> filterArticles(String nameFilter, String locationFilter, List<String> categoryFilter)
+    {
+        // TODO some empty field or error checks
+
+        return database.filterArticles(
+                //                nameFilter, locationFilter,
+                categoryFilter);
     }
 
 
