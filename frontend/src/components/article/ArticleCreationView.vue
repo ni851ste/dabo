@@ -176,7 +176,7 @@
         margin-top: 15px;
         margin-left: auto;
         margin-right: auto;
-        border-radius: 8px;
+        border-radius: 3px;
         padding: 20px;
         text-align: left;
     }
@@ -205,7 +205,7 @@
         width: 100%;
         margin-top: 15px;
         margin-bottom: 25px;
-        border-radius: 8px;
+        border-radius: 3px;
     }
 
     textarea.form-control {
