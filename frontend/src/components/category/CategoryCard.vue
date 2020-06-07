@@ -7,6 +7,7 @@
                 <h5 class="categoryLabel">
                     {{category}}
                 </h5>
+                <span class="color-overlay"></span>
             </div>
         </router-link>
     </div>
@@ -48,4 +49,19 @@
     .card-body {
         padding: 0;
     }
+
+    span.color-overlay {
+        background: rgba(255, 255, 255, 0.3);
+        display: none;
+        height: 250px;
+        width: 400px;
+        position: relative;
+        bottom: 250px;
+        margin-bottom: -250px;
+    }
+
+    .card-body:hover span.color-overlay {
+        display:block;
+    }
+
 </style>
