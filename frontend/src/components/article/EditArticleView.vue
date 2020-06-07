@@ -144,14 +144,10 @@
 </template>
 
 <script lang="ts">
-    //import BaseImageInput from "@/components/BaseImageInput.vue";
-   // import ArticleCreationView from "@/components/article/ArticleCreationView.vue";
-    import {Component, Vue} from 'vue-property-decorator';
+
+    import {Vue} from 'vue-property-decorator';
     import moment from "moment"
 
-    @Component({
-        //components: {BaseImageInput}
-    })
 
     export default class EditArticleView extends Vue {
         maxCount: number = 200;
@@ -184,12 +180,12 @@
 <style scoped>
 
     .borderbox {
-        border:#484848 solid 1px;
+        border:#d0f2e1 solid 2px;
         width: 100%;
         margin-top: 15px;
         margin-left: auto;
         margin-right: auto;
-        border-radius: 8px;
+        border-radius: 3px;
         padding: 20px;
         text-align: left;
     }
