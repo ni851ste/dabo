@@ -17,11 +17,8 @@ public class ArticleHttpAdapter
 
     public Result createArticle(Request request)
     {
-        System.out.println("Request:\n" + request.body().asJson().asText());
-
 
         JsonNode json = request.body().asJson();
-        System.out.println("JSON:\n" + json.asText());
 
         Quartet<String, String, String, String> toBeCreatedArticle =
                 new Quartet<>(json.get("name").asText(),

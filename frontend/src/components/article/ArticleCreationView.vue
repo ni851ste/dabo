@@ -112,16 +112,11 @@
 
             // let article: Article = new Article(name, description, image, location, insertionDate)
 
-            console.log("name: " + name)
-            console.log("description: " + description)
-            console.log("location: " + location)
-            console.log("insertionDate: " + insertionDate)
-
             $.ajax({
                 url: "http://localhost:9000/users/articles/create",
                 type: "POST",
-                data: {"name": name, "description": description, "image": image, "location": location, "insertionDate": insertionDate },
-                dataType: "application/json",
+                data: JSON.stringify({name: name, description: description, image: image, location: location, insertionDate: insertionDate }),
+                contentType: "application/json",
                 success: result => {
                     console.log("success ", result)
                 },
