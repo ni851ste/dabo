@@ -3,7 +3,7 @@
         <nav class="navbar navbar-expand-lg ">
             <RouterLink to="/">
                 <a class="navbar-brand logo-a" href="#">
-                    <img class="logo" :src="require(`@/assets/logoImgs/dabo_logo_quadrat.png`)" height="40" alt="">
+                    <img class="logo" :src="require(`@/assets/logoImgs/dabo_logo_quadrat.png`)" alt="">
                 </a>
             </RouterLink>
             <div class="collapse navbar-collapse" id="navbarNav">
@@ -58,7 +58,7 @@
         top: 0;
         width: 100%;
         z-index: 100;
-        height: 60px !important;
+        height: 52px !important;
     }
 
     .login {
@@ -66,10 +66,15 @@
         margin-right: 10px;
     }
 
+    .login:hover > a {
+        color: #5c5c5c;
+        text-decoration: none;
+    }
+
     .logo {
         top: 0;
-        bottom: 0;
-        margin: auto;
+        margin-bottom: 4px;
+        height: 42px;
     }
 
     .logo-a {
@@ -79,34 +84,31 @@
 
     .addArticle {
         float: right;
-        background-color: #d0f2e1;
         padding: 0;
         right: 20vw;
         margin-right: 15px;
-    }
 
-    .addArticle:hover > a {
-        color: #d0f2e1;
-        border: #d0f2e1 solid;
+        color: #484848;
+        background: #d0f2e1;
+        border-color: #d0f2e1;
         border-radius: 3px;
     }
 
-    .addArticle {
-        float: right;
-        background-color: #d0f2e1;
-        padding: 0;
-        right: 20vw;
-        margin-right: 10px;
-    }
-
-    .addArticle:hover > a {
-        color: #d0f2e1;
-        border: #d0f2e1 solid;
+    .addArticle:hover {
+        color: #484848;
+        background-color: #abc7b8;
+        border-color: #abc7b8;
+        text-decoration: none;
         border-radius: 3px;
     }
 
     a {
         color: white;
+    }
+
+    a:hover {
+        color: #d0f2e1;
+        text-decoration: none;
     }
 
     .navBarLeft {
