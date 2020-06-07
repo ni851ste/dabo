@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import App from './App.vue'
 import VueRouter from "vue-router";
-import Homepage from "@/components/Homepage.vue";
+import CategoryPage from "@/components/CategoryPage.vue";
 import SingleArticlePage from "@/components/article/SingleArticlePage.vue";
 import StartPage from "@/components/StartPage.vue";
 import "bootstrap-vue"
@@ -16,11 +16,12 @@ Vue.use(VueRouter);
 Vue.use(BootstrapVue);
 Vue.use(BootstrapVueIcons);
 const routes = [
-  {path: '/', component: Homepage },
+  {path: '/categories', component: CategoryPage },
   {path: '/articlePage/:article', name: 'articlePage', component: SingleArticlePage },
   {path: '/articles', component: ArticleView },
   {path: '/createArticle', component: ArticleCreationView},
-  {path: '/home', component: StartPage}
+  {path: '/home', component: StartPage},
+  {path: '/', component: StartPage}
 ];
 const router = new VueRouter({
   routes: routes

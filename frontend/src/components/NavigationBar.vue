@@ -1,7 +1,7 @@
 <template>
     <div>
         <nav class="navbar navbar-expand-lg ">
-            <RouterLink class="navbar-brand logo-a" to="/home">
+            <RouterLink class="navbar-brand logo-a" to="/">
                 <img class="logo" :src="require(`@/assets/logoImgs/dabo_logo_quadrat.png`)" height="40" alt="">
             </RouterLink>
 <!--            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"-->
@@ -10,7 +10,7 @@
 <!--            </button>-->
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav navBarLeft">
-                    <RouterLink to="/">
+                    <RouterLink to="/categories">
                         <li class="nav-item ">
                             <a class="nav-link" href="#">Angebote</a>
                         </li>
