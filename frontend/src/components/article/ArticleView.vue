@@ -78,6 +78,7 @@
 
     .customPagination {
         border: #d0f2e1!important;
+        display: inline-flex;
     }
 
     .customPagination > li.active > button,

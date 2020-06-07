@@ -44,13 +44,13 @@
                 >
                 </b-form-checkbox-group>
             </b-form-group>
-        </div>
         <b-button class="applyFilter" v-on:click="getFilteredArticles()">
             <a class="nav-link disabled" href="#">
                 <b-icon-funnel font-scale="1.2"></b-icon-funnel>
                 Filter anwenden
             </a>
         </b-button>
+        </div>
     </div>
 </template>
 
