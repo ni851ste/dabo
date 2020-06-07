@@ -1,11 +1,13 @@
 <template>
     <div>
         <nav class="navbar navbar-expand-lg ">
-            <RouterLink to="/">
-                <a class="navbar-brand logo-a" href="#">
-                    <img class="logo" :src="require(`@/assets/logoImgs/dabo_logo_quadrat.png`)" height="40" alt="">
-                </a>
+            <RouterLink class="navbar-brand logo-a" to="/home">
+                <img class="logo" :src="require(`@/assets/logoImgs/dabo_logo_quadrat.png`)" height="40" alt="">
             </RouterLink>
+<!--            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"-->
+<!--                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">-->
+<!--                <span class="navbar-toggler-icon"></span>-->
+<!--            </button>-->
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav navBarLeft">
                     <RouterLink to="/">
