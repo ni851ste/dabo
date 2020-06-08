@@ -1,0 +1,154 @@
+<template>
+    <div class="filter">
+
+        <div class="filterOption">
+            <b-input-group>
+                <b-input
+                        id="searchInput"
+                        v-model="searchString"
+                        type="text"
+                        required
+                        placeholder="Suche"
+                ></b-input>
+            </b-input-group>
+
+        </div>
+        <hr/>
+        <div class="filterOption">
+            <label>
+                <b-icon-geo-alt font-scale="1.2"></b-icon-geo-alt>
+                Standort
+            </label>
+            <b-form-input
+                    id="locationInput"
+                    v-model="location"
+                    type="text"
+                    required
+                    placeholder="Standort"
+            ></b-form-input>
+        </div>
+        <hr/>
+        <div class="categoryCheckboxes filterOption">
+            <label>
+                <b-icon-list-ul font-scale="1.2"></b-icon-list-ul>
+                Kategorien
+            </label>
+            <b-form-group>
+                <b-form-checkbox-group
+                        v-on:click=""
+                        id="category-checkbox-group"
+                        v-model="selectedCategories"
+                        :key="uuid"
+                        :options="categories"
+                >
+                </b-form-checkbox-group>
+            </b-form-group>
+        <b-button class="applyFilter" v-on:click="getFilteredArticles()">
+            <a class="nav-link disabled" href="#">
+                <b-icon-funnel font-scale="1.2"></b-icon-funnel>
+                Filter anwenden
+            </a>
+        </b-button>
+        </div>
+    </div>
+</template>
+
+<script lang="ts">
+    import {Component, Prop, Vue} from 'vue-property-decorator';
+    import Category from "@/components/category/Category";
+    import $ from "jquery";
+    import {v4 as uuid} from 'uuid'
+
+    @Component
+    export default class FilterPanel extends Vue {
+        categories: Category[] = this.getCategories();
+
+        getCategories(): Category[] {
+            return Object.values(Category)
+        }
+
+        location: string = "";
+        searchString: string = "";
+
+        selectedCategories: Category[] = [];
+
+        getFilteredArticles(): void {
+            $.ajax({
+                url: "http://localhost:9000/users/articles",
+                type: "POST",
+                data: JSON.stringify({
+                    categories: this.selectedCategories,
+                }),
+                dataType: "json",
+                contentType: "application/json",
+                success: result => {
+                    console.log("success ", result)
+                },
+                error: error => {
+                    console.log("error ", error)
+                }
+            });
+        }
+    }
+
+</script>
+
+<style>
+    @media (max-width: 500px) {
+        .filter {
+            display: none !important;
+        }
+    }
+
+    .filter {
+        display: inline-block;
+        width: 15vw;
+        float: left;
+        top: 0;
+        left: 0;
+        overflow: auto;
+        min-width: 135px;
+    }
+
+    .categoryCheckboxes {
+        margin-top: 15px;
+    }
+
+    .filterOption {
+        margin-left: 2vw;
+        margin-right: 2vw;
+        margin-top: 5px;
+        text-align: left;
+    }
+
+    hr {
+        margin-left: 2vw;
+    }
+
+    .custom-control-input:checked ~ .custom-control-label::after {
+        background-color: #d0f2e1;
+        border-radius: 3px;
+    }
+
+    .applyFilter {
+        background-color: #d0f2e1;
+        padding: 0;
+        margin-top: 15px;
+        margin-bottom: 15px;
+        border: none;
+    }
+
+    .applyFilter:hover {
+        color: #484848;
+        background-color: #abc7b8;
+        border-color: #abc7b8;
+        text-decoration: none;
+        border-radius: 3px;
+    }
+
+
+    :focus {
+        outline: none !important;
+    }
+
+</style>
