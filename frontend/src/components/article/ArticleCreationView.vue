@@ -4,11 +4,13 @@
         <div class="contentLayout my-buttons">
             <div class="borderbox b-container b-form-checkbox-group">
                 <h1> Allgemein</h1>
+
                 <div class="form-group validation">
                     <label for="articleNameInput">Artikelbezeichnung: *</label>
                     <input type="text" class="form-control" id="articleNameInput" required>
                     <div class="invalid-feedback"></div>
                 </div>
+
                 <div>
                     <label>Artikelbeschreibung</label>
                     <textarea class="form-control" id="articleDescription" v-on:keyup="countdown" v-model="message"
@@ -16,6 +18,7 @@
                     <p class='text-right text-small' v-bind:class="{'text-danger': hasError }">{{charCount + '/' +
                         maxCount}}</p>
                 </div>
+
                 <p>Zugehörigkeit:</p>
                 <b-container fluid>
                     <b-row>
@@ -86,7 +89,8 @@
                 </b-container>
                 <br>
                 <div>
-                    <b-form-checkbox class="availableCheck" id="availabilityCheck" v-model="status"> Keine Begrenzung</b-form-checkbox>
+                    <b-form-checkbox class="availableCheck" id="availabilityCheck" v-model="status"> Keine Begrenzung
+                    </b-form-checkbox>
                 </div>
             </div>
 
@@ -95,6 +99,7 @@
                 <div class="form-group validation">
                     <label for="countryInput">Land: *</label>
                     <input type="text" class="form-control" id="countryInput" required>
+
                 </div>
 
                 <b-row>
@@ -111,17 +116,15 @@
                         </div>
                     </b-col>
                 </b-row>
-
-
             </div>
 
             <div class="addButton">
-                <div>
-                    <button type="button" class="btn add-btn-primary btn-block">Artikel hinzufügen</button>
-                </div>
+                <button type="button" class="btn add-btn-primary btn-block" v-on:click="createArticle">Artikel
+                    hinzufügen
+                </button>
             </div>
-
         </div>
+
     </div>
 </template>
 
@@ -130,6 +133,7 @@
     import BaseImageInput from "@/components/BaseImageInput.vue";
     import {Component, Vue} from 'vue-property-decorator';
     import moment from "moment"
+    import $ from "jquery";
 
     @Component({
         components: {NavigationBar, BaseImageInput}
@@ -159,12 +163,39 @@
         ]
 
         today = new Date(moment().format("YYYY-MM-DD"));
-        minDate: Date = new Date()
+        minDate: Date = new Date();
+
+        createArticle(): void {
+            let name: string = (<HTMLInputElement>document.getElementById("articleNameInput")).value;
+            let description: string = (<HTMLInputElement>document.getElementById("articleDescriptionInput"))!.value;
+            let image: any = null;
+            let location: string = (<HTMLInputElement>document.getElementById("cityInput"))!.value;
+            let insertionDate: Date = new Date();
+            // let article: Article = new Article(name, description, image, location, insertionDate)
+
+            $.ajax({
+                url: "http://localhost:9000/users/articles/create",
+                type: "POST",
+                data: {
+                    name: name,
+                    description: description,
+                    image: image,
+                    location: location,
+                    insertionDate: insertionDate
+                },
+                dataType: "application/json",
+                success: result => {
+                    console.log("success ", result)
+                },
+                error: error => {
+                    console.log("error ", error)
+                }
+            });
+        }
     }
 </script>
 
 <style scoped>
-
     h1 {
         font-size: x-large;
         font-weight: bold;
@@ -216,5 +247,4 @@
     .text-small {
         font-size: 0.9em;
     }
-
 </style>
