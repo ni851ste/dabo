@@ -2,8 +2,6 @@
     <div>
         <NavigationBar msg="hallo"></NavigationBar>
         <CategoryView></CategoryView>
-
-
     </div>
 </template>
 
@@ -14,7 +12,7 @@
     @Component({
         components: {CategoryView, NavigationBar}
     })
-    export default class HomePage extends Vue {
+    export default class CategoryPage extends Vue {
         @Prop() private msg!: string;
     }
 </script>
