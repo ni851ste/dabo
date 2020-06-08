@@ -71,17 +71,14 @@
         location: string = "";
         searchString: string = "";
 
-        testCategories: Category[] = [Category.cars, Category.clothes];
         selectedCategories: Category[] = [];
 
         getFilteredArticles(): void {
-            console.log("filter articles by ", this.testCategories);
-            console.log("filter articles by ", this.selectedCategories);
             $.ajax({
                 url: "http://localhost:9000/users/articles",
                 type: "POST",
                 data: JSON.stringify({
-                    categories: this.testCategories,
+                    categories: this.selectedCategories,
                 }),
                 dataType: "json",
                 contentType: "application/json",

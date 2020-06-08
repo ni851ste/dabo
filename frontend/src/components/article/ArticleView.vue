@@ -3,29 +3,31 @@
         <NavigationBar msg="hallo" with-content-layout="true"></NavigationBar>
         <FilterPanel></FilterPanel>
         <div class="contentLayout">
-<div class="articleView">
+            <div class="articleView">
 
-            <ArticleCard
-                    :key="article.name"
-                    id="cards"
-                    v-for="article in lists()"
-                    :article="article"
-                    :per-page="perPage"
-                    :current-page="currentPage"
-                    small
-            >
-            </ArticleCard>
-            <b-pagination
-                    class="customPagination"
-                    v-model="currentPage"
-                    :total-rows="rows()"
-                    :per-page="perPage"
-                    aria-controls="cards"
-            >
-            </b-pagination>
+                <ArticleCard
+                        :key="article.name"
+                        id="cards"
+                        v-for="article in lists()"
+                        :article="article"
+                        :per-page="perPage"
+                        :current-page="currentPage"
+                        small
+                >
+                </ArticleCard>
+                <b-pagination
+                        class="customPagination"
 
+
+                        v-model="currentPage"
+                        :total-rows="rows()"
+                        :per-page="perPage"
+                        aria-controls="cards"
+                >
+                </b-pagination>
+
+            </div>
         </div>
-</div>
     </div>
 </template>
 
@@ -34,8 +36,8 @@
     import Article from "@/components/article/Article.ts";
     import ArticleCard from "@/components/article/ArticleCard.vue";
     import NavigationBar from "@/components/NavigationBar.vue";
-    import Filter from "@/components/filter/FilterPanel.vue";
     import FilterPanel from "@/components/filter/FilterPanel.vue";
+
     @Component({
         components: {FilterPanel, ArticleCard, NavigationBar}
     })
@@ -70,22 +72,21 @@
     }
 </script>
 
-<style >
+<style>
 
     .page-item.active .page-link {
         border-color: #d0f2e1;
     }
 
     .customPagination {
-        border: #d0f2e1!important;
+        border: #d0f2e1 !important;
         display: inline-flex;
     }
 
     .customPagination > li.active > button,
-    .customPagination > li > button:hover
-    {
+    .customPagination > li > button:hover {
         color: black;
-        background-color: #484848!important;
+        background-color: #484848 !important;
         border-color: #d0f2e1;
     }
 
