@@ -12,7 +12,7 @@
                 </div>
 
                 <div>
-                    <label>Artikelbeschreibung</label>
+                    <label>Artikelbeschreibung:</label>
                     <textarea class="form-control" id="articleDescription" v-on:keyup="countdown" v-model="message"
                               required></textarea>
                     <p class='text-right text-small' v-bind:class="{'text-danger': hasError }">{{charCount + '/' +
