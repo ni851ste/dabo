@@ -6,9 +6,14 @@
                     <img class="logo" :src="require(`@/assets/logoImgs/dabo_logo_quadrat.png`)" alt="">
                 </a>
             </RouterLink>
+
+<!--            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"-->
+<!--                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">-->
+<!--                <span class="navbar-toggler-icon"></span>-->
+<!--            </button>-->
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav navBarLeft">
-                    <RouterLink to="/">
+                    <RouterLink to="/categories">
                         <li class="nav-item ">
                             <a class="nav-link" href="#">Angebote</a>
                         </li>
@@ -58,7 +63,7 @@
         top: 0;
         width: 100%;
         z-index: 100;
-        height: 52px !important;
+        height: 60px !important;
     }
 
     .login {
