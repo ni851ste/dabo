@@ -118,13 +118,12 @@
                 </b-row>
             </div>
 
-            <div class="addButton">
-                <button type="button" class="btn add-btn-primary btn-block" v-on:click="createArticle">Artikel
-                    hinzufügen
-                </button>
-            </div>
+            <b-button class="addButton" v-on:click="createArticle">
+                <a class="nav-link disabled" href="#">
+                    Artikel hinzufügen
+                </a>
+            </b-button>
         </div>
-
     </div>
 </template>
 
@@ -195,7 +194,7 @@
     }
 </script>
 
-<style scoped>
+<style>
     h1 {
         font-size: x-large;
         font-weight: bold;
@@ -217,6 +216,15 @@
         alignment: left;
     }
 
+    :focus {
+        outline: none !important;
+    }
+
+    .custom-control-input:checked ~ .custom-control-label::after {
+        background-color: #d0f2e1;
+        border-radius: 3px;
+    }
+
     .validation input:required:focus:valid {
         border: green solid 1px;
     }
@@ -231,11 +239,16 @@
 
     .addButton {
         background-color: #d0f2e1;
-        border-color: #d0f2e1;
-        color: #484848;
-        width: 100%;
+        padding: 0;
         margin-top: 15px;
-        margin-bottom: 25px;
+        margin-bottom: 15px;
+        border: none;
+        width: 100%;
+    }
+
+    .addButton:hover > a {
+        color: #d0f2e1;
+        border: #d0f2e1 solid;
         border-radius: 3px;
     }
 
