@@ -7,7 +7,7 @@
                 <div class="form-group validation">
                     <label for="articleNameInput">Artikelbezeichnung: *</label>
                     <input type="text" class="form-control" id="articleNameInput" required>
-                    <div class="invalid-feedback">Example invalid custom file feedback</div>
+                    <div class="invalid-feedback"></div>
                 </div>
                 <div>
                     <label>Artikelbeschreibung</label>
