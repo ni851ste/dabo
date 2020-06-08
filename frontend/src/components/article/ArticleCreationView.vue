@@ -20,17 +20,16 @@
                 </div>
 
                 <p>Zugehörigkeit:</p>
-                <b-container fluid>
-                    <b-row>
-                        <b-form-checkbox-group
-                                id="categories"
-                                v-model="selected"
-                                :options="categories"
-                                name="category"
-                                required
-                        ></b-form-checkbox-group>
-                    </b-row>
-                </b-container>
+                <b-form-group>
+                    <b-form-checkbox-group
+                            v-on:click=""
+                            id="category-checkbox-group"
+                            v-model="selectedCategories"
+                            :key="uuid"
+                            :options="categories"
+                    >
+                    </b-form-checkbox-group>
+                </b-form-group>
             </div>
 
             <div class="borderbox">
@@ -130,6 +129,7 @@
 <script lang="ts">
     import NavigationBar from "@/components/NavigationBar.vue";
     import BaseImageInput from "@/components/BaseImageInput.vue";
+    import Category from "@/components/category/Category";
     import {Component, Vue} from 'vue-property-decorator';
     import moment from "moment"
     import $ from "jquery";
@@ -149,17 +149,12 @@
             this.hasError = this.message.length > this.maxCount;
         }
 
-        selected: [] = [];
-        categories = [
-            {text: 'Auto & Motorrad', value: 'car'},
-            {text: 'Elektronik', value: 'electronics'},
-            {text: 'Garten', value: 'garden'},
-            {text: 'Haushalt', value: 'household'},
-            {text: 'Kleidung', value: 'chlothes'},
-            {text: 'Sport & Freizeit', value: 'sports'},
-            {text: 'Unterhaltung', value: 'entertainment'},
-            {text: 'Werkzeug', value: 'tools'}
-        ]
+        categories: Category[] = this.getCategories();
+
+        getCategories(): Category[] {
+            return Object.values(Category)
+        }
+        selectedCategories: Category[] = [];
 
         today = new Date(moment().format("YYYY-MM-DD"));
         minDate: Date = new Date();
