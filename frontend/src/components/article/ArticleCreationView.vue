@@ -246,9 +246,11 @@
         width: 100%;
     }
 
-    .addButton:hover > a {
-        color: #d0f2e1;
-        border: #d0f2e1 solid;
+    .addButton:hover {
+        color: #484848;
+        background-color: #abc7b8;
+        border-color: #abc7b8;
+        text-decoration: none;
         border-radius: 3px;
     }
 
