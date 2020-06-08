@@ -33,6 +33,7 @@ public class ArticleManagement
      * quintet[2]: Description
      * quintet[3]: Insertion Date
      * quintet[4]: City - Location
+     * quintet[5]: Category List
      */
     // TODO can this method fail?
     public Sextet<Integer, String, String, String, String, List<String>> createArticle(Quintet<String, String, String, String, List<String>> data)
@@ -57,6 +58,7 @@ public class ArticleManagement
      * quintet[2]: Description
      * quintet[3]: Insertion Date
      * quintet[4]: City - Location
+     * quintet[5]: Category List
      */
     public Sextet<Integer, String, String, String, String, List<String>> getArticleById(int articleId)
     {
@@ -79,6 +81,7 @@ public class ArticleManagement
      * quintet[2]: Description
      * quintet[3]: Insertion Date
      * quintet[4]: City - Location
+     * quintet[5]: Category List
      */
     public Sextet<Integer, String, String, String, String, List<String>> updateArticle(int articleId, Quintet<String, String, String, String, List<String>> data)
     {
@@ -95,6 +98,7 @@ public class ArticleManagement
      * quintet[2]: Description
      * quintet[3]: Insertion Date
      * quintet[4]: City - Location
+     * quintet[5]: Category List
      */
     public Sextet<Integer, String, String, String, String, List<String>> deleteArticle(int articleId)
     {

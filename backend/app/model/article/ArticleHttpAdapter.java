@@ -63,7 +63,6 @@ public class ArticleHttpAdapter
     {
         Sextet<Integer, String, String, String, String, List<String>> article = articleManagement.getArticleById(id);
 
-        // TODO use 6th value
         if (article.getValue0() == -1)
         {
             return badRequest();
