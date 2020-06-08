@@ -1,14 +1,16 @@
 <template>
     <div>
         <nav class="navbar navbar-expand-lg ">
-            <RouterLink to="/">
-                <a class="navbar-brand logo-a" href="#">
-                    <img class="logo" :src="require(`@/assets/logoImgs/dabo_logo_quadrat.png`)" height="40" alt="">
-                </a>
+            <RouterLink class="navbar-brand logo-a" to="/">
+                <img class="logo" :src="require(`@/assets/logoImgs/dabo_logo_quadrat.png`)" height="40" alt="">
             </RouterLink>
+<!--            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"-->
+<!--                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">-->
+<!--                <span class="navbar-toggler-icon"></span>-->
+<!--            </button>-->
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav navBarLeft">
-                    <RouterLink to="/">
+                    <RouterLink to="/categories">
                         <li class="nav-item ">
                             <a class="nav-link" href="#">Angebote</a>
                         </li>
@@ -83,20 +85,6 @@
         padding: 0;
         right: 20vw;
         margin-right: 15px;
-    }
-
-    .addArticle:hover > a {
-        color: #d0f2e1;
-        border: #d0f2e1 solid;
-        border-radius: 3px;
-    }
-
-    .addArticle {
-        float: right;
-        background-color: #d0f2e1;
-        padding: 0;
-        right: 20vw;
-        margin-right: 10px;
     }
 
     .addArticle:hover > a {
