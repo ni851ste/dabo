@@ -4,7 +4,7 @@
         <div class="contentLayout">
             <b-container fluid class="bv-example-row">
                 <b-row>
-                    <b-col cols="8" class="article-col">
+                    <b-col cols="8" class="article-col bcol">
                         <div id="carouselExampleIndicators" class="carousel slide img-slide"
                              data-ride="carousel">
                             <ol class="carousel-indicators">
@@ -14,15 +14,15 @@
                             </ol>
                             <div class="carousel-inner">
                                 <div class="carousel-item active">
-                                    <img class="d-block w-100" :src="require(`@/assets/categoryImgs/haushalt.jpg`)"
+                                    <img class="d-block w-100" :src="require(`@/assets/categoryImgs/sonstiges.jpg`)"
                                          alt="First slide">
                                 </div>
                                 <div class="carousel-item">
-                                    <img class="d-block w-100" :src="require(`@/assets/categoryImgs/haushalt.jpg`)"
+                                    <img class="d-block w-100" :src="require(`@/assets/categoryImgs/sonstiges.jpg`)"
                                          alt="Second slide">
                                 </div>
                                 <div class="carousel-item">
-                                    <img class="d-block w-100" :src="require(`@/assets/categoryImgs/haushalt.jpg`)"
+                                    <img class="d-block w-100" :src="require(`@/assets/categoryImgs/sonstiges.jpg`)"
                                          alt="Third slide">
                                 </div>
                             </div>
@@ -37,7 +37,7 @@
                                 <span class="sr-only">Next</span>
                             </a>
                         </div>
-                        <div class="header">
+                        <div class="article-info">
                             <h3 class="headline" v-html="article.name"></h3>
                             <b-form-rating class="rating" variant="warning" readonly v-model="value"></b-form-rating>
                             <!--TODO: dynamic categories-->
@@ -56,12 +56,12 @@
                         </div>
 
                     </b-col>
-                    <b-col cols="4" class="user-col">
+                    <b-col cols="4" class="user-col bcol">
                             <b-row class="user">
-                                <b-col cols="4">
+                                <b-col class="bcol" cols="4">
                                     <img class="clip-circle" :src="require(`@/assets/categoryImgs/haushalt.jpg`)" alt="">
                                 </b-col>
-                                <b-col align-self="stretch" class="user-details" cols="5">
+                                <b-col align-self="stretch bcol" class="user-details" cols="5">
                                     Max Mustermann
                                     <b-form-rating class="rating" variant="warning" readonly v-model="value"></b-form-rating>
                                     <p class="section">
@@ -89,8 +89,8 @@
     })
     export default class SingleArticlePage extends Vue {
         //TODO: User prop
-        @Prop() private article: Article = new Article("Staubsauger", "Cooler Staubsauger saugt Staub.</br>Nur zum Abholen.", "", "Musterstaße 10</br>78462 Konstanz", new Date(), []);
-        private value: number = 3.5555
+        @Prop() private article!: Article
+        private value: number = 2
 
         getDate(): string {
             return moment(this.article.insertionDate).format(" DD MMMM YYYY")
@@ -109,9 +109,6 @@
     }
 
     .user {
-        /*margin-top: 70px;*/
-        /*border-style: solid;*/
-        /*border-left: solid;*/
         border-width: 1px;
     }
 
@@ -124,6 +121,11 @@
         margin-right: 10px;
         float: left;
         border-radius: 3px;
+    }
+
+    .bcol {
+        padding-left: 1px;
+        padding-right: 1px;
     }
 
     .section {
@@ -146,7 +148,12 @@
         margin-right: 10px;
     }
 
-    .header {
+    .article-info {
+        width: 38vw;
+        border: 2px solid #ced4da;
+        border-radius: 3px;
+        margin-top: 1vw;
+        padding: 0 1vw 1vw;
         clear: both;
         float: left;
         text-align: left;
@@ -155,7 +162,6 @@
     .rating {
         width: 120px;
         display: inline-flex !important;
-        /*border: none;*/
     }
 
     .user-details {
@@ -164,8 +170,8 @@
     }
 
     .clip-circle {
-        width: 100px;
-        height: 100px;
+        width: 5.7vw;
+        height: 5.7vw;
         border-radius: 50%;
         margin-top: 15px;
     }
