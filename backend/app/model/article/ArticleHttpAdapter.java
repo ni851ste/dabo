@@ -49,8 +49,8 @@ public class ArticleHttpAdapter
                     .put("id", createdArticle.getValue0())
                     .put("name", createdArticle.getValue1())
                     .put("description", createdArticle.getValue2())
-                    .put("insertionDate", createdArticle.getValue3())
-                    .put("location", createdArticle.getValue4());
+                    .put("location", createdArticle.getValue3())
+                    .put("insertionDate", createdArticle.getValue4());
 
             createdArticle.getValue5().forEach(category -> returnJson.append("categories", category));
 
@@ -73,8 +73,8 @@ public class ArticleHttpAdapter
                     .put("id", article.getValue0())
                     .put("name", article.getValue1())
                     .put("description", article.getValue2())
-                    .put("insertionDate", article.getValue3())
-                    .put("location", article.getValue4());
+                    .put("location", article.getValue3())
+                    .put("insertionDate", article.getValue4());
 
 
             article.getValue5().forEach(category -> returnJson.append("categories", category));
@@ -110,8 +110,8 @@ public class ArticleHttpAdapter
                     .put("id", updatedArticle.getValue0())
                     .put("name", updatedArticle.getValue1())
                     .put("description", updatedArticle.getValue2())
-                    .put("insertionDate", updatedArticle.getValue3())
-                    .put("location", updatedArticle.getValue4());
+                    .put("location", updatedArticle.getValue3())
+                    .put("insertionDate", updatedArticle.getValue4());
 
 
             updatedArticle.getValue5().forEach(category -> returnJson.append("categories", category));
