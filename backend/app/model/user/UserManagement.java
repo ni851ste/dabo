@@ -21,7 +21,12 @@ public class UserManagement {
         values.add(ageToString);
         users.put(this.globalIdCounter, values);
         this.globalIdCounter += 1;
-        System.out.println("Username: " + username + "\nE-mail: " + email + "\nName: " + name + "\nage: " + age);
+
+        System.out.println("Username: " + username +
+                "\nE-mail: " + email +
+                "\nName: " + name +
+                "\nage: " + age);
+
         System.out.println(users);
         return users.containsKey(localIdCounter);
     }
@@ -73,7 +78,12 @@ public class UserManagement {
                         String email = search.get(1);
                         String name = search.get(2);
                         String age = search.get(3);
-                        String json = "{\"id\":" + i + ",\"username\":" + username + ",\"email\":" + email + ",\"name\":" + name + ",\"age\":" + age + "}";
+                        String json = "{\"id\":" + i +
+                                ",\"username\":" + username +
+                                ",\"email\":" + email +
+                                ",\"name\":" + name +
+                                ",\"age\":" + age + "}";
+
                         // create object mapper instance
                         ObjectMapper mapper = new ObjectMapper();
                         // convert JSON string to `JsonNode`
@@ -83,8 +93,6 @@ public class UserManagement {
 
                         return node;
 
-                    } else {
-                        continue;
                     }
                 }
             }

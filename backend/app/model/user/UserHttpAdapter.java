@@ -2,30 +2,33 @@ package model.user;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import play.mvc.Http;
 import play.mvc.Result;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import static play.mvc.Results.ok;
 
 public class UserHttpAdapter {
 
-    UserManagement adabter = new UserManagement();
+    UserManagement adapter = new UserManagement();
 
-    public UserHttpAdapter() throws JsonProcessingException {
+    public UserHttpAdapter() {
     }
 
-    public Result createUserAdapter(Http.Request create) {
+    public Result createUser(Http.Request create) {
         JsonNode json = create.body().asJson();
-        adabter.createUser(json.get("username").toString(), json.get("email").toString(), json.get("name").toString(), Integer.parseInt(json.get("age").textValue()));
-        return ok("Username: "+ json.get("username").toString() + "\nName: " + json.get("name").toString() + "\nAge: " + Integer.parseInt(json.get("age").textValue()) + "\nemail: " + json.get("email").toString());
+        adapter.createUser(json.get("username").toString(),
+                json.get("email").toString(),
+                json.get("name").toString(),
+                Integer.parseInt(json.get("age").textValue()));
+
+        return ok("Username: "+ json.get("username").toString() +
+                "\nName: " + json.get("name").toString() +
+                "\nAge: " + Integer.parseInt(json.get("age").textValue()) +
+                "\nemail: " + json.get("email").toString());
     }
 
-    public Result deleteUserAdapter(int id) {
-        String answer = adabter.deleteUser(id);
+    public Result deleteUser(int id) {
+        String answer = adapter.deleteUser(id);
         if(answer.contains("User is not known")) {
             return ok("not a User");
         } else {
@@ -34,15 +37,15 @@ public class UserHttpAdapter {
     }
 
 
-    public Result updateUserAdapter(Http.Request update) {
+    public Result updateUser(Http.Request update) {
         JsonNode json = update.body().asJson();
-        String result = adabter.updateUser(json);
+        String result = adapter.updateUser(json);
         return ok(result);
 
     }
 
-    public Result findUserAdapter(String name) throws JsonProcessingException {
-        JsonNode result = adabter.findUser(name);
+    public Result findUser(String name) throws JsonProcessingException {
+        JsonNode result = adapter.findUser(name);
         System.out.println(result);
         return ok(result);
     }
