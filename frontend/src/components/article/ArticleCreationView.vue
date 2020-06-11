@@ -19,7 +19,7 @@
                         maxCount}}</p>
                 </div>
 
-                <p>Zugehörigkeit:</p>
+                <p>Zugehörigkeit: *</p>
                 <b-form-group>
                     <b-form-checkbox-group
                             v-on:click=""
@@ -80,17 +80,14 @@
                         <b-col>
                             <div>
                                 <b-form-datepicker
-                                        v-model="value" :min="minDate" locale="de">
+                                        id = "toDatepicker" v-model="value" :min="minDate" locale="de" placeholder="bis...">
                                 </b-form-datepicker>
+                                <br>
+                                    <b-form-checkbox onclick="setDisabled()">Ohne Begrenzung</b-form-checkbox>
                             </div>
                         </b-col>
                     </b-row>
                 </b-container>
-                <br>
-                <div>
-                    <b-form-checkbox class="availableCheck" id="availabilityCheck" v-model="status"> Keine Begrenzung
-                    </b-form-checkbox>
-                </div>
             </div>
 
             <div class="borderbox">
@@ -158,6 +155,16 @@
 
         today = new Date(moment().format("YYYY-MM-DD"));
         minDate: Date = new Date();
+
+        disabledState = false
+
+        setDisabled() {
+            if(!this.disabledState)
+                this.disabledState = true
+            else
+                this.disabledState = false
+            $(".toDatepicker").prop("disabled", this.disabledState)
+        }
 
         createArticle(): void {
             let name: string = (<HTMLInputElement>document.getElementById("articleNameInput")).value;
