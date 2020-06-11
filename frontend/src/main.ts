@@ -10,12 +10,14 @@ import "bootstrap/dist/css/bootstrap.min.css"
 import ArticleView from "@/components/article/ArticleView.vue";
 import ArticleCreationView from "@/components/article/ArticleCreationView.vue";
 import BootstrapVue, {BootstrapVueIcons} from "bootstrap-vue";
+import UserProfileView from "@/components/user/UserProfileView.vue";
 
 Vue.config.productionTip = false;
 Vue.use(VueRouter);
 Vue.use(BootstrapVue);
 Vue.use(BootstrapVueIcons);
 const routes = [
+  {path: '/user', component: UserProfileView},
   {path: '/categories', component: CategoryPage },
   {path: '/articlePage/:article', name: 'articlePage', component: SingleArticlePage, props: true },
   {path: '/articles', name: 'articles', component: ArticleView, props: true },
