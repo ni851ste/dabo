@@ -10,6 +10,7 @@ import "bootstrap/dist/css/bootstrap.min.css"
 import ArticleView from "@/components/article/ArticleView.vue";
 import ArticleCreationView from "@/components/article/ArticleCreationView.vue";
 import BootstrapVue, {BootstrapVueIcons} from "bootstrap-vue";
+import RegistrationPage from "@/components/user/RegistrationPage.vue";
 import UserProfileView from "@/components/user/UserProfileView.vue";
 
 Vue.config.productionTip = false;
@@ -23,7 +24,8 @@ const routes = [
   {path: '/articles', name: 'articles', component: ArticleView, props: true },
   {path: '/createArticle', component: ArticleCreationView},
   {path: '/home', component: StartPage},
-  {path: '/', component: StartPage}
+  {path: '/', component: StartPage},
+  {path: '/login', component: RegistrationPage}
 ];
 const router = new VueRouter({
   routes: routes
