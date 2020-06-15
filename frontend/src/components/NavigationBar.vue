@@ -28,9 +28,9 @@
                             <a class="nav-link disabled" href="#">Artikel hinzufügen</a>
                         </b-button>
                     </RouterLink>
-                    <RouterLink to="/">
+                    <RouterLink to="/login">
                         <li class="nav-item login">
-                            <a class="nav-link disabled" href="#">Login</a>
+                            <a class="nav-link" href="#">Login</a>
                         </li>
                     </RouterLink>
                 </ul>
