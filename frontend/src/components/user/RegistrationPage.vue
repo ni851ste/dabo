@@ -6,49 +6,69 @@
             <div class="form-group" :class="validateInput ? 'validate' : ''">
 
                 <label for="firstname">Vorname</label>
-                <input type="text" class="form-control" id="firstname" placeholder="Vorname" v-model="firstName" required
-
-                >
-
+                <input type="text" class="form-control" id="firstname" placeholder="Vorname" v-model="firstName"
+                       required>
+                <small v-bind:style="{ display: firstName ? 'none' : validateInput ? '' : 'none' }">Bitte Vornamen
+                    eingeben!</small>
+                <br/>
                 <label for="surname">Nachname</label>
                 <input type="text" class="form-control" id="surname" placeholder="Nachname" v-model="surName" required>
+                <small v-bind:style="{ display: surName ? 'none' : validateInput ? '' : 'none' }">Bitte Nachname
+                    eingeben!</small>
 
                 <hr/>
 
                 <label for="country">Land</label>
                 <input type="text" class="form-control" id="country" placeholder="Land" v-model="country" required>
+                <small v-bind:style="{ display: country ? 'none' : validateInput ? '' : 'none' }">Bitte Land
+                    eingeben!</small>
 
                 <div class="plzOrt">
                     <div class="plz">
                         <label for="plz">PLZ</label>
                         <input type="number" class="form-control" id="plz" placeholder="PLZ" v-model="plz" required>
+                        <small v-bind:style="{ display: plz ? 'none' : validateInput ? '' : 'none' }">Bitte PLZ
+                            eingeben!</small>
                     </div>
                     <div class="city">
                         <label for="city">Ort</label>
                         <input type="text" class="form-control" id="city" placeholder="Ort" v-model="city" required>
+                        <small v-bind:style="{ display: city ? 'none' : validateInput ? '' : 'none' }">Bitte Ort
+                            eingeben!</small>
+                <br/>
                     </div>
                 </div>
 
                 <label for="street">Straße</label>
                 <input type="text" class="form-control" id="street" placeholder="Straße" v-model="street" required>
+                <small v-bind:style="{ display: street ? 'none' : validateInput ? '' : 'none' }">Bitte Straße
+                    eingeben!</small>
 
                 <hr/>
 
                 <label for="email">E-Mail-Adresse</label>
-                <input type="email" class="form-control" id="email" placeholder="E-Mail-Adresse" v-model="email" required>
+                <input type="email" class="form-control" id="email" placeholder="E-Mail-Adresse" v-model="email"
+                       required>
+                <small v-bind:style="{ display: email ? 'none' : validateInput ? '' : 'none' }">Bitte Adresse
+                    eingeben!</small>
+                <br/>
 
                 <label for="passwordVisible">Passwort</label>
-                <input v-if="passwordVisible" type="text" class="form-control" id="passwordVisible" placeholder="Passwort" v-model="password" required>
-                <input v-else type="password" class="form-control" id="passwordNotVisible" placeholder="Passwort" v-model="password" required>
+                <input v-if="passwordVisible" type="text" class="form-control" id="passwordVisible"
+                       placeholder="Passwort" v-model="password" required>
+                <input v-else type="password" class="form-control" id="passwordNotVisible" placeholder="Passwort"
+                       v-model="password" required>
+                <small v-bind:style="{ display: password ? 'none' : validateInput ? '' : 'none' }">Bitte Passwort
+                    eingeben!</small>
+                <br/>
                 <b-form-checkbox class="itemFloatLeft" id="passwordVisibility" v-model="passwordVisible">
                     <small class="form-text text-muted">Passwort anzeigen</small>
                 </b-form-checkbox>
 
-                <b-button class="nav-item register" v-on:click="register">
+                <b-button type="submit" class="nav-item register" v-on:click="register">
                     <a class="nav-link disabled" href="#">Registrieren</a>
                 </b-button>
 
-                <!--                <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>-->
             </div>
         </div>
     </div>
@@ -57,6 +77,7 @@
 <script lang="ts">
     import {Component, Prop, Vue} from 'vue-property-decorator';
     import NavigationBar from "@/components/NavigationBar.vue";
+    import $ from "jquery";
 
     @Component({
         components: {NavigationBar}
@@ -91,7 +112,7 @@
     }
 
     .form-group > label {
-        margin-top: 20px;
+        /*margin-top: 20px;*/
     }
 
     label {
@@ -136,7 +157,7 @@
         border-radius: 3px;
     }
 
-    hr{
+    hr {
         margin: 30px 5px 10px !important;
     }
 
@@ -154,7 +175,6 @@
             margin-left: 1vw;
         }
     }
-
 
 
     /* Chrome */
@@ -177,5 +197,10 @@
     /* Show red borders when invalid */
     .validate input:invalid {
         border-color: red;
+    }
+
+    small {
+        color: red;
+        float: left
     }
 </style>
