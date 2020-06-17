@@ -10,7 +10,7 @@
                     </div>
                     <div class="profile-actions cover-img" data-overlay="0.3">
                         <button class="btn btn-actions">
-                            <span>Folgen</span>
+                            <span>Freund hinzufügen</span>
                         </button>
                         <button class="btn btn-actions">
                             <span>Nachricht</span>
@@ -18,27 +18,53 @@
                     </div>
                     <div class="profile-info">
                         <ul class="nav">
-                            <li><strong>26</strong>Artikel</li>
-                            <li><strong>33</strong>Follower</li>
-                            <li><strong>13</strong>Following</li>
+                            <li><strong>DE</strong>Konstanz</li>
+                            <li><strong>2</strong>Artikel</li>
+                            <li><strong>13</strong>Freunde</li>
                         </ul>
                     </div>
                 </div>
-                <div class="borderbox">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">Julia's Artikel</h3>
+                <!-- Nav tabs -->
+                <ul class="nav nav-tabs">
+                    <li class="nav-item">
+                        <a class="nav-link articles" data-toggle="tab" href="#articles">Artikel</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link ratings" data-toggle="tab" href="#ratings">Bewertungen</a>
+                    </li>
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane container active" id="articles">
+                        <div class="borderbox">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">Max' Artikel</h3>
+                            </div>
+                            <ArticleCard
+                                    :key="article.name"
+                                    id="cards"
+                                    v-for="article in lists()"
+                                    :article="article"
+                                    :per-page="perPage"
+                                    :current-page="currentPage"
+                                    small
+                            >
+                            </ArticleCard>
+                        </div>
                     </div>
-                    <ArticleCard
-                            :key="article.name"
-                            id="cards"
-                            v-for="article in lists()"
-                            :article="article"
-                            :per-page="perPage"
-                            :current-page="currentPage"
-                            small
-                    >
-                    </ArticleCard>
+                    <div class="tab-pane container fade" id="ratings">
+                        <div class="borderbox">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">Max' Bewertungen</h3>
+                            </div>
+                            Thomas: Ehrenmann
+                            <br><br>
+                            Sabine: Sehr unkompliziert! 5 Sterne!
+                            <br>
+                        </div>
+                    </div>
+
                 </div>
+
             </div>
         </div>
     </div>
@@ -197,6 +223,14 @@
             border-top: 1px solid #eee;
             border-left-width: 0;
         }
+    }
+
+    ul.nav li a, ul.nav li a:visited {
+        color: #484848 !important;
+    }
+
+    ul.nav li a:hover, ul.nav li a:active {
+        color: #d0f2e1 !important;
     }
 
     .borderbox {
