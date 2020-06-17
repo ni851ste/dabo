@@ -7,14 +7,14 @@
 
                 <div class="form-group validation">
                     <label for="articleNameInput">Artikelbezeichnung: *</label>
-                    <input type="text" class="form-control" id="articleNameInput" required>
+                    <input type="text" class="form-control" id="articleNameInput" v-model="articleName" required>
                     <div class="invalid-feedback"></div>
                 </div>
 
                 <div>
                     <label>Artikelbeschreibung:</label>
-                    <textarea class="form-control" id="articleDescription" v-on:keyup="countdown" v-model="message"
-                              required></textarea>
+                    <label for="articleDescription"></label>
+                    <textarea class="form-control" id="articleDescription" v-on:keyup="countdown" v-model="articleDescription" required></textarea>
                     <p class='text-right text-small' v-bind:class="{'text-danger': hasError }">{{charCount + '/' +
                         maxCount}}</p>
                 </div>
@@ -80,7 +80,7 @@
                         <b-col>
                             <div>
                                 <b-form-datepicker
-                                        id = "toDatepicker" v-model="value" :min="minDate" locale="de" placeholder="bis...">
+                                        id = "toDatepicker" v-model="maxDate" :min="minDate" locale="de" placeholder="bis...">
                                 </b-form-datepicker>
                                 <br>
                                     <b-form-checkbox onclick="setDisabled()">Ohne Begrenzung</b-form-checkbox>
@@ -94,7 +94,7 @@
                 <h1>Standort</h1>
                 <div class="form-group validation">
                     <label for="countryInput">Land: *</label>
-                    <input type="text" class="form-control" id="countryInput" required>
+                    <input type="text" class="form-control" id="countryInput" v-model="country" required>
 
                 </div>
 
@@ -102,13 +102,13 @@
                     <b-col md="3">
                         <div class="form-group validation">
                             <label for="plzInput">PLZ: *</label>
-                            <input type="text" class="form-control" id="plzInput" required>
+                            <input type="text" class="form-control" id="plzInput" v-model="plz" required>
                         </div>
                     </b-col>
                     <b-col>
                         <div class="form-group validation">
                             <label for="cityInput">Stadt: *</label>
-                            <input type="text" class="form-control" id="cityInput" required>
+                            <input type="text" class="form-control" id="cityInput" v-model="city" required>
                         </div>
                     </b-col>
                 </b-row>
@@ -136,14 +136,25 @@
     })
 
     export default class ArticleCreationView extends Vue {
+        articleName = '';
+        articleDescription = '';
+        selectedCategories: Category[] = [];
+        image1 = '';
+        image2 = '';
+        image3 = '';
+        image4 = '';
+        image5 = '';
+        country = '';
+        plz = '';
+        city = '';
+
         maxCount: number = 200;
-        message: string = '';
         hasError: boolean = false;
         charCount: number = 0
 
         countdown() {
-            this.charCount = this.message.length;
-            this.hasError = this.message.length > this.maxCount;
+            this.charCount = this.articleDescription.length;
+            this.hasError = this.articleDescription.length > this.maxCount;
         }
 
         categories: Category[] = this.getCategories();
@@ -151,26 +162,28 @@
         getCategories(): Category[] {
             return Object.values(Category)
         }
-        selectedCategories: Category[] = [];
+
 
         today = new Date(moment().format("YYYY-MM-DD"));
         minDate: Date = new Date();
+        maxDate: Date = new Date();
 
         disabledState = false
 
         setDisabled() {
-            if(!this.disabledState)
-                this.disabledState = true
-            else
-                this.disabledState = false
+            this.disabledState = !this.disabledState;
             $(".toDatepicker").prop("disabled", this.disabledState)
         }
 
         createArticle(): void {
-            let name: string = (<HTMLInputElement>document.getElementById("articleNameInput")).value;
-            let description: string = (<HTMLInputElement>document.getElementById("articleDescriptionInput"))!.value;
+            let name: string = this.articleDescription
+            let description: string = this.articleDescription
             let image: any = null;
-            let location: string = (<HTMLInputElement>document.getElementById("cityInput"))!.value;
+            let fromDate: Date = this.minDate;
+            let toDate: Date = this.maxDate;
+            let country :string = this.country;
+            let plz: string = this.plz;
+            let city: string = this.city;
             let insertionDate: Date = new Date();
             // let article: Article = new Article(name, description, image, location, insertionDate)
 
@@ -181,7 +194,11 @@
                     name: name,
                     description: description,
                     image: image,
-                    location: location,
+                    fromDate: fromDate,
+                    toDate: toDate,
+                    country: country,
+                    plz: plz,
+                    city: city,
                     insertionDate: insertionDate
                 },
                 dataType: "application/json",
@@ -222,21 +239,12 @@
         outline: none !important;
     }
 
-    .custom-control-input:checked ~ .custom-control-label::after {
-        background-color: #d0f2e1;
-        border-radius: 3px;
-    }
-
     .validation input:required:focus:valid {
         border: green solid 1px;
     }
 
     .validation input:focus:invalid {
         border: red solid 1px;
-    }
-
-    .availableCheck {
-        margin-left: 1vw;
     }
 
     .addButton {
