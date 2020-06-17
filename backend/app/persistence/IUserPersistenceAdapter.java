@@ -1,0 +1,38 @@
+package persistence;
+
+import org.javatuples.Decade;
+import org.javatuples.Ennead;
+
+import java.util.List;
+import java.util.Optional;
+
+
+public interface IUserPersistenceAdapter {
+//  1   Uuid: Int
+//  2   Email: String
+//  3   Passwort: String
+//  4   AnzeigeName: String
+//  5   Bewertungen: Rating[]
+//  6   Profilbild: ???
+//  7   Artikel zum verleihen: Int[]  (-> id)
+//  8   Ausgeliehene Artikel: Int[] (-> id)
+//  9   Gepinnte Artikel: Int[] (-> id)
+//  10  Adresse: Address
+    Optional<Decade<Integer, String, String, String, Integer, String, List<Integer>, List<Integer>, List<Integer>, List<String>>>
+    createUser(int id, Ennead<String, String, String, Integer, String, List<Integer>, List<Integer>, List<Integer>, List<String>> data);
+
+    Optional<Decade<Integer, String, String, String, Integer, String, List<Integer>, List<Integer>,List<Integer>, List<String>>>
+    getUserByID(int id);
+
+    Optional<Decade<Integer, String, String, String, Integer, String, List<Integer>, List<Integer>,List<Integer>, List<String>>>
+    updateUser(int id,Ennead<String, String, String, Integer, String, List<Integer>, List<Integer>,List<Integer>, List<String>> data);
+
+    Optional<Decade<Integer, String, String, String, Integer, String, List<Integer>, List<Integer>,List<Integer>, List<String>>>
+    deleteUser(int id);
+
+    Optional<Decade<Integer, String, String, String, Integer, String, List<Integer>, List<Integer>,List<Integer>, List<String>>>
+    filterUser(
+//            String nameFilter, String locationFilter,
+            String nameFilter);
+
+}
