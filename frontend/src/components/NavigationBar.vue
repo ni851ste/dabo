@@ -71,11 +71,6 @@
         margin-right: 10px;
     }
 
-    .login:hover > a {
-        color: #5c5c5c;
-        text-decoration: none;
-    }
-
     .logo {
         top: 0;
         margin-bottom: 4px;
