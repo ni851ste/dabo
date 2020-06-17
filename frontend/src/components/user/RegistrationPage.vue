@@ -11,13 +11,13 @@
                 <small v-bind:style="{ display: firstName ? 'none' : validateInput ? '' : 'none' }">Bitte Vornamen
                     eingeben!</small>
                 <br/>
+
                 <label for="surname">Nachname</label>
                 <input type="text" class="form-control" id="surname" placeholder="Nachname" v-model="surName" required>
-                <small v-bind:style="{ display: surName ? 'none' : validateInput ? '' : 'none' }">Bitte Nachname
+                <small v-bind:style="{ display: surName ? 'none' : validateInput ? '' : 'none' }">Bitte Nachnamen
                     eingeben!</small>
 
                 <hr/>
-
                 <label for="country">Land</label>
                 <input type="text" class="form-control" id="country" placeholder="Land" v-model="country" required>
                 <small v-bind:style="{ display: country ? 'none' : validateInput ? '' : 'none' }">Bitte Land
@@ -35,7 +35,7 @@
                         <input type="text" class="form-control" id="city" placeholder="Ort" v-model="city" required>
                         <small v-bind:style="{ display: city ? 'none' : validateInput ? '' : 'none' }">Bitte Ort
                             eingeben!</small>
-                <br/>
+                        <br/>
                     </div>
                 </div>
 
@@ -61,6 +61,7 @@
                 <small v-bind:style="{ display: password ? 'none' : validateInput ? '' : 'none' }">Bitte Passwort
                     eingeben!</small>
                 <br/>
+
                 <b-form-checkbox class="itemFloatLeft" id="passwordVisibility" v-model="passwordVisible">
                     <small class="form-text text-muted">Passwort anzeigen</small>
                 </b-form-checkbox>
@@ -77,7 +78,6 @@
 <script lang="ts">
     import {Component, Prop, Vue} from 'vue-property-decorator';
     import NavigationBar from "@/components/NavigationBar.vue";
-    import $ from "jquery";
 
     @Component({
         components: {NavigationBar}
@@ -111,12 +111,13 @@
         margin: auto;
     }
 
-    .form-group > label {
-        /*margin-top: 20px;*/
+    .form-control {
+        border: 1px solid black;
     }
 
     label {
         float: left;
+        color: black;
     }
 
     .itemFloatLeft {
@@ -158,7 +159,8 @@
     }
 
     hr {
-        margin: 30px 5px 10px !important;
+        margin: 30px 5px 30px !important;
+        color: #484848;
     }
 
     @media (max-width: 1200px) {
@@ -190,9 +192,9 @@
     }
 
     /* Show green borders when valid */
-    .validate input:valid {
-        border-color: hsl(120, 76%, 50%);
-    }
+    /*.validate input:valid {*/
+    /*    border-color: hsl(120, 76%, 50%);*/
+    /*}*/
 
     /* Show red borders when invalid */
     .validate input:invalid {
