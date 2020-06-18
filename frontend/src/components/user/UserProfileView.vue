@@ -56,9 +56,11 @@
                             <div class="panel-heading">
                                 <h3 class="panel-title">Max' Bewertungen</h3>
                             </div>
-                            Thomas: Ehrenmann
+                            Thomas: Echt klasse!
                             <br><br>
                             Sabine: Sehr unkompliziert! 5 Sterne!
+                            <br><br>
+                            Klara: Habe den Beerpong Tisch ausgeliehen! War top!
                             <br>
                         </div>
                     </div>
