@@ -2,22 +2,31 @@
   {
     "name": "Hecken Schere",
     "description": "scharfe Heckenschere",
-    "location": "today",
+    "location": "Berlin",
     "id": 0,
-    "insertionDate": "Berlin"
+    "categories": [
+      "Tools"
+    ],
+    "insertionDate": "today"
   },
   {
     "name": "Hecken Schere",
     "description": "Heckenschere",
-    "location": "today",
+    "location": "Konstanz",
     "id": 1,
-    "insertionDate": "Berlin"
+    "categories": [
+      "Tools"
+    ],
+    "insertionDate": "today"
   },
   {
     "name": "Tisch",
     "description": "Heckenschere",
-    "location": "today",
+    "location": "Berlin",
     "id": 2,
-    "insertionDate": "Berlin"
+    "categories": [
+      "Tools"
+    ],
+    "insertionDate": "today"
   }
 ]

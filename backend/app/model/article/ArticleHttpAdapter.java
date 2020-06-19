@@ -37,6 +37,7 @@ public class ArticleHttpAdapter
                         json.get("insertionDate").asText(),
                         json.get("location").asText(),
                         categoryList);
+        System.out.println(toBeCreatedArticle.toString());
 
         Sextet<Integer, String, String, String, String, List<String>> createdArticle = articleManagement.createArticle(toBeCreatedArticle);
 
@@ -100,8 +101,8 @@ public class ArticleHttpAdapter
         Quintet<String, String, String, String, List<String>> toBeUpdatedArticle =
                 new Quintet<>(json.get("name").asText(),
                         json.get("description").asText(),
-                        json.get("location").asText(),
                         json.get("insertionDate").asText(),
+                        json.get("location").asText(),
                         categoryList);
 
         Sextet<Integer, String, String, String, String, List<String>> updatedArticle = articleManagement.updateArticle(id, toBeUpdatedArticle);
@@ -117,8 +118,8 @@ public class ArticleHttpAdapter
                     .put("id", updatedArticle.getValue0())
                     .put("name", updatedArticle.getValue1())
                     .put("description", updatedArticle.getValue2())
-                    .put("location", updatedArticle.getValue3())
-                    .put("insertionDate", updatedArticle.getValue4());
+                    .put("insertionDate", updatedArticle.getValue3())
+                    .put("location", updatedArticle.getValue4());
 
 
             updatedArticle.getValue5().forEach(category -> returnJson.append("categories", category));
@@ -141,8 +142,8 @@ public class ArticleHttpAdapter
                     .put("id", deletedArticle.getValue0())
                     .put("name", deletedArticle.getValue1())
                     .put("description", deletedArticle.getValue2())
-                    .put("location", deletedArticle.getValue3())
-                    .put("insertionDate", deletedArticle.getValue4());
+                    .put("insertionDate", deletedArticle.getValue3())
+                    .put("location", deletedArticle.getValue4());
 
 
             deletedArticle.getValue5().forEach(category -> returnJson.append("categories", category));

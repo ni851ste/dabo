@@ -39,12 +39,16 @@ public class ArticleManagementHttpAdapterTest extends WithApplication {
 
         ArrayList<String> al =  new ArrayList<>();
         al.add("Tools");
-        Sextet mockArticle =  new Sextet<>(0, "Hecken Schere", "scharfe Heckenschere", "Berlin", "today", al);
-        Quintet mockToBeUpdatedArticle = new Quintet<>("Hecken Schere", "super scharfe Heckenschere", "Konstanz", "today", al);
-        Sextet mockUpdateArticle =  new Sextet<>(0, "Hecken Schere", "super scharfe Heckenschere", "Konstanz", "today", al);
+        Sextet mockArticle =  new Sextet<>(0, "Hecken Schere", "scharfe Heckenschere", "today","Berlin", al);
 
-        Sextet mockArticleWithID1 =  new Sextet<>(1, "Hecken Schere", "Heckenschere", "Berlin", "today", al);
-        Sextet mockArticleWithID2 =  new Sextet<>(2, "Tisch", "Heckenschere", "Berlin", "today", al);
+        Quintet mockCreateArticle = new Quintet<>("Hecken Schere", "scharfe Heckenschere", "today", "Berlin", al);
+        Sextet mockCreateFinishArticle =  new Sextet<>(0, "Hecken Schere", "scharfe Heckenschere", "today", "Berlin", al);
+
+        Quintet mockToBeUpdatedArticle = new Quintet<>("Hecken Schere", "super scharfe Heckenschere","today","Konstanz", al);
+        Sextet mockUpdateArticle =  new Sextet<>(0, "Hecken Schere", "super scharfe Heckenschere", "today", "Konstanz",al);
+
+        Sextet mockArticleWithID1 =  new Sextet<>(1, "Hecken Schere", "Heckenschere", "today","Konstanz", al);
+        Sextet mockArticleWithID2 =  new Sextet<>(2, "Tisch", "Heckenschere", "today","Berlin", al);
 
         List<Sextet<Integer, String, String, String, String, List<String>>> filterList = new ArrayList<>();
         filterList.add(mockArticle);
@@ -53,10 +57,13 @@ public class ArticleManagementHttpAdapterTest extends WithApplication {
 
 
 
+
         ArticleManagement articleManagement = Mockito.mock(ArticleManagement.class);
+        Mockito.when(articleManagement.createArticle(mockCreateArticle)).thenReturn(mockCreateFinishArticle);
         Mockito.when(articleManagement.getArticleById(0)).thenReturn(mockArticle);
         Mockito.when(articleManagement.deleteArticle(0)).thenReturn(mockArticle);
         Mockito.when(articleManagement.updateArticle(0,mockToBeUpdatedArticle)).thenReturn(mockUpdateArticle);
+        Mockito.when(articleManagement.filterArticles(al)).thenReturn(filterList);
 
         return new GuiceApplicationBuilder()
                 .in(new File("."))
@@ -67,11 +74,11 @@ public class ArticleManagementHttpAdapterTest extends WithApplication {
     }
 
     @Test
-    public void testcreateArticle() throws IOException {
+    public void testCreateArticle() throws IOException {
 
         ObjectMapper mapper = new ObjectMapper();
-        File from = new File("test\\resources\\createArticle.json");
-        JsonNode createArticleJson = mapper.readTree(from);
+        File creatArticleFile = new File("test\\resources\\createArticle.json");
+        JsonNode createArticleJson = mapper.readTree(creatArticleFile);
 
         Http.RequestBuilder requestshow =new Http.RequestBuilder()
                 .method(POST)
@@ -82,10 +89,9 @@ public class ArticleManagementHttpAdapterTest extends WithApplication {
 
         assertEquals(OK, result.status());
 
-
         String resultJsonToString = Helpers.contentAsString(result, mat);
 
-        File testFile = new File("test\\target\\createArtikleTest.json");
+        File testFile = new File("test\\target\\createArticleTest.json");
         testFile.createNewFile();
         FileWriter fileWriter = new FileWriter(testFile);
 
@@ -98,7 +104,7 @@ public class ArticleManagementHttpAdapterTest extends WithApplication {
         JsonNode testJson = mapper.readTree(testFile);
         JsonNode actuallyJson = mapper.readTree(actuallyFile);
 
-        assertEquals(actuallyJson,testJson);
+        assertEquals(testJson, actuallyJson);
 
     }
 
@@ -112,16 +118,23 @@ public class ArticleManagementHttpAdapterTest extends WithApplication {
         System.out.println("show" + request.body().toString());
 
         Result result = route(app,request);
-        String resultJsonToString = Helpers.contentAsString(result, mat);
-        System.out.println("nananana"+ resultJsonToString);
+
         assertEquals(OK, result.status());
 
-        ObjectMapper mapper = new ObjectMapper();
+        String resultJsonToString = Helpers.contentAsString(result, mat);
+
+        File testFile = new File("test\\target\\getArticleTest.json");
+        testFile.createNewFile();
+        FileWriter fileWriter = new FileWriter(testFile);
+
+        fileWriter.write(resultJsonToString);
+        fileWriter.flush();
+        fileWriter.close();
 
         File actuallyFile = new File("test\\resources\\getArticle.json");
 
+        ObjectMapper mapper = new ObjectMapper();
         JsonNode testJson = mapper.readTree(resultJsonToString);
-
         JsonNode actuallyJson = mapper.readTree(actuallyFile);
 
         assertEquals(actuallyJson,testJson);
@@ -131,8 +144,8 @@ public class ArticleManagementHttpAdapterTest extends WithApplication {
     @Test
     public void testUpdateArticle() throws IOException {
         ObjectMapper mapper = new ObjectMapper();
-        File actuallyFile = new File("test\\resources\\updateArticle.json");
-        JsonNode updateArticleJson = mapper.readTree(actuallyFile);
+        File updateArticleFile = new File("test\\resources\\updateArticle.json");
+        JsonNode updateArticleJson = mapper.readTree(updateArticleFile);
 
         Http.RequestBuilder request = new Http.RequestBuilder()
                 .method(POST)
@@ -145,16 +158,20 @@ public class ArticleManagementHttpAdapterTest extends WithApplication {
 
         String resultJsonToString = Helpers.contentAsString(result, mat);
 
+        File testFile = new File("test\\target\\updateArticleTest.json");
+        testFile.createNewFile();
+        FileWriter fileWriter = new FileWriter(testFile);
 
-        File updateFile = new File("test\\resources\\updateArticle.json");
+        fileWriter.write(resultJsonToString);
+        fileWriter.flush();
+        fileWriter.close();
+
+        File updateFile = new File("test\\resources\\createUpdateArticle.json");
 
         JsonNode testJson = mapper.readTree(resultJsonToString);
-
         JsonNode actuallyJson = mapper.readTree(updateFile);
 
-
-        assertEquals(updateArticleJson,actuallyJson);
-
+        assertEquals(actuallyJson, testJson);
 
     }
 
@@ -177,8 +194,8 @@ public class ArticleManagementHttpAdapterTest extends WithApplication {
     public void testFilterArticles() throws IOException {
 
         ObjectMapper mapper = new ObjectMapper();
-        File actuallyFile = new File("test\\resources\\filterArticle.json");
-        JsonNode filterArticleJson = mapper.readTree(actuallyFile);
+        File filterArticleFile = new File("test\\resources\\filterArticles.json");
+        JsonNode filterArticleJson = mapper.readTree(filterArticleFile);
 
         Http.RequestBuilder request = new Http.RequestBuilder()
                 .method(POST)
@@ -188,6 +205,22 @@ public class ArticleManagementHttpAdapterTest extends WithApplication {
         Result result = route(app,request);
 
         assertEquals(OK, result.status());
+
+        String resultJsonToString = Helpers.contentAsString(result, mat);
+
+        File testFile = new File("test\\target\\filterArticleTest.json");
+        testFile.createNewFile();
+        FileWriter fileWriter = new FileWriter(testFile);
+
+        fileWriter.write(resultJsonToString);
+        fileWriter.flush();
+        fileWriter.close();
+        File filterListFile = new File("test\\resources\\filterListArticles.json");
+
+        JsonNode testJson = mapper.readTree(resultJsonToString);
+        JsonNode actuallyJson = mapper.readTree(filterListFile);
+
+        assertEquals(actuallyJson,testJson);
 
     }
 
