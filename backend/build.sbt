@@ -11,3 +11,4 @@ libraryDependencies += guice
 libraryDependencies += "org.json" % "json" % "20190722"
 libraryDependencies += "org.mongodb" % "mongo-java-driver" % "3.12.2"
 libraryDependencies += "org.javatuples" % "javatuples" % "1.2"
+libraryDependencies += "org.apache.commons" % "commons-collections4" % "4.0"

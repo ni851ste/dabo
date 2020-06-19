@@ -1,5 +1,6 @@
 package persistence;
 
+import org.apache.commons.collections4.CollectionUtils;
 import org.javatuples.Quintet;
 import org.javatuples.Sextet;
 
@@ -96,7 +97,7 @@ public class ArticleMapAdapter implements IArticlePersistenceAdapter
                         // Location Filter
                         //.filter(entry -> entry.getValue().getValue3().contains(locationFilter))
                         // Filter for categories
-                        .filter(entry -> entry.getValue().getValue4().containsAll(categoryFilter))
+                        .filter(entry -> CollectionUtils.containsAny(entry.getValue().getValue4(), categoryFilter))
                         .forEach(article -> {
                             foundArticles.add(new Sextet<>(article.getKey(),
                                     article.getValue().getValue0(),
