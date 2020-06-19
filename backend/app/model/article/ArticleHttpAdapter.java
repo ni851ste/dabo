@@ -184,16 +184,9 @@ public class ArticleHttpAdapter
 
             article.getValue5().forEach(category -> foundArticleJson.append("categories", category));
 
-        }
+            foundArticles.put(foundArticleJson);
 
-        filteredArticles.forEach(article -> {
-            foundArticles.put(new JSONObject()
-                    .put("id", article.getValue0())
-                    .put("name", article.getValue1())
-                    .put("description", article.getValue2())
-                    .put("insertionDate", article.getValue3())
-                    .put("location", article.getValue4()));
-        });
+        }
 
         return ok(foundArticles.toString())
                 .as("application/json");
