@@ -1,12 +1,14 @@
 package model.article;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.google.inject.Inject;
 import org.javatuples.Quintet;
 import org.javatuples.Sextet;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import play.mvc.Http.Request;
 import play.mvc.Result;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,8 +17,10 @@ import static play.mvc.Results.badRequest;
 import static play.mvc.Results.ok;
 
 
+
 public class ArticleHttpAdapter
 {
+    @Inject
     ArticleManagement articleManagement = new ArticleManagement();
 
     public Result createArticle(Request request)
@@ -62,9 +66,11 @@ public class ArticleHttpAdapter
     public Result getArticle(int id)
     {
         Sextet<Integer, String, String, String, String, List<String>> article = articleManagement.getArticleById(id);
+        System.out.println("ArtiklebyID"+ article.toString());
 
         if (article.getValue0() == -1)
         {
+            System.out.println("in Bad Request");
             return badRequest();
         }
         else
@@ -100,6 +106,7 @@ public class ArticleHttpAdapter
 
         Sextet<Integer, String, String, String, String, List<String>> updatedArticle = articleManagement.updateArticle(id, toBeUpdatedArticle);
 
+
         if (updatedArticle.getValue0() == -1)
         {
             return badRequest();
@@ -124,7 +131,6 @@ public class ArticleHttpAdapter
     public Result deleteArticle(int id)
     {
         Sextet<Integer, String, String, String, String, List<String>> deletedArticle = articleManagement.deleteArticle(id);
-
         if (deletedArticle.getValue0() == -1)
         {
             return badRequest();

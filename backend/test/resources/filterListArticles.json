@@ -1,0 +1,23 @@
+[
+  {
+    "name": "Hecken Schere",
+    "description": "scharfe Heckenschere",
+    "location": "today",
+    "id": 0,
+    "insertionDate": "Berlin"
+  },
+  {
+    "name": "Hecken Schere",
+    "description": "Heckenschere",
+    "location": "today",
+    "id": 1,
+    "insertionDate": "Berlin"
+  },
+  {
+    "name": "Tisch",
+    "description": "Heckenschere",
+    "location": "today",
+    "id": 2,
+    "insertionDate": "Berlin"
+  }
+]

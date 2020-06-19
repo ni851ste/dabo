@@ -2,16 +2,44 @@ package model.article;
 
 
 import com.fasterxml.jackson.databind.JsonNode;
+import org.javatuples.Sextet;
 import org.junit.Test;
+import org.mockito.Mockito;
 import play.test.WithApplication;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 
 public class ArticleManagementTest extends WithApplication {
+
+    @Test
+    public void showArticleTest() throws IOException {
+        Sextet result =  new Sextet<>(0, "blabla", "nana", "kaka", "zack zack", new ArrayList<>());
+
+        ArticleManagement articleManagement = Mockito.mock(ArticleManagement.class);
+        Mockito.when(articleManagement.getArticleById(0)).thenReturn(result);
+
+
+       Sextet testresult = articleManagement.getArticleById(0);
+
+
+       System.out.println(testresult.toList());
+        assertEquals(testresult,result);
+
+    }
+//    @Test
+//    public void testDeleteArticel() {
+//        ArticleManagement testArticel = new ArticleManagement();
+//
+//        testArticel.createArticle("Bierpong-tisch", "only used twice",
+//                "20.02.1996", "Berlin");
+//        assertTrue(testArticel.deleteArticle(0));
+//
+//    }
 
 //    @Test
 //    public void testCreateANewArticle() {
@@ -28,36 +56,7 @@ public class ArticleManagementTest extends WithApplication {
 //
 //    }
 //
-//    @Test
-//    public void testDeleteArticel() {
-//        ArticleManagement testArticel = new ArticleManagement();
-//
-//        testArticel.createArticle("Bierpong-tisch", "only used twice",
-//                "20.02.1996", "Berlin");
-//        assertTrue(testArticel.deleteArticle(0));
-//
-//    }
-//
-//    @Test
-//    public void showArticleTest() throws IOException {
-//        ArticleManagement testArticel = new ArticleManagement();
-//
-//
-//      int artikleTestID =   testArticel.createArticle("\"Bierpong-tisch\"","\"only used twice\"",
-//                "\"20.02.1996\"", "\"Berlin\"");
-//
-//     JsonNode json = testArticel.getArticleById(artikleTestID);
-//        String name  = json.get("name").toString();
-//        String description = json.get("description").toString();
-//        String location = json.get("location").toString();
-//        String insertionDate = json.get("insertionDate").toString();
-//
-//        assertEquals("\"Bierpong-tisch\"",name);
-//        assertEquals("\"only used twice\"",description);
-//        assertEquals("\"20.02.1996\"",insertionDate);
-//        assertEquals("\"Berlin\"",location);
-//
-//    }
+
 //
 //    @Test
 //    public void updateArticleTest() throws IOException {
