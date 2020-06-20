@@ -4,7 +4,7 @@
                 <div class="card-body">
                     <img class="card-img-top articleImg" src="../../assets/categoryImgs/sonstiges.jpg" alt="Card image cap">
                     <h5 class="card-title" v-html="article.name"></h5>
-                    <b-form-rating class="rating" variant="warning" readonly v-model="value"></b-form-rating>
+                    <b-form-rating class="rating" variant="warning" readonly v-model="rating"></b-form-rating>
                     <p class="card-text description" v-html="article.description"></p>
                     <p class="card-text location">
                         <b-icon-geo-alt font-scale="1.2"></b-icon-geo-alt>
@@ -24,12 +24,22 @@
     @Component
     export default class ArticleCard extends Vue {
         @Prop() private article!: Article;
+        rating = this.getAvgStars();
+
+        getAvgStars(): number {
+            let starSum: number = 0;
+
+            for(let rating of this.article.ratings) {
+                starSum += rating.amountOfStars;
+            }
+
+            return starSum / this.article.ratings.length;
+        }
 
         getDate(): string {
             return moment(this.article.insertionDate).format(" DD MMMM YYYY")
         }
 
-        value = 2
     }
 </script>
 
