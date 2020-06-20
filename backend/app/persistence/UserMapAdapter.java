@@ -67,37 +67,4 @@ public class UserMapAdapter implements IUserPersistenceAdapter {
 
     }
 
-//    @Override
-//    public Optional<Decade<Integer, String, String, List<String>, Integer, String, List<Integer>, List<Integer>,List<Integer>, List<String>>>
-//    filterUser(
-////            String nameFilter, String locationFilter,
-//            String nameFilter)
-//    {
-//        List<Decade<Integer, String, String, List<String>, Integer, String, List<Integer>, List<Integer>,List<Integer>, List<String>>> foundUsers = new ArrayList<>();
-//
-////        List<Map.Entry<Integer, Quintet<String, String, String, String, List<String>>>> filteredUsers =
-//        savedUsers.entrySet()
-//                .stream()
-//                // Name Filter
-//                //.filter(entry -> entry.getValue().getValue0().toLowerCase().contains(nameFilter.toLowerCase()))
-//                // Location Filter
-//                //.filter(entry -> entry.getValue().getValue3().contains(locationFilter))
-//                // Filter for categories
-//                .filter(entry -> entry.getValue().getValue2().equals(nameFilter))
-//                .forEach(user -> {
-//                    foundUsers.add(new Decade<>(
-//                            user.getKey(),
-//                            user.getValue().getValue0(),
-//                            user.getValue().getValue1(),
-//                            user.getValue().getValue2(),
-//                            user.getValue().getValue3(),
-//                            user.getValue().getValue4(),
-//                            user.getValue().getValue5(),
-//                            user.getValue().getValue6(),
-//                            user.getValue().getValue7(),
-//                            user.getValue().getValue8()));
-//                });
-//
-//        return foundUsers;
-//    }
 }

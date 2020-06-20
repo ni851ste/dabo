@@ -13,7 +13,6 @@ GET         /assets/*file                     controllers.Assets.versioned(path=
 POST        /user/create                      model.user.UserHttpAdapter.createUser(request: Request)
 POST        /user/delete/:id                  model.user.UserHttpAdapter.deleteUser(id: Int)
 POST        /user/update/:id                  model.user.UserHttpAdapter.updateUser(id: Int,request: Request)
-#POST        /user/get/:name                  model.user.UserHttpAdapter.findUser(name: String)
 
 #Article
 GET         /users/articles/:id               model.article.ArticleHttpAdapter.getArticle(id: Int)

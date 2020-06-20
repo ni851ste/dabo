@@ -29,23 +29,18 @@ public class UserHttpAdapter {
 
 
         List<Integer> lendList = new ArrayList<>();
-        // TODO for demo purposes disabled categories
         json.get("toLend").forEach(node -> lendList.add(node.asInt()));
 
         List<Integer> borrowList = new ArrayList<>();
-        // TODO for demo purposes disabled categories
         json.get("borrowed").forEach(node -> borrowList.add(node.asInt()));
 
         List<Integer> pinnList = new ArrayList<>();
-        // TODO for demo purposes disabled categories
         json.get("pinned").forEach(node -> pinnList.add(node.asInt()));
 
         List<String> addrList = new ArrayList<>();
-        // TODO for demo purposes disabled categories
         json.get("address").forEach(node -> addrList.add(node.asText()));
 
         List<String> nameList = new ArrayList<>();
-        // TODO for demo purposes disabled categories
         nameList.add(json.get("firstName").asText());
         nameList.add(json.get("lastName").asText());
 
@@ -89,17 +84,7 @@ public class UserHttpAdapter {
             return ok(returnJson.toString())
                     .as("application/json");
         }
-//                {
-//    "email": "juls@test.com",
-//    "password": "abc123",
-//    "name": "Juls",
-//    "rating": 3,
-//    "picture": "none",
-//    "toLend": [2, 5],
-//    "borrowed": [4,7],
-//    "pinned": [9,12],
-//    "address":  "78467 Konstanz"
-//}
+
     }
 
     public Result deleteUser(int id){
@@ -186,19 +171,5 @@ public class UserHttpAdapter {
         }
     }
 
-//    public Result getUser(String name){
-//        Decade<Integer, String, String, String, Integer, String, List<Integer>, List<Integer>,List<Integer>, List<String>>
-//                gottendUser = userManagement.getUser(name);
-//        return ok();
-//    }
-
-//
-//    public Result findUser(String name) throws JsonProcessingException {
-//        JsonNode result = adapter.findUser(name);
-//        System.out.println(result);
-//        return ok(result);
-//    }
-//
-//
 }
 
