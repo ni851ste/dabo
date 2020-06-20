@@ -27,6 +27,7 @@ public class UserHttpAdapter {
 
         JsonNode json = create.body().asJson();
 
+
         List<Integer> lendList = new ArrayList<>();
         // TODO for demo purposes disabled categories
         json.get("toLend").forEach(node -> lendList.add(node.asInt()));
@@ -39,16 +40,23 @@ public class UserHttpAdapter {
         // TODO for demo purposes disabled categories
         json.get("pinned").forEach(node -> pinnList.add(node.asInt()));
 
-        List<Integer> addrList = new ArrayList<>();
+        List<String> addrList = new ArrayList<>();
         // TODO for demo purposes disabled categories
-        json.get("pinned").forEach(node -> addrList.add(node.asInt()));
+        json.get("address").forEach(node -> addrList.add(node.asText()));
+
+        List<String> nameList = new ArrayList<>();
+        // TODO for demo purposes disabled categories
+        nameList.add(json.get("firstName").asText());
+        nameList.add(json.get("lastName").asText());
 
 
 
-        Ennead<String, String, String, Integer, String, List<Integer>, List<Integer>,List<Integer>, List<String>>  toBeCreatedUser =
+
+        Ennead<String, String, List<String>, Integer, String, List<Integer>, List<Integer>,List<Integer>, List<String>>
+                toBeCreatedUser =
                 new Ennead(json.get("email").asText(),
                         json.get("password").asText(),
-                        json.get("name").asText(),
+                        nameList,
                         json.get("rating").asInt(),
                         json.get("picture").asText(),
                         lendList,
@@ -56,10 +64,10 @@ public class UserHttpAdapter {
                         pinnList,
                         addrList);
 
-        Decade<Integer, String, String, String, Integer, String, List<Integer>, List<Integer>,List<Integer>, List<String>>
-                deletedUser = userManagement.createUser(toBeCreatedUser);
+        Decade<Integer, String, String, List<String>, Integer, String, List<Integer>, List<Integer>,List<Integer>, List<String>>
+                createdUser = userManagement.createUser(toBeCreatedUser);
 
-        if(deletedUser.getValue0() == -1)
+        if(createdUser.getValue0() == -1)
         {
             return badRequest("Creating user failed");
         }
@@ -67,16 +75,16 @@ public class UserHttpAdapter {
         {
 
             JSONObject returnJson = new JSONObject()
-                    .put("id", deletedUser.getValue0())
-                    .put("email", deletedUser.getValue1())
-                    .put("password", deletedUser.getValue2())
-                    .put("name", deletedUser.getValue3())
-                    .put("rating", deletedUser.getValue4())
-                    .put("picture", deletedUser.getValue5())
-                    .put("toLend", deletedUser.getValue6())
-                    .put("borrowed", deletedUser.getValue7())
-                    .put("pinned", deletedUser.getValue8())
-                    .put("address", deletedUser.getValue9());
+                    .put("id", createdUser.getValue0())
+                    .put("email", createdUser.getValue1())
+                    .put("password", createdUser.getValue2())
+                    .put("name", createdUser.getValue3())
+                    .put("rating", createdUser.getValue4())
+                    .put("picture", createdUser.getValue5())
+                    .put("toLend", createdUser.getValue6())
+                    .put("borrowed", createdUser.getValue7())
+                    .put("pinned", createdUser.getValue8())
+                    .put("address", createdUser.getValue9());
             System.out.println(returnJson.toString());
             return ok(returnJson.toString())
                     .as("application/json");
@@ -94,17 +102,8 @@ public class UserHttpAdapter {
 //}
     }
 
-//    public Result deleteUser(int id) {
-//        String answer = adapter.deleteUser(id);
-//        if(answer.contains("User is not known")) {
-//            return ok("not a User");
-//        } else {
-//            return ok(answer);
-//        }
-//    }
-
     public Result deleteUser(int id){
-        Decade<Integer, String, String, String, Integer, String, List<Integer>, List<Integer>,List<Integer>, List<String>>
+        Decade<Integer, String, String, List<String>, Integer, String, List<Integer>, List<Integer>,List<Integer>, List<String>>
                 deletedUser = userManagement.deleteUser(id);
         if(deletedUser.getValue0() == -1)
         {
@@ -128,18 +127,11 @@ public class UserHttpAdapter {
         }
     }
 
-//
-//    public Result updateUser(Http.Request update) {
-//        JsonNode json = update.body().asJson();
-//        String result = adapter.updateUser(json);
-//        return ok(result);
-//
-//    }
-
     public Result updateUser(int id, Request update) {
 
         JsonNode json = update.body().asJson();
 
+        System.out.println("worked till HTTPAdappter");
 
         List<Integer> lendList = new ArrayList<>();
         json.get("toLend").forEach(node -> lendList.add(node.asInt()));
@@ -150,13 +142,19 @@ public class UserHttpAdapter {
         List<Integer> pinnList = new ArrayList<>();
         json.get("pinned").forEach(node -> pinnList.add(node.asInt()));
 
-        List<Integer> addrList = new ArrayList<>();
-        json.get("pinned").forEach(node -> addrList.add(node.asInt()));
+        List<String> addrList = new ArrayList<>();
+        json.get("address").forEach(node -> addrList.add(node.asText()));
 
-        Ennead<String, String, String, Integer, String, List<Integer>, List<Integer>,List<Integer>, List<String>>  toBeUpdatedUser =
+
+        List<String> nameList = new ArrayList<>();
+        nameList.add(json.get("firstName").asText());
+        nameList.add(json.get("lastName").asText());
+
+        Ennead<String, String, List<String>, Integer, String, List<Integer>, List<Integer>,List<Integer>, List<String>>
+                toBeUpdatedUser =
                 new Ennead(json.get("email").asText(),
                         json.get("password").asText(),
-                        json.get("name").asText(),
+                        nameList,
                         json.get("rating").asInt(),
                         json.get("picture").asText(),
                         lendList,
@@ -164,7 +162,7 @@ public class UserHttpAdapter {
                         pinnList,
                         addrList);
 
-        Decade<Integer, String, String, String, Integer, String, List<Integer>, List<Integer>,List<Integer>, List<String>>
+        Decade<Integer, String, String, List<String>, Integer, String, List<Integer>, List<Integer>,List<Integer>, List<String>>
                 updatedUser = userManagement.updateUser(id, toBeUpdatedUser);
         if(updatedUser.getValue0() == -1)
         {

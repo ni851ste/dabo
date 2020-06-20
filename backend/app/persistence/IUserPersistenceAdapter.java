@@ -18,21 +18,21 @@ public interface IUserPersistenceAdapter {
 //  8   Ausgeliehene Artikel: Int[] (-> id)
 //  9   Gepinnte Artikel: Int[] (-> id)
 //  10  Adresse: Address
-    Optional<Decade<Integer, String, String, String, Integer, String, List<Integer>, List<Integer>, List<Integer>, List<String>>>
-    createUser(int id, Ennead<String, String, String, Integer, String, List<Integer>, List<Integer>, List<Integer>, List<String>> data);
+    Optional<Decade<Integer, String, String, List<String>, Integer, String, List<Integer>, List<Integer>, List<Integer>, List<String>>>
+    createUser(int id, Ennead<String, String, List<String>, Integer, String, List<Integer>, List<Integer>, List<Integer>, List<String>> data);
 
-    Optional<Decade<Integer, String, String, String, Integer, String, List<Integer>, List<Integer>,List<Integer>, List<String>>>
+    Optional<Decade<Integer, String, String, List<String>, Integer, String, List<Integer>, List<Integer>,List<Integer>, List<String>>>
     getUserByID(int id);
 
-    Optional<Decade<Integer, String, String, String, Integer, String, List<Integer>, List<Integer>,List<Integer>, List<String>>>
-    updateUser(int id,Ennead<String, String, String, Integer, String, List<Integer>, List<Integer>,List<Integer>, List<String>> data);
+    Optional<Decade<Integer, String, String, List<String>, Integer, String, List<Integer>, List<Integer>,List<Integer>, List<String>>>
+    updateUser(int id,Ennead<String, String, List<String>, Integer, String, List<Integer>, List<Integer>,List<Integer>, List<String>> data);
 
-    Optional<Decade<Integer, String, String, String, Integer, String, List<Integer>, List<Integer>,List<Integer>, List<String>>>
+    Optional<Decade<Integer, String, String, List<String>, Integer, String, List<Integer>, List<Integer>,List<Integer>, List<String>>>
     deleteUser(int id);
 
-    Optional<Decade<Integer, String, String, String, Integer, String, List<Integer>, List<Integer>,List<Integer>, List<String>>>
-    filterUser(
-//            String nameFilter, String locationFilter,
-            String nameFilter);
+//    Optional<Decade<Integer, String, String, List<String>, Integer, String, List<Integer>, List<Integer>,List<Integer>, List<String>>>
+//    filterUser(
+////            String nameFilter, String locationFilter,
+//            String nameFilter);
 
 }
