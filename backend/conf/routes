@@ -16,7 +16,8 @@ POST        /user/delete/:id                  model.user.UserHttpAdapter.deleteU
 POST        /user/update/:id                  model.user.UserHttpAdapter.updateUser(id: Int, request: Request)
 
 #Article
-GET         /users/articles/:id               model.article.ArticleHttpAdapter.getArticle(id: Int)
 POST        /users/articles/create            model.article.ArticleHttpAdapter.createArticle(request: Request)
 POST        /users/articles/delete/:id        model.article.ArticleHttpAdapter.deleteArticle(id: Int)
 POST        /users/articles/update/:id        model.article.ArticleHttpAdapter.updateArticle(id: Int, request: Request)
+GET         /users/articles/:id               model.article.ArticleHttpAdapter.getArticle(id: Int)
+POST        /users/articles                   model.article.ArticleHttpAdapter.filterArticles(request: Request)
