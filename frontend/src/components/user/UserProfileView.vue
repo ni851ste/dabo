@@ -56,15 +56,17 @@
                             <div class="panel-heading">
                                 <h3 class="panel-title">Max' Bewertungen</h3>
                             </div>
-                            Thomas: Echt klasse!
-                            <br><br>
-                            Sabine: Sehr unkompliziert! 5 Sterne!
-                            <br><br>
-                            Klara: Habe den Beerpong Tisch ausgeliehen! War top!
-                            <br>
+
+                            <RatingCard
+                                    id="rating-cards"
+                                    v-for="rating in ratingLists()"
+                                    :rating="rating"
+                                    :per-page="perPage"
+                                    :current-page="currentPage"
+                                    small
+                            ></RatingCard>
                         </div>
                     </div>
-
                 </div>
 
             </div>
@@ -77,14 +79,18 @@
     import {Component, Vue} from 'vue-property-decorator';
     import ArticleCard from "@/components/article/ArticleCard.vue";
     import Article from "@/components/article/Article";
+    import Rating from "@/components/rating/Rating";
+    import RatingCard from "@/components/rating/RatingCard.vue";
 
     @Component({
-        components: {NavigationBar, ArticleCard}
+        components: {RatingCard, NavigationBar, ArticleCard}
     })
     export default class UserProfileView extends Vue {
         articles: Article[] = [];
         perPage = 5;
         currentPage = 1;
+
+        ratings: Rating[] = [];
 
         constructor() {
             super();
@@ -92,10 +98,24 @@
             let article2: Article = new Article("Bohrmaschine", "Toll zum bohren", "", "Konstanz", new Date(), []);
             this.articles.push(article);
             this.articles.push(article2);
+
+            let rating: Rating = new Rating(3, "Sehr zuverlässig und unkompliziert.", 1, new Date())
+            let rating2: Rating = new Rating(1, "nicht empfehlenswert. wvebORUHWADJFHBhfjrbhjbjnvhgfvdfghujkj", 2, new Date())
+            this.ratings.push(rating)
+            this.ratings.push(rating2)
+
         }
 
         lists(): Article[] {
             const items = this.articles;
+            return items.slice(
+                (this.currentPage - 1) * this.perPage,
+                this.currentPage * this.perPage
+            )
+        }
+
+        ratingLists(): Rating[] {
+            const items = this.ratings;
             return items.slice(
                 (this.currentPage - 1) * this.perPage,
                 this.currentPage * this.perPage
