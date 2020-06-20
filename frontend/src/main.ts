@@ -26,8 +26,8 @@ const routes = [
   {path: '/createArticle', component: ArticleCreationView},
   {path: '/home', component: StartPage},
   {path: '/', component: StartPage},
-  {path: '/login', component: LoginPage},
-  {path: '/registration', component: RegistrationPage}
+  {path: '/login', name: 'login', component: LoginPage},
+  {path: '/registration', name: 'registration', component: RegistrationPage, props: true}
 ];
 const router = new VueRouter({
   routes: routes

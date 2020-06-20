@@ -10,6 +10,7 @@
 
 <script>
     export default {
+        name:"BaseImageInput",
         data() {
             return {
                 imageData: null
@@ -50,7 +51,7 @@
     }
 
     .placeholder {
-        background: white;
+        /*background: white;*/
         width: 100%;
         height: 100%;
         display: flex;
