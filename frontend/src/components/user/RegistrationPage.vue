@@ -4,53 +4,73 @@
         <div class="contentLayout">
             <h1>Registrierung</h1>
             <div class="form-group" :class="validateInput ? 'validate' : ''">
+                <div>
+                    <div class="names">
 
-                <label for="firstname">Vorname</label>
-                <input type="text" class="form-control" id="firstname" placeholder="Vorname" v-model="firstName"
-                       required>
-                <small v-bind:style="{ display: firstName ? 'none' : validateInput ? '' : 'none' }">Bitte Vornamen
-                    eingeben!</small>
-                <br/>
+                        <label for="firstname">Vorname</label>
+                        <input type="text" class="form-control" id="firstname" placeholder="Vorname" v-model="firstName"
+                               required>
+                        <small v-bind:style="{ display: firstName ? 'none' : validateInput ? '' : 'none' }">
+                            Bitte Vornamen eingeben!</small>
+                        <br/>
 
-                <label for="surname">Nachname</label>
-                <input type="text" class="form-control" id="surname" placeholder="Nachname" v-model="surName" required>
-                <small v-bind:style="{ display: surName ? 'none' : validateInput ? '' : 'none' }">Bitte Nachnamen
-                    eingeben!</small>
+                        <label for="surname">Nachname</label>
+                        <input type="text" class="form-control" id="surname" placeholder="Nachname" v-model="surName"
+                               required>
+                        <small v-bind:style="{ display: surName ? 'none' : validateInput ? '' : 'none' }">
+                            Bitte Nachnamen eingeben!</small>
+                        <br/>
+                        <b-form-checkbox class="itemFloatLeft" v-model="surNameVisible">
+                            <small class="form-text text-muted">Nachname im Profil anzeigen</small>
+                        </b-form-checkbox>
+                    </div>
+                    <div class="image">
+                        <BaseImageInput class="imgProfile" id="profileImg"/>
+                        <small class="form-text text-muted center">Profilbild hochladen</small>
+                    </div>
+                </div>
+<!--                <br/>-->
 
                 <hr/>
+
                 <label for="country">Land</label>
                 <input type="text" class="form-control" id="country" placeholder="Land" v-model="country" required>
-                <small v-bind:style="{ display: country ? 'none' : validateInput ? '' : 'none' }">Bitte Land
-                    eingeben!</small>
+                <small v-bind:style="{ display: country ? 'none' : validateInput ? '' : 'none' }">
+                    Bitte Land eingeben!</small>
 
                 <div class="plzOrt">
                     <div class="plz">
                         <label for="plz">PLZ</label>
                         <input type="number" class="form-control" id="plz" placeholder="PLZ" v-model="plz" required>
-                        <small v-bind:style="{ display: plz ? 'none' : validateInput ? '' : 'none' }">Bitte PLZ
-                            eingeben!</small>
+                        <small v-bind:style="{ display: plz ? 'none' : validateInput ? '' : 'none' }">
+                            Bitte PLZ eingeben!</small>
                     </div>
                     <div class="city">
                         <label for="city">Ort</label>
                         <input type="text" class="form-control" id="city" placeholder="Ort" v-model="city" required>
-                        <small v-bind:style="{ display: city ? 'none' : validateInput ? '' : 'none' }">Bitte Ort
-                            eingeben!</small>
+                        <small v-bind:style="{ display: city ? 'none' : validateInput ? '' : 'none' }">
+                            Bitte Ort eingeben!</small>
                         <br/>
                     </div>
                 </div>
 
                 <label for="street">Straße</label>
                 <input type="text" class="form-control" id="street" placeholder="Straße" v-model="street" required>
-                <small v-bind:style="{ display: street ? 'none' : validateInput ? '' : 'none' }">Bitte Straße
-                    eingeben!</small>
+                <small v-bind:style="{ display: street ? 'none' : validateInput ? '' : 'none' }">
+                    Bitte Straße eingeben!</small>
+                <br/>
+                <b-form-checkbox class="itemFloatLeft" v-model="streetVisible">
+                    <small class="form-text text-muted">Straße im Profil anzeigen</small>
+                </b-form-checkbox>
+                <br/>
 
                 <hr/>
 
                 <label for="email">E-Mail-Adresse</label>
                 <input type="email" class="form-control" id="email" placeholder="E-Mail-Adresse" v-model="email"
                        required>
-                <small v-bind:style="{ display: email ? 'none' : validateInput ? '' : 'none' }">Bitte Adresse
-                    eingeben!</small>
+                <small v-bind:style="{ display: email ? 'none' : validateInput ? '' : 'none' }">
+                    Bitte Adresse eingeben!</small>
                 <br/>
 
                 <label for="passwordVisible">Passwort</label>
@@ -58,8 +78,8 @@
                        placeholder="Passwort" v-model="password" required>
                 <input v-else type="password" class="form-control" id="passwordNotVisible" placeholder="Passwort"
                        v-model="password" required>
-                <small v-bind:style="{ display: password ? 'none' : validateInput ? '' : 'none' }">Bitte Passwort
-                    eingeben!</small>
+                <small v-bind:style="{ display: password ? 'none' : validateInput ? '' : 'none' }">
+                    Bitte Passwort eingeben!</small>
                 <br/>
 
                 <b-form-checkbox class="itemFloatLeft" id="passwordVisibility" v-model="passwordVisible">
@@ -78,24 +98,52 @@
 <script lang="ts">
     import {Component, Prop, Vue} from 'vue-property-decorator';
     import NavigationBar from "@/components/NavigationBar.vue";
+    import $ from "jquery";
+    import BaseImageInput from "@/components/BaseImageInput.vue";
+    import Article from "@/components/article/Article";
 
-    @Component({
-        components: {NavigationBar}
+    @Component
+    ({
+        components: {BaseImageInput, NavigationBar}
     })
     export default class RegistrationPage extends Vue {
         passwordVisible: boolean = false;
         validateInput: boolean = false;
         firstName: string = "";
         surName: string = "";
+        surNameVisible: boolean = true;
         country: string = "";
         plz: string = "";
         city: string = "";
         street: string = "";
+        streetVisible: boolean = true;
         email: string = "";
         password: string = "";
 
+        //TODO: handle success/ error
         register(): void {
             this.validateInput = true;
+            // $.ajax({
+            //     url: "http://localhost:9000/users/create",
+            //     type: "POST",
+            //     data: {
+            //         firstName: this.firstName,
+            //         surName: this.surName,
+            //         country: this.country,
+            //         plz: this.plz,
+            //         city: this.city,
+            //         street: this.street,
+            //         email: this.email,
+            //         password: this.password, //TODO: encode ???
+            //     },
+            //     dataType: "application/json",
+            //     success: result => {
+            //         console.log("success ", result)
+            //     },
+            //     error: error => {
+            //         console.log("error ", error)
+            //     }
+            // });
 
         }
     }
@@ -139,6 +187,22 @@
         margin-left: 1vw;
     }
 
+    .names {
+        float: left;
+        width: 17vw;
+        display: inline;
+    }
+
+    .image {
+        margin-left: 20vw;
+        padding-top: 20px;
+    }
+
+    .center {
+        float: none;
+        padding-top: 20px;
+    }
+
     .register {
         width: 100%;
         padding: 0;
@@ -158,6 +222,20 @@
         border-radius: 3px;
     }
 
+    .base-image-input {
+        height: 150px;
+        width: 150px;
+        border-radius: 150px;
+        padding: 21px;
+        margin: auto;
+    }
+
+    .imgProfile:hover {
+        background: #E0E0E0;
+        z-index: 10;
+    }
+
+
     hr {
         margin: 30px 5px 30px !important;
         color: #484848;
@@ -172,9 +250,18 @@
             width: 20vw;
         }
 
-        .ort {
+        .city {
             width: 39vw;
-            margin-left: 1vw;
+        }
+
+        .names {
+            width: 30vw;
+        }
+
+        .image {
+            padding-top: 20px;
+            margin-left: 33vw;
+            width: 150px;
         }
     }
 
@@ -205,4 +292,5 @@
         color: red;
         float: left
     }
+
 </style>

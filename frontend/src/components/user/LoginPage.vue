@@ -31,7 +31,7 @@
 
                 <p>
                     Noch kein Mitglied?
-                    <router-link to="/registration">Jetzt registrieren!</router-link>
+                    <RouterLink to="/registration">Jetzt registrieren!</RouterLink>
                 </p>
 
             </div>
@@ -53,9 +53,28 @@
         email: string = "";
         password: string = "";
 
+        //TODO: handle success/ error
         login(): void {
             this.validateInput = true;
+            if (!this.email || !this.password) {
+                return;
+            }
 
+            $.ajax({
+                url: "http://localhost:9000/users/login",
+                type: "POST",
+                data: {
+                    email: this.email,
+                    password: this.password, //TODO: encode ???
+                },
+                dataType: "application/json",
+                success: result => {
+                    console.log("success ", result)
+                },
+                error: error => {
+                    console.log("error ", error)
+                }
+            });
         }
     }
 </script>
