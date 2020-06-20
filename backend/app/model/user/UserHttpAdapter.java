@@ -15,10 +15,6 @@ import static play.mvc.Results.ok;
 
 public class UserHttpAdapter {
 
-    UserManagement adapter = new UserManagement();
-
-    public UserHttpAdapter() {
-    }
     UserManagement userManagement = new UserManagement();
 
 
@@ -64,7 +60,7 @@ public class UserHttpAdapter {
 
         if(createdUser.getValue0() == -1)
         {
-            return badRequest("Creating user failed");
+            return badRequest();
         }
         else
         {
@@ -87,12 +83,41 @@ public class UserHttpAdapter {
 
     }
 
+    public Result getUserById(int id) {
+
+        Decade<Integer, String, String, List<String>, Integer, String, List<Integer>, List<Integer>,List<Integer>, List<String>>
+                foundUser = userManagement.getUserByID(id);
+
+        if (foundUser.getValue0() == -1)
+        {
+            return badRequest();
+        }
+        else
+        {
+
+            JSONObject returnJson = new JSONObject()
+                    .put("id", foundUser.getValue0())
+                    .put("email", foundUser.getValue1())
+                    .put("password", foundUser.getValue2())
+                    .put("name", foundUser.getValue3())
+                    .put("rating", foundUser.getValue4())
+                    .put("picture", foundUser.getValue5())
+                    .put("toLend", foundUser.getValue6())
+                    .put("borrowed", foundUser.getValue7())
+                    .put("pinned", foundUser.getValue8())
+                    .put("address", foundUser.getValue9());
+            System.out.println(returnJson.toString());
+            return ok(returnJson.toString())
+                    .as("application/json");
+        }
+    }
+
     public Result deleteUser(int id){
         Decade<Integer, String, String, List<String>, Integer, String, List<Integer>, List<Integer>,List<Integer>, List<String>>
                 deletedUser = userManagement.deleteUser(id);
         if(deletedUser.getValue0() == -1)
         {
-            return badRequest("No User to delete");
+            return badRequest();
         }
         else
         {
@@ -115,8 +140,6 @@ public class UserHttpAdapter {
     public Result updateUser(int id, Request update) {
 
         JsonNode json = update.body().asJson();
-
-        System.out.println("worked till HTTPAdappter");
 
         List<Integer> lendList = new ArrayList<>();
         json.get("toLend").forEach(node -> lendList.add(node.asInt()));
@@ -151,7 +174,7 @@ public class UserHttpAdapter {
                 updatedUser = userManagement.updateUser(id, toBeUpdatedUser);
         if(updatedUser.getValue0() == -1)
         {
-            return badRequest("No user found");
+            return badRequest();
         }
         else
         {
