@@ -2,16 +2,10 @@ package model.article;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.inject.name.Names;
-import com.google.inject.util.Providers;
 import org.javatuples.Quintet;
 import org.javatuples.Sextet;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
 import play.Mode;
 import play.mvc.Http;
 import play.mvc.Result;
@@ -24,7 +18,6 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
@@ -124,8 +117,6 @@ public class ArticleManagementHttpAdapterTest extends WithApplication {
         Http.RequestBuilder request = new Http.RequestBuilder()
                 .method(GET)
                 .uri("/users/articles/0");
-
-        System.out.println("show" + request.body().toString());
 
         Result result = route(app,request);
 
