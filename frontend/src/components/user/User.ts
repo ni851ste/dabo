@@ -1,4 +1,4 @@
-import Address from "@/components/user/Adress";
+import Address from "@/components/user/Address";
 import Rating from "@/components/rating/Rating";
 
 export default class User {
