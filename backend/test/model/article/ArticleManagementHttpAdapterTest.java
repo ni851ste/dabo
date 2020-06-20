@@ -6,6 +6,7 @@ import com.google.inject.name.Names;
 import com.google.inject.util.Providers;
 import org.javatuples.Quintet;
 import org.javatuples.Sextet;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -22,6 +23,9 @@ import play.inject.guice.GuiceApplicationBuilder;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,6 +37,12 @@ import static play.inject.Bindings.bind;
 import static play.test.Helpers.*;
 
 public class ArticleManagementHttpAdapterTest extends WithApplication {
+
+    @Before
+    public void setup() throws IOException
+    {
+        Files.createDirectories(Paths.get("test/target"));
+    }
 
     @Override
     public Application provideApplication() {
