@@ -26,13 +26,10 @@ public class UserHttpAdapter {
 
 
         List<Integer> lendList = new ArrayList<>();
-        json.get("toLend").forEach(node -> lendList.add(node.asInt()));
 
         List<Integer> borrowList = new ArrayList<>();
-        json.get("borrowed").forEach(node -> borrowList.add(node.asInt()));
 
         List<Integer> pinnList = new ArrayList<>();
-        json.get("pinned").forEach(node -> pinnList.add(node.asInt()));
 
         List<String> addrList = new ArrayList<>();
         json.get("address").forEach(node -> addrList.add(node.asText()));
@@ -56,7 +53,7 @@ public class UserHttpAdapter {
                         addrList);
 
 
-        System.out.println(toBeCreatedUser);
+//        System.out.println(toBeCreatedUser);
         Decade<Integer, String, String, Triplet<String,String,Boolean>, Integer, String, List<Integer>, List<Integer>,List<Integer>, List<String>>
                 createdUser = userManagement.createUser(new Ennead(json.get("email").asText(),
                 json.get("password").asText(),
@@ -88,7 +85,7 @@ public class UserHttpAdapter {
                     .put("borrowed", createdUser.getValue7())
                     .put("pinned", createdUser.getValue8())
                     .put("address", createdUser.getValue9());
-            System.out.println(returnJson.toString());
+//            System.out.println(returnJson.toString());
             return ok(returnJson.toString())
                     .as("application/json");
         }
@@ -120,7 +117,7 @@ public class UserHttpAdapter {
                     .put("borrowed", foundUser.getValue7())
                     .put("pinned", foundUser.getValue8())
                     .put("address", foundUser.getValue9());
-            System.out.println(returnJson.toString());
+//            System.out.println(returnJson.toString());
             return ok(returnJson.toString())
                     .as("application/json");
         }
