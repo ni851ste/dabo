@@ -5,8 +5,9 @@ import org.javatuples.*;
 import java.util.*;
 
 public class UserMapAdapter implements IUserPersistenceAdapter {
-    Map<Integer, Ennead<String, String, List<String>, Integer, String, List<Integer>, List<Integer>, List<Integer>, List<String>>>
+    Map<Integer, Ennead<String, String, Triplet<String,String,Boolean>, Integer, String, List<Integer>, List<Integer>, List<Integer>, List<String>>>
             savedUsers;
+
 
     public UserMapAdapter()
     {
@@ -14,8 +15,8 @@ public class UserMapAdapter implements IUserPersistenceAdapter {
     }
 
     @Override
-    public Optional<Decade<Integer, String, String, List<String>, Integer, String, List<Integer>, List<Integer>, List<Integer>, List<String>>>
-    createUser(int id, Ennead<String, String, List<String>, Integer, String, List<Integer>, List<Integer>, List<Integer>, List<String>> data)
+    public Optional<Decade<Integer, String, String, Triplet<String,String,Boolean>, Integer, String, List<Integer>, List<Integer>, List<Integer>, List<String>>>
+    createUser(int id, Ennead<String, String, Triplet<String,String,Boolean>, Integer, String, List<Integer>, List<Integer>, List<Integer>, List<String>> data)
     {
         savedUsers.put(id, data);
 
@@ -23,7 +24,7 @@ public class UserMapAdapter implements IUserPersistenceAdapter {
     }
 
     @Override
-    public Optional<Decade<Integer, String, String, List<String>, Integer, String, List<Integer>, List<Integer>, List<Integer>, List<String>>>
+    public Optional<Decade<Integer, String, String,  Triplet<String,String,Boolean>, Integer, String, List<Integer>, List<Integer>, List<Integer>, List<String>>>
     getUserByID(int id)
     {
         if (!savedUsers.containsKey(id))
@@ -31,7 +32,7 @@ public class UserMapAdapter implements IUserPersistenceAdapter {
             return Optional.empty();
         }
 
-        Ennead<String, String, List<String>, Integer, String, List<Integer>, List<Integer>, List<Integer>, List<String>>
+        Ennead<String, String,  Triplet<String,String,Boolean>, Integer, String, List<Integer>, List<Integer>, List<Integer>, List<String>>
                 user = savedUsers.get(id);
 
         return Optional.of(
@@ -39,8 +40,8 @@ public class UserMapAdapter implements IUserPersistenceAdapter {
     }
 
     @Override
-    public Optional<Decade<Integer, String, String, List<String>, Integer, String, List<Integer>, List<Integer>,List<Integer>, List<String>>>
-    updateUser(int id, Ennead<String, String, List<String>, Integer, String, List<Integer>, List<Integer>,List<Integer>, List<String>> data)
+    public Optional<Decade<Integer, String, String,  Triplet<String,String,Boolean>, Integer, String, List<Integer>, List<Integer>,List<Integer>, List<String>>>
+    updateUser(int id, Ennead<String, String,  Triplet<String,String,Boolean>, Integer, String, List<Integer>, List<Integer>,List<Integer>, List<String>> data)
     {
         if (!savedUsers.containsKey(id))
         {
@@ -53,7 +54,7 @@ public class UserMapAdapter implements IUserPersistenceAdapter {
     }
 
     @Override
-    public Optional<Decade<Integer, String, String, List<String>, Integer, String, List<Integer>, List<Integer>,List<Integer>, List<String>>>
+    public Optional<Decade<Integer, String, String,  Triplet<String,String,Boolean>, Integer, String, List<Integer>, List<Integer>,List<Integer>, List<String>>>
     deleteUser(int id)
     {
         if (!savedUsers.containsKey(id))
@@ -61,7 +62,7 @@ public class UserMapAdapter implements IUserPersistenceAdapter {
             return Optional.empty();
         }
 
-        Ennead<String, String, List<String>, Integer, String, List<Integer>, List<Integer>,List<Integer>, List<String>> removedUser = savedUsers.remove(id);
+        Ennead<String, String, Triplet<String,String,Boolean>, Integer, String,  List<Integer>, List<Integer>,List<Integer>, List<String>> removedUser = savedUsers.remove(id);
 
         return Optional.of(new Decade<>(id, removedUser.getValue0(), removedUser.getValue1(), removedUser.getValue2(), removedUser.getValue3(), removedUser.getValue4(), removedUser.getValue5(), removedUser.getValue6(), removedUser.getValue7(), removedUser.getValue8()));
 
