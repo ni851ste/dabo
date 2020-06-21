@@ -92,7 +92,9 @@
                             result[i].image,
                             result[i].location,
                             new Date(result[i].insertionDate),
-                            result[i].category);
+                            result[i].category,
+                            []
+                        );
                     }
                     this.$emit('filteredArticles', articles)
                 },
