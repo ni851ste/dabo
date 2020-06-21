@@ -1,5 +1,4 @@
 <template>
-    <router-link :to="{ name: 'userProfile', params: {rating: rating}}">
         <div class="card rating">
             <div class="card-body">
                 <img class="card-img-top userImg" src="../../assets/userImgs/avatar.png" alt="Card image cap">
@@ -7,12 +6,10 @@
                 <b-form-rating class="star-rating" variant="warning" readonly v-model="rating.amountOfStars"></b-form-rating>
                 <p class="card-text comment" v-html="rating.text"></p>
                 <p class="card-text rating-date">
-                    <span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span>
                     {{getDate()}}
                 </p>
             </div>
         </div>
-    </router-link>
 </template>
 
 <script lang="ts">
@@ -27,6 +24,10 @@
 
         getDate(): string {
             return moment(this.rating.date).format("dddd, DD. MMMM YYYY HH:mm")
+        }
+
+        getUser() {
+
         }
 
     }
