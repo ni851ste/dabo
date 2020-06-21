@@ -1,35 +1,43 @@
 <template>
     <div>
-        <NavigationBar msg="hallo"></NavigationBar>
+        <NavigationBar></NavigationBar>
         <div class="contentLayout my-buttons">
             <div class="borderbox b-container b-form-checkbox-group">
                 <h1> Allgemein</h1>
 
-                <div class="form-group validation">
+                <div class="form-group" :class="validateInput ? 'validate' : ''">
                     <label for="articleNameInput">Artikelbezeichnung: *</label>
                     <input type="text" class="form-control" id="articleNameInput" v-model="articleName" required>
-                    <div class="invalid-feedback"></div>
+                    <invalid-small v-bind:style="{ display: articleName ? 'none' : validateInput ? '' : 'none' }">
+                        Bitte Artikelbezeichnung eingeben!</invalid-small>
+                <br>
                 </div>
 
-                <div>
+                <div class="form-group">
                     <label>Artikelbeschreibung:</label>
                     <label for="articleDescription"></label>
-                    <textarea class="form-control" id="articleDescription" v-on:keyup="countdown" v-model="articleDescription" required></textarea>
+                    <textarea class="form-control" id="articleDescription" v-on:keyup="countdown"
+                              v-model="articleDescription" required></textarea>
                     <p class='text-right text-small' v-bind:class="{'text-danger': hasError }">{{charCount + '/' +
                         maxCount}}</p>
                 </div>
 
-                <p>Zugehörigkeit: *</p>
-                <b-form-group>
-                    <b-form-checkbox-group
-                            v-on:click=""
-                            id="category-checkbox-group"
-                            v-model="selectedCategories"
-                            :key="uuid"
-                            :options="categories"
-                    >
-                    </b-form-checkbox-group>
-                </b-form-group>
+                <div class="form-group" :class="validateInput ? 'validate' : ''">
+                    <label>Zugehörigkeit: *</label>
+                    <b-form-group :class="validateInput ? 'validate' : ''">
+                        <b-form-checkbox-group
+                                v-on:click=""
+                                id="category-checkbox-group"
+                                v-model="selectedCategories"
+                                :key="uuid"
+                                :options="categories"
+                        >
+                        </b-form-checkbox-group>
+                    </b-form-group>
+                    <invalid-small v-bind:style="{ display: selectedCategories ? 'none' : validateInput ? '' : 'none' }">
+                        Bitte Kategorie auswählen!</invalid-small>
+                    <br/>
+                </div>
             </div>
 
             <div class="borderbox">
@@ -71,19 +79,21 @@
                     <b-row>
                         <b-col>
 
-                            <div>
+                            <div class="datepicker">
                                 <b-form-datepicker
                                         v-model="minDate" :min="today" locale="de">
                                 </b-form-datepicker>
                             </div>
                         </b-col>
                         <b-col>
-                            <div>
+                            <div class="datepicker">
                                 <b-form-datepicker
-                                        id = "toDatepicker" v-model="maxDate" :min="minDate" locale="de" placeholder="bis...">
+                                        id="toDatepicker" v-model="maxDate" :min="minDate" locale="de"
+                                        placeholder="bis..." :disabled="checked == 1">
+
                                 </b-form-datepicker>
                                 <br>
-                                    <b-form-checkbox onclick="setDisabled()">Ohne Begrenzung</b-form-checkbox>
+                                <b-form-checkbox v-model="checked" :options="checkOptions">Ohne Begrenzung</b-form-checkbox>
                             </div>
                         </b-col>
                     </b-row>
@@ -92,32 +102,38 @@
 
             <div class="borderbox">
                 <h1>Standort</h1>
-                <div class="form-group validation">
+                <div class="form-group" :class="validateInput ? 'validate' : ''">
                     <label for="countryInput">Land: *</label>
                     <input type="text" class="form-control" id="countryInput" v-model="country" required>
-
                 </div>
+                <invalid-small v-bind:style="{ display: country ? 'none' : validateInput ? '' : 'none' }">
+                    Bitte Land eingeben!</invalid-small>
+                <br/>
 
                 <b-row>
                     <b-col md="3">
-                        <div class="form-group validation">
+                        <div class="form-group" :class="validateInput ? 'validate' : ''">
                             <label for="plzInput">PLZ: *</label>
                             <input type="text" class="form-control" id="plzInput" v-model="plz" required>
                         </div>
+                        <invalid-small v-bind:style="{ display: plz ? 'none' : validateInput ? '' : 'none' }">
+                            Bitte PLZ eingeben!</invalid-small>
+                        <br/>
                     </b-col>
                     <b-col>
-                        <div class="form-group validation">
+                        <div class="form-group" :class="validateInput ? 'validate' : ''">
                             <label for="cityInput">Stadt: *</label>
                             <input type="text" class="form-control" id="cityInput" v-model="city" required>
                         </div>
+                        <invalid-small v-bind:style="{ display: city ? 'none' : validateInput ? '' : 'none' }">
+                            Bitte Stadt eingeben!</invalid-small>
+                        <br/>
                     </b-col>
                 </b-row>
             </div>
 
             <b-button class="addButton" v-on:click="createArticle">
-                <a class="nav-link disabled" href="#">
-                    Artikel hinzufügen
-                </a>
+                <a class="nav-link disabled" href="#">Artikel hinzufügen</a>
             </b-button>
         </div>
     </div>
@@ -136,18 +152,22 @@
     })
 
     export default class ArticleCreationView extends Vue {
-        articleName = '';
-        articleDescription = '';
+        articleName: string = "";
+        articleDescription: string = "";
         selectedCategories: Category[] = [];
         image1 = '';
         image2 = '';
         image3 = '';
         image4 = '';
         image5 = '';
-        country = '';
-        plz = '';
-        city = '';
+        minDate: Date = new Date();
+        maxDate: any = null;
+        country: string = "";
+        plz: string = "";
+        city: string = "";
+        validateInput: boolean = false;
 
+        /*Article Description Count*/
         maxCount: number = 200;
         hasError: boolean = false;
         charCount: number = 0
@@ -157,31 +177,27 @@
             this.hasError = this.articleDescription.length > this.maxCount;
         }
 
+        /*Selected Categories*/
         categories: Category[] = this.getCategories();
 
         getCategories(): Category[] {
             return Object.values(Category)
         }
 
-
+        /*Availabilty*/
         today = new Date(moment().format("YYYY-MM-DD"));
-        minDate: Date = new Date();
-        maxDate: Date = new Date();
+        checked: number = 0;
+        checkOptions = [{ value: 0}, { value: 1}]
 
-        disabledState = false
-
-        setDisabled() {
-            this.disabledState = !this.disabledState;
-            $(".toDatepicker").prop("disabled", this.disabledState)
-        }
-
+        /*Create Article*/
         createArticle(): void {
+            this.validateInput = true;
             let name: string = this.articleDescription
             let description: string = this.articleDescription
             let image: any = null;
             let fromDate: Date = this.minDate;
             let toDate: Date = this.maxDate;
-            let country :string = this.country;
+            let country: string = this.country;
             let plz: string = this.plz;
             let city: string = this.city;
             let insertionDate: Date = new Date();
@@ -239,12 +255,13 @@
         outline: none !important;
     }
 
-    .validation input:required:focus:valid {
-        border: green solid 1px;
+    .validate input:invalid {
+        border-color: red;
     }
 
-    .validation input:focus:invalid {
-        border: red solid 1px;
+    invalid-small {
+        color: red;
+        float: left
     }
 
     .addButton {
