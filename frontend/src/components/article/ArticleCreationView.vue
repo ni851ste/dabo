@@ -208,7 +208,8 @@
             $.ajax({
                 url: "http://localhost:9000/users/articles/create",
                 type: "POST",
-                data: {
+                contentType: "application/json",
+                data: JSON.stringify ({
                     name: name,
                     description: description,
                     image: image,
@@ -218,9 +219,9 @@
                     plz: plz,
                     city: city,
                     insertionDate: insertionDate
-                },
+                }),
                 dataType: "application/json",
-                
+
                 success: result => {
                     console.log("success ", result)
                 },
