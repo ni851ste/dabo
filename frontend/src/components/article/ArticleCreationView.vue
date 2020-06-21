@@ -9,8 +9,9 @@
                     <label for="articleNameInput">Artikelbezeichnung: *</label>
                     <input type="text" class="form-control" id="articleNameInput" v-model="articleName" required>
                     <invalid-small v-bind:style="{ display: articleName ? 'none' : validateInput ? '' : 'none' }">
-                        Bitte Artikelbezeichnung eingeben!</invalid-small>
-                <br>
+                        Bitte Artikelbezeichnung eingeben!
+                    </invalid-small>
+                    <br>
                 </div>
 
                 <div class="form-group">
@@ -34,9 +35,6 @@
                         >
                         </b-form-checkbox-group>
                     </b-form-group>
-                    <invalid-small v-bind:style="{ display: selectedCategories ? 'none' : validateInput ? '' : 'none' }">
-                        Bitte Kategorie auswählen!</invalid-small>
-                    <br/>
                 </div>
             </div>
 
@@ -93,7 +91,8 @@
 
                                 </b-form-datepicker>
                                 <br>
-                                <b-form-checkbox v-model="checked" :options="checkOptions">Ohne Begrenzung</b-form-checkbox>
+                                <b-form-checkbox v-model="checked" :options="checkOptions">Ohne Begrenzung
+                                </b-form-checkbox>
                             </div>
                         </b-col>
                     </b-row>
@@ -107,7 +106,8 @@
                     <input type="text" class="form-control" id="countryInput" v-model="country" required>
                 </div>
                 <invalid-small v-bind:style="{ display: country ? 'none' : validateInput ? '' : 'none' }">
-                    Bitte Land eingeben!</invalid-small>
+                    Bitte Land eingeben!
+                </invalid-small>
                 <br/>
 
                 <b-row>
@@ -117,7 +117,8 @@
                             <input type="text" class="form-control" id="plzInput" v-model="plz" required>
                         </div>
                         <invalid-small v-bind:style="{ display: plz ? 'none' : validateInput ? '' : 'none' }">
-                            Bitte PLZ eingeben!</invalid-small>
+                            Bitte PLZ eingeben!
+                        </invalid-small>
                         <br/>
                     </b-col>
                     <b-col>
@@ -126,7 +127,8 @@
                             <input type="text" class="form-control" id="cityInput" v-model="city" required>
                         </div>
                         <invalid-small v-bind:style="{ display: city ? 'none' : validateInput ? '' : 'none' }">
-                            Bitte Stadt eingeben!</invalid-small>
+                            Bitte Stadt eingeben!
+                        </invalid-small>
                         <br/>
                     </b-col>
                 </b-row>
@@ -187,7 +189,7 @@
         /*Availabilty*/
         today = new Date(moment().format("YYYY-MM-DD"));
         checked: number = 0;
-        checkOptions = [{ value: 0}, { value: 1}]
+        checkOptions = [{value: 0}, {value: 1}]
 
         /*Create Article*/
         createArticle(): void {
