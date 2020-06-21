@@ -104,7 +104,7 @@
                                         <div class="datepicker">
                                             <b-form-datepicker
                                                     id="toDatepicker" v-model="maxDate" :min="minDate" locale="de"
-                                                    placeholder="bis..." :disabled="checked == 1">
+                                                    placeholder="bis..." :disabled="checked === 1">
 
                                             </b-form-datepicker>
                                             <br>
@@ -232,7 +232,7 @@
             $.ajax({
                 url: "http://localhost:9000/users/articles/create",
                 type: "POST",
-                data: {
+                data: JSON.stringify ({
                     name: name,
                     description: description,
                     image: image,
@@ -242,13 +242,8 @@
                     plz: plz,
                     city: city,
                     insertionDate: insertionDate
-                },
-                dataType: "application/json",
-
-                data: JSON.stringify({
-                    name: name, description: description, image: image, fromDate: fromDate, toDate: toDate,
-                    country: country, plz: plz, city: city, insertionDate: insertionDate
                 }),
+                dataType: "application/json",
                 contentType: "application/json",
                 success: result => {
                     console.log("success ", result)
