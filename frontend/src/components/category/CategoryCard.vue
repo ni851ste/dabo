@@ -47,5 +47,12 @@
 
     .card-body {
         padding: 0;
+        opacity: 1;
+        transition: .5s ease;
     }
+
+    .card-body:hover {
+        opacity: 0.7;
+    }
+
 </style>
