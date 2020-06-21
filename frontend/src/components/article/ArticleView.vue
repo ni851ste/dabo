@@ -1,7 +1,7 @@
 <template>
     <div>
         <NavigationBar msg="hallo" with-content-layout="true"></NavigationBar>
-        <FilterPanel @filteredArticles="items => articles = items"></FilterPanel>
+        <FilterPanel :category="this.category" @filteredArticles="items => articles = items"></FilterPanel>
         <div class="contentLayout">
             <div class="articleView">
 
@@ -44,6 +44,7 @@
 
     export default class ArticleView extends Vue {
         @Prop() articles!: Article[]
+        @Prop() category!: category
         perPage = 5;
         currentPage = 1;
 

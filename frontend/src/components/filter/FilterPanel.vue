@@ -67,6 +67,7 @@
 
     @Component
     export default class FilterPanel extends Vue {
+        @Prop() category!: Category
         categories: Category[] = this.getCategories();
         value: Number = 1
 
@@ -77,7 +78,7 @@
         location: string = "";
         searchString: string = "";
 
-        selectedCategories: Category[] = [];
+        selectedCategories: Category[] = [this.category]
 
         getFilteredArticles(): void {
             let articles: Article[] = [];
@@ -170,6 +171,7 @@
         width: 120px;
         display: inline-flex !important;
         border: none;
+        cursor: pointer;
     }
 
     :focus {
