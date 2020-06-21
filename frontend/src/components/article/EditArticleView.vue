@@ -21,8 +21,10 @@
 
                             <div class="form-group" :class="validateInput ? 'validate' : ''">
                                 <label for="articleNameInput">Artikelbezeichnung: *</label>
-                                <input type="text" class="form-control" id="articleNameInput" v-model="articleName" required>
-                                <invalid-small v-bind:style="{ display: articleName ? 'none' : validateInput ? '' : 'none' }">
+                                <input type="text" class="form-control" id="articleNameInput" v-model="articleName"
+                                       required>
+                                <invalid-small
+                                        v-bind:style="{ display: articleName ? 'none' : validateInput ? '' : 'none' }">
                                     Bitte Artikelbezeichnung eingeben!
                                 </invalid-small>
                                 <br>
@@ -33,7 +35,8 @@
                                 <label for="articleDescription"></label>
                                 <textarea class="form-control" id="articleDescription" v-on:keyup="countdown"
                                           v-model="articleDescription" required></textarea>
-                                <p class='text-right text-small' v-bind:class="{'text-danger': hasError }">{{charCount + '/' +
+                                <p class='text-right text-small' v-bind:class="{'text-danger': hasError }">{{charCount +
+                                    '/' +
                                     maxCount}}</p>
                             </div>
 
@@ -130,7 +133,8 @@
                                         <label for="plzInput">PLZ: *</label>
                                         <input type="text" class="form-control" id="plzInput" v-model="plz" required>
                                     </div>
-                                    <invalid-small v-bind:style="{ display: plz ? 'none' : validateInput ? '' : 'none' }">
+                                    <invalid-small
+                                            v-bind:style="{ display: plz ? 'none' : validateInput ? '' : 'none' }">
                                         Bitte PLZ eingeben!
                                     </invalid-small>
                                     <br/>
@@ -140,7 +144,8 @@
                                         <label for="cityInput">Stadt: *</label>
                                         <input type="text" class="form-control" id="cityInput" v-model="city" required>
                                     </div>
-                                    <invalid-small v-bind:style="{ display: city ? 'none' : validateInput ? '' : 'none' }">
+                                    <invalid-small
+                                            v-bind:style="{ display: city ? 'none' : validateInput ? '' : 'none' }">
                                         Bitte Stadt eingeben!
                                     </invalid-small>
                                     <br/>
@@ -149,12 +154,12 @@
                         </div>
 
 
-
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Abbrechen</button>
                         <button type="button" class="btn btn-primary" href="#" v-on:click="saveChanges">
-                            Änderungen speichern</button>
+                            Änderungen speichern
+                        </button>
                     </div>
                 </div>
             </div>
@@ -210,6 +215,7 @@
         checked: number = 0;
         checkOptions = [{value: 0}, {value: 1}]
 
+        /*Save Changes*/
         saveChanges(): void {
             this.validateInput = true;
             let name: string = this.articleDescription
@@ -221,9 +227,10 @@
             let plz: string = this.plz;
             let city: string = this.city;
             let insertionDate: Date = new Date();
+            // let article: Article = new Article(name, description, image, location, insertionDate)
 
             $.ajax({
-                url: "http://localhost:9000/users/articles/editArticle",
+                url: "http://localhost:9000/users/articles/create",
                 type: "POST",
                 data: {
                     name: name,
@@ -238,8 +245,10 @@
                 },
                 dataType: "application/json",
 
-                data: JSON.stringify({name: name, description: description, image: image, fromDate, toDate, country,
-                    plz, city, insertionDate: insertionDate }),
+                data: JSON.stringify({
+                    name: name, description: description, image: image, fromDate: fromDate, toDate: toDate,
+                    country: country, plz: plz, city: city, insertionDate: insertionDate
+                }),
                 contentType: "application/json",
                 success: result => {
                     console.log("success ", result)
@@ -255,7 +264,7 @@
 <style scoped>
 
     .borderbox {
-        border:#d0f2e1 solid 2px;
+        border: #d0f2e1 solid 2px;
         width: 100%;
         margin-top: 15px;
         margin-left: auto;
