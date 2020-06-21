@@ -100,6 +100,7 @@
     import NavigationBar from "@/components/NavigationBar.vue";
     import $ from "jquery";
     import BaseImageInput from "@/components/BaseImageInput.vue";
+    import passwordHash from "password-hash"
     import Article from "@/components/article/Article";
 
     @Component
@@ -123,27 +124,29 @@
         //TODO: handle success/ error
         register(): void {
             this.validateInput = true;
-            // $.ajax({
-            //     url: "http://localhost:9000/users/create",
-            //     type: "POST",
-            //     data: {
-            //         firstName: this.firstName,
-            //         surName: this.surName,
-            //         country: this.country,
-            //         plz: this.plz,
-            //         city: this.city,
-            //         street: this.street,
-            //         email: this.email,
-            //         password: this.password, //TODO: encode ???
-            //     },
-            //     dataType: "application/json",
-            //     success: result => {
-            //         console.log("success ", result)
-            //     },
-            //     error: error => {
-            //         console.log("error ", error)
-            //     }
-            // });
+            let hashedPassword = passwordHash.generate('password123');
+
+            $.ajax({
+                url: "http://localhost:9000/user/create",
+                type: "POST",
+                data: {
+                    firstName: this.firstName,
+                    surName: this.surName,
+                    country: this.country,
+                    plz: this.plz,
+                    city: this.city,
+                    street: this.street,
+                    email: this.email,
+                    password: hashedPassword
+                },
+                dataType: "application/json",
+                success: result => {
+                    console.log("success ", result)
+                },
+                error: error => {
+                    console.log("error ", error)
+                }
+            });
 
         }
     }
