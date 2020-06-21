@@ -38,17 +38,16 @@
                         v-on:click=""
                         id="category-checkbox-group"
                         v-model="selectedCategories"
-                        :key="uuid"
                         :options="categories"
                 >
                 </b-form-checkbox-group>
             </b-form-group>
-        <b-button class="applyFilter" v-on:click="getFilteredArticles()">
-            <a class="nav-link disabled" href="#">
-                <b-icon-funnel font-scale="1.2"></b-icon-funnel>
-                Filter anwenden
-            </a>
-        </b-button>
+            <b-button class="applyFilter" v-on:click="getFilteredArticles()">
+                <a class="nav-link disabled" href="#">
+                    <b-icon-funnel font-scale="1.2"></b-icon-funnel>
+                    Filter anwenden
+                </a>
+            </b-button>
         </div>
     </div>
 </template>
@@ -58,6 +57,7 @@
     import Category from "@/components/category/Category";
     import $ from "jquery";
     import {v4 as uuid} from 'uuid'
+    import Article from "@/components/article/Article";
 
     @Component
     export default class FilterPanel extends Vue {
@@ -73,6 +73,7 @@
         selectedCategories: Category[] = [];
 
         getFilteredArticles(): void {
+            let articles: Article[] = [];
             $.ajax({
                 url: "http://localhost:9000/users/articles",
                 type: "POST",
@@ -82,7 +83,18 @@
                 dataType: "json",
                 contentType: "application/json",
                 success: result => {
-                    console.log("success ", result)
+                    console.log("success ", result);
+
+                    for (let i = 0; i < result.length; i++) {
+                        console.log(result[i].name)
+                        articles[i] = new Article(result[i].name,
+                            result[i].description,
+                            result[i].image,
+                            result[i].location,
+                            new Date(result[i].insertionDate),
+                            result[i].category);
+                    }
+                    this.$emit('filteredArticles', articles)
                 },
                 error: error => {
                     console.log("error ", error)
