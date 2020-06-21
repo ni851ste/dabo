@@ -40,7 +40,8 @@
                         </div>
                         <div class="article-info">
                             <h3 class="headline" v-html="article.name"></h3>
-                            <b-form-rating class="rating" variant="warning" readonly v-model="articleRating"></b-form-rating>
+                            <b-form-rating class="rating" variant="warning" readonly
+                                           v-model="articleRating"></b-form-rating>
                             <!--TODO: dynamic categories-->
                             <div class="categories">
                                 <div class="category">
@@ -51,26 +52,26 @@
                                 </div>
                             </div>
                             <p class="description-section section" v-html="article.description"></p>
-<!--                            <div class="section">-->
+                            <!--                            <div class="section">-->
                             <!--                    Verfügbarkeit-->
-<!--                            </div>-->
+                            <!--                            </div>-->
                         </div>
 
                     </b-col>
                     <b-col cols="4" class="user-col bcol">
-                            <b-row class="user">
-                                <b-col class="bcol" cols="4">
-                                    <img class="clip-circle" :src="require(`@/assets/categoryImgs/haushalt.jpg`)" alt="">
-                                </b-col>
-                                <b-col align-self="stretch bcol" class="user-details" cols="5">
-                                    Max Mustermann
-                                    <b-form-rating class="rating" variant="warning" readonly v-model="userRating"></b-form-rating>
-                                    <p class="section">
-                                        Adresse:
-                                    <p v-html="article.location">
-                                    </p>
-                                </b-col>
-                            </b-row>
+                        <b-row class="user">
+                            <b-col class="bcol" cols="4">
+                                <img class="clip-circle" :src="require(`@/assets/categoryImgs/haushalt.jpg`)" alt="">
+                            </b-col>
+                            <b-col align-self="stretch bcol" class="user-details" cols="5">
+                                {{this.userName}}
+                                <b-form-rating class="rating" variant="warning" readonly
+                                               v-model="userRating"></b-form-rating>
+                                <p class="section"></p>
+                                Adresse:
+                                {{this.userAddress}}
+                            </b-col>
+                        </b-row>
                     </b-col>
                 </b-row>
             </b-container>
@@ -84,13 +85,13 @@
     import Article from "@/components/article/Article";
     import moment from "moment";
     import Rating from "@/components/rating/Rating";
-    // import $ from "jquery";
+    import User from "@/components/user/User";
+    import $ from "jquery";
 
     @Component({
         components: {NavigationBar}
     })
     export default class SingleArticlePage extends Vue {
-        //TODO: User prop
         @Prop() private article!: Article;
         @Prop({
             required: false,
@@ -98,16 +99,92 @@
         }) private showAlert!: boolean;
         articleRating: number = this.getAvgStars(this.article.ratings);
 
-        //TODO: use this: userRating: number = this.getAvgStars(this.user.ratings);
-        userRating: number = 2;
+        constructor() {
+            super();
+            this.userName = ""
+            this.articleRating = 0
+            this.userRating = 0
+            this.userAddress = ""
+            console.log("constructor--")
+            this.getUser = this.getUser.bind(this)
+            this.getAvgStars = this.getAvgStars.bind(this)
+            this.getUserName = this.getUserName.bind(this)
+            // this.user = new User(0, "email", "password", "max", "mustermann", "picture", true, new Address("starße", "12344", "Konstanz", "Deutschland", true), [], [], [], [], []);
+            this.user = this.getUser();
+            // this.articleRating = this.getAvgStars(this.article.ratings);
+            // this.userRating = this.user != null ? this.getAvgStars(this.user.ratings) : 0;
+            if (this.user == null) {
+
+            }
+        }
+
+        getUser(): User | null {
+            let user: User | null = null;
+            console.log(this.article);
+
+            $.ajax({
+                url: "http://localhost:9000/user/" + this.article.userId,
+                type: "GET",
+                success: result => {
+                    this.user = result;
+                    user = result;
+                    console.log("success ", result);
+                },
+                error: error => {
+                    console.log("error ", error)
+                }
+            })
+                .then(() => {
+                    this.articleRating = this.getAvgStars(this.article.ratings);
+                    this.userRating = this.user ? this.getAvgStars(this.user.ratings) : 0;
+                    this.userName = this.getUserName()
+                    this.userAddress = this.getUserAddress()
+                    console.log("userNAme",this.userName)
+                    }
+                )
+            return user;
+        }
+
+        getUserName(): string {
+            console.log("get Username ", this.user)
+            if (!this.user)
+                return "";
+
+            if (this.user.lastNameVisible) {
+                console.log(this.user.name[0] + " " + this.user.name[1])
+                return this.user.name[0] + " " + this.user.name[1];
+            } else {
+                console.log(this.user.name[0] )
+                return this.user.name[0]
+            }
+        }
+
+        getUserAddress(): string {
+            if (!this.user)
+                return "";
+
+            if (this.user.address.streetVisible) {
+                console.log(this.user.address.street + "\n " + this.user.address.plz + " "+ this.user.address.city
+                + "\n " + this.user.address.country)
+                return this.user.address.street + "\n " + this.user.address.plz + " "+ this.user.address.city
+                    + "\n " + this.user.address.country;
+            } else {
+                console.log(this.user.address.plz + " "+ this.user.address.city
+                    + "\n " + this.user.address.country )
+                return this.user.address.plz + " "+ this.user.address.city
+                    + "\n " + this.user.address.country
+            }
+        }
 
         getAvgStars(ratings: Rating[]): number {
+            if(!ratings || ratings.length === 0) {
+                return 0
+            }
             let starSum: number = 0;
 
-            for(let rating of ratings) {
+            for (let rating of ratings) {
                 starSum += rating.amountOfStars;
             }
-
             return starSum / ratings.length;
         }
 

@@ -9,11 +9,12 @@ export default class Article {
     insertionDate: Date;
     category: Category[];
     ratings: Rating[] ;
+    userId: number;
     // Uuid
     // Verfügbarkeit
 
 
-    constructor(name: string, description: string, image: any, location: string, insertionDate: Date, category : Category[], ratings: Rating[]) {
+    constructor(name: string, description: string, image: any, location: string, insertionDate: Date, category : Category[], ratings: Rating[], userId: number) {
         this.description = description;
         this.name = name;
         this.image = image;
@@ -21,5 +22,6 @@ export default class Article {
         this.insertionDate = insertionDate;
         this.category = category;
         this.ratings = ratings;
+        this.userId = userId;
     }
 }
