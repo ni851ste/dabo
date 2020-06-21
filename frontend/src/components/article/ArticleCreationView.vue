@@ -220,10 +220,7 @@
                     insertionDate: insertionDate
                 },
                 dataType: "application/json",
-
-                data: JSON.stringify({name: name, description: description, image: image, fromDate: fromDate,
-                    toDate: toDate, country: country, plz: plz, city: city, insertionDate: insertionDate }),
-                contentType: "application/json",
+                
                 success: result => {
                     console.log("success ", result)
                 },
