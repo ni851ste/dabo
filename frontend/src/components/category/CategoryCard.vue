@@ -1,11 +1,10 @@
 <template>
     <div class="card">
         <b-button class="card-body" v-on:click="getFilteredArticles()">
-            <img class="card-img-top" :src="require(`@/assets/categoryImgs/${img}`)" alt="Card image cap">
-            <h5 class="categoryLabel">
-                {{category}}
-            </h5>
-            <span class="color-overlay"></span>
+                <img class="card-img-top" :src="require(`@/assets/categoryImgs/${img}`)" alt="Card image cap">
+                <h5 class="categoryLabel">
+                    {{category}}
+                </h5>
         </b-button>
     </div>
 </template>
@@ -39,7 +38,9 @@
                             result[i].image,
                             result[i].location,
                             new Date(result[i].insertionDate),
-                            result[i].category);
+                            result[i].category,
+                            //TODO: waiting for backend support
+                            []);
                     }
                     //code is working, IntelliJ is just fooling around
                     this.$router.push({name: 'articles', params: {articles: articles, category: this.category}});
@@ -78,21 +79,13 @@
 
     .card-body {
         padding: 0;
+        opacity: 1;
+        transition: .5s ease;
         border: none;
     }
 
-    span.color-overlay {
-        background: rgba(255, 255, 255, 0.3);
-        display: none;
-        height: 250px;
-        width: 400px;
-        position: relative;
-        bottom: 250px;
-        margin-bottom: -250px;
-    }
-
-    .card-body:hover span.color-overlay {
-        display: block;
+    .card-body:hover {
+        opacity: 0.7;
     }
 
 </style>

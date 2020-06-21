@@ -39,7 +39,7 @@
                         </div>
                         <div class="article-info">
                             <h3 class="headline" v-html="article.name"></h3>
-                            <b-form-rating class="rating" variant="warning" readonly v-model="value"></b-form-rating>
+                            <b-form-rating class="rating" variant="warning" readonly v-model="articleRating"></b-form-rating>
                             <!--TODO: dynamic categories-->
                             <div class="categories">
                                 <div class="category">
@@ -63,7 +63,7 @@
                                 </b-col>
                                 <b-col align-self="stretch bcol" class="user-details" cols="5">
                                     Max Mustermann
-                                    <b-form-rating class="rating" variant="warning" readonly v-model="value"></b-form-rating>
+                                    <b-form-rating class="rating" variant="warning" readonly v-model="userRating"></b-form-rating>
                                     <p class="section">
                                         Adresse:
                                     <p v-html="article.location">
@@ -82,6 +82,7 @@
     import NavigationBar from "@/components/NavigationBar.vue";
     import Article from "@/components/article/Article";
     import moment from "moment";
+    import Rating from "@/components/rating/Rating";
     // import $ from "jquery";
 
     @Component({
@@ -89,8 +90,21 @@
     })
     export default class SingleArticlePage extends Vue {
         //TODO: User prop
-        @Prop() private article!: Article
-        private value: number = 2
+        @Prop() private article!: Article;
+        articleRating: number = this.getAvgStars(this.article.ratings);
+
+        //TODO: use this: userRating: number = this.getAvgStars(this.user.ratings);
+        userRating: number = 2;
+
+        getAvgStars(ratings: Rating[]): number {
+            let starSum: number = 0;
+
+            for(let rating of ratings) {
+                starSum += rating.amountOfStars;
+            }
+
+            return starSum / ratings.length;
+        }
 
         getDate(): string {
             return moment(this.article.insertionDate).format(" DD MMMM YYYY")
