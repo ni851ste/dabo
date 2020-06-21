@@ -28,6 +28,13 @@
             ></b-form-input>
         </div>
         <hr/>
+        <div class="filterOption">
+            <label>
+                Bewertung ab
+            </label>
+            <b-form-rating class="rating" variant="warning" v-model="value"></b-form-rating>
+        </div>
+        <hr/>
         <div class="categoryCheckboxes filterOption">
             <label>
                 <b-icon-list-ul font-scale="1.2"></b-icon-list-ul>
@@ -56,12 +63,12 @@
     import {Component, Prop, Vue} from 'vue-property-decorator';
     import Category from "@/components/category/Category";
     import $ from "jquery";
-    import {v4 as uuid} from 'uuid'
     import Article from "@/components/article/Article";
 
     @Component
     export default class FilterPanel extends Vue {
         categories: Category[] = this.getCategories();
+        value: Number = 1
 
         getCategories(): Category[] {
             return Object.values(Category)
@@ -74,6 +81,7 @@
 
         getFilteredArticles(): void {
             let articles: Article[] = [];
+
             $.ajax({
                 url: "http://localhost:9000/users/articles",
                 type: "POST",
@@ -160,6 +168,11 @@
         border-radius: 3px;
     }
 
+    .rating {
+        width: 120px;
+        display: inline-flex !important;
+        border: none;
+    }
 
     :focus {
         outline: none !important;
