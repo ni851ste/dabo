@@ -1,25 +1,55 @@
-
 <template>
     <div class="card">
-        <router-link to="/articles">
-            <div class="card-body">
-                <img class="card-img-top" :src="require(`@/assets/categoryImgs/${img}`)" alt="Card image cap">
-                <h5 class="categoryLabel">
-                    {{category}}
-                </h5>
-                <span class="color-overlay"></span>
-            </div>
-        </router-link>
+        <b-button class="card-body" v-on:click="getFilteredArticles()">
+            <img class="card-img-top" :src="require(`@/assets/categoryImgs/${img}`)" alt="Card image cap">
+            <h5 class="categoryLabel">
+                {{category}}
+            </h5>
+            <span class="color-overlay"></span>
+        </b-button>
     </div>
 </template>
 
 <script lang="ts">
-    import { Component, Prop, Vue } from 'vue-property-decorator';
+    import {Component, Prop, Vue} from 'vue-property-decorator';
+    import $ from "jquery";
+    import Article from "@/components/article/Article";
 
     @Component
     export default class CategoryCard extends Vue {
         @Prop() readonly category!: string;
         @Prop() readonly img!: string
+
+        getFilteredArticles() {
+            let articles: Article[] = [];
+            $.ajax({
+                url: "http://localhost:9000/users/articles",
+                type: "POST",
+                data: JSON.stringify({
+                    categories: [this.category],
+                }),
+                dataType: "json",
+                contentType: "application/json",
+                success: result => {
+                    console.log("success", result);
+
+                    for (let i = 0; i < result.length; i++) {
+                        articles[i] = new Article(result[i].name,
+                            result[i].description,
+                            result[i].image,
+                            result[i].location,
+                            new Date(result[i].insertionDate),
+                            result[i].category);
+                    }
+                    //code is working, IntelliJ is just fooling around
+                    this.$router.push({name: 'articles', params: {articles: articles, category: this.category}});
+
+                },
+                error: error => {
+                    console.log("error ", error)
+                }
+            });
+        }
     }
 </script>
 
@@ -48,6 +78,7 @@
 
     .card-body {
         padding: 0;
+        border: none;
     }
 
     span.color-overlay {
@@ -61,7 +92,7 @@
     }
 
     .card-body:hover span.color-overlay {
-        display:block;
+        display: block;
     }
 
 </style>
