@@ -38,13 +38,13 @@
 <style scoped>
     .base-image-input {
         display: block;
-        width: 150px;
-        height: 200px;
+        width: 9vw;
+        height: 13vw;
         cursor: pointer;
         background-size: cover;
         background-position: center center;
-        margin-right: 10px;
-        margin-left: 10px;
+        margin-right: 0.5vw;
+        margin-left: 0.5vw;
         border: #d0f2e1 solid 3px;
         border-radius: 8px;
     }
