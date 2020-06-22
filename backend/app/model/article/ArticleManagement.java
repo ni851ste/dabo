@@ -36,7 +36,7 @@ public class ArticleManagement
      * quintet[5]: Category List
      */
     // TODO can this method fail?
-    public Sextet<Integer, String, String, String, String, List<String>> createArticle(Quintet<String, String, String, String, List<String>> data)
+    public Optional<Sextet<Integer, String, String, String, String, List<String>>> createArticle(Quintet<String, String, String, String, List<String>> data)
     {
         int localIdCounter = this.globalIdCounter;
 
@@ -46,7 +46,7 @@ public class ArticleManagement
 
         this.globalIdCounter += 1;
         // Return value is never Optional.empty since this method does not fail to date
-        return returnValue.orElseGet(() -> new Sextet<>(-1, "", "", "", "", new ArrayList<>()));
+        return returnValue;
     }
 
     /**
@@ -60,10 +60,10 @@ public class ArticleManagement
      * quintet[4]: City - Location
      * quintet[5]: Category List
      */
-    public Sextet<Integer, String, String, String, String, List<String>> getArticleById(int articleId)
+    public Optional<Sextet<Integer, String, String, String, String, List<String>>> getArticleById(int articleId)
     {
         Optional<Sextet<Integer, String, String, String, String, List<String>>> searchedArticle = database.getArticleById(articleId);
-        return searchedArticle.orElseGet(() -> new Sextet<>(-1, "", "", "", "", new ArrayList<>()));
+        return searchedArticle;
     }
 
     /**
@@ -83,10 +83,10 @@ public class ArticleManagement
      * quintet[4]: City - Location
      * quintet[5]: Category List
      */
-    public Sextet<Integer, String, String, String, String, List<String>> updateArticle(int articleId, Quintet<String, String, String, String, List<String>> data)
+    public Optional<Sextet<Integer, String, String, String, String, List<String>>> updateArticle(int articleId, Quintet<String, String, String, String, List<String>> data)
     {
         Optional<Sextet<Integer, String, String, String, String, List<String>>> updatedArticle = database.updateArticle(articleId, data);
-        return updatedArticle.orElseGet(() -> new Sextet<>(-1, "", "", "", "", new ArrayList<>()));
+        return updatedArticle;
     }
 
     /**
@@ -100,10 +100,10 @@ public class ArticleManagement
      * quintet[4]: City - Location
      * quintet[5]: Category List
      */
-    public Sextet<Integer, String, String, String, String, List<String>> deleteArticle(int articleId)
+    public Optional<Sextet<Integer, String, String, String, String, List<String>>> deleteArticle(int articleId)
     {
         Optional<Sextet<Integer, String, String, String, String, List<String>>> deletedArticle = database.deleteArticle(articleId);
-        return deletedArticle.orElseGet(() -> new Sextet<>(-1, "", "", "", "", new ArrayList<>()));
+        return deletedArticle;
     }
 
     /**

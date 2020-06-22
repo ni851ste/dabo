@@ -1,6 +1,5 @@
 package persistence;
 
-import org.javatuples.Quartet;
 import org.javatuples.Quintet;
 import org.javatuples.Sextet;
 

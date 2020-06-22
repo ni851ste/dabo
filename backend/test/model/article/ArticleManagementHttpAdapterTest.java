@@ -21,6 +21,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.Assert.assertEquals;
 import static play.mvc.Http.Status.OK;
@@ -30,6 +31,8 @@ import static play.inject.Bindings.bind;
 import static play.test.Helpers.*;
 
 public class ArticleManagementHttpAdapterTest extends WithApplication {
+
+
 
     @Before
     public void setup() throws IOException
@@ -61,11 +64,13 @@ public class ArticleManagementHttpAdapterTest extends WithApplication {
 
 
 
+
+
         ArticleManagement articleManagement = Mockito.mock(ArticleManagement.class);
-        Mockito.when(articleManagement.createArticle(mockCreateArticle)).thenReturn(mockCreateFinishArticle);
-        Mockito.when(articleManagement.getArticleById(0)).thenReturn(mockArticle);
-        Mockito.when(articleManagement.deleteArticle(0)).thenReturn(mockArticle);
-        Mockito.when(articleManagement.updateArticle(0,mockToBeUpdatedArticle)).thenReturn(mockUpdateArticle);
+        Mockito.when(articleManagement.createArticle(mockCreateArticle)).thenReturn(Optional.of(mockCreateFinishArticle));
+        Mockito.when(articleManagement.getArticleById(0)).thenReturn(Optional.of(mockArticle));
+        Mockito.when(articleManagement.deleteArticle(0)).thenReturn(Optional.of(mockArticle));
+        Mockito.when(articleManagement.updateArticle(0,mockToBeUpdatedArticle)).thenReturn(Optional.of(mockUpdateArticle));
         Mockito.when(articleManagement.filterArticles(al)).thenReturn(filterList);
 
         return new GuiceApplicationBuilder()
