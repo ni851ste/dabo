@@ -42,6 +42,7 @@
 <script lang="ts">
     import NavigationBar from "../NavigationBar.vue";
     import {Component, Vue} from 'vue-property-decorator';
+    import {Md5} from 'ts-md5/dist/md5';
 
     @Component({
         components: {NavigationBar}
@@ -60,12 +61,14 @@
                 return;
             }
 
+            let hashedPassword = Md5.hashStr(this.password);
+
             $.ajax({
-                url: "http://localhost:9000/users/login",
+                url: "http://localhost:9000/user/login",
                 type: "POST",
                 data: {
                     email: this.email,
-                    password: this.password, //TODO: encode ???
+                    password: hashedPassword
                 },
                 dataType: "application/json",
                 success: result => {

@@ -15,7 +15,7 @@
     "jquery": "^3.5.1",
     "lodash": "^4.17.15",
     "moment": "latest",
-    "password-hash": "^1.2.2",
+    "ts-md5": "^1.2.7",
     "vue": "^2.6.11",
     "vue-class-component": "^7.2.3",
     "vue-property-decorator": "^8.4.1",
