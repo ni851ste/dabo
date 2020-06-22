@@ -14,13 +14,13 @@
                             Bitte Vornamen eingeben!</small>
                         <br/>
 
-                        <label for="surname">Nachname</label>
-                        <input type="text" class="form-control" id="surname" placeholder="Nachname" v-model="surName"
+                        <label for="lastname">Nachname</label>
+                        <input type="text" class="form-control" id="lastname" placeholder="Nachname" v-model="lastName"
                                required>
-                        <small v-bind:style="{ display: surName ? 'none' : validateInput ? '' : 'none' }">
+                        <small v-bind:style="{ display: lastName ? 'none' : validateInput ? '' : 'none' }">
                             Bitte Nachnamen eingeben!</small>
                         <br/>
-                        <b-form-checkbox class="itemFloatLeft" v-model="surNameVisible">
+                        <b-form-checkbox class="itemFloatLeft" v-model="lastNameVisible">
                             <small class="form-text text-muted">Nachname im Profil anzeigen</small>
                         </b-form-checkbox>
                     </div>
@@ -29,7 +29,7 @@
                         <small class="form-text text-muted center">Profilbild hochladen</small>
                     </div>
                 </div>
-<!--                <br/>-->
+                <!--                <br/>-->
 
                 <hr/>
 
@@ -100,8 +100,8 @@
     import NavigationBar from "@/components/NavigationBar.vue";
     import $ from "jquery";
     import BaseImageInput from "@/components/BaseImageInput.vue";
-    import passwordHash from "password-hash"
     import Article from "@/components/article/Article";
+    import {Md5} from 'ts-md5/dist/md5';
 
     @Component
     ({
@@ -111,8 +111,8 @@
         passwordVisible: boolean = false;
         validateInput: boolean = false;
         firstName: string = "";
-        surName: string = "";
-        surNameVisible: boolean = true;
+        lastName: string = "";
+        lastNameVisible: boolean = true;
         country: string = "";
         plz: string = "";
         city: string = "";
@@ -124,22 +124,34 @@
         //TODO: handle success/ error
         register(): void {
             this.validateInput = true;
-            let hashedPassword = passwordHash.generate('password123');
+
+            if (!this.firstName || !this.lastName || !this.country || !this.plz ||
+                !this.street || !this.city || !this.email || !this.password) {
+                return;
+            }
+
+            let hashedPassword = Md5.hashStr(this.password);
 
             $.ajax({
                 url: "http://localhost:9000/user/create",
                 type: "POST",
-                data: {
+                data: JSON.stringify({
                     firstName: this.firstName,
-                    surName: this.surName,
-                    country: this.country,
-                    plz: this.plz,
-                    city: this.city,
-                    street: this.street,
+                    lastName: this.lastName,
+                    lastNameVisible: this.lastNameVisible,
+                    address: [
+                        this.country,
+                        this.plz,
+                        this.city,
+                        this.street,
+                    ],
+                    picture: null,
+                        // streetVisible: this.streetVisible,
                     email: this.email,
-                    password: hashedPassword
-                },
-                dataType: "application/json",
+                    password: hashedPassword,
+                }),
+                dataType: "json",
+                contentType: "application/json",
                 success: result => {
                     console.log("success ", result)
                 },
