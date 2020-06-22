@@ -14,7 +14,8 @@ import java.util.List;
 import static play.mvc.Results.badRequest;
 import static play.mvc.Results.ok;
 
-public class UserHttpAdapter {
+public class UserHttpAdapter
+{
 
     UserManagement userManagement = new UserManagement();
 
@@ -34,15 +35,13 @@ public class UserHttpAdapter {
         List<String> addrList = new ArrayList<>();
         json.get("address").forEach(node -> addrList.add(node.asText()));
 
-        Triplet<String,String,Boolean> nameList = new Triplet<>(json.get("firstName").asText(), json.get("lastName").asText(), json.get("lastNameVisible").asBoolean());
+        Triplet<String, String, Boolean> nameList = new Triplet<>(json.get("firstName").asText(),
+                json.get("lastName").asText(),
+                json.get("lastNameVisible").asBoolean());
 
 
-
-
-
-        Ennead<String, String, Triplet<String, String, Boolean>, Integer, String, List<Integer>, List<Integer>,List<Integer>, List<String>>
-                toBeCreatedUser =
-                new Ennead(json.get("email").asText(),
+        Decade<Integer, String, String, Triplet<String, String, Boolean>, Integer, String, List<Integer>, List<Integer>, List<Integer>, List<String>> createdUser =
+                userManagement.createUser(new Ennead(json.get("email").asText(),
                         json.get("password").asText(),
                         nameList,
                         json.get("rating").asInt(),
@@ -50,22 +49,9 @@ public class UserHttpAdapter {
                         lendList,
                         borrowList,
                         pinnList,
-                        addrList);
+                        addrList));
 
-
-//        System.out.println(toBeCreatedUser);
-        Decade<Integer, String, String, Triplet<String,String,Boolean>, Integer, String, List<Integer>, List<Integer>,List<Integer>, List<String>>
-                createdUser = userManagement.createUser(new Ennead(json.get("email").asText(),
-                json.get("password").asText(),
-                nameList,
-                json.get("rating").asInt(),
-                json.get("picture").asText(),
-                lendList,
-                borrowList,
-                pinnList,
-                addrList));
-
-        if(createdUser.getValue0() == -1)
+        if (createdUser.getValue0() == -1)
         {
             return badRequest();
         }
@@ -85,17 +71,18 @@ public class UserHttpAdapter {
                     .put("borrowed", createdUser.getValue7())
                     .put("pinned", createdUser.getValue8())
                     .put("address", createdUser.getValue9());
-//            System.out.println(returnJson.toString());
+
             return ok(returnJson.toString())
                     .as("application/json");
         }
 
     }
 
-    public Result getUserById(int id) {
+    public Result getUserById(int id)
+    {
 
-        Decade<Integer, String, String, Triplet<String,String,Boolean>, Integer, String, List<Integer>, List<Integer>,List<Integer>, List<String>>
-                foundUser = userManagement.getUserByID(id);
+        Decade<Integer, String, String, Triplet<String, String, Boolean>, Integer, String, List<Integer>, List<Integer>, List<Integer>, List<String>> foundUser =
+                userManagement.getUserByID(id);
 
         if (foundUser.getValue0() == -1)
         {
@@ -117,16 +104,18 @@ public class UserHttpAdapter {
                     .put("borrowed", foundUser.getValue7())
                     .put("pinned", foundUser.getValue8())
                     .put("address", foundUser.getValue9());
-//            System.out.println(returnJson.toString());
+
             return ok(returnJson.toString())
                     .as("application/json");
         }
     }
 
-    public Result deleteUser(int id){
-        Decade<Integer, String, String, Triplet<String,String,Boolean>, Integer, String, List<Integer>, List<Integer>,List<Integer>, List<String>>
-                deletedUser = userManagement.deleteUser(id);
-        if(deletedUser.getValue0() == -1)
+    public Result deleteUser(int id)
+    {
+        Decade<Integer, String, String, Triplet<String, String, Boolean>, Integer, String, List<Integer>, List<Integer>, List<Integer>, List<String>> deletedUser =
+                userManagement.deleteUser(id);
+
+        if (deletedUser.getValue0() == -1)
         {
             return badRequest();
         }
@@ -145,12 +134,14 @@ public class UserHttpAdapter {
                     .put("borrowed", deletedUser.getValue7())
                     .put("pinned", deletedUser.getValue8())
                     .put("address", deletedUser.getValue9());
+
             return ok(returnJson.toString())
                     .as("application/json");
         }
     }
 
-    public Result updateUser(int id, Request update) {
+    public Result updateUser(int id, Request update)
+    {
 
         JsonNode json = update.body().asJson();
 
@@ -167,10 +158,11 @@ public class UserHttpAdapter {
         json.get("address").forEach(node -> addrList.add(node.asText()));
 
 
-        Triplet<String,String,Boolean> nameList = new Triplet<>(json.get("firstName").asText(), json.get("lastName").asText(), json.get("lastNameVisible").asBoolean());
+        Triplet<String, String, Boolean> nameList = new Triplet<>(json.get("firstName").asText(),
+                json.get("lastName").asText(),
+                json.get("lastNameVisible").asBoolean());
 
-        Ennead<String, String, Triplet<String,String,Boolean>, Integer, String, List<Integer>, List<Integer>,List<Integer>, List<String>>
-                toBeUpdatedUser =
+        Ennead<String, String, Triplet<String, String, Boolean>, Integer, String, List<Integer>, List<Integer>, List<Integer>, List<String>> toBeUpdatedUser =
                 new Ennead(json.get("email").asText(),
                         json.get("password").asText(),
                         nameList,
@@ -181,9 +173,10 @@ public class UserHttpAdapter {
                         pinnList,
                         addrList);
 
-        Decade<Integer, String, String, Triplet<String,String,Boolean>, Integer, String, List<Integer>, List<Integer>,List<Integer>, List<String>>
-                updatedUser = userManagement.updateUser(id, toBeUpdatedUser);
-        if(updatedUser.getValue0() == -1)
+        Decade<Integer, String, String, Triplet<String, String, Boolean>, Integer, String, List<Integer>, List<Integer>, List<Integer>, List<String>> updatedUser =
+                userManagement.updateUser(id, toBeUpdatedUser);
+
+        if (updatedUser.getValue0() == -1)
         {
             return badRequest();
         }
