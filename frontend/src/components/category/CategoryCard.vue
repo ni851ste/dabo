@@ -39,6 +39,7 @@
                             result[i].location,
                             new Date(result[i].insertionDate),
                             result[i].category,
+                            //TODO: waiting for backend support
                             []
                         );
                     }
@@ -80,8 +81,8 @@
     .card-body {
         padding: 0;
         opacity: 1;
-        border: none;
         transition: .5s ease;
+        border: none;
     }
 
     .card-body:hover {
