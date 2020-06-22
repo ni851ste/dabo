@@ -104,10 +104,10 @@
                 <div class="form-group" :class="validateInput ? 'validate' : ''">
                     <label for="countryInput">Land: *</label>
                     <input type="text" class="form-control" id="countryInput" v-model="country" required>
+                    <invalid-small v-bind:style="{ display: country ? 'none' : validateInput ? '' : 'none' }">
+                        Bitte Land eingeben!
+                    </invalid-small>
                 </div>
-                <invalid-small v-bind:style="{ display: country ? 'none' : validateInput ? '' : 'none' }">
-                    Bitte Land eingeben!
-                </invalid-small>
                 <br/>
 
                 <b-row>
@@ -115,20 +115,20 @@
                         <div class="form-group" :class="validateInput ? 'validate' : ''">
                             <label for="plzInput">PLZ: *</label>
                             <input type="text" class="form-control" id="plzInput" v-model="plz" required>
+                            <invalid-small v-bind:style="{ display: plz ? 'none' : validateInput ? '' : 'none' }">
+                                Bitte PLZ eingeben!
+                            </invalid-small>
                         </div>
-                        <invalid-small v-bind:style="{ display: plz ? 'none' : validateInput ? '' : 'none' }">
-                            Bitte PLZ eingeben!
-                        </invalid-small>
                         <br/>
                     </b-col>
                     <b-col>
                         <div class="form-group" :class="validateInput ? 'validate' : ''">
                             <label for="cityInput">Stadt: *</label>
                             <input type="text" class="form-control" id="cityInput" v-model="city" required>
+                            <invalid-small v-bind:style="{ display: city ? 'none' : validateInput ? '' : 'none' }">
+                                Bitte Stadt eingeben!
+                            </invalid-small>
                         </div>
-                        <invalid-small v-bind:style="{ display: city ? 'none' : validateInput ? '' : 'none' }">
-                            Bitte Stadt eingeben!
-                        </invalid-small>
                         <br/>
                     </b-col>
                 </b-row>

@@ -1,10 +1,10 @@
 <template>
     <div class="card">
         <b-button class="card-body" v-on:click="getFilteredArticles()">
-                <img class="card-img-top" :src="require(`@/assets/categoryImgs/${img}`)" alt="Card image cap">
-                <h5 class="categoryLabel">
-                    {{category}}
-                </h5>
+            <img class="card-img-top" :src="require(`@/assets/categoryImgs/${img}`)" alt="Card image cap">
+            <h5 class="categoryLabel">
+                {{category}}
+            </h5>
         </b-button>
     </div>
 </template>
@@ -40,7 +40,8 @@
                             new Date(result[i].insertionDate),
                             result[i].category,
                             //TODO: waiting for backend support
-                            []);
+                            []
+                        );
                     }
                     //code is working, IntelliJ is just fooling around
                     this.$router.push({name: 'articles', params: {articles: articles, category: this.category}});
