@@ -28,6 +28,13 @@
             ></b-form-input>
         </div>
         <hr/>
+        <div class="filterOption">
+            <label>
+                Bewertung ab
+            </label>
+            <b-form-rating class="rating" variant="warning" v-model="value"></b-form-rating>
+        </div>
+        <hr/>
         <div class="categoryCheckboxes filterOption">
             <label>
                 <b-icon-list-ul font-scale="1.2"></b-icon-list-ul>
@@ -38,17 +45,16 @@
                         v-on:click=""
                         id="category-checkbox-group"
                         v-model="selectedCategories"
-                        :key="uuid"
                         :options="categories"
                 >
                 </b-form-checkbox-group>
             </b-form-group>
-        <b-button class="applyFilter" v-on:click="getFilteredArticles()">
-            <a class="nav-link disabled" href="#">
-                <b-icon-funnel font-scale="1.2"></b-icon-funnel>
-                Filter anwenden
-            </a>
-        </b-button>
+            <b-button class="applyFilter" v-on:click="getFilteredArticles()">
+                <a class="nav-link disabled" href="#">
+                    <b-icon-funnel font-scale="1.2"></b-icon-funnel>
+                    Filter anwenden
+                </a>
+            </b-button>
         </div>
     </div>
 </template>
@@ -57,11 +63,13 @@
     import {Component, Prop, Vue} from 'vue-property-decorator';
     import Category from "@/components/category/Category";
     import $ from "jquery";
-    import {v4 as uuid} from 'uuid'
+    import Article from "@/components/article/Article";
 
     @Component
     export default class FilterPanel extends Vue {
+        @Prop() category!: Category
         categories: Category[] = this.getCategories();
+        value: Number = 1
 
         getCategories(): Category[] {
             return Object.values(Category)
@@ -70,9 +78,11 @@
         location: string = "";
         searchString: string = "";
 
-        selectedCategories: Category[] = [];
+        selectedCategories: Category[] = [this.category]
 
         getFilteredArticles(): void {
+            let articles: Article[] = [];
+
             $.ajax({
                 url: "http://localhost:9000/users/articles",
                 type: "POST",
@@ -82,7 +92,18 @@
                 dataType: "json",
                 contentType: "application/json",
                 success: result => {
-                    console.log("success ", result)
+                    console.log("success ", result);
+
+                    for (let i = 0; i < result.length; i++) {
+                        console.log(result[i].name)
+                        articles[i] = new Article(result[i].name,
+                            result[i].description,
+                            result[i].image,
+                            result[i].location,
+                            new Date(result[i].insertionDate),
+                            result[i].category);
+                    }
+                    this.$emit('filteredArticles', articles)
                 },
                 error: error => {
                     console.log("error ", error)
@@ -146,6 +167,12 @@
         border-radius: 3px;
     }
 
+    .rating {
+        width: 120px;
+        display: inline-flex !important;
+        border: none;
+        cursor: pointer;
+    }
 
     :focus {
         outline: none !important;

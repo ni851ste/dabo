@@ -1,7 +1,7 @@
 <template>
     <div>
         <NavigationBar msg="hallo" with-content-layout="true"></NavigationBar>
-        <FilterPanel></FilterPanel>
+        <FilterPanel :category="this.category" @filteredArticles="items => articles = items"></FilterPanel>
         <div class="contentLayout">
             <div class="articleView">
 
@@ -17,8 +17,6 @@
                 </ArticleCard>
                 <b-pagination
                         class="customPagination"
-
-
                         v-model="currentPage"
                         :total-rows="rows()"
                         :per-page="perPage"
@@ -32,35 +30,27 @@
 </template>
 
 <script lang="ts">
-    import {Component, Vue} from "vue-property-decorator";
+    import {Component, Prop, Vue} from "vue-property-decorator";
     import Article from "@/components/article/Article.ts";
     import ArticleCard from "@/components/article/ArticleCard.vue";
     import NavigationBar from "@/components/NavigationBar.vue";
     import FilterPanel from "@/components/filter/FilterPanel.vue";
+    import _ from 'lodash';
+    import category from "@/components/category/Category";
 
     @Component({
         components: {FilterPanel, ArticleCard, NavigationBar}
     })
+
     export default class ArticleView extends Vue {
-        articles: Article[] = [];
+        @Prop() articles!: Article[]
+        @Prop() category!: category
         perPage = 5;
         currentPage = 1;
 
-        constructor() {
-            super();
-            let article: Article = new Article("Beerpong table", "Awesome beerpong table", "", "Konstanz", new Date(), [], []);
-            let article2: Article = new Article("Bohrmaschine", "Toll zum bohren", "", "Konstanz", new Date(), [], []);
-            this.articles.push(article);
-            this.articles.push(article2);
-            this.articles.push(article2);
-            this.articles.push(article2);
-            this.articles.push(article2);
-            this.articles.push(article);
-        }
-
         lists(): Article[] {
-            const items = this.articles;
-            return items.slice(
+            const items : Article[] = _.cloneDeep(this.articles);
+            return _.slice(items,
                 (this.currentPage - 1) * this.perPage,
                 this.currentPage * this.perPage
             )
