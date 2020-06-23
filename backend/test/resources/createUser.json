@@ -1,0 +1,13 @@
+{
+  "email": "email@test.de",
+  "password": "hallo1",
+  "firstName":"dieter",
+  "lastName": "Durst",
+  "lastNameVisible": true,
+  "picture": "no Picture",
+  "street":  "Neuestrasse",
+  "plz": "78464",
+  "country": "Germany",
+  "city": "Konstanz",
+  "streetVisible": "true"
+}

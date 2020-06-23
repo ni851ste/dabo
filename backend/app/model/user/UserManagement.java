@@ -6,8 +6,8 @@ import org.javatuples.Triplet;
 import persistence.IUserPersistenceAdapter;
 import persistence.UserMapAdapter;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 public class UserManagement
@@ -15,40 +15,40 @@ public class UserManagement
     int globalIdCounter = 0;
     IUserPersistenceAdapter database = new UserMapAdapter();
 
-    public Optional<Decade<Integer, String, String, Triplet<String, String, Boolean>, Integer, String, List<Integer>, List<Integer>, List<Integer>, List<String>>>
-    createUser(Ennead<String, String, Triplet<String, String, Boolean>, Integer, String, List<Integer>, List<Integer>, List<Integer>, List<String>> data) {
+    public Optional<Decade<Integer, String, String, Triplet<String, String, Boolean>, Integer, String, List<Integer>, List<Integer>, List<Integer>, Map<String,String>>>
+    createUser(Ennead<String, String, Triplet<String, String, Boolean>, Integer, String, List<Integer>, List<Integer>, List<Integer>,  Map<String,String>> data)
+    {
 
         int localIdCounter = this.globalIdCounter;
 
-        Optional<Decade<Integer, String, String, Triplet<String, String, Boolean>, Integer, String, List<Integer>, List<Integer>, List<Integer>, List<String>>>
+        Optional<Decade<Integer, String, String, Triplet<String, String, Boolean>, Integer, String, List<Integer>, List<Integer>, List<Integer>,  Map<String,String>>>
                 returnValue = database.createUser(localIdCounter, data);
+
         this.globalIdCounter +=1;
 
         return returnValue;
     }
 
 
-    public Optional<Decade<Integer, String, String, Triplet<String, String, Boolean>, Integer, String, List<Integer>, List<Integer>, List<Integer>, List<String>>>
+    public Optional<Decade<Integer, String, String, Triplet<String, String, Boolean>, Integer, String, List<Integer>, List<Integer>, List<Integer>, Map<String, String>>>
     deleteUser(int userId)
     {
         return database.deleteUser(userId);
     }
 
-    public Optional<Decade<Integer, String, String, Triplet<String, String, Boolean>, Integer, String, List<Integer>, List<Integer>, List<Integer>, List<String>>>
-    updateUser(int id, Ennead<String, String, Triplet<String, String, Boolean>, Integer, String, List<Integer>, List<Integer>, List<Integer>, List<String>> data)
+
+    public Optional<Decade<Integer, String, String, Triplet<String, String, Boolean>, Integer, String, List<Integer>, List<Integer>, List<Integer>, Map<String, String>>>
+    updateUser(int id, Ennead<String, String, Triplet<String, String, Boolean>, Integer, String, List<Integer>, List<Integer>, List<Integer>, Map<String, String>> data)
     {
-        Optional<Decade<Integer, String, String, Triplet<String, String, Boolean>, Integer, String, List<Integer>, List<Integer>, List<Integer>, List<String>>>
-                updatedUser = database.updateUser(id, data);
-        return updatedUser;
-
-
+        return database.updateUser(id, data);
     }
 
-    public Optional<Decade<Integer, String, String, Triplet<String, String, Boolean>, Integer, String, List<Integer>, List<Integer>, List<Integer>, List<String>>>
-    getUserByID(int userId) {
+
+    public Optional<Decade<Integer, String, String, Triplet<String, String, Boolean>, Integer, String, List<Integer>, List<Integer>, List<Integer>, Map<String, String>>>
+    getUserByID(int userId)
+    {
 
         return database.getUserByID(userId);
-
     }
 
 }

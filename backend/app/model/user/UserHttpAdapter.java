@@ -1,6 +1,7 @@
 package model.user;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.google.inject.Inject;
 import org.javatuples.Decade;
 import org.javatuples.Ennead;
 import org.javatuples.Triplet;
@@ -8,16 +9,14 @@ import org.json.JSONObject;
 import play.mvc.Http.Request;
 import play.mvc.Result;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import static play.mvc.Results.badRequest;
 import static play.mvc.Results.ok;
 
 public class UserHttpAdapter
 {
-
+    @Inject
     UserManagement userManagement = new UserManagement();
 
 
@@ -33,24 +32,30 @@ public class UserHttpAdapter
 
         List<Integer> pinnList = new ArrayList<>();
 
-        List<String> addrList = new ArrayList<>();
-        json.get("address").forEach(node -> addrList.add(node.asText()));
+        Map<String, String> addrList = new HashMap<>();
+        addrList.put("street", json.get("street").asText());
+        addrList.put("streetVisible", json.get("streetVisible").asText());
+        addrList.put("plz", json.get("plz").asText());
+        addrList.put("city", json.get("city").asText());
+        addrList.put("country", json.get("country").asText());
 
         Triplet<String, String, Boolean> nameList = new Triplet<>(json.get("firstName").asText(),
                 json.get("lastName").asText(),
                 json.get("lastNameVisible").asBoolean());
 
+        Integer rate = 0;
 
-        Optional<Decade<Integer, String, String, Triplet<String, String, Boolean>, Integer, String, List<Integer>, List<Integer>, List<Integer>, List<String>>> createdUser =
+        Optional<Decade<Integer, String, String, Triplet<String, String, Boolean>, Integer, String, List<Integer>, List<Integer>, List<Integer>, Map<String, String>>> createdUser =
                 userManagement.createUser(new Ennead(json.get("email").asText(),
                         json.get("password").asText(),
                         nameList,
-                        json.get("rating").asInt(),
+                        rate,
                         json.get("picture").asText(),
                         lendList,
                         borrowList,
                         pinnList,
                         addrList));
+
 
         if(createdUser.isEmpty())
         {
@@ -83,7 +88,7 @@ public class UserHttpAdapter
     public Result getUserById(int id)
     {
 
-        Optional<Decade<Integer, String, String, Triplet<String, String, Boolean>, Integer, String, List<Integer>, List<Integer>, List<Integer>, List<String>>>
+        Optional<Decade<Integer, String, String, Triplet<String, String, Boolean>, Integer, String, List<Integer>, List<Integer>,List<Integer>, Map<String,String>>>
                 foundUser = userManagement.getUserByID(id);
 
         if (foundUser.isEmpty())
@@ -113,7 +118,7 @@ public class UserHttpAdapter
     }
 
     public Result deleteUser(int id){
-        Optional<Decade<Integer, String, String, Triplet<String, String, Boolean>, Integer, String, List<Integer>, List<Integer>, List<Integer>, List<String>>>
+        Optional<Decade<Integer, String, String, Triplet<String, String, Boolean>, Integer, String, List<Integer>, List<Integer>,List<Integer>, Map<String,String>>>
                 deletedUser = userManagement.deleteUser(id);
 
         if(deletedUser.isEmpty())
@@ -155,15 +160,20 @@ public class UserHttpAdapter
         List<Integer> pinnList = new ArrayList<>();
         json.get("pinned").forEach(node -> pinnList.add(node.asInt()));
 
-        List<String> addrList = new ArrayList<>();
-        json.get("address").forEach(node -> addrList.add(node.asText()));
+        Map<String, String> addrList = new HashMap<>();
+        addrList.put("street", json.get("street").asText());
+        addrList.put("streetVisible", json.get("streetVisible").asText());
+        addrList.put("plz", json.get("plz").asText());
+        addrList.put("city", json.get("city").asText());
+        addrList.put("country", json.get("country").asText());
 
 
-        Triplet<String, String, Boolean> nameList = new Triplet<>(json.get("firstName").asText(),
+        Triplet<String, String, Boolean> nameList = new Triplet<>(
+                json.get("firstName").asText(),
                 json.get("lastName").asText(),
                 json.get("lastNameVisible").asBoolean());
 
-        Ennead<String, String, Triplet<String, String, Boolean>, Integer, String, List<Integer>, List<Integer>, List<Integer>, List<String>> toBeUpdatedUser =
+        Ennead<String, String, Triplet<String, String, Boolean>, Integer, String, List<Integer>, List<Integer>, List<Integer>, Map<String, String>> toBeUpdatedUser =
                 new Ennead(json.get("email").asText(),
                         json.get("password").asText(),
                         nameList,
@@ -174,9 +184,9 @@ public class UserHttpAdapter
                         pinnList,
                         addrList);
 
-        Optional<Decade<Integer, String, String, Triplet<String, String, Boolean>, Integer, String, List<Integer>, List<Integer>, List<Integer>, List<String>>>
+        Optional<Decade<Integer, String, String, Triplet<String,String,Boolean>, Integer, String, List<Integer>, List<Integer>,List<Integer>, Map<String,String>>>
                 updatedUser = userManagement.updateUser(id, toBeUpdatedUser);
-
+        
         if(updatedUser.isEmpty())
         {
             return badRequest();
