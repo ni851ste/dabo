@@ -139,9 +139,9 @@
                     this.userRating = this.user ? this.getAvgStars(this.user.ratings) : 0;
                     this.userName = this.getUserName()
                     this.userAddress = this.getUserAddress()
-                    console.log("userNAme",this.userName)
+                    console.log("userNAme", this.userName)
                     }
-                )
+                );
             return user;
         }
 
@@ -151,11 +151,11 @@
                 return "";
 
             if (this.user.lastNameVisible) {
-                console.log(this.user.name[0] + " " + this.user.name[1])
-                return this.user.name[0] + " " + this.user.name[1];
+                console.log(this.user.firstname + " " + this.user.lastname)
+                return this.user.firstname + " " + this.user.lastname;
             } else {
-                console.log(this.user.name[0] )
-                return this.user.name[0]
+                console.log(this.user.firstname )
+                return this.user.firstname
             }
         }
 
