@@ -43,6 +43,8 @@
     import NavigationBar from "../NavigationBar.vue";
     import {Component, Vue} from 'vue-property-decorator';
     import {Md5} from 'ts-md5/dist/md5';
+    import LoginService from "@/components/LoginService";
+    import $ from "jquery"
 
     @Component({
         components: {NavigationBar}
@@ -53,6 +55,15 @@
         validateInput: boolean = false;
         email: string = "";
         password: string = "";
+        loginService: LoginService;
+        constructor() {
+            super();
+            this.passwordVisible = false;
+            this.validateInput = false;
+            this.email = "";
+            this.password = "";
+            this.loginService = LoginService.getInstance();
+        }
 
         //TODO: handle success/ error
         login(): void {
@@ -61,23 +72,11 @@
                 return;
             }
 
-            let hashedPassword = Md5.hashStr(this.password);
+            this.loginService.login(this.email, this.password)
+                .then((result) => {
 
-            $.ajax({
-                url: "http://localhost:9000/user/login",
-                type: "POST",
-                data: {
-                    email: this.email,
-                    password: hashedPassword
-                },
-                dataType: "application/json",
-                success: result => {
-                    console.log("success ", result)
-                },
-                error: error => {
-                    console.log("error ", error)
-                }
-            });
+                    this.$router.push('/home')
+                })
         }
     }
 </script>
