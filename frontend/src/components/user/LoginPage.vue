@@ -43,7 +43,7 @@
     import NavigationBar from "../NavigationBar.vue";
     import {Component, Vue} from 'vue-property-decorator';
     import {Md5} from 'ts-md5/dist/md5';
-    import LoginService from "@/components/LoginService";
+    import LoginService from "@/components/services/LoginService";
     import $ from "jquery"
 
     @Component({
