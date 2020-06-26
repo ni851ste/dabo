@@ -95,7 +95,6 @@
                     console.log("success ", result);
 
                     for (let i = 0; i < result.length; i++) {
-                        console.log(result[i].name)
                         articles[i] = new Article(result[i].name,
                             result[i].description,
                             result[i].image,

@@ -31,7 +31,7 @@
                                 id="category-checkbox-group"
                                 v-model="selectedCategories"
                                 :key="uuid"
-                                :options="categories"
+                                :options="allCategories"
                         >
                         </b-form-checkbox-group>
                     </b-form-group>
@@ -148,6 +148,7 @@
     import {Component, Vue} from 'vue-property-decorator';
     import moment from "moment"
     import $ from "jquery";
+    import Article from "@/components/article/Article";
 
     @Component({
         components: {NavigationBar, BaseImageInput}
@@ -179,8 +180,7 @@
             this.hasError = this.articleDescription.length > this.maxCount;
         }
 
-        /*Selected Categories*/
-        categories: Category[] = this.getCategories();
+        allCategories: Category[] = this.getCategories();
 
         getCategories(): Category[] {
             return Object.values(Category)
@@ -193,8 +193,10 @@
 
         /*Create Article*/
         createArticle(): void {
+            let article: Article;
+
             this.validateInput = true;
-            let name: string = this.articleDescription
+            let name: string = this.articleName
             let description: string = this.articleDescription
             let image: any = null;
             let fromDate: Date = this.minDate;
@@ -217,13 +219,25 @@
                     toDate: toDate,
                     country: country,
                     plz: plz,
-                    city: city,
-                    insertionDate: insertionDate
+                    location: city,
+                    insertionDate: insertionDate,
+                    categories: this.selectedCategories
                 }),
-                dataType: "application/json",
+                dataType: "json",
 
                 success: result => {
-                    console.log("success ", result)
+                    console.log("success ", result);
+                    article = new Article(result.name,
+                        result.description,
+                        result.image,
+                        result.location,
+                        new Date(result.insertionDate),
+                        result.category,
+                        []
+                        );
+                    //code is working, IntelliJ is just fooling around
+                    this.$router.push({name: 'articlePage', params: {article: article}});
+
                 },
                 error: error => {
                     console.log("error ", error)
