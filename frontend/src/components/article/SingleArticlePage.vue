@@ -97,6 +97,10 @@
     })
     export default class SingleArticlePage extends Vue {
         @Prop() private article!: Article;
+        @Prop({
+            required: false,
+            default: false
+        }) private showAlert!: boolean;
         user: User | null;
         articleRating: number;
         userRating: number;
