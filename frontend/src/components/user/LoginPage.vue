@@ -71,12 +71,22 @@
             if (!this.email || !this.password) {
                 return;
             }
+            if(this.$cookies.get("sessionCookie") == "result")
+                console.log("its equal")
 
-            this.loginService.login(this.email, this.password)
-                .then((result) => {
 
-                    this.$router.push('/home')
-                })
+            // this.loginService.login(this.email, this.password)
+            //     .then((result) => {
+            //         this.$cookies.set("sessionCookie", result, {
+            //             secure: true
+            //         });
+            //
+            //         this.$router.push('/home')
+            //     });
+                    this.$cookies.set("sessionCookie", "result", {
+                        // secure: true
+                    });
+            console.log(this.$cookies.get("sessionCookie"))
         }
     }
 </script>

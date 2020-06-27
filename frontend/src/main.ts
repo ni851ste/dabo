@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import App from './App.vue'
 import VueRouter from "vue-router";
+import VueCookies from "vue-cookies-ts"
 import CategoryPage from "@/components/CategoryPage.vue";
 import SingleArticlePage from "@/components/article/SingleArticlePage.vue";
 import StartPage from "@/components/StartPage.vue";
@@ -16,6 +17,7 @@ import UserProfileView from "@/components/user/UserProfileView.vue";
 
 Vue.config.productionTip = false;
 Vue.use(VueRouter);
+Vue.use(VueCookies);
 Vue.use(BootstrapVue);
 Vue.use(BootstrapVueIcons);
 const routes = [
