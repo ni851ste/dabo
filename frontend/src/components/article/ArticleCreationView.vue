@@ -236,7 +236,7 @@
                         []
                         );
                     //code is working, IntelliJ is just fooling around
-                    this.$router.push({name: 'articlePage', params: {article: article}});
+                    this.$router.push({name: 'articlePage', params: {article: article, showAlert: true}});
 
                 },
                 error: error => {
