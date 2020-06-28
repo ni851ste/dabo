@@ -6,15 +6,18 @@
 GET         /                                 controllers.HomeController.index
 
 # Map static resources from the /public folder to the /assets URL path
+GET         /assets/*file                     controllers.Assets.versioned(path="/public", file: Asset)
+
 
 #User
 POST        /user/create                      model.user.UserHttpAdapter.createUser(request: Request)
+GET         /user/:id                         model.user.UserHttpAdapter.getUserById(id: Int)
 POST        /user/delete/:id                  model.user.UserHttpAdapter.deleteUser(id: Int)
-POST        /user/update                      model.user.UserHttpAdapter.updateUser(request: Request)
-POST        /user/find/:name                  model.user.UserHttpAdapter.findUser(name: String)
+POST        /user/update/:id                  model.user.UserHttpAdapter.updateUser(id: Int, request: Request)
 
 #Article
-GET         /users/articles/:id               model.article.ArticleHttpAdapter.getArticle(id: Int)
 POST        /users/articles/create            model.article.ArticleHttpAdapter.createArticle(request: Request)
 POST        /users/articles/delete/:id        model.article.ArticleHttpAdapter.deleteArticle(id: Int)
-POST        /users/articles/update/:id        model.article.ArticleHttpAdapter.updateArticle(id: Int,request: Request)
+POST        /users/articles/update/:id        model.article.ArticleHttpAdapter.updateArticle(id: Int, request: Request)
+GET         /users/articles/:id               model.article.ArticleHttpAdapter.getArticle(id: Int)
+POST        /users/articles                   model.article.ArticleHttpAdapter.filterArticles(request: Request)

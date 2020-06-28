@@ -1,0 +1,10 @@
+{
+  "name": "Hecken Schere",
+  "description": "super scharfe Heckenschere",
+  "location": "Konstanz",
+  "id": 0,
+  "categories": [
+    "Tools"
+  ],
+  "insertionDate": "today"
+}

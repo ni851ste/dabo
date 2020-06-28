@@ -175,14 +175,8 @@
             $.ajax({
                 url: "http://localhost:9000/users/articles/create",
                 type: "POST",
-                data: {
-                    name: name,
-                    description: description,
-                    image: image,
-                    location: location,
-                    insertionDate: insertionDate
-                },
-                dataType: "application/json",
+                data: JSON.stringify({name: name, description: description, image: image, location: location, insertionDate: insertionDate }),
+                contentType: "application/json",
                 success: result => {
                     console.log("success ", result)
                 },
