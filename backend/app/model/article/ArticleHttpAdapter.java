@@ -12,6 +12,7 @@ import play.mvc.Result;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static play.mvc.Results.badRequest;
 import static play.mvc.Results.ok;
@@ -39,25 +40,25 @@ public class ArticleHttpAdapter
                         categoryList);
         System.out.println(toBeCreatedArticle.toString());
 
-        Sextet<Integer, String, String, String, String, List<String>> createdArticle = articleManagement.createArticle(toBeCreatedArticle);
+        Optional<Sextet<Integer, String, String, String, String, List<String>>> createdArticle = articleManagement.createArticle(toBeCreatedArticle);
 
 
         // creating an article can not fail to date
         // this will always go into the else case
-        if (createdArticle.getValue0() == -1)
+        if (createdArticle.isEmpty())
         {
             return badRequest();
         }
         else
         {
             JSONObject returnJson = new JSONObject()
-                    .put("id", createdArticle.getValue0())
-                    .put("name", createdArticle.getValue1())
-                    .put("description", createdArticle.getValue2())
-                    .put("insertionDate", createdArticle.getValue3())
-                    .put("location", createdArticle.getValue4());
+                    .put("id", createdArticle.get().getValue0())
+                    .put("name", createdArticle.get().getValue1())
+                    .put("description", createdArticle.get().getValue2())
+                    .put("insertionDate", createdArticle.get().getValue3())
+                    .put("location", createdArticle.get().getValue4());
 
-            createdArticle.getValue5().forEach(category -> returnJson.append("categories", category));
+            createdArticle.get().getValue5().forEach(category -> returnJson.append("categories", category));
 
             return ok(returnJson.toString())
                     .as("application/json");
@@ -66,10 +67,9 @@ public class ArticleHttpAdapter
 
     public Result getArticle(int id)
     {
-        Sextet<Integer, String, String, String, String, List<String>> article = articleManagement.getArticleById(id);
-        System.out.println("ArtiklebyID"+ article.toString());
+        Optional<Sextet<Integer, String, String, String, String, List<String>>> article = articleManagement.getArticleById(id);
 
-        if (article.getValue0() == -1)
+        if (article.isEmpty())
         {
             System.out.println("in Bad Request");
             return badRequest();
@@ -77,14 +77,14 @@ public class ArticleHttpAdapter
         else
         {
             JSONObject returnJson = new JSONObject()
-                    .put("id", article.getValue0())
-                    .put("name", article.getValue1())
-                    .put("description", article.getValue2())
-                    .put("insertionDate", article.getValue3())
-                    .put("location", article.getValue4());
+                    .put("id", article.get().getValue0())
+                    .put("name", article.get().getValue1())
+                    .put("description", article.get().getValue2())
+                    .put("insertionDate", article.get().getValue3())
+                    .put("location", article.get().getValue4());
 
 
-            article.getValue5().forEach(category -> returnJson.append("categories", category));
+            article.get().getValue5().forEach(category -> returnJson.append("categories", category));
 
             return ok(returnJson.toString())
                     .as("application/json");
@@ -105,24 +105,24 @@ public class ArticleHttpAdapter
                         json.get("location").asText(),
                         categoryList);
 
-        Sextet<Integer, String, String, String, String, List<String>> updatedArticle = articleManagement.updateArticle(id, toBeUpdatedArticle);
+        Optional<Sextet<Integer, String, String, String, String, List<String>>> updatedArticle = articleManagement.updateArticle(id, toBeUpdatedArticle);
 
 
-        if (updatedArticle.getValue0() == -1)
+        if (updatedArticle.isEmpty())
         {
             return badRequest();
         }
         else
         {
             JSONObject returnJson = new JSONObject()
-                    .put("id", updatedArticle.getValue0())
-                    .put("name", updatedArticle.getValue1())
-                    .put("description", updatedArticle.getValue2())
-                    .put("insertionDate", updatedArticle.getValue3())
-                    .put("location", updatedArticle.getValue4());
+                    .put("id", updatedArticle.get().getValue0())
+                    .put("name", updatedArticle.get().getValue1())
+                    .put("description", updatedArticle.get().getValue2())
+                    .put("insertionDate", updatedArticle.get().getValue3())
+                    .put("location", updatedArticle.get().getValue4());
 
 
-            updatedArticle.getValue5().forEach(category -> returnJson.append("categories", category));
+            updatedArticle.get().getValue5().forEach(category -> returnJson.append("categories", category));
 
             return ok(returnJson.toString())
                     .as("application/json");
@@ -131,22 +131,22 @@ public class ArticleHttpAdapter
 
     public Result deleteArticle(int id)
     {
-        Sextet<Integer, String, String, String, String, List<String>> deletedArticle = articleManagement.deleteArticle(id);
-        if (deletedArticle.getValue0() == -1)
+        Optional<Sextet<Integer, String, String, String, String, List<String>>> deletedArticle = articleManagement.deleteArticle(id);
+        if (deletedArticle.isEmpty())
         {
             return badRequest();
         }
         else
         {
             JSONObject returnJson = new JSONObject()
-                    .put("id", deletedArticle.getValue0())
-                    .put("name", deletedArticle.getValue1())
-                    .put("description", deletedArticle.getValue2())
-                    .put("insertionDate", deletedArticle.getValue3())
-                    .put("location", deletedArticle.getValue4());
+                    .put("id", deletedArticle.get().getValue0())
+                    .put("name", deletedArticle.get().getValue1())
+                    .put("description", deletedArticle.get().getValue2())
+                    .put("insertionDate", deletedArticle.get().getValue3())
+                    .put("location", deletedArticle.get().getValue4());
 
 
-            deletedArticle.getValue5().forEach(category -> returnJson.append("categories", category));
+            deletedArticle.get().getValue5().forEach(category -> returnJson.append("categories", category));
 
             return ok(returnJson.toString())
                     .as("application/json");
