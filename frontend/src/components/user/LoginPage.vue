@@ -51,11 +51,12 @@
     })
 
     export default class LoginPage extends Vue {
-        passwordVisible: boolean = false;
-        validateInput: boolean = false;
-        email: string = "";
-        password: string = "";
+        passwordVisible: boolean;
+        validateInput: boolean;
+        email: string;
+        password: string;
         loginService: LoginService;
+
         constructor() {
             super();
             this.passwordVisible = false;

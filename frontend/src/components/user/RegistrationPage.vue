@@ -102,24 +102,46 @@
     import BaseImageInput from "@/components/BaseImageInput.vue";
     import Article from "@/components/article/Article";
     import {Md5} from 'ts-md5/dist/md5';
+    import LoginService from "@/components/services/LoginService";
 
     @Component
     ({
         components: {BaseImageInput, NavigationBar}
     })
     export default class RegistrationPage extends Vue {
-        passwordVisible: boolean = false;
         validateInput: boolean = false;
-        firstName: string = "";
-        lastName: string = "";
-        lastNameVisible: boolean = true;
-        country: string = "";
-        plz: string = "";
-        city: string = "";
-        street: string = "";
-        streetVisible: boolean = true;
-        email: string = "";
-        password: string = "";
+        passwordVisible: boolean = false;
+
+        firstName: string;
+        lastName: string;
+        lastNameVisible: boolean;
+        country: string;
+        plz: string;
+        city: string;
+        street: string;
+        streetVisible: boolean;
+        email: string;
+        password: string;
+
+        loginService: LoginService;
+
+        constructor() {
+            super();
+            this.passwordVisible = false;
+            this.validateInput = false;
+            this.firstName = "";
+            this.lastName = "";
+            this.lastNameVisible = true;
+            this.country = "";
+            this.plz = "";
+            this.city = "";
+            this.street = "";
+            this.streetVisible = true;
+            this.email = "";
+            this.password = "";
+
+            this.loginService = LoginService.getInstance();
+        }
 
         //TODO: handle success/ error
         register(): void {
@@ -130,35 +152,27 @@
                 return;
             }
 
-            let hashedPassword = Md5.hashStr(this.password);
+            this.loginService.register(
+                this.firstName,
+                this.lastName,
+                this.lastNameVisible,
+                this.country,
+                this.plz,
+                this.city,
+                this.street,
+                this.streetVisible,
+                null,
+                this.email,
+                this.password
+            )
+                .then((result) => {
+                    //TODO: backend support for sessionCookie
+                    this.$cookies.set("sessionCookie", result, {
+                        // secure: true
+                    });
 
-            $.ajax({
-                url: "http://localhost:9000/user/create",
-                type: "POST",
-                data: JSON.stringify({
-                    firstName: this.firstName,
-                    lastName: this.lastName,
-                    lastNameVisible: this.lastNameVisible,
-                    address: [
-                        this.country,
-                        this.plz,
-                        this.city,
-                        this.street,
-                    ],
-                    picture: null,
-                        // streetVisible: this.streetVisible,
-                    email: this.email,
-                    password: hashedPassword,
-                }),
-                dataType: "json",
-                contentType: "application/json",
-                success: result => {
-                    console.log("success ", result)
-                },
-                error: error => {
-                    console.log("error ", error)
-                }
-            });
+                    this.$router.push('/home')
+                });
 
         }
     }
