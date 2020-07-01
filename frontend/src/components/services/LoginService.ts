@@ -40,7 +40,7 @@ export default class LoginService {
         });
     }
 
-    async register(
+    async register (
         firstName: string,
         lastName: string,
         lastNameVisible: boolean,
@@ -52,11 +52,11 @@ export default class LoginService {
         picture: any,
         email: string,
         password: string
-    ) {
+    ): Promise<any> {
 
         let hashedPassword = Md5.hashStr(password);
 
-        $.ajax({
+        return $.ajax({
             url: "http://localhost:9000/user/create",
             type: "POST",
             data: JSON.stringify({
@@ -74,7 +74,7 @@ export default class LoginService {
             }),
             dataType: "json",
             contentType: "application/json",
-            success: result => {
+            success: (result) => {
                 this.loginId = result.id;
             },
             error: error => {
