@@ -89,9 +89,11 @@
                 <b-button type="submit" class="nav-item register" v-on:click="register">
                     <a class="nav-link disabled" href="#">Registrieren</a>
                 </b-button>
-
             </div>
         </div>
+                <b-alert v-model="showLoginFailedAlert" variant="danger" dismissible class="dangerAlert">
+                    Fehler bei der Registrierung!
+                </b-alert>
     </div>
 </template>
 
@@ -111,6 +113,7 @@
     export default class RegistrationPage extends Vue {
         validateInput: boolean = false;
         passwordVisible: boolean = false;
+        showLoginFailedAlert: boolean;
 
         firstName: string;
         lastName: string;
@@ -129,6 +132,8 @@
             super();
             this.passwordVisible = false;
             this.validateInput = false;
+            this.showLoginFailedAlert = false;
+
             this.firstName = "";
             this.lastName = "";
             this.lastNameVisible = true;
@@ -143,16 +148,14 @@
             this.loginService = LoginService.getInstance();
         }
 
-        //TODO: handle success/ error
-        register(): void {
-            this.validateInput = true;
+        async register(): Promise<void> {
 
             if (!this.firstName || !this.lastName || !this.country || !this.plz ||
                 !this.street || !this.city || !this.email || !this.password) {
                 return;
             }
 
-            this.loginService.register(
+            await this.loginService.register(
                 this.firstName,
                 this.lastName,
                 this.lastNameVisible,
@@ -172,7 +175,16 @@
                     });
 
                     this.$router.push('/home')
+                })
+                .catch((error) => {
+                    this.showLoginFailedAlert = true;
                 });
+
+        }
+
+        isStatusFailure(status: number): boolean {
+            console.log("status ", status)
+            return status < 200 || status > 300
 
         }
     }
@@ -307,11 +319,6 @@
         -moz-appearance: textfield;
     }
 
-    /* Show green borders when valid */
-    /*.validate input:valid {*/
-    /*    border-color: hsl(120, 76%, 50%);*/
-    /*}*/
-
     /* Show red borders when invalid */
     .validate input:invalid {
         border-color: red;
@@ -320,6 +327,12 @@
     small {
         color: red;
         float: left
+    }
+
+    .dangerAlert {
+        right: 20px !important;
+        position: fixed;
+        top: 80px !important;
     }
 
 </style>
