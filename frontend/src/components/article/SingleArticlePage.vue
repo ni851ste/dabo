@@ -167,43 +167,9 @@
                 .then(() => {
                     this.articleRating = this.getAvgStars(this.article.ratings);
                     this.userRating = this.user ? this.getAvgStars(this.user.ratings) : 0;
-                    this.userName = this.getUserName()
-                    this.userAddress = this.getUserAddress()
-                    console.log("userNAme",this.userName)
                     }
                 )
             return user;
-        }
-
-        getUserName(): string {
-            console.log("get Username ", this.user)
-            if (!this.user)
-                return "";
-
-            if (this.user.lastNameVisible) {
-                console.log(this.user.name[0] + " " + this.user.name[1])
-                return this.user.name[0] + " " + this.user.name[1];
-            } else {
-                console.log(this.user.name[0] )
-                return this.user.name[0]
-            }
-        }
-
-        getUserAddress(): string {
-            if (!this.user)
-                return "";
-
-            if (this.user.address.streetVisible) {
-                console.log(this.user.address.street + "\n " + this.user.address.plz + " "+ this.user.address.city
-                + "\n " + this.user.address.country)
-                return this.user.address.street + "\n " + this.user.address.plz + " "+ this.user.address.city
-                    + "\n " + this.user.address.country;
-            } else {
-                console.log(this.user.address.plz + " "+ this.user.address.city
-                    + "\n " + this.user.address.country )
-                return this.user.address.plz + " "+ this.user.address.city
-                    + "\n " + this.user.address.country
-            }
         }
 
         getAvgStars(ratings: Rating[]): number {
@@ -302,6 +268,10 @@
         margin-top: 15px;
     }
 
+    .address {
+        width: 300px;
+    }
+    
     .alert {
         width: 100%;
         text-align: left;
