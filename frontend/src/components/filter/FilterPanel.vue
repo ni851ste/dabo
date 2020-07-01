@@ -141,7 +141,9 @@
                             result[i].location,
                             new Date(result[i].insertionDate),
                             result[i].category,
-                            []
+                            //TODO: wait for backend support
+                            result[i].ratings,
+                            result[i].userId
                         );
                     }
                     this.$emit('filteredArticles', articles)

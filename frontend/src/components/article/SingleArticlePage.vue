@@ -64,12 +64,15 @@
                                 <img class="clip-circle" :src="require(`@/assets/categoryImgs/haushalt.jpg`)" alt="">
                             </b-col>
                             <b-col align-self="stretch bcol" class="user-details" cols="5">
-                                {{this.userName}}
+<!--                                //TODO: link to userpage-->
+<!--                                <RouterLink to="/">-->
+                                    <p v-html="userName"></p>
+<!--                                </RouterLink>-->
                                 <b-form-rating class="rating" variant="warning" readonly
                                                v-model="userRating"></b-form-rating>
                                 <p class="section"></p>
                                 Adresse:
-                                {{this.userAddress}}
+                                <p class="address" v-html="userAddress"></p>
                             </b-col>
                         </b-row>
                     </b-col>
@@ -87,12 +90,39 @@
     import Rating from "@/components/rating/Rating";
     import User from "@/components/user/User";
     import $ from "jquery";
+    import Address from "@/components/user/Address";
 
     @Component({
         components: {NavigationBar}
     })
     export default class SingleArticlePage extends Vue {
         @Prop() private article!: Article;
+        user: User | null;
+        articleRating: number;
+        userRating: number;
+        get userName(): string {
+            if (!this.user)
+                return "";
+
+            if (this.user.lastNameVisible) {
+                return this.user.firstname + " " + this.user.lastname;
+            } else {
+                return this.user.firstname
+            }
+        };
+
+        get userAddress(): string{
+            if (!this.user)
+                return "";
+
+            if (this.user.address.streetVisible) {
+                return this.user.address.street + "<br/> " + this.user.address.plz + " "+ this.user.address.city
+                    + "<br/> " + this.user.address.country;
+            } else {
+                return this.user.address.plz + " "+ this.user.address.city
+                    + "<br/> " + this.user.address.country
+            }
+        };
         @Prop({
             required: false,
             default: false
@@ -101,16 +131,12 @@
 
         constructor() {
             super();
-            this.userName = ""
             this.articleRating = 0
             this.userRating = 0
-            this.userAddress = ""
-            console.log("constructor--")
             this.getUser = this.getUser.bind(this)
             this.getAvgStars = this.getAvgStars.bind(this)
-            this.getUserName = this.getUserName.bind(this)
-            // this.user = new User(0, "email", "password", "max", "mustermann", "picture", true, new Address("starße", "12344", "Konstanz", "Deutschland", true), [], [], [], [], []);
-            this.user = this.getUser();
+            this.user = new User(0, "email", "password", "max", "mustermann", "picture", true, new Address("starße", "12344", "Konstanz", "Deutschland", true), [], [], [], [], []);
+            // this.user = this.getUser();
             // this.articleRating = this.getAvgStars(this.article.ratings);
             // this.userRating = this.user != null ? this.getAvgStars(this.user.ratings) : 0;
             if (this.user == null) {
@@ -137,43 +163,9 @@
                 .then(() => {
                     this.articleRating = this.getAvgStars(this.article.ratings);
                     this.userRating = this.user ? this.getAvgStars(this.user.ratings) : 0;
-                    this.userName = this.getUserName()
-                    this.userAddress = this.getUserAddress()
-                    console.log("userNAme", this.userName)
                     }
                 );
             return user;
-        }
-
-        getUserName(): string {
-            console.log("get Username ", this.user)
-            if (!this.user)
-                return "";
-
-            if (this.user.lastNameVisible) {
-                console.log(this.user.firstname + " " + this.user.lastname)
-                return this.user.firstname + " " + this.user.lastname;
-            } else {
-                console.log(this.user.firstname )
-                return this.user.firstname
-            }
-        }
-
-        getUserAddress(): string {
-            if (!this.user)
-                return "";
-
-            if (this.user.address.streetVisible) {
-                console.log(this.user.address.street + "\n " + this.user.address.plz + " "+ this.user.address.city
-                + "\n " + this.user.address.country)
-                return this.user.address.street + "\n " + this.user.address.plz + " "+ this.user.address.city
-                    + "\n " + this.user.address.country;
-            } else {
-                console.log(this.user.address.plz + " "+ this.user.address.city
-                    + "\n " + this.user.address.country )
-                return this.user.address.plz + " "+ this.user.address.city
-                    + "\n " + this.user.address.country
-            }
         }
 
         getAvgStars(ratings: Rating[]): number {
@@ -275,5 +267,7 @@
     .alert {
         width: 100%;
         text-align: left;
+    .address {
+        width: 300px;
     }
 </style>
