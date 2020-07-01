@@ -11,7 +11,7 @@ GET         /assets/*file                     controllers.Assets.versioned(path=
 
 #User
 POST        /user/create                      model.user.UserHttpAdapter.createUser(request: Request)
-GET         /user/:id                         model.user.UserHttpAdapter.getUserById(id: Int)
+GET         /user/find/:id                    model.user.UserHttpAdapter.getUserById(id: Int)
 POST        /user/delete/:id                  model.user.UserHttpAdapter.deleteUser(id: Int)
 POST        /user/update/:id                  model.user.UserHttpAdapter.updateUser(id: Int, request: Request)
 

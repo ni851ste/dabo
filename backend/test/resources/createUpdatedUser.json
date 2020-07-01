@@ -1,0 +1,29 @@
+{
+  "firstName": "Peter",
+  "lastName": "Fleisch",
+  "password": "hallo1",
+  "pinned": [
+    6,
+    7
+  ],
+  "address": {
+    "streetVisible": "true",
+    "country": "Germany",
+    "city": "Konstanz",
+    "street": "Neuestrasse",
+    "plz": "78464"
+  },
+  "rating": 3,
+  "toLend": [
+    2,
+    3
+  ],
+  "lastNameVisible": true,
+  "id": 0,
+  "email": "email@test.de",
+  "picture": "no Picture",
+  "borrowed": [
+    4,
+    5
+  ]
+}

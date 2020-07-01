@@ -11,7 +11,7 @@ import java.util.Optional;
 
 public class UserMapAdapter implements IUserPersistenceAdapter
 {
-    Map<Integer, Ennead<String, String, Triplet<String, String, Boolean>, Integer, String, List<Integer>, List<Integer>, List<Integer>, List<String>>>
+    Map<Integer, Ennead<String, String, Triplet<String, String, Boolean>, Integer, String, List<Integer>, List<Integer>, List<Integer>, Map<String, String>>>
             savedUsers;
 
 
@@ -21,8 +21,8 @@ public class UserMapAdapter implements IUserPersistenceAdapter
     }
 
     @Override
-    public Optional<Decade<Integer, String, String, Triplet<String, String, Boolean>, Integer, String, List<Integer>, List<Integer>, List<Integer>, List<String>>>
-    createUser(int id, Ennead<String, String, Triplet<String, String, Boolean>, Integer, String, List<Integer>, List<Integer>, List<Integer>, List<String>> data)
+    public Optional<Decade<Integer, String, String, Triplet<String, String, Boolean>, Integer, String, List<Integer>, List<Integer>, List<Integer>, Map<String,String>>>
+    createUser(int id, Ennead<String, String, Triplet<String, String, Boolean>, Integer, String, List<Integer>, List<Integer>, List<Integer>,  Map<String,String>> data)
     {
         savedUsers.put(id, data);
 
@@ -30,7 +30,7 @@ public class UserMapAdapter implements IUserPersistenceAdapter
     }
 
     @Override
-    public Optional<Decade<Integer, String, String, Triplet<String, String, Boolean>, Integer, String, List<Integer>, List<Integer>, List<Integer>, List<String>>>
+    public Optional<Decade<Integer, String, String, Triplet<String, String, Boolean>, Integer, String, List<Integer>, List<Integer>, List<Integer>, Map<String, String>>>
     getUserByID(int id)
     {
         if (!savedUsers.containsKey(id))
@@ -38,7 +38,7 @@ public class UserMapAdapter implements IUserPersistenceAdapter
             return Optional.empty();
         }
 
-        Ennead<String, String, Triplet<String, String, Boolean>, Integer, String, List<Integer>, List<Integer>, List<Integer>, List<String>>
+        Ennead<String, String, Triplet<String, String, Boolean>, Integer, String, List<Integer>, List<Integer>, List<Integer>, Map<String, String>>
                 user = savedUsers.get(id);
 
         return Optional.of(
@@ -46,9 +46,10 @@ public class UserMapAdapter implements IUserPersistenceAdapter
     }
 
     @Override
-    public Optional<Decade<Integer, String, String, Triplet<String, String, Boolean>, Integer, String, List<Integer>, List<Integer>, List<Integer>, List<String>>>
-    updateUser(int id, Ennead<String, String, Triplet<String, String, Boolean>, Integer, String, List<Integer>, List<Integer>, List<Integer>, List<String>> data)
+    public Optional<Decade<Integer, String, String, Triplet<String, String, Boolean>, Integer, String, List<Integer>, List<Integer>, List<Integer>, Map<String, String>>>
+    updateUser(int id, Ennead<String, String, Triplet<String, String, Boolean>, Integer, String, List<Integer>, List<Integer>, List<Integer>, Map<String, String>> data)
     {
+
         if (!savedUsers.containsKey(id))
         {
             return Optional.empty();
@@ -60,7 +61,7 @@ public class UserMapAdapter implements IUserPersistenceAdapter
     }
 
     @Override
-    public Optional<Decade<Integer, String, String, Triplet<String, String, Boolean>, Integer, String, List<Integer>, List<Integer>, List<Integer>, List<String>>>
+    public Optional<Decade<Integer, String, String, Triplet<String, String, Boolean>, Integer, String, List<Integer>, List<Integer>, List<Integer>, Map<String, String>>>
     deleteUser(int id)
     {
         if (!savedUsers.containsKey(id))
@@ -68,7 +69,7 @@ public class UserMapAdapter implements IUserPersistenceAdapter
             return Optional.empty();
         }
 
-        Ennead<String, String, Triplet<String, String, Boolean>, Integer, String, List<Integer>, List<Integer>, List<Integer>, List<String>> removedUser = savedUsers.remove(id);
+        Ennead<String, String, Triplet<String, String, Boolean>, Integer, String, List<Integer>, List<Integer>, List<Integer>, Map<String, String>> removedUser = savedUsers.remove(id);
 
         return Optional.of(new Decade<>(id, removedUser.getValue0(), removedUser.getValue1(), removedUser.getValue2(), removedUser.getValue3(), removedUser.getValue4(), removedUser.getValue5(), removedUser.getValue6(), removedUser.getValue7(), removedUser.getValue8()));
 
