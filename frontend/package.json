@@ -15,14 +15,17 @@
     "jquery": "^3.5.1",
     "lodash": "^4.17.15",
     "moment": "latest",
+    "ts-md5": "^1.2.7",
     "vue": "^2.6.11",
     "vue-class-component": "^7.2.3",
+    "vue-cookies-ts": "^1.5.19",
     "vue-property-decorator": "^8.4.1",
     "vue-router": "^3.1.6"
   },
   "devDependencies": {
     "@types/jquery": "^3.3.38",
     "@types/lodash": "^4.14.155",
+    "@types/password-hash": "^1.2.20",
     "@vue/cli-plugin-babel": "~4.3.0",
     "@vue/cli-plugin-typescript": "~4.3.0",
     "@vue/cli-service": "~4.3.0",
