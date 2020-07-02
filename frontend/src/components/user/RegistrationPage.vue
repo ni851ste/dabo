@@ -272,12 +272,6 @@
         margin: auto;
     }
 
-    .imgProfile:hover {
-        background: #E0E0E0;
-        z-index: 10;
-    }
-
-
     hr {
         margin: 30px 5px 30px !important;
         color: #484848;
