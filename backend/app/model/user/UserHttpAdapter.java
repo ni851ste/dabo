@@ -9,8 +9,6 @@ import org.json.JSONObject;
 import play.mvc.Http.Request;
 import play.mvc.Result;
 
-import java.io.UnsupportedEncodingException;
-import java.security.NoSuchAlgorithmException;
 import java.util.*;
 
 import static play.mvc.Results.badRequest;
@@ -22,7 +20,7 @@ public class UserHttpAdapter
     UserManagement userManagement = new UserManagement();
 
 
-    public Result createUser(Request create) throws UnsupportedEncodingException, NoSuchAlgorithmException {
+    public Result createUser(Request create) {
 
         JsonNode json = create.body().asJson();
 

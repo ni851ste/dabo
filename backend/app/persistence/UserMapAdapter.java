@@ -9,21 +9,18 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-public class UserMapAdapter implements IUserPersistenceAdapter
-{
+public class UserMapAdapter implements IUserPersistenceAdapter {
     Map<String, Ennead<String, String, Triplet<String, String, Boolean>, Integer, String, List<Integer>, List<Integer>, List<Integer>, Map<String, String>>>
             savedUsers;
 
 
-    public UserMapAdapter()
-    {
+    public UserMapAdapter() {
         this.savedUsers = new HashMap<>();
     }
 
     @Override
-    public Optional<Decade<String, String, String, Triplet<String, String, Boolean>, Integer, String, List<Integer>, List<Integer>, List<Integer>, Map<String,String>>>
-    createUser(String id, Ennead<String, String, Triplet<String, String, Boolean>, Integer, String, List<Integer>, List<Integer>, List<Integer>,  Map<String,String>> data)
-    {
+    public Optional<Decade<String, String, String, Triplet<String, String, Boolean>, Integer, String, List<Integer>, List<Integer>, List<Integer>, Map<String, String>>>
+    createUser(String id, Ennead<String, String, Triplet<String, String, Boolean>, Integer, String, List<Integer>, List<Integer>, List<Integer>, Map<String, String>> data) {
         savedUsers.put(id, data);
 
         return Optional.of(new Decade<>(id, data.getValue0(), data.getValue1(), data.getValue2(), data.getValue3(), data.getValue4(), data.getValue5(), data.getValue6(), data.getValue7(), data.getValue8()));
@@ -31,10 +28,8 @@ public class UserMapAdapter implements IUserPersistenceAdapter
 
     @Override
     public Optional<Decade<String, String, String, Triplet<String, String, Boolean>, Integer, String, List<Integer>, List<Integer>, List<Integer>, Map<String, String>>>
-    getUserByID(String id)
-    {
-        if (!savedUsers.containsKey(id))
-        {
+    getUserByID(String id) {
+        if (!savedUsers.containsKey(id)) {
             return Optional.empty();
         }
 
@@ -47,11 +42,9 @@ public class UserMapAdapter implements IUserPersistenceAdapter
 
     @Override
     public Optional<Decade<String, String, String, Triplet<String, String, Boolean>, Integer, String, List<Integer>, List<Integer>, List<Integer>, Map<String, String>>>
-    updateUser(String id, Ennead<String, String, Triplet<String, String, Boolean>, Integer, String, List<Integer>, List<Integer>, List<Integer>, Map<String, String>> data)
-    {
+    updateUser(String id, Ennead<String, String, Triplet<String, String, Boolean>, Integer, String, List<Integer>, List<Integer>, List<Integer>, Map<String, String>> data) {
 
-        if (!savedUsers.containsKey(id))
-        {
+        if (!savedUsers.containsKey(id)) {
             return Optional.empty();
         }
 
@@ -62,10 +55,8 @@ public class UserMapAdapter implements IUserPersistenceAdapter
 
     @Override
     public Optional<Decade<String, String, String, Triplet<String, String, Boolean>, Integer, String, List<Integer>, List<Integer>, List<Integer>, Map<String, String>>>
-    deleteUser(String id)
-    {
-        if (!savedUsers.containsKey(id))
-        {
+    deleteUser(String id) {
+        if (!savedUsers.containsKey(id)) {
             return Optional.empty();
         }
 
