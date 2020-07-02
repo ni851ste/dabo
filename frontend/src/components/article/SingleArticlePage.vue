@@ -2,6 +2,7 @@
     <div>
         <NavigationBar msg="hallo"></NavigationBar>
         <div class="contentLayout">
+            <b-alert v-model="showAlert" class="alert" variant="success" dismissible>Ihr Artikel wurde erfolgreich erstellt.</b-alert>
             <b-container fluid class="bv-example-row">
                 <b-row>
                     <b-col cols="8" class="article-col bcol">
@@ -91,6 +92,10 @@
     export default class SingleArticlePage extends Vue {
         //TODO: User prop
         @Prop() private article!: Article;
+        @Prop({
+            required: false,
+            default: false
+        }) private showAlert!: boolean;
         articleRating: number = this.getAvgStars(this.article.ratings);
 
         //TODO: use this: userRating: number = this.getAvgStars(this.user.ratings);
@@ -188,5 +193,10 @@
         height: 5.7vw;
         border-radius: 50%;
         margin-top: 15px;
+    }
+
+    .alert {
+        width: 100%;
+        text-align: left;
     }
 </style>
