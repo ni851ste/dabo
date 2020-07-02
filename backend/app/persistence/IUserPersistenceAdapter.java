@@ -11,16 +11,16 @@ import java.util.Optional;
 
 public interface IUserPersistenceAdapter {
 
-    Optional<Decade<Integer, String, String, Triplet<String,String,Boolean>, Integer, String, List<Integer>, List<Integer>, List<Integer>,  Map<String,String>>>
-    createUser(int id, Ennead<String, String, Triplet<String,String,Boolean>, Integer, String, List<Integer>, List<Integer>, List<Integer>, Map<String,String>> data);
+    Optional<Decade<String, String, String, Triplet<String,String,Boolean>, Integer, String, List<Integer>, List<Integer>, List<Integer>,  Map<String,String>>>
+    createUser(String id, Ennead<String, String, Triplet<String,String,Boolean>, Integer, String, List<Integer>, List<Integer>, List<Integer>, Map<String,String>> data);
 
-    Optional<Decade<Integer, String, String, Triplet<String,String,Boolean>, Integer, String, List<Integer>, List<Integer>,List<Integer>, Map<String, String>>>
-    getUserByID(int id);
+    Optional<Decade<String, String, String, Triplet<String,String,Boolean>, Integer, String, List<Integer>, List<Integer>,List<Integer>, Map<String, String>>>
+    getUserByID(String id);
 
-    Optional<Decade<Integer, String, String,Triplet<String,String,Boolean>, Integer, String, List<Integer>, List<Integer>,List<Integer>, Map<String, String>>>
-    updateUser(int id,Ennead<String, String,Triplet<String,String,Boolean>, Integer, String, List<Integer>, List<Integer>,List<Integer>, Map<String, String>> data);
+    Optional<Decade<String, String, String,Triplet<String,String,Boolean>, Integer, String, List<Integer>, List<Integer>,List<Integer>, Map<String, String>>>
+    updateUser(String id,Ennead<String, String,Triplet<String,String,Boolean>, Integer, String, List<Integer>, List<Integer>,List<Integer>, Map<String, String>> data);
 
-    Optional<Decade<Integer, String, String,Triplet<String,String,Boolean>, Integer, String, List<Integer>, List<Integer>,List<Integer>, Map<String, String>>>
-    deleteUser(int id);
+    Optional<Decade<String, String, String,Triplet<String,String,Boolean>, Integer, String, List<Integer>, List<Integer>,List<Integer>, Map<String, String>>>
+    deleteUser(String id);
 
 }

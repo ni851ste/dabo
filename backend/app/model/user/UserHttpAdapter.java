@@ -9,6 +9,8 @@ import org.json.JSONObject;
 import play.mvc.Http.Request;
 import play.mvc.Result;
 
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
 import java.util.*;
 
 import static play.mvc.Results.badRequest;
@@ -20,8 +22,7 @@ public class UserHttpAdapter
     UserManagement userManagement = new UserManagement();
 
 
-    public Result createUser(Request create)
-    {
+    public Result createUser(Request create) throws UnsupportedEncodingException, NoSuchAlgorithmException {
 
         JsonNode json = create.body().asJson();
 
@@ -43,13 +44,14 @@ public class UserHttpAdapter
                 json.get("lastName").asText(),
                 json.get("lastNameVisible").asBoolean());
 
-        Integer rate = 0;
+        Integer rateing = 0;
 
-        Optional<Decade<Integer, String, String, Triplet<String, String, Boolean>, Integer, String, List<Integer>, List<Integer>, List<Integer>, Map<String, String>>> createdUser =
-                userManagement.createUser(new Ennead(json.get("email").asText(),
+        Optional<Decade<String, String, String, Triplet<String, String, Boolean>, Integer, String, List<Integer>, List<Integer>, List<Integer>, Map<String, String>>> createdUser =
+                userManagement.createUser(new Ennead(
+                        json.get("email").asText(),
                         json.get("password").asText(),
                         nameList,
-                        rate,
+                        rateing,
                         json.get("picture").asText(),
                         lendList,
                         borrowList,
@@ -85,10 +87,10 @@ public class UserHttpAdapter
 
     }
 
-    public Result getUserById(int id)
+    public Result getUserById(String id)
     {
 
-        Optional<Decade<Integer, String, String, Triplet<String, String, Boolean>, Integer, String, List<Integer>, List<Integer>,List<Integer>, Map<String,String>>>
+        Optional<Decade<String, String, String, Triplet<String, String, Boolean>, Integer, String, List<Integer>, List<Integer>,List<Integer>, Map<String,String>>>
                 foundUser = userManagement.getUserByID(id);
 
         if (foundUser.isEmpty())
@@ -117,8 +119,8 @@ public class UserHttpAdapter
         }
     }
 
-    public Result deleteUser(int id){
-        Optional<Decade<Integer, String, String, Triplet<String, String, Boolean>, Integer, String, List<Integer>, List<Integer>,List<Integer>, Map<String,String>>>
+    public Result deleteUser(String id){
+        Optional<Decade<String, String, String, Triplet<String, String, Boolean>, Integer, String, List<Integer>, List<Integer>,List<Integer>, Map<String,String>>>
                 deletedUser = userManagement.deleteUser(id);
 
         if(deletedUser.isEmpty())
@@ -146,7 +148,7 @@ public class UserHttpAdapter
         }
     }
 
-    public Result updateUser(int id, Request update)
+    public Result updateUser(String id, Request update)
     {
 
         JsonNode json = update.body().asJson();
@@ -184,7 +186,7 @@ public class UserHttpAdapter
                         pinnList,
                         addrList);
 
-        Optional<Decade<Integer, String, String, Triplet<String,String,Boolean>, Integer, String, List<Integer>, List<Integer>,List<Integer>, Map<String,String>>>
+        Optional<Decade<String, String, String, Triplet<String,String,Boolean>, Integer, String, List<Integer>, List<Integer>,List<Integer>, Map<String,String>>>
                 updatedUser = userManagement.updateUser(id, toBeUpdatedUser);
         
         if(updatedUser.isEmpty())
