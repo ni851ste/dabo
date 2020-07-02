@@ -149,6 +149,7 @@
         }
 
         async register(): Promise<void> {
+            this.validateInput = true;
 
             if (!this.firstName || !this.lastName || !this.country || !this.plz ||
                 !this.street || !this.city || !this.email || !this.password) {
