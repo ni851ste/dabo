@@ -5,7 +5,6 @@ import org.javatuples.Sextet;
 import persistence.ArticleMapAdapter;
 import persistence.IArticlePersistenceAdapter;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
