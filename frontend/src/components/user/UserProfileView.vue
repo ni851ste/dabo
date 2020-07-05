@@ -32,6 +32,9 @@
                     <li class="nav-item">
                         <a class="nav-link ratings" data-toggle="tab" href="#ratings">Bewertungen</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link requests" data-toggle="tab" href="#requests">Anfragen</a>
+                    </li>
                 </ul>
                 <div class="tab-content">
                     <div class="tab-pane container active" id="articles">
@@ -56,7 +59,6 @@
                             <div class="panel-heading">
                                 <h3 class="panel-title">Max' Bewertungen</h3>
                             </div>
-
                             <RatingCard
                                     id="rating-cards"
                                     v-for="rating in ratingLists()"
@@ -67,8 +69,23 @@
                             ></RatingCard>
                         </div>
                     </div>
-                </div>
+                    <div class="tab-pane container fade" id="requests">
+                        <div class="borderbox">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">Meine Anfragen</h3>
+                            </div>
+                            <RequestCard
+                                    id="request-cards"
+                                    v-for="request in requestLists()"
+                                    :request="request"
+                                    :per-page="perPage"
+                                    :current-page="currentPage"
+                                    small
+                            ></RequestCard>
+                        </div>
+                    </div>
 
+                </div>
             </div>
         </div>
     </div>
@@ -81,16 +98,18 @@
     import Article from "@/components/article/Article";
     import Rating from "@/components/rating/Rating";
     import RatingCard from "@/components/rating/RatingCard.vue";
+    import RequestCard from "@/components/user/RequestCard.vue";
 
     @Component({
-        components: {RatingCard, NavigationBar, ArticleCard}
+        components: {RequestCard, RatingCard, NavigationBar, ArticleCard}
     })
     export default class UserProfileView extends Vue {
-        articles: Article[] = [];
         perPage = 5;
         currentPage = 1;
 
+        articles: Article[] = [];
         ratings: Rating[] = [];
+        requests: Article[] = [];
 
         constructor() {
             super();
@@ -98,6 +117,8 @@
             let article2: Article = new Article("Bohrmaschine", "Toll zum bohren", "", "Konstanz", new Date(), [], []);
             this.articles.push(article);
             this.articles.push(article2);
+
+            this.requests.push(article);
 
             let rating: Rating = new Rating(3, "Sehr zuverlässig und unkompliziert.", 1, new Date())
             let rating2: Rating = new Rating(1, "Lorem Ipsum is simply dummy text of the printing and typesetting industry. " +
@@ -119,6 +140,14 @@
 
         ratingLists(): Rating[] {
             const items = this.ratings;
+            return items.slice(
+                (this.currentPage - 1) * this.perPage,
+                this.currentPage * this.perPage
+            )
+        }
+
+        requestLists(): Article[] {
+            const items = this.requests;
             return items.slice(
                 (this.currentPage - 1) * this.perPage,
                 this.currentPage * this.perPage
