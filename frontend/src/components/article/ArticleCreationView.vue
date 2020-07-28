@@ -207,6 +207,11 @@
                 return;
             }
 
+            let cookie = this.$cookies.get("sessioncookie");
+            if(!cookie) {
+                return;
+            }
+
             $.ajax({
                 url: "http://localhost:9000/users/articles/create",
                 type: "POST",
@@ -221,7 +226,8 @@
                     plz: this.plz,
                     location: this.city,
                     insertionDate: insertionDate,
-                    categories: this.selectedCategories
+                    categories: this.selectedCategories,
+                    sessionCookie: cookie
                 }),
                 dataType: "json",
 
