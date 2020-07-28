@@ -3,8 +3,10 @@
   "description": "scharfe Heckenschere",
   "location": "Berlin",
   "id": 0,
+  "images" : "no pics",
   "categories": [
     "Tools"
   ],
-  "insertionDate": "today"
+  "insertionDate": "today",
+  "userId": "HashiHashHash"
 }

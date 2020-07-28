@@ -1,4 +1,5 @@
 {
+  "images" : "no pics",
   "name": "Hecken Schere",
   "description": "super scharfe Heckenschere",
   "location": "Konstanz",
@@ -6,5 +7,6 @@
   "categories": [
     "Tools"
   ],
-  "insertionDate": "today"
+  "insertionDate": "today",
+  "userId": "HashiHashHash"
 }

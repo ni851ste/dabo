@@ -2,8 +2,8 @@ package model.article;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.javatuples.Quintet;
-import org.javatuples.Sextet;
+import org.javatuples.Octet;
+import org.javatuples.Septet;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
@@ -44,30 +44,21 @@ public class ArticleManagementHttpAdapterTest extends WithApplication {
 
         ArrayList<String> al =  new ArrayList<>();
         al.add("Tools");
-        Sextet mockArticle =  new Sextet<>(0, "Hecken Schere", "scharfe Heckenschere", "today","Berlin", al);
+        Octet mockArticle =  new Octet<>(0, "Hecken Schere", "scharfe Heckenschere", "today","Berlin","HashiHashHash","no pics", al);
 
-        Quintet mockCreateArticle = new Quintet<>("Hecken Schere", "scharfe Heckenschere", "today", "Berlin", al);
-        Sextet mockCreateFinishArticle =  new Sextet<>(0, "Hecken Schere", "scharfe Heckenschere", "today", "Berlin", al);
+        Septet mockCreateArticle = new Septet<>("Hecken Schere", "scharfe Heckenschere", "today", "Berlin","HashiHashHash","no pics", al);
+        Octet mockCreateFinishArticle =  new Octet<>(0, "Hecken Schere", "scharfe Heckenschere", "today", "Berlin","HashiHashHash","no pics", al);
 
-        Quintet mockToBeUpdatedArticle = new Quintet<>("Hecken Schere", "super scharfe Heckenschere","today","Konstanz", al);
-        Sextet mockUpdateArticle =  new Sextet<>(0, "Hecken Schere", "super scharfe Heckenschere", "today", "Konstanz",al);
+        Septet mockToBeUpdatedArticle = new Septet<>("Hecken Schere", "super scharfe Heckenschere","today","Konstanz","HashiHashHash","no pics", al);
+        Octet mockUpdateArticle =  new Octet<>(0, "Hecken Schere", "super scharfe Heckenschere", "today", "Konstanz","HashiHashHash","no pics",al);
 
-        Sextet mockArticleWithID1 =  new Sextet<>(1, "Hecken Schere", "Heckenschere", "today","Konstanz", al);
-        Sextet mockArticleWithID2 =  new Sextet<>(2, "Tisch", "Heckenschere", "today","Berlin", al);
+        Octet mockArticleWithID1 =  new Octet<>(1, "Hecken Schere", "Heckenschere", "today","Konstanz","HashiHashHash","no pics", al);
+        Octet mockArticleWithID2 =  new Octet<>(2, "Tisch", "Heckenschere", "today","Berlin", "HashiHashHash","no pics",al);
 
-        List<Sextet<Integer, String, String, String, String, List<String>>> filterList = new ArrayList<>();
+        List<Octet<Integer, String, String, String, String, String, String, List<String>>> filterList = new ArrayList<>();
         filterList.add(mockArticle);
         filterList.add(mockArticleWithID1);
         filterList.add(mockArticleWithID2);
-
-
-
-
-
-
-
-
-
 
         ArticleManagement articleManagement = Mockito.mock(ArticleManagement.class);
         Mockito.when(articleManagement.createArticle(mockCreateArticle)).thenReturn(Optional.of(mockCreateFinishArticle));

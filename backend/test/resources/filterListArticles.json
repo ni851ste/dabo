@@ -4,29 +4,35 @@
     "description": "scharfe Heckenschere",
     "location": "Berlin",
     "id": 0,
+    "images" : "no pics",
     "categories": [
       "Tools"
     ],
-    "insertionDate": "today"
+    "insertionDate": "today",
+    "userId": "HashiHashHash"
   },
   {
     "name": "Hecken Schere",
     "description": "Heckenschere",
     "location": "Konstanz",
     "id": 1,
+    "images" : "no pics",
     "categories": [
       "Tools"
     ],
-    "insertionDate": "today"
+    "insertionDate": "today",
+    "userId": "HashiHashHash"
   },
   {
     "name": "Tisch",
     "description": "Heckenschere",
     "location": "Berlin",
     "id": 2,
+    "images" : "no pics",
     "categories": [
       "Tools"
     ],
-    "insertionDate": "today"
+    "insertionDate": "today",
+    "userId": "HashiHashHash"
   }
 ]

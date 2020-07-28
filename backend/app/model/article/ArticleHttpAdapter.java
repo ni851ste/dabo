@@ -2,13 +2,12 @@ package model.article;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.inject.Inject;
-import org.javatuples.Quintet;
-import org.javatuples.Sextet;
+import org.javatuples.Octet;
+import org.javatuples.Septet;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import play.mvc.Http.Request;
 import play.mvc.Result;
-
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,15 +31,17 @@ public class ArticleHttpAdapter
         // TODO for demo purposes disabled categories
                 json.get("categories").forEach(node -> categoryList.add(node.asText()));
 
-        Quintet<String, String, String, String, List<String>> toBeCreatedArticle =
-                new Quintet<>(json.get("name").asText(),
+        Septet<String, String, String, String,String,String, List<String>> toBeCreatedArticle =
+                new Septet<>(json.get("name").asText(),
                         json.get("description").asText(),
                         json.get("insertionDate").asText(),
                         json.get("location").asText(),
+                        json.get("userId").asText(),
+                        json.get("images").asText(),
                         categoryList);
         System.out.println(toBeCreatedArticle.toString());
 
-        Optional<Sextet<Integer, String, String, String, String, List<String>>> createdArticle = articleManagement.createArticle(toBeCreatedArticle);
+        Optional<Octet<Integer, String, String, String, String,String,String, List<String>>> createdArticle = articleManagement.createArticle(toBeCreatedArticle);
 
 
         // creating an article can not fail to date
@@ -56,9 +57,11 @@ public class ArticleHttpAdapter
                     .put("name", createdArticle.get().getValue1())
                     .put("description", createdArticle.get().getValue2())
                     .put("insertionDate", createdArticle.get().getValue3())
-                    .put("location", createdArticle.get().getValue4());
+                    .put("location", createdArticle.get().getValue4())
+                    .put("userId",createdArticle.get().getValue5())
+                    .put("images",createdArticle.get().getValue6());
 
-            createdArticle.get().getValue5().forEach(category -> returnJson.append("categories", category));
+            createdArticle.get().getValue7().forEach(category -> returnJson.append("categories", category));
 
             return ok(returnJson.toString())
                     .as("application/json");
@@ -67,7 +70,7 @@ public class ArticleHttpAdapter
 
     public Result getArticle(int id)
     {
-        Optional<Sextet<Integer, String, String, String, String, List<String>>> article = articleManagement.getArticleById(id);
+        Optional<Octet<Integer, String, String, String, String,String,String, List<String>>> article = articleManagement.getArticleById(id);
 
         if (article.isEmpty())
         {
@@ -81,10 +84,13 @@ public class ArticleHttpAdapter
                     .put("name", article.get().getValue1())
                     .put("description", article.get().getValue2())
                     .put("insertionDate", article.get().getValue3())
-                    .put("location", article.get().getValue4());
+                    .put("location", article.get().getValue4())
+                    .put("userId",article.get().getValue5())
+                    .put("images",article.get().getValue6());
 
 
-            article.get().getValue5().forEach(category -> returnJson.append("categories", category));
+
+            article.get().getValue7().forEach(category -> returnJson.append("categories", category));
 
             return ok(returnJson.toString())
                     .as("application/json");
@@ -98,14 +104,16 @@ public class ArticleHttpAdapter
         List<String> categoryList = new ArrayList<>();
         json.get("categories").forEach(node -> categoryList.add(node.asText()));
 
-        Quintet<String, String, String, String, List<String>> toBeUpdatedArticle =
-                new Quintet<>(json.get("name").asText(),
+        Septet<String, String, String, String,String,String, List<String>> toBeUpdatedArticle =
+                new Septet<>(json.get("name").asText(),
                         json.get("description").asText(),
                         json.get("insertionDate").asText(),
                         json.get("location").asText(),
+                        json.get("userId").asText(),
+                        json.get("images").asText(),
                         categoryList);
 
-        Optional<Sextet<Integer, String, String, String, String, List<String>>> updatedArticle = articleManagement.updateArticle(id, toBeUpdatedArticle);
+        Optional<Octet<Integer, String, String, String, String,String,String, List<String>>> updatedArticle = articleManagement.updateArticle(id, toBeUpdatedArticle);
 
 
         if (updatedArticle.isEmpty())
@@ -119,10 +127,12 @@ public class ArticleHttpAdapter
                     .put("name", updatedArticle.get().getValue1())
                     .put("description", updatedArticle.get().getValue2())
                     .put("insertionDate", updatedArticle.get().getValue3())
-                    .put("location", updatedArticle.get().getValue4());
+                    .put("location", updatedArticle.get().getValue4())
+                    .put("userId",updatedArticle.get().getValue5())
+                    .put("images",updatedArticle.get().getValue6());
 
 
-            updatedArticle.get().getValue5().forEach(category -> returnJson.append("categories", category));
+            updatedArticle.get().getValue7().forEach(category -> returnJson.append("categories", category));
 
             return ok(returnJson.toString())
                     .as("application/json");
@@ -131,7 +141,7 @@ public class ArticleHttpAdapter
 
     public Result deleteArticle(int id)
     {
-        Optional<Sextet<Integer, String, String, String, String, List<String>>> deletedArticle = articleManagement.deleteArticle(id);
+        Optional<Octet<Integer, String, String, String, String,String,String, List<String>>> deletedArticle = articleManagement.deleteArticle(id);
         if (deletedArticle.isEmpty())
         {
             return badRequest();
@@ -143,10 +153,12 @@ public class ArticleHttpAdapter
                     .put("name", deletedArticle.get().getValue1())
                     .put("description", deletedArticle.get().getValue2())
                     .put("insertionDate", deletedArticle.get().getValue3())
-                    .put("location", deletedArticle.get().getValue4());
+                    .put("location", deletedArticle.get().getValue4())
+                    .put("userId",deletedArticle.get().getValue5())
+                    .put("images",deletedArticle.get().getValue6());
 
 
-            deletedArticle.get().getValue5().forEach(category -> returnJson.append("categories", category));
+            deletedArticle.get().getValue7().forEach(category -> returnJson.append("categories", category));
 
             return ok(returnJson.toString())
                     .as("application/json");
@@ -173,13 +185,13 @@ public class ArticleHttpAdapter
         List<String> categoryFilterList = new ArrayList<>();
         json.get("categories").forEach(node -> categoryFilterList.add(node.asText()));
 
-        List<Sextet<Integer, String, String, String, String, List<String>>> filteredArticles = articleManagement.filterArticles(
+        List<Octet<Integer, String, String, String, String,String,String, List<String>>> filteredArticles = articleManagement.filterArticles(
                 //                nameFilter, locationFilter,
                 categoryFilterList);
 
         JSONArray foundArticles = new JSONArray();
 
-        for (Sextet<Integer, String, String, String, String, List<String>> article : filteredArticles)
+        for (Octet<Integer, String, String, String, String, String,String, List<String>> article : filteredArticles)
         {
             JSONObject foundArticleJson = new JSONObject();
 
@@ -187,9 +199,12 @@ public class ArticleHttpAdapter
                     .put("name", article.getValue1())
                     .put("description", article.getValue2())
                     .put("insertionDate", article.getValue3())
-                    .put("location", article.getValue4());
+                    .put("location", article.getValue4())
+                    .put("userId",article.getValue5())
+                    .put("images",article.getValue6())
+            ;
 
-            article.getValue5().forEach(category -> foundArticleJson.append("categories", category));
+            article.getValue7().forEach(category -> foundArticleJson.append("categories", category));
 
             foundArticles.put(foundArticleJson);
 

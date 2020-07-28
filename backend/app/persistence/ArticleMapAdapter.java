@@ -1,14 +1,14 @@
 package persistence;
 
 import org.apache.commons.collections4.CollectionUtils;
-import org.javatuples.Quintet;
-import org.javatuples.Sextet;
+import org.javatuples.Octet;
+import org.javatuples.Septet;
 
 import java.util.*;
 
 public class ArticleMapAdapter implements IArticlePersistenceAdapter
 {
-    Map<Integer, Quintet<String, String, String, String, List<String>>> savedArticles;
+    Map<Integer, Septet<String, String, String, String,String,String, List<String>>> savedArticles;
 
     public ArticleMapAdapter()
     {
@@ -16,36 +16,39 @@ public class ArticleMapAdapter implements IArticlePersistenceAdapter
     }
 
     @Override
-    public Optional<Sextet<Integer, String, String, String, String, List<String>>> createArticle(int id,
-                                                                                   Quintet<String, String, String, String, List<String>> data)
+    public Optional<Octet<Integer, String, String, String, String,String,String, List<String>>> createArticle(int id,
+                                                                                   Septet<String, String, String, String,String,String, List<String>> data)
     {
         savedArticles.put(id, data);
 
-        return Optional.of(new Sextet<>(id, data.getValue0(), data.getValue1(), data.getValue2(), data.getValue3(), data.getValue4()));
+        return Optional.of(new Octet<>(id, data.getValue0(), data.getValue1(), data.getValue2(), data.getValue3(), data.getValue4(),data.getValue5(),data.getValue6()));
     }
 
     @Override
-    public Optional<Sextet<Integer, String, String, String, String, List<String>>> getArticleById(int id)
+    public Optional<Octet<Integer, String, String, String, String,String,String, List<String>>> getArticleById(int id)
     {
         if (!savedArticles.containsKey(id))
         {
             return Optional.empty();
         }
 
-        Quintet<String, String, String, String, List<String>> article = savedArticles.get(id);
+        Septet<String, String, String, String,String,String, List<String>> article = savedArticles.get(id);
 
         return Optional.of(
-                new Sextet<>(id,
+                new Octet<>(id,
                         article.getValue0(),
                         article.getValue1(),
                         article.getValue2(),
                         article.getValue3(),
-                        article.getValue4()));
+                        article.getValue4(),
+                        article.getValue5(),
+                        article.getValue6()
+                ));
     }
 
     @Override
-    public Optional<Sextet<Integer, String, String, String, String, List<String>>> updateArticle(int id,
-                                                                                    Quintet<String, String, String, String, List<String>> data)
+    public Optional<Octet<Integer, String, String, String, String,String,String, List<String>>> updateArticle(int id,
+                                                                                    Septet<String, String, String, String,String,String, List<String>> data)
     {
         if (!savedArticles.containsKey(id))
         {
@@ -55,39 +58,43 @@ public class ArticleMapAdapter implements IArticlePersistenceAdapter
         savedArticles.put(id, data);
 
         return Optional.of(
-                new Sextet<>(id,
+                new Octet<>(id,
                         data.getValue0(),
                         data.getValue1(),
                         data.getValue2(),
                         data.getValue3(),
-                        data.getValue4()));
+                        data.getValue4(),
+                        data.getValue5(),
+                        data.getValue6()));
     }
 
     @Override
-    public Optional<Sextet<Integer, String, String, String, String, List<String>>> deleteArticle(int id)
+    public Optional<Octet<Integer, String, String, String, String,String,String, List<String>>> deleteArticle(int id)
     {
         if (!savedArticles.containsKey(id))
         {
             return Optional.empty();
         }
 
-        Quintet<String, String, String, String, List<String>> removedArticle = savedArticles.remove(id);
+        Septet<String, String, String, String,String,String, List<String>> removedArticle = savedArticles.remove(id);
 
         return Optional.of(
-                new Sextet<>(id,
+                new Octet<>(id,
                         removedArticle.getValue0(),
                         removedArticle.getValue1(),
                         removedArticle.getValue2(),
                         removedArticle.getValue3(),
-                        removedArticle.getValue4()));
+                        removedArticle.getValue4(),
+                        removedArticle.getValue5(),
+                        removedArticle.getValue6()));
     }
 
     @Override
-    public List<Sextet<Integer, String, String, String, String, List<String>>> filterArticles(
+    public List<Octet<Integer, String, String, String, String,String,String, List<String>>> filterArticles(
 //            String nameFilter, String locationFilter,
             List<String> categoryFilter)
     {
-        List<Sextet<Integer, String, String, String, String, List<String>>> foundArticles = new ArrayList<>();
+        List<Octet<Integer, String, String, String, String,String,String, List<String>>> foundArticles = new ArrayList<>();
 
 //        List<Map.Entry<Integer, Quintet<String, String, String, String, List<String>>>> filteredArticles =
                 savedArticles.entrySet()
@@ -97,14 +104,16 @@ public class ArticleMapAdapter implements IArticlePersistenceAdapter
                         // Location Filter
                         //.filter(entry -> entry.getValue().getValue3().contains(locationFilter))
                         // Filter for categories
-                        .filter(entry -> CollectionUtils.containsAny(entry.getValue().getValue4(), categoryFilter))
+                        .filter(entry -> CollectionUtils.containsAny(entry.getValue().getValue6(), categoryFilter))
                         .forEach(article -> {
-                            foundArticles.add(new Sextet<>(article.getKey(),
+                            foundArticles.add(new Octet<>(article.getKey(),
                                     article.getValue().getValue0(),
                                     article.getValue().getValue1(),
                                     article.getValue().getValue2(),
                                     article.getValue().getValue3(),
-                                    article.getValue().getValue4()));
+                                    article.getValue().getValue4(),
+                                    article.getValue().getValue5(),
+                                    article.getValue().getValue6()));
                         });
 
         return foundArticles;
