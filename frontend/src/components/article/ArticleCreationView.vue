@@ -23,9 +23,9 @@
                         maxCount}}</p>
                 </div>
 
-                <div class="form-group" :class="validateInput ? 'validate' : ''">
+                <div class="form-group" :class="validateInput && (this.selectedCategories.length === 0) ? 'validate' : ''">
                     <label>Zugehörigkeit: *</label>
-                    <b-form-group :class="validateInput ? 'validate' : ''">
+                    <b-form-group>
                         <b-form-checkbox-group
                                 v-on:click=""
                                 id="category-checkbox-group"
@@ -35,6 +35,9 @@
                         >
                         </b-form-checkbox-group>
                     </b-form-group>
+                    <invalid-small v-bind:style="{ display: this.selectedCategories.length !== 0 ? 'none' : validateInput ? '' : 'none' }">
+                        Bitte Kategorie auswählen!
+                    </invalid-small>
                 </div>
             </div>
 
@@ -149,6 +152,7 @@
     import moment from "moment"
     import $ from "jquery";
     import Article from "@/components/article/Article";
+    import * as _ from "lodash"
 
     @Component({
         components: {NavigationBar, BaseImageInput}
@@ -196,30 +200,26 @@
             let article: Article;
 
             this.validateInput = true;
-            let name: string = this.articleName
-            let description: string = this.articleDescription
             let image: any = null;
-            let fromDate: Date = this.minDate;
-            let toDate: Date = this.maxDate;
-            let country: string = this.country;
-            let plz: string = this.plz;
-            let city: string = this.city;
             let insertionDate: Date = new Date();
-            // let article: Article = new Article(name, description, image, location, insertionDate)
+
+            if (!this.articleName || _.isEmpty(this.selectedCategories) || !this.country || !this.plz || !this.city) {
+                return;
+            }
 
             $.ajax({
                 url: "http://localhost:9000/users/articles/create",
                 type: "POST",
                 contentType: "application/json",
                 data: JSON.stringify ({
-                    name: name,
-                    description: description,
+                    name: this.articleName,
+                    description: this.articleDescription,
                     image: image,
-                    fromDate: fromDate,
-                    toDate: toDate,
-                    country: country,
-                    plz: plz,
-                    location: city,
+                    fromDate: this.minDate,
+                    toDate: this.maxDate,
+                    country: this.country,
+                    plz: this.plz,
+                    location: this.city,
                     insertionDate: insertionDate,
                     categories: this.selectedCategories
                 }),
@@ -275,6 +275,10 @@
 
     .validate input:invalid {
         border-color: red;
+    }
+
+    .validate .custom-control-label::before {
+        border: red solid 1px;
     }
 
     invalid-small {
