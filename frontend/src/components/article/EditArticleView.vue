@@ -52,6 +52,9 @@
                                     >
                                     </b-form-checkbox-group>
                                 </b-form-group>
+                                <invalid-small v-bind:style="{ display: this.selectedCategories.length !== 0 ? 'none' : validateInput ? '' : 'none' }">
+                                    Bitte Kategorie auswählen!
+                                </invalid-small>
                             </div>
                         </div>
 
@@ -104,7 +107,7 @@
                                         <div class="datepicker">
                                             <b-form-datepicker
                                                     id="toDatepicker" v-model="maxDate" :min="minDate" locale="de"
-                                                    placeholder="bis..." :disabled="checked === 1">
+                                                    placeholder="bis..." :disabled="checked == 1">
 
                                             </b-form-datepicker>
                                             <br>
