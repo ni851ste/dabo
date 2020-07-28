@@ -19,16 +19,16 @@
                         <div class="borderbox b-container">
 
                             <div class="form-group">
-                                <label>Sterne: </label>
+                                <label>Anzahl Sterne: </label>
                                 <b-form-rating v-model="amountOfStars" show-value
                                                size="lg" variant="warning"></b-form-rating>
                             </div>
 
                             <div class="form-group">
                                 <label>Kommentar:</label>
-                                <label for="ratingCommentInput"></label>
-                                <textarea class="form-control" id="ratingCommentInput" v-model="ratingComment"
-                                          v-on:keyup="countdown"></textarea>
+                                <label for="ratingComment"></label>
+                                <textarea class="form-control" id="ratingComment" v-on:keyup="countdown"
+                                          v-model="ratingComment" required></textarea>
                                 <p class='text-right text-small' v-bind:class="{'text-danger': hasError }">{{charCount + '/' +
                                     maxCount}}</p>
                             </div>
@@ -52,7 +52,6 @@
     import Rating from "@/components/rating/Rating";
 
     export default class RatingCreationView extends Vue {
-        ratingHeader: string = "";
         amountOfStars:number = 0;
         ratingComment: string = "";
         author: number = 1;
@@ -67,7 +66,6 @@
         }
 
         saveChanges(): void {
-            let header = this.ratingHeader
             let amountOfStars = this.amountOfStars
             let comment = this.ratingComment
             let author = this.author
