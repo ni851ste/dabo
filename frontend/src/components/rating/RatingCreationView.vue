@@ -19,11 +19,6 @@
                         <div class="borderbox b-container">
 
                             <div class="form-group">
-                                <label for="ratingHeaderInput">Überschrift: </label>
-                                <input type="text" class="form-control" id="ratingHeaderInput" v-model="ratingHeader" autocomplete="off">
-                            </div>
-
-                            <div class="form-group">
                                 <label>Sterne: </label>
                                 <b-form-rating v-model="amountOfStars" show-value
                                                size="lg" variant="warning"></b-form-rating>
@@ -76,7 +71,7 @@
             let amountOfStars = this.amountOfStars
             let comment = this.ratingComment
             let author = this.author
-            let rating = new Rating(amountOfStars, header, comment, author, new Date())
+            let rating = new Rating(amountOfStars, comment, author, new Date())
         }
     }
 </script>
