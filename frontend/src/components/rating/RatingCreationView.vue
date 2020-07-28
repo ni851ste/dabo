@@ -31,11 +31,11 @@
 
                             <div class="form-group">
                                 <label>Kommentar:</label>
-                                <label for="ratingComment"></label>
-                                <textarea class="form-control" id="ratingComment" v-on:keyup="countdown"
-                                          v-model="ratingComment"></textarea>
-                                <p class='text-right text-small' v-bind:class="{'text-danger': hasError }">{{charCount +
-                                    '/' + maxCount}}</p>
+                                <label for="ratingCommentInput"></label>
+                                <textarea class="form-control" id="ratingCommentInput" v-model="ratingComment"
+                                          v-on:keyup="countdown"></textarea>
+                                <p class='text-right text-small' v-bind:class="{'text-danger': hasError }">{{charCount + '/' +
+                                    maxCount}}</p>
                             </div>
 
                         </div>
@@ -59,12 +59,12 @@
     export default class RatingCreationView extends Vue {
         ratingHeader: string = "";
         amountOfStars:number = 0;
-        ratingComment: string = " ";
-        author: number = 1
+        ratingComment: string = "";
+        author: number = 1;
 
         maxCount: number = 100;
         hasError: boolean = false;
-        charCount: number = 0
+        charCount: number = 0;
 
         countdown() {
             this.charCount = this.ratingComment.length;
