@@ -283,10 +283,6 @@
         border-color: red;
     }
 
-    .validate .custom-control-label::before {
-        border: red solid 1px;
-    }
-
     invalid-small {
         color: red;
         float: left
