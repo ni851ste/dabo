@@ -24,4 +24,6 @@ public interface IUserPersistenceAdapter {
     Optional<Decade<String, String, String,Triplet<String,String,Boolean>, Integer, String, List<Integer>, List<Integer>,List<Integer>, Map<String, String>>>
     deleteUser(String id);
 
+    Optional<String> findRequestedUserHash(String email, String password);
+
 }
