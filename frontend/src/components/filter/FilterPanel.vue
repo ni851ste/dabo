@@ -101,7 +101,10 @@
             } else {
                 localStorage.setItem("categories", JSON.stringify(this.selectedCategories))
             }
+        }
 
+        mounted(): void {
+            this.getFilteredArticles()
         }
 
         getCategories(): Category[] {
