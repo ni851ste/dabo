@@ -15,6 +15,7 @@ import BootstrapVue, {BootstrapVueIcons} from "bootstrap-vue";
 import RegistrationPage from "@/components/user/RegistrationPage.vue";
 import LoginPage from "@/components/user/LoginPage.vue";
 import UserProfileView from "@/components/user/UserProfileView.vue";
+import RatingCreationView from "@/components/rating/RatingCreationView.vue";
 
 Vue.config.productionTip = false;
 Vue.use(VueRouter);
@@ -31,7 +32,8 @@ const routes = [
   {path: '/home', component: StartPage},
   {path: '/', component: StartPage},
   {path: '/login', name: 'login', component: LoginPage},
-  {path: '/registration', name: 'registration', component: RegistrationPage, props: true}
+  {path: '/registration', name: 'registration', component: RegistrationPage, props: true},
+  {path: '/createRating',  component: RatingCreationView}
 ];
 const router = new VueRouter({
   routes: routes
