@@ -126,6 +126,13 @@ public class ArticleManagement
                 categoryFilter);
     }
 
+    public boolean borrowArticle(int articleId, String borrowingUser)
+    {
+        if (!database.articleCanBeBorrowed(articleId)) return false;
+
+        return database.borrowArticle(articleId, borrowingUser);
+    }
+
 
 }
 

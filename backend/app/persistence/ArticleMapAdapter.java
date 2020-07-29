@@ -10,10 +10,12 @@ import java.util.*;
 public class ArticleMapAdapter implements IArticlePersistenceAdapter
 {
     Map<Integer, Septet<String, String, String, String, String, List<String>, List<String>>> savedArticles;
+    Map<Integer, String> borrowedArticles;
 
     public ArticleMapAdapter()
     {
         this.savedArticles = new HashMap<>();
+        this.borrowedArticles = new HashMap<>();
     }
 
     @Override
@@ -135,5 +137,16 @@ public class ArticleMapAdapter implements IArticlePersistenceAdapter
         }
 
         return foundArticles;
+    }
+
+    public boolean borrowArticle(int articleId, String borrowingUser)
+    {
+        borrowedArticles.put(articleId, borrowingUser);
+        return true;
+    }
+
+    public boolean articleCanBeBorrowed(int articleId)
+    {
+        return !borrowedArticles.containsKey(articleId);
     }
 }

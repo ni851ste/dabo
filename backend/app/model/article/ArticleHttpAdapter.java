@@ -18,7 +18,6 @@ import static play.mvc.Results.badRequest;
 import static play.mvc.Results.ok;
 
 
-
 public class ArticleHttpAdapter
 {
     @Inject
@@ -30,7 +29,7 @@ public class ArticleHttpAdapter
 
         List<String> categoryList = new ArrayList<>();
         // TODO for demo purposes disabled categories
-                json.get("categories").forEach(node -> categoryList.add(node.asText()));
+        json.get("categories").forEach(node -> categoryList.add(node.asText()));
 
         List<String> imagesList = new ArrayList<>();
         json.get("images").forEach(node -> imagesList.add(node.asText()));
@@ -63,8 +62,8 @@ public class ArticleHttpAdapter
                     .put("description", createdArticle.get().getValue2())
                     .put("insertionDate", createdArticle.get().getValue3())
                     .put("location", createdArticle.get().getValue4())
-                    .put("userId",createdArticle.get().getValue5())
-                    .put("images",createdArticle.get().getValue6());
+                    .put("userId", createdArticle.get().getValue5())
+                    .put("images", createdArticle.get().getValue6());
 
             createdArticle.get().getValue7().forEach(category -> returnJson.append("categories", category));
 
@@ -211,7 +210,6 @@ public class ArticleHttpAdapter
                     .put("location", article.getValue4())
                     .put("userId",article.getValue5());
 
-
             article.getValue6().forEach(images -> foundArticleJson.append("images", images));
             article.getValue7().forEach(category -> foundArticleJson.append("categories", category));
 
@@ -222,6 +220,19 @@ public class ArticleHttpAdapter
         return ok(foundArticles.toString())
                 .as("application/json");
 
+    }
+
+
+    public Result borrowArticle(Request request)
+    {
+        JsonNode body = request.body().asJson();
+
+        String borrowingUser = body.get("borrower").asText();
+        int articleId = body.get("articleId").asInt();
+
+        boolean borrowingSuccessful = articleManagement.borrowArticle(articleId, borrowingUser);
+
+        return ok(String.valueOf(borrowingSuccessful));
     }
 
 }

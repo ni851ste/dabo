@@ -27,6 +27,12 @@
                         <a class="nav-link disabled" href="#">Artikel hinzufügen</a>
                     </b-button>
                     <RouterLink v-if="!loginService.isLoggedIn()" to="/login">
+<!--                    <RouterLink to="/createArticle">-->
+<!--                        <b-button class="nav-item addArticle">-->
+<!--                            <a class="nav-link disabled" href="#">Artikel hinzufügen</a>-->
+<!--                        </b-button>-->
+<!--                    </RouterLink>-->
+<!--                    <RouterLink to="/login">-->
                         <li class="nav-item login">
                             <a class="nav-link" href="#">Login</a>
                         </li>

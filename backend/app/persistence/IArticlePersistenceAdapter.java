@@ -22,5 +22,8 @@ public interface IArticlePersistenceAdapter
     List<Octet<Integer, String, String, String, String, String, List<String>, List<String>>> filterArticles(
 //            String nameFilter, String locationFilter,
                                                                           List<String> categoryFilter);
+    boolean articleCanBeBorrowed(int articleId);
+
+    public boolean borrowArticle(int articleId, String borrowingUser);
 
 }
