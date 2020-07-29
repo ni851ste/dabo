@@ -99,6 +99,7 @@
     import Rating from "@/components/rating/Rating";
     import RatingCard from "@/components/rating/RatingCard.vue";
     import User from "@/components/user/User";
+    import RequestCard from "@/components/user/RequestCard.vue";
 
     @Component({
         components: {RequestCard, RatingCard, NavigationBar, ArticleCard}
@@ -112,7 +113,6 @@
         requests: Article[] = [];
 
         get userName(): string {
-            console.log(this.user)
             if (!this.user)
                 return "";
 
