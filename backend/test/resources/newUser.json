@@ -13,7 +13,7 @@
   "rating": 0,
   "toLend": [],
   "lastNameVisible": true,
-  "id": 0,
+  "id": "test-id2",
   "email": "email@test.de",
   "picture": "no Picture",
   "borrowed": []
