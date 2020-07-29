@@ -9,7 +9,7 @@
             <div class="modal-dialog modal-lg" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="createRatingLabel">Bewertung erstellen für Bohrmaschine</h5>
+                        <h5 class="modal-title" id="createRatingLabel">Bewertung erstellen für [article/user]</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -18,25 +18,22 @@
                     <div class="modal-body">
                         <div class="borderbox b-container">
 
-                            <div class="form-group">
-                                <label>Anzahl Sterne: </label>
-                                <b-form-rating v-model="amountOfStars" show-value
-                                               size="lg" variant="warning"></b-form-rating>
+                            <div class="form-group amount-of-stars">
+                                <label>Anzahl Sterne:</label>
+                                <b-form-rating v-model="amountOfStars" show-value size="lg" variant="warning"></b-form-rating>
                             </div>
 
-                            <div class="form-group">
+                            <div class="form-group rating-comment">
                                 <label>Kommentar:</label>
-                                <label for="ratingComment"></label>
-                                <textarea class="form-control" id="ratingComment" v-on:keyup="countdown"
-                                          v-model="ratingComment" required></textarea>
-                                <p class='text-right text-small' v-bind:class="{'text-danger': hasError }">{{charCount + '/' +
-                                    maxCount}}</p>
+                                <textarea class="form-control" v-model="ratingComment" v-on:keyup="countdown"></textarea>
+                                <p class='text-right text-small' v-bind:class="{'text-danger': hasError }">
+                                    {{charCount + '/' + maxCount}}</p>
                             </div>
 
                         </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Abbrechen</button>
-                        <button type="button" class="btn btn-primary" href="#" v-on:click="saveChanges">
+                        <button type="button" class="btn btn-primary" href="#" v-on:click="saveChanges()">
                             Speichern
                         </button>
                     </div>
@@ -51,17 +48,23 @@
     import {Vue} from 'vue-property-decorator';
     import Rating from "@/components/rating/Rating";
 
-    export default class RatingCreationView extends Vue {
+    export default class RatingCreationView extends Vue{
+
         amountOfStars:number = 0;
         ratingComment: string = "";
         author: number = 1;
 
         maxCount: number = 100;
         hasError: boolean = false;
-        charCount: number = 0;
+        get charCount(): number{
+            return this.ratingComment.length
+        }
 
+        constructor() {
+            super();
+            this.countdown = this.countdown.bind(this)
+        }
         countdown() {
-            this.charCount = this.ratingComment.length;
             this.hasError = this.ratingComment.length > this.maxCount;
         }
 
@@ -72,6 +75,7 @@
             let rating = new Rating(amountOfStars, comment, author, new Date())
         }
     }
+
 </script>
 
 <style scoped>
