@@ -42,13 +42,9 @@
                             <h3 class="headline" v-html="article.name"></h3>
                             <b-form-rating class="rating" variant="warning" readonly
                                            v-model="articleRating"></b-form-rating>
-                            <!--TODO: dynamic categories-->
                             <div class="categories">
-                                <div class="category">
-                                    Haushalt
-                                </div>
-                                <div class="category">
-                                    Garten
+                                <div class="category" v-for="categoryLabel in this.article.categories">
+                                    {{categoryLabel}}
                                 </div>
                             </div>
                             <p class="description-section section" v-html="article.description"></p>
@@ -107,6 +103,7 @@
         userRating: number;
 
         get userName(): string {
+            console.log("article is here ", this.article)
             if (!this.user)
                 return "";
 

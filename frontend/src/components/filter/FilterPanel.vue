@@ -143,7 +143,7 @@
                             result[i].image,
                             result[i].location,
                             new Date(result[i].insertionDate),
-                            result[i].category,
+                            result[i].categories,
                             //TODO: wait for backend support
                             result[i].ratings,
                             result[i].userId
