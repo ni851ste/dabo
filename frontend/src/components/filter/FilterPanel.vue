@@ -6,6 +6,7 @@
                 <b-input
                         id="searchInput"
                         v-model="searchString"
+                        v-on:change="saveToLocalStorage"
                         type="text"
                         required
                         placeholder="Suche"
@@ -22,6 +23,8 @@
             <b-form-input
                     id="locationInput"
                     v-model="location"
+                    v-on:change="saveToLocalStorage"
+
                     type="text"
                     required
                     placeholder="Standort"
@@ -32,7 +35,12 @@
             <label>
                 Bewertung ab
             </label>
-            <b-form-rating class="rating" variant="warning" v-model="value"></b-form-rating>
+            <b-form-rating
+                    class="rating"
+                    variant="warning"
+                    v-model="ratingValue"
+                    v-on:change="saveToLocalStorage"
+            ></b-form-rating>
         </div>
         <hr/>
         <div class="categoryCheckboxes filterOption">
@@ -45,6 +53,8 @@
                         v-on:click=""
                         id="category-checkbox-group"
                         v-model="selectedCategories"
+                        v-on:change="saveToLocalStorage"
+
                         :options="categories"
                 >
                 </b-form-checkbox-group>
@@ -67,18 +77,50 @@
 
     @Component
     export default class FilterPanel extends Vue {
-        @Prop() category!: Category
+        @Prop() category!: Category;
         categories: Category[] = this.getCategories();
-        value: Number = 1
+
+        searchString: string = "";
+        location: string = "";
+        ratingValue: number = 1;
+        selectedCategories: Category[] = [this.category];
+
+        constructor() {
+            super();
+            if(localStorage.getItem("searchString")) {
+                this.searchString = <string>localStorage.getItem("searchString")
+            }
+            if(localStorage.getItem("location")) {
+                this.location = <string>localStorage.getItem("location")
+            }
+            if(localStorage.getItem("ratingValue")) {
+                this.ratingValue = localStorage.getItem("ratingValue") as unknown as number
+            }
+            if(localStorage.getItem("categories")) {
+                this.selectedCategories = JSON.parse(<string>localStorage.getItem("categories"));
+            } else {
+                localStorage.setItem("categories", JSON.stringify(this.selectedCategories))
+            }
+        }
+
+        mounted(): void {
+            this.getFilteredArticles()
+        }
 
         getCategories(): Category[] {
             return Object.values(Category)
         }
 
-        location: string = "";
-        searchString: string = "";
-
-        selectedCategories: Category[] = [this.category]
+        saveToLocalStorage(): void {
+            //Vue.nextTick: wait until values changes by :model
+            Vue.nextTick(() => {
+            localStorage.setItem("searchString", this.searchString);
+            localStorage.setItem("location", this.location);
+            localStorage.setItem("ratingValue", this.ratingValue.toString());
+            localStorage.setItem("categories", JSON.stringify(this.selectedCategories))
+                }
+            );
+        }
 
         getFilteredArticles(): void {
             let articles: Article[] = [];
@@ -92,8 +134,6 @@
                 dataType: "json",
                 contentType: "application/json",
                 success: result => {
-                    console.log("success ", result);
-
                     for (let i = 0; i < result.length; i++) {
                         articles[i] = new Article(result[i].name,
                             result[i].description,

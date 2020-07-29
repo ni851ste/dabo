@@ -57,6 +57,9 @@
         }
 
         rows(): number {
+            if(!this.articles){
+                return 0
+            }
             return this.articles.length
         }
     }
