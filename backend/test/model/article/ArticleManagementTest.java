@@ -35,8 +35,8 @@ public class ArticleManagementTest {
     public void createArticleTest(){
         ArrayList<String> al =  new ArrayList<>();
         al.add("Tools");
-        Octet shouldBemockArticle =  new Octet<>(0, "Hecken Schere", "scharfe Heckenschere", "today","Berlin","HashiHashHash","no pics", al);
-        Septet mockCreateArticle = new Septet<>("Hecken Schere", "scharfe Heckenschere", "today", "Berlin","HashiHashHash","no pics", al);
+        Octet shouldBemockArticle =  new Octet<>(0, "Hecken Schere", "scharfe Heckenschere", "today","Berlin","example-hash","no pics", al);
+        Septet mockCreateArticle = new Septet<>("Hecken Schere", "scharfe Heckenschere", "today", "Berlin","example-hash","no pics", al);
 
         Mockito.when(database.createArticle(0,mockCreateArticle)).thenReturn(Optional.of(shouldBemockArticle));
 
@@ -49,7 +49,7 @@ public class ArticleManagementTest {
     public void getArticleByIdTest(){
         ArrayList<String> al =  new ArrayList<>();
         al.add("Tools");
-        Octet shouldBemockArticle =  new Octet<>(0, "Hecken Schere", "scharfe Heckenschere", "today","Berlin","HashiHashHash","no pics", al);
+        Octet shouldBemockArticle =  new Octet<>(0, "Hecken Schere", "scharfe Heckenschere", "today","Berlin","example-hash","no pics", al);
 
 
         Mockito.when(database.getArticleById(0)).thenReturn(Optional.of(shouldBemockArticle));
@@ -64,8 +64,8 @@ public class ArticleManagementTest {
     public void updateArticleTest(){
         ArrayList<String> al =  new ArrayList<>();
         al.add("Tools");
-        Septet mockToBeUpdatedArticle = new Septet<>("Hecken Schere", "super scharfe Heckenschere","today","Konstanz","HashiHashHash","no pics", al);
-        Octet shouldBemockUpdateArticle =  new Octet<>(0, "Hecken Schere", "super scharfe Heckenschere", "today", "Konstanz","HashiHashHash","no pics",al);
+        Septet mockToBeUpdatedArticle = new Septet<>("Hecken Schere", "super scharfe Heckenschere","today","Konstanz","example-hash","no pics", al);
+        Octet shouldBemockUpdateArticle =  new Octet<>(0, "Hecken Schere", "super scharfe Heckenschere", "today", "Konstanz","example-hash","no pics",al);
 
         Mockito.when(database.updateArticle(0,mockToBeUpdatedArticle)).thenReturn(Optional.of(shouldBemockUpdateArticle));
 
@@ -78,7 +78,7 @@ public class ArticleManagementTest {
     public void deleteArticleTest(){
         ArrayList<String> al =  new ArrayList<>();
         al.add("Tools");
-        Octet shouldBemockArticle =  new Octet<>(0, "Hecken Schere", "scharfe Heckenschere", "today","Berlin","HashiHashHash","no pics", al);
+        Octet shouldBemockArticle =  new Octet<>(0, "Hecken Schere", "scharfe Heckenschere", "today","Berlin","example-hash","no pics", al);
 
         Mockito.when(database.deleteArticle(0)).thenReturn(Optional.of(shouldBemockArticle));
 
@@ -91,11 +91,11 @@ public class ArticleManagementTest {
     public void filterArticlesTest(){
         ArrayList<String> al =  new ArrayList<>();
         al.add("Tools");
-        Octet shouldBemockArticle =  new Octet<>(0, "Hecken Schere", "scharfe Heckenschere", "today","Berlin", "HashiHashHash","no pics",al);
+        Octet shouldBemockArticle =  new Octet<>(0, "Hecken Schere", "scharfe Heckenschere", "today","Berlin", "example-hash","no pics",al);
 
 
-        Octet mockArticleWithID1 =  new Octet<>(1, "Hecken Schere", "Heckenschere", "today","Konstanz","HashiHashHash","no pics", al);
-        Octet mockArticleWithID2 =  new Octet<>(2, "Tisch", "Heckenschere", "today","Berlin","HashiHashHash","no pics", al);
+        Octet mockArticleWithID1 =  new Octet<>(1, "Hecken Schere", "Heckenschere", "today","Konstanz","example-hash","no pics", al);
+        Octet mockArticleWithID2 =  new Octet<>(2, "Tisch", "Heckenschere", "today","Berlin","example-hash","no pics", al);
 
         List<Octet<Integer, String, String, String, String,String,String, List<String>>> shouldBefilterList = new ArrayList<>();
         shouldBefilterList.add(shouldBemockArticle);

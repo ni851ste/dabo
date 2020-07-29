@@ -44,16 +44,16 @@ public class ArticleManagementHttpAdapterTest extends WithApplication {
 
         ArrayList<String> al =  new ArrayList<>();
         al.add("Tools");
-        Octet mockArticle =  new Octet<>(0, "Hecken Schere", "scharfe Heckenschere", "today","Berlin","HashiHashHash","no pics", al);
+        Octet mockArticle =  new Octet<>(0, "Hecken Schere", "scharfe Heckenschere", "today","Berlin","example-hash","no pics", al);
 
-        Septet mockCreateArticle = new Septet<>("Hecken Schere", "scharfe Heckenschere", "today", "Berlin","HashiHashHash","no pics", al);
-        Octet mockCreateFinishArticle =  new Octet<>(0, "Hecken Schere", "scharfe Heckenschere", "today", "Berlin","HashiHashHash","no pics", al);
+        Septet mockCreateArticle = new Septet<>("Hecken Schere", "scharfe Heckenschere", "today", "Berlin","example-hash","no pics", al);
+        Octet mockCreateFinishArticle =  new Octet<>(0, "Hecken Schere", "scharfe Heckenschere", "today", "Berlin","example-hash","no pics", al);
 
-        Septet mockToBeUpdatedArticle = new Septet<>("Hecken Schere", "super scharfe Heckenschere","today","Konstanz","HashiHashHash","no pics", al);
-        Octet mockUpdateArticle =  new Octet<>(0, "Hecken Schere", "super scharfe Heckenschere", "today", "Konstanz","HashiHashHash","no pics",al);
+        Septet mockToBeUpdatedArticle = new Septet<>("Hecken Schere", "super scharfe Heckenschere","today","Konstanz","example-hash","no pics", al);
+        Octet mockUpdateArticle =  new Octet<>(0, "Hecken Schere", "super scharfe Heckenschere", "today", "Konstanz","example-hash","no pics",al);
 
-        Octet mockArticleWithID1 =  new Octet<>(1, "Hecken Schere", "Heckenschere", "today","Konstanz","HashiHashHash","no pics", al);
-        Octet mockArticleWithID2 =  new Octet<>(2, "Tisch", "Heckenschere", "today","Berlin", "HashiHashHash","no pics",al);
+        Octet mockArticleWithID1 =  new Octet<>(1, "Hecken Schere", "Heckenschere", "today","Konstanz","example-hash","no pics", al);
+        Octet mockArticleWithID2 =  new Octet<>(2, "Tisch", "Heckenschere", "today","Berlin", "example-hash","no pics",al);
 
         List<Octet<Integer, String, String, String, String, String, String, List<String>>> filterList = new ArrayList<>();
         filterList.add(mockArticle);

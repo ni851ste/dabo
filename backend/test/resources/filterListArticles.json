@@ -9,7 +9,7 @@
       "Tools"
     ],
     "insertionDate": "today",
-    "userId": "HashiHashHash"
+    "userId": "example-hash"
   },
   {
     "name": "Hecken Schere",
@@ -21,7 +21,7 @@
       "Tools"
     ],
     "insertionDate": "today",
-    "userId": "HashiHashHash"
+    "userId": "example-hash"
   },
   {
     "name": "Tisch",
@@ -33,6 +33,6 @@
       "Tools"
     ],
     "insertionDate": "today",
-    "userId": "HashiHashHash"
+    "userId": "example-hash"
   }
 ]
