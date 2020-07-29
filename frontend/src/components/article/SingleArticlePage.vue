@@ -286,6 +286,8 @@
     .alert {
         width: 100%;
         text-align: left;
+    }
+    
     .address {
         width: 300px;
     }
