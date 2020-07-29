@@ -30,16 +30,19 @@ import static play.mvc.Http.Status.OK;
 import static play.test.Helpers.*;
 
 
-public class UserManagementHttpAdapterTest extends WithApplication {
+public class UserManagementHttpAdapterTest extends WithApplication
+{
 
 
     @Before
-    public void setup() throws IOException {
+    public void setup() throws IOException
+    {
         Files.createDirectories(Paths.get("test/target"));
     }
 
     @Override
-    public Application provideApplication() {
+    public Application provideApplication()
+    {
 
         List<Integer> lendList = new ArrayList<>();
         lendList.add(2);
@@ -58,24 +61,24 @@ public class UserManagementHttpAdapterTest extends WithApplication {
         addrList.put("country", "Germany");
 
 
-        Decade mockUser1 = new Decade<>(0, "email@test.de", "hallo1", new Triplet<>("dieter", "Durst", true), 4, "no Picture", lendList,borrowList,pinnList, addrList);
-        Decade mockUser2 = new Decade<>(0, "email@test.de", "hallo1", new Triplet<>("dieter", "Durst", true), 0, "no Picture",new ArrayList<Integer>(), new ArrayList<Integer>(), new ArrayList<Integer>(), addrList);
+        Decade mockUser1 = new Decade<>("test-id1", "email@test.de", "hallo1", new Triplet<>("dieter", "Durst", true), 4, "no Picture", lendList, borrowList, pinnList, addrList);
+        Decade mockUser2 = new Decade<>("test-id2", "email@test.de", "hallo1", new Triplet<>("dieter", "Durst", true), 0, "no Picture", new ArrayList<Integer>(), new ArrayList<Integer>(), new ArrayList<Integer>(), addrList);
 
 
         Ennead mockCreateUser = new Ennead<>("email@test.de", "hallo1", new Triplet<>("dieter", "Durst", true), 0, "no Picture", new ArrayList<Integer>(), new ArrayList<Integer>(), new ArrayList<Integer>(), addrList);
-        Decade mockCreateFinishedUser = new Decade(0, "email@test.de", "hallo1", new Triplet<>("dieter", "Durst", true), 0, "no Picture", new ArrayList<Integer>(), new ArrayList<Integer>(), new ArrayList<Integer>(), addrList);
+//        Decade mockCreateFinishedUser = new Decade(0, "email@test.de", "hallo1", new Triplet<>("dieter", "Durst", true), 0, "no Picture", new ArrayList<Integer>(), new ArrayList<Integer>(), new ArrayList<Integer>(), addrList);
 
-        Ennead mockToBeUpdateUser= new Ennead<>("email1@test.de", "hallo1", new Triplet<>("Peter", "Fleisch", true), 3, "no Picture", lendList,borrowList,pinnList, addrList);
-        Decade mockUpdateUser = new Decade<>(0, "email@test.de", "hallo1",  new Triplet<>("Peter", "Fleisch", true), 3, "no Picture", lendList,borrowList,pinnList, addrList);
+        Ennead mockToBeUpdateUser = new Ennead<>("email1@test.de", "hallo1", new Triplet<>("Peter", "Fleisch", true), 3, "no Picture", lendList, borrowList, pinnList, addrList);
+        Decade mockUpdateUser = new Decade<>("test-id1", "email@test.de", "hallo1", new Triplet<>("Peter", "Fleisch", true), 3, "no Picture", lendList, borrowList, pinnList, addrList);
 
-        Decade mockUserWithId1 = new Decade<>(1, "droelf@test.de", "hahaha34", new Triplet<>("MarieO", "Jana", true), 4, "no Picture", lendList,borrowList,pinnList, addrList);
-        Decade mockUserWithId2 = new Decade<>(2, "nummer@zwei.de", "zweiundvirzig", new Triplet<>("Axel", "Schweis", true), 4, "no Picture", lendList,borrowList,pinnList, addrList);
+//        Decade mockUserWithId1 = new Decade<>(1, "droelf@test.de", "hahaha34", new Triplet<>("Marie", "Jana", true), 4, "no Picture", lendList, borrowList, pinnList, addrList);
+//        Decade mockUserWithId2 = new Decade<>(2, "nummer@zwei.de", "zweiundvirzig", new Triplet<>("Axel", "Schweis", true), 4, "no Picture", lendList, borrowList, pinnList, addrList);
 
         UserManagement userManagement = Mockito.mock(UserManagement.class);
         Mockito.when(userManagement.createUser(mockCreateUser)).thenReturn(Optional.of(mockUser2));
-        Mockito.when(userManagement.getUserByID("e371e3b6ef06d50dcb4698559d7828d6ca76d4c68ead08491f674fad4d38bd4b")).thenReturn(Optional.of(mockUser1));
-        Mockito.when(userManagement.deleteUser("e371e3b6ef06d50dcb4698559d7828d6ca76d4c68ead08491f674fad4d38bd4b")).thenReturn(Optional.of(mockUser1));
-        Mockito.when(userManagement.updateUser("e371e3b6ef06d50dcb4698559d7828d6ca76d4c68ead08491f674fad4d38bd4b", mockToBeUpdateUser)).thenReturn(Optional.of(mockUpdateUser));
+        Mockito.when(userManagement.getUserByID("test-id1")).thenReturn(Optional.of(mockUser1));
+        Mockito.when(userManagement.deleteUser("test-id1")).thenReturn(Optional.of(mockUser1));
+        Mockito.when(userManagement.updateUser("test-id2", mockToBeUpdateUser)).thenReturn(Optional.of(mockUpdateUser));
 
         return new GuiceApplicationBuilder()
                 .in(new File("."))
@@ -88,7 +91,8 @@ public class UserManagementHttpAdapterTest extends WithApplication {
 
 
     @Test
-    public void testCreateANewUser() throws IOException {
+    public void testCreateANewUser() throws IOException
+    {
 
         ObjectMapper mapper = new ObjectMapper();
         File createUserFile = new File("test/resources/createUser.json");
@@ -124,11 +128,12 @@ public class UserManagementHttpAdapterTest extends WithApplication {
 
 
     @Test
-    public void testDeleteAUser() throws IOException {
+    public void testDeleteAUser() throws IOException
+    {
 
         Http.RequestBuilder request = new Http.RequestBuilder()
                 .method(POST)
-                .uri("/user/delete/e371e3b6ef06d50dcb4698559d7828d6ca76d4c68ead08491f674fad4d38bd4b");
+                .uri("/user/delete/test-id1");
 
         Result result = route(app, request);
 
@@ -137,14 +142,15 @@ public class UserManagementHttpAdapterTest extends WithApplication {
 
 
     @Test
-    public void testUpdateAUser() throws IOException {
+    public void testUpdateAUser() throws IOException
+    {
         ObjectMapper mapper = new ObjectMapper();
         File updateUserFile = new File("test/resources/updateUser.json");
         JsonNode updateUserJson = mapper.readTree(updateUserFile);
 
         Http.RequestBuilder request = new Http.RequestBuilder()
                 .method(POST)
-                .uri("/user/update/e371e3b6ef06d50dcb4698559d7828d6ca76d4c68ead08491f674fad4d38bd4b")
+                .uri("/user/update/test-id2")
                 .bodyJson(updateUserJson);
 
         Result result = route(app, request);
@@ -170,13 +176,14 @@ public class UserManagementHttpAdapterTest extends WithApplication {
 
 
     @Test
-    public void getUserById() throws IOException{
+    public void getUserById() throws IOException
+    {
 
         Http.RequestBuilder request = new Http.RequestBuilder()
                 .method(GET)
-                .uri("/user/find/e371e3b6ef06d50dcb4698559d7828d6ca76d4c68ead08491f674fad4d38bd4b");
+                .uri("/user/find/test-id1");
 
-        Result result = route(app,request);
+        Result result = route(app, request);
 
         assertEquals(OK, result.status());
 
@@ -196,7 +203,7 @@ public class UserManagementHttpAdapterTest extends WithApplication {
         JsonNode testJson = mapper.readTree(resultJsonToString);
         JsonNode actuallyJson = mapper.readTree(actuallyFile);
 
-        assertEquals(actuallyJson,testJson);
+        assertEquals(actuallyJson, testJson);
 
     }
 }

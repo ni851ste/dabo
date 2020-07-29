@@ -6,7 +6,6 @@ import org.javatuples.Decade;
 import org.javatuples.Ennead;
 import org.javatuples.Triplet;
 import org.json.JSONObject;
-import play.mvc.Http;
 import play.mvc.Http.Request;
 import play.mvc.Result;
 
@@ -79,11 +78,8 @@ public class UserHttpAdapter
                     .put("pinnedArticledId", createdUser.get().getValue8())
                     .put("address", createdUser.get().getValue9());
 
-            String name = "daboAuthentication";
-            String value = createdUser.get().getValue0();
-
             return ok(returnJson.toString())
-                    .as("application/json").withCookies(Http.Cookie.builder(name, value).build());
+                    .as("application/json");
         }
 
     }
