@@ -232,6 +232,7 @@
             let insertionDate: Date = new Date();
             // let article: Article = new Article(name, description, image, location, insertionDate)
 
+            /*
             $.ajax({
                 url: "http://localhost:9000/users/articles/create",
                 type: "POST",
@@ -255,6 +256,7 @@
                     console.log("error ", error)
                 }
             });
+             */
         }
     }
 </script>
