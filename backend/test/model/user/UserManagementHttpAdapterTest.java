@@ -73,9 +73,9 @@ public class UserManagementHttpAdapterTest extends WithApplication {
 
         UserManagement userManagement = Mockito.mock(UserManagement.class);
         Mockito.when(userManagement.createUser(mockCreateUser)).thenReturn(Optional.of(mockUser2));
-        Mockito.when(userManagement.getUserByID(0)).thenReturn(Optional.of(mockUser1));
-        Mockito.when(userManagement.deleteUser(0)).thenReturn(Optional.of(mockUser1));
-        Mockito.when(userManagement.updateUser(0, mockToBeUpdateUser)).thenReturn(Optional.of(mockUpdateUser));
+        Mockito.when(userManagement.getUserByID("e371e3b6ef06d50dcb4698559d7828d6ca76d4c68ead08491f674fad4d38bd4b")).thenReturn(Optional.of(mockUser1));
+        Mockito.when(userManagement.deleteUser("e371e3b6ef06d50dcb4698559d7828d6ca76d4c68ead08491f674fad4d38bd4b")).thenReturn(Optional.of(mockUser1));
+        Mockito.when(userManagement.updateUser("e371e3b6ef06d50dcb4698559d7828d6ca76d4c68ead08491f674fad4d38bd4b", mockToBeUpdateUser)).thenReturn(Optional.of(mockUpdateUser));
 
         return new GuiceApplicationBuilder()
                 .in(new File("."))
@@ -128,7 +128,7 @@ public class UserManagementHttpAdapterTest extends WithApplication {
 
         Http.RequestBuilder request = new Http.RequestBuilder()
                 .method(POST)
-                .uri("/user/delete/0");
+                .uri("/user/delete/e371e3b6ef06d50dcb4698559d7828d6ca76d4c68ead08491f674fad4d38bd4b");
 
         Result result = route(app, request);
 
@@ -144,7 +144,7 @@ public class UserManagementHttpAdapterTest extends WithApplication {
 
         Http.RequestBuilder request = new Http.RequestBuilder()
                 .method(POST)
-                .uri("/user/update/0")
+                .uri("/user/update/e371e3b6ef06d50dcb4698559d7828d6ca76d4c68ead08491f674fad4d38bd4b")
                 .bodyJson(updateUserJson);
 
         Result result = route(app, request);
@@ -174,7 +174,7 @@ public class UserManagementHttpAdapterTest extends WithApplication {
 
         Http.RequestBuilder request = new Http.RequestBuilder()
                 .method(GET)
-                .uri("/user/find/0");
+                .uri("/user/find/e371e3b6ef06d50dcb4698559d7828d6ca76d4c68ead08491f674fad4d38bd4b");
 
         Result result = route(app,request);
 

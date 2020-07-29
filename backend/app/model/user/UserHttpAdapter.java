@@ -6,6 +6,7 @@ import org.javatuples.Decade;
 import org.javatuples.Ennead;
 import org.javatuples.Triplet;
 import org.json.JSONObject;
+import play.mvc.Http;
 import play.mvc.Http.Request;
 import play.mvc.Result;
 
@@ -20,8 +21,7 @@ public class UserHttpAdapter
     UserManagement userManagement = new UserManagement();
 
 
-    public Result createUser(Request create)
-    {
+    public Result createUser(Request create) {
 
         JsonNode json = create.body().asJson();
 
@@ -43,13 +43,14 @@ public class UserHttpAdapter
                 json.get("lastName").asText(),
                 json.get("lastNameVisible").asBoolean());
 
-        Integer rate = 0;
+        Integer rateing = 0;
 
-        Optional<Decade<Integer, String, String, Triplet<String, String, Boolean>, Integer, String, List<Integer>, List<Integer>, List<Integer>, Map<String, String>>> createdUser =
-                userManagement.createUser(new Ennead(json.get("email").asText(),
+        Optional<Decade<String, String, String, Triplet<String, String, Boolean>, Integer, String, List<Integer>, List<Integer>, List<Integer>, Map<String, String>>> createdUser =
+                userManagement.createUser(new Ennead(
+                        json.get("email").asText(),
                         json.get("password").asText(),
                         nameList,
-                        rate,
+                        rateing,
                         json.get("picture").asText(),
                         lendList,
                         borrowList,
@@ -71,24 +72,26 @@ public class UserHttpAdapter
                     .put("firstName", createdUser.get().getValue3().getValue0())
                     .put("lastName", createdUser.get().getValue3().getValue1())
                     .put("lastNameVisible", createdUser.get().getValue3().getValue2())
-                    .put("rating", createdUser.get().getValue4())
+                    .put("ratings", createdUser.get().getValue4())
                     .put("picture", createdUser.get().getValue5())
-                    .put("toLend", createdUser.get().getValue6())
-                    .put("borrowed", createdUser.get().getValue7())
-                    .put("pinned", createdUser.get().getValue8())
+                    .put("insertedArticlesId", createdUser.get().getValue6())
+                    .put("borrowedArticlesId", createdUser.get().getValue7())
+                    .put("pinnedArticledId", createdUser.get().getValue8())
                     .put("address", createdUser.get().getValue9());
 
+            String name = "daboAuthentication";
+            String value = createdUser.get().getValue0();
 
             return ok(returnJson.toString())
-                    .as("application/json");
+                    .as("application/json").withCookies(Http.Cookie.builder(name, value).build());
         }
 
     }
 
-    public Result getUserById(int id)
+    public Result getUserById(String id)
     {
 
-        Optional<Decade<Integer, String, String, Triplet<String, String, Boolean>, Integer, String, List<Integer>, List<Integer>,List<Integer>, Map<String,String>>>
+        Optional<Decade<String, String, String, Triplet<String, String, Boolean>, Integer, String, List<Integer>, List<Integer>,List<Integer>, Map<String,String>>>
                 foundUser = userManagement.getUserByID(id);
 
         if (foundUser.isEmpty())
@@ -105,20 +108,21 @@ public class UserHttpAdapter
                     .put("firstName", foundUser.get().getValue3().getValue0())
                     .put("lastName", foundUser.get().getValue3().getValue1())
                     .put("lastNameVisible", foundUser.get().getValue3().getValue2())
-                    .put("rating", foundUser.get().getValue4())
+                    .put("ratings", foundUser.get().getValue4())
                     .put("picture", foundUser.get().getValue5())
-                    .put("toLend", foundUser.get().getValue6())
-                    .put("borrowed", foundUser.get().getValue7())
-                    .put("pinned", foundUser.get().getValue8())
+                    .put("insertedArticlesId", foundUser.get().getValue6())
+                    .put("borrowedArticlesId", foundUser.get().getValue7())
+                    .put("pinnedArticledId", foundUser.get().getValue8())
                     .put("address", foundUser.get().getValue9());
+
 
             return ok(returnJson.toString())
                     .as("application/json");
         }
     }
 
-    public Result deleteUser(int id){
-        Optional<Decade<Integer, String, String, Triplet<String, String, Boolean>, Integer, String, List<Integer>, List<Integer>,List<Integer>, Map<String,String>>>
+    public Result deleteUser(String id){
+        Optional<Decade<String, String, String, Triplet<String, String, Boolean>, Integer, String, List<Integer>, List<Integer>,List<Integer>, Map<String,String>>>
                 deletedUser = userManagement.deleteUser(id);
 
         if(deletedUser.isEmpty())
@@ -134,11 +138,11 @@ public class UserHttpAdapter
                     .put("firstName", deletedUser.get().getValue3().getValue0())
                     .put("lastName", deletedUser.get().getValue3().getValue1())
                     .put("lastNameVisible", deletedUser.get().getValue3().getValue2())
-                    .put("rating", deletedUser.get().getValue4())
+                    .put("ratings", deletedUser.get().getValue4())
                     .put("picture", deletedUser.get().getValue5())
-                    .put("toLend", deletedUser.get().getValue6())
-                    .put("borrowed", deletedUser.get().getValue7())
-                    .put("pinned", deletedUser.get().getValue8())
+                    .put("insertedArticlesId", deletedUser.get().getValue6())
+                    .put("borrowedArticlesId", deletedUser.get().getValue7())
+                    .put("pinnedArticledId", deletedUser.get().getValue8())
                     .put("address", deletedUser.get().getValue9());
 
             return ok(returnJson.toString())
@@ -146,7 +150,7 @@ public class UserHttpAdapter
         }
     }
 
-    public Result updateUser(int id, Request update)
+    public Result updateUser(String id, Request update)
     {
 
         JsonNode json = update.body().asJson();
@@ -184,7 +188,7 @@ public class UserHttpAdapter
                         pinnList,
                         addrList);
 
-        Optional<Decade<Integer, String, String, Triplet<String,String,Boolean>, Integer, String, List<Integer>, List<Integer>,List<Integer>, Map<String,String>>>
+        Optional<Decade<String, String, String, Triplet<String,String,Boolean>, Integer, String, List<Integer>, List<Integer>,List<Integer>, Map<String,String>>>
                 updatedUser = userManagement.updateUser(id, toBeUpdatedUser);
         
         if(updatedUser.isEmpty())
@@ -200,12 +204,13 @@ public class UserHttpAdapter
                     .put("firstName", updatedUser.get().getValue3().getValue0())
                     .put("lastName", updatedUser.get().getValue3().getValue1())
                     .put("lastNameVisible", updatedUser.get().getValue3().getValue2())
-                    .put("rating", updatedUser.get().getValue4())
+                    .put("ratings", updatedUser.get().getValue4())
                     .put("picture", updatedUser.get().getValue5())
-                    .put("toLend", updatedUser.get().getValue6())
-                    .put("borrowed", updatedUser.get().getValue7())
-                    .put("pinned", updatedUser.get().getValue8())
+                    .put("insertedArticlesId", updatedUser.get().getValue6())
+                    .put("borrowedArticlesId", updatedUser.get().getValue7())
+                    .put("pinnedArticledId", updatedUser.get().getValue8())
                     .put("address", updatedUser.get().getValue9());
+
             return ok(returnJson.toString())
                     .as("application/json");
         }

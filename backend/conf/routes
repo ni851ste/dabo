@@ -10,10 +10,11 @@ GET         /assets/*file                     controllers.Assets.versioned(path=
 
 
 #User
++nocsrf
 POST        /user/create                      model.user.UserHttpAdapter.createUser(request: Request)
-GET         /user/find/:id                    model.user.UserHttpAdapter.getUserById(id: Int)
-POST        /user/delete/:id                  model.user.UserHttpAdapter.deleteUser(id: Int)
-POST        /user/update/:id                  model.user.UserHttpAdapter.updateUser(id: Int, request: Request)
+GET         /user/find/:id                    model.user.UserHttpAdapter.getUserById(id: String)
+POST        /user/delete/:id                  model.user.UserHttpAdapter.deleteUser(id: String)
+POST        /user/update/:id                  model.user.UserHttpAdapter.updateUser(id: String, request: Request)
 
 #Article
 POST        /users/articles/create            model.article.ArticleHttpAdapter.createArticle(request: Request)
