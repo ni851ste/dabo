@@ -71,11 +71,11 @@ public class UserHttpAdapter
                     .put("firstName", createdUser.get().getValue3().getValue0())
                     .put("lastName", createdUser.get().getValue3().getValue1())
                     .put("lastNameVisible", createdUser.get().getValue3().getValue2())
-                    .put("rating", createdUser.get().getValue4())
+                    .put("ratings", createdUser.get().getValue4())
                     .put("picture", createdUser.get().getValue5())
-                    .put("toLend", createdUser.get().getValue6())
-                    .put("borrowed", createdUser.get().getValue7())
-                    .put("pinned", createdUser.get().getValue8())
+                    .put("insertedArticlesId", createdUser.get().getValue6())
+                    .put("borrowedArticlesId", createdUser.get().getValue7())
+                    .put("pinnedArticledId", createdUser.get().getValue8())
                     .put("address", createdUser.get().getValue9());
 
 
@@ -105,11 +105,11 @@ public class UserHttpAdapter
                     .put("firstName", foundUser.get().getValue3().getValue0())
                     .put("lastName", foundUser.get().getValue3().getValue1())
                     .put("lastNameVisible", foundUser.get().getValue3().getValue2())
-                    .put("rating", foundUser.get().getValue4())
+                    .put("ratings", foundUser.get().getValue4())
                     .put("picture", foundUser.get().getValue5())
-                    .put("toLend", foundUser.get().getValue6())
-                    .put("borrowed", foundUser.get().getValue7())
-                    .put("pinned", foundUser.get().getValue8())
+                    .put("insertedArticlesId", foundUser.get().getValue6())
+                    .put("borrowedArticlesId", foundUser.get().getValue7())
+                    .put("pinnedArticledId", foundUser.get().getValue8())
                     .put("address", foundUser.get().getValue9());
 
             return ok(returnJson.toString())
@@ -134,11 +134,11 @@ public class UserHttpAdapter
                     .put("firstName", deletedUser.get().getValue3().getValue0())
                     .put("lastName", deletedUser.get().getValue3().getValue1())
                     .put("lastNameVisible", deletedUser.get().getValue3().getValue2())
-                    .put("rating", deletedUser.get().getValue4())
+                    .put("ratings", deletedUser.get().getValue4())
                     .put("picture", deletedUser.get().getValue5())
-                    .put("toLend", deletedUser.get().getValue6())
-                    .put("borrowed", deletedUser.get().getValue7())
-                    .put("pinned", deletedUser.get().getValue8())
+                    .put("insertedArticlesId", deletedUser.get().getValue6())
+                    .put("borrowedArticlesId", deletedUser.get().getValue7())
+                    .put("pinnedArticledId", deletedUser.get().getValue8())
                     .put("address", deletedUser.get().getValue9());
 
             return ok(returnJson.toString())
@@ -152,13 +152,13 @@ public class UserHttpAdapter
         JsonNode json = update.body().asJson();
 
         List<Integer> lendList = new ArrayList<>();
-        json.get("toLend").forEach(node -> lendList.add(node.asInt()));
+        json.get("insertedArticlesId").forEach(node -> lendList.add(node.asInt()));
 
         List<Integer> borrowList = new ArrayList<>();
-        json.get("borrowed").forEach(node -> borrowList.add(node.asInt()));
+        json.get("borrowedArticlesId").forEach(node -> borrowList.add(node.asInt()));
 
         List<Integer> pinnList = new ArrayList<>();
-        json.get("pinned").forEach(node -> pinnList.add(node.asInt()));
+        json.get("pinnedArticledId").forEach(node -> pinnList.add(node.asInt()));
 
         Map<String, String> addrList = new HashMap<>();
         addrList.put("street", json.get("street").asText());
@@ -177,7 +177,7 @@ public class UserHttpAdapter
                 new Ennead(json.get("email").asText(),
                         json.get("password").asText(),
                         nameList,
-                        json.get("rating").asInt(),
+                        json.get("ratings").asInt(),
                         json.get("picture").asText(),
                         lendList,
                         borrowList,
@@ -200,11 +200,11 @@ public class UserHttpAdapter
                     .put("firstName", updatedUser.get().getValue3().getValue0())
                     .put("lastName", updatedUser.get().getValue3().getValue1())
                     .put("lastNameVisible", updatedUser.get().getValue3().getValue2())
-                    .put("rating", updatedUser.get().getValue4())
+                    .put("ratings", updatedUser.get().getValue4())
                     .put("picture", updatedUser.get().getValue5())
-                    .put("toLend", updatedUser.get().getValue6())
-                    .put("borrowed", updatedUser.get().getValue7())
-                    .put("pinned", updatedUser.get().getValue8())
+                    .put("insertedArticlesId", updatedUser.get().getValue6())
+                    .put("borrowedArticlesId", updatedUser.get().getValue7())
+                    .put("pinnedArticledId", updatedUser.get().getValue8())
                     .put("address", updatedUser.get().getValue9());
             return ok(returnJson.toString())
                     .as("application/json");
