@@ -1,7 +1,5 @@
 package model.user;
 
-import com.google.common.base.Charsets;
-import com.google.common.hash.Hashing;
 import org.javatuples.Decade;
 import org.javatuples.Ennead;
 import org.javatuples.Triplet;
@@ -19,14 +17,10 @@ public class UserManagement
     public Optional<Decade<String, String, String, Triplet<String, String, Boolean>, Integer, String, List<Integer>, List<Integer>, List<Integer>, Map<String,String>>>
     createUser(Ennead<String, String, Triplet<String, String, Boolean>, Integer, String, List<Integer>, List<Integer>, List<Integer>,  Map<String,String>> data) {
 
-
-        String connectorForId = data.getValue0().concat(data.getValue1());
-        String id = Hashing.sha256().hashString( connectorForId, Charsets.UTF_8 ).toString();
-
+        String id = Integer.toString((data.getValue0() + " " + data.getValue1()).hashCode());
 
         Optional<Decade<String, String, String, Triplet<String, String, Boolean>, Integer, String, List<Integer>, List<Integer>, List<Integer>,  Map<String,String>>>
                 returnValue = database.createUser(id, data);
-
 
         return returnValue;
     }
