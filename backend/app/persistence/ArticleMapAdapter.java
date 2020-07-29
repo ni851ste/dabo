@@ -8,7 +8,7 @@ import java.util.*;
 
 public class ArticleMapAdapter implements IArticlePersistenceAdapter
 {
-    Map<Integer, Septet<String, String, String, String,String,String, List<String>>> savedArticles;
+    Map<Integer, Septet<String, String, String, String, String, String, List<String>>> savedArticles;
 
     public ArticleMapAdapter()
     {
@@ -16,23 +16,23 @@ public class ArticleMapAdapter implements IArticlePersistenceAdapter
     }
 
     @Override
-    public Optional<Octet<Integer, String, String, String, String,String,String, List<String>>> createArticle(int id,
-                                                                                   Septet<String, String, String, String,String,String, List<String>> data)
+    public Optional<Octet<Integer, String, String, String, String, String, String, List<String>>> createArticle(int id,
+                                                                                                                Septet<String, String, String, String, String, String, List<String>> data)
     {
         savedArticles.put(id, data);
 
-        return Optional.of(new Octet<>(id, data.getValue0(), data.getValue1(), data.getValue2(), data.getValue3(), data.getValue4(),data.getValue5(),data.getValue6()));
+        return Optional.of(new Octet<>(id, data.getValue0(), data.getValue1(), data.getValue2(), data.getValue3(), data.getValue4(), data.getValue5(), data.getValue6()));
     }
 
     @Override
-    public Optional<Octet<Integer, String, String, String, String,String,String, List<String>>> getArticleById(int id)
+    public Optional<Octet<Integer, String, String, String, String, String, String, List<String>>> getArticleById(int id)
     {
         if (!savedArticles.containsKey(id))
         {
             return Optional.empty();
         }
 
-        Septet<String, String, String, String,String,String, List<String>> article = savedArticles.get(id);
+        Septet<String, String, String, String, String, String, List<String>> article = savedArticles.get(id);
 
         return Optional.of(
                 new Octet<>(id,
@@ -47,8 +47,8 @@ public class ArticleMapAdapter implements IArticlePersistenceAdapter
     }
 
     @Override
-    public Optional<Octet<Integer, String, String, String, String,String,String, List<String>>> updateArticle(int id,
-                                                                                    Septet<String, String, String, String,String,String, List<String>> data)
+    public Optional<Octet<Integer, String, String, String, String, String, String, List<String>>> updateArticle(int id,
+                                                                                                                Septet<String, String, String, String, String, String, List<String>> data)
     {
         if (!savedArticles.containsKey(id))
         {
@@ -69,14 +69,14 @@ public class ArticleMapAdapter implements IArticlePersistenceAdapter
     }
 
     @Override
-    public Optional<Octet<Integer, String, String, String, String,String,String, List<String>>> deleteArticle(int id)
+    public Optional<Octet<Integer, String, String, String, String, String, String, List<String>>> deleteArticle(int id)
     {
         if (!savedArticles.containsKey(id))
         {
             return Optional.empty();
         }
 
-        Septet<String, String, String, String,String,String, List<String>> removedArticle = savedArticles.remove(id);
+        Septet<String, String, String, String, String, String, List<String>> removedArticle = savedArticles.remove(id);
 
         return Optional.of(
                 new Octet<>(id,
@@ -90,31 +90,48 @@ public class ArticleMapAdapter implements IArticlePersistenceAdapter
     }
 
     @Override
-    public List<Octet<Integer, String, String, String, String,String,String, List<String>>> filterArticles(
-//            String nameFilter, String locationFilter,
+    public List<Octet<Integer, String, String, String, String, String, String, List<String>>> filterArticles(
+            //            String nameFilter, String locationFilter,
             List<String> categoryFilter)
     {
-        List<Octet<Integer, String, String, String, String,String,String, List<String>>> foundArticles = new ArrayList<>();
+        List<Octet<Integer, String, String, String, String, String, String, List<String>>> foundArticles = new ArrayList<>();
 
-//        List<Map.Entry<Integer, Quintet<String, String, String, String, List<String>>>> filteredArticles =
-                savedArticles.entrySet()
-                        .stream()
-                        // Name Filter
-                        //.filter(entry -> entry.getValue().getValue0().toLowerCase().contains(nameFilter.toLowerCase()))
-                        // Location Filter
-                        //.filter(entry -> entry.getValue().getValue3().contains(locationFilter))
-                        // Filter for categories
-                        .filter(entry -> CollectionUtils.containsAny(entry.getValue().getValue6(), categoryFilter))
-                        .forEach(article -> {
-                            foundArticles.add(new Octet<>(article.getKey(),
-                                    article.getValue().getValue0(),
-                                    article.getValue().getValue1(),
-                                    article.getValue().getValue2(),
-                                    article.getValue().getValue3(),
-                                    article.getValue().getValue4(),
-                                    article.getValue().getValue5(),
-                                    article.getValue().getValue6()));
-                        });
+        if (categoryFilter.size() == 0)
+        {
+            savedArticles.entrySet()
+                    .forEach(article -> {
+                        foundArticles.add(new Octet<>(article.getKey(),
+                                article.getValue().getValue0(),
+                                article.getValue().getValue1(),
+                                article.getValue().getValue2(),
+                                article.getValue().getValue3(),
+                                article.getValue().getValue4(),
+                                article.getValue().getValue5(),
+                                article.getValue().getValue6()));
+                    });
+        }
+        else
+        {
+            //        List<Map.Entry<Integer, Quintet<String, String, String, String, List<String>>>> filteredArticles =
+            savedArticles.entrySet()
+                    .stream()
+                    // Name Filter
+                    //.filter(entry -> entry.getValue().getValue0().toLowerCase().contains(nameFilter.toLowerCase()))
+                    // Location Filter
+                    //.filter(entry -> entry.getValue().getValue3().contains(locationFilter))
+                    // Filter for categories
+                    .filter(entry -> CollectionUtils.containsAny(entry.getValue().getValue6(), categoryFilter))
+                    .forEach(article -> {
+                        foundArticles.add(new Octet<>(article.getKey(),
+                                article.getValue().getValue0(),
+                                article.getValue().getValue1(),
+                                article.getValue().getValue2(),
+                                article.getValue().getValue3(),
+                                article.getValue().getValue4(),
+                                article.getValue().getValue5(),
+                                article.getValue().getValue6()));
+                    });
+        }
 
         return foundArticles;
     }
