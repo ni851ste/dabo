@@ -19,7 +19,7 @@
                             <option class="dropdown-item" value="gesuche">Gesuche</option>
                         </select>
                     </div>
-                    <b-button class="input button" variant="info">Finden</b-button>
+                    <b-button class="input button">Finden</b-button>
                 </div>
             </div>
         </div>
@@ -102,6 +102,11 @@
         border-radius: 3px;
     }
 
+    .input:focus {
+        outline: none;
+        box-shadow: none;
+    }
+
     .search-input {
         width: 20vw;
     }
@@ -115,8 +120,14 @@
     .button:hover {
         color: #484848;
         background-color: #abc7b8;
-        border-color: #abc7b8;
+        border: none;
         text-decoration: none;
+    }
+
+    .button:focus {
+        background-color: #d0f2e1;
+        color: #484848;
+        border: none;
     }
 
     b-img {

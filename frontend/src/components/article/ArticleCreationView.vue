@@ -298,9 +298,17 @@
     .addButton:hover {
         color: #484848;
         background-color: #abc7b8;
-        border-color: #abc7b8;
+        border: none;
         text-decoration: none;
         border-radius: 3px;
+    }
+
+    .addButton:focus {
+        color: #484848;
+        background-color: #d0f2e1;
+        border: none;
+        outline: none;
+        box-shadow: none;
     }
 
     textarea.form-control {
