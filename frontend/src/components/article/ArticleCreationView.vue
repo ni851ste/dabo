@@ -214,14 +214,15 @@
                 data: JSON.stringify ({
                     name: this.articleName,
                     description: this.articleDescription,
-                    image: image,
+                    images: image,
                     fromDate: this.minDate,
                     toDate: this.maxDate,
                     country: this.country,
                     plz: this.plz,
                     location: this.city,
                     insertionDate: insertionDate,
-                    categories: this.selectedCategories
+                    categories: this.selectedCategories,
+                    userId: 1662771985
                 }),
                 dataType: "json",
 

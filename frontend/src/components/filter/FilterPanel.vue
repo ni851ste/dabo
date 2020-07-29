@@ -87,6 +87,9 @@
 
         constructor() {
             super();
+            if(localStorage.getItem("selectedArticle")) {
+                localStorage.removeItem("selectedArticle")
+            }
             if(localStorage.getItem("searchString")) {
                 this.searchString = <string>localStorage.getItem("searchString")
             }

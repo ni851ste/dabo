@@ -58,14 +58,14 @@
                         </div>
 
                     </b-col>
-                    <b-col cols="4" class="user-col bcol">
+                    <b-col cols="4" class="user-col bcol" v-on:click="routeToUserPage">
                         <b-row class="user">
                             <b-col class="bcol" cols="4">
                                 <img class="clip-circle" :src="require(`@/assets/categoryImgs/haushalt.jpg`)" alt="">
                             </b-col>
                             <b-col align-self="stretch bcol" class="user-details" cols="5">
 <!--                                //TODO: link to userpage-->
-<!--                                <RouterLink to="/">-->
+<!--                                <RouterLink to="/user">-->
                                     <p v-html="userName"></p>
 <!--                                </RouterLink>-->
                                 <b-form-rating class="rating" variant="warning" readonly
@@ -101,17 +101,19 @@
             required: false,
             default: false
         }) private showAlert!: boolean;
+
         user: User | null;
         articleRating: number;
         userRating: number;
+
         get userName(): string {
             if (!this.user)
                 return "";
 
             if (this.user.lastNameVisible) {
-                return this.user.firstname + " " + this.user.lastname;
+                return this.user.firstName + " " + this.user.lastName;
             } else {
-                return this.user.firstname
+                return this.user.firstName
             }
         };
 
@@ -135,14 +137,17 @@
 
         constructor() {
             super();
+            if(!this.article || localStorage.getItem("selectedArticle") != null) {
+                this.article = JSON.parse(localStorage.getItem("selectedArticle")!)
+            }
             this.articleRating = 0
             this.userRating = 0
             this.getUser = this.getUser.bind(this)
             this.getAvgStars = this.getAvgStars.bind(this)
-            this.user = new User(0, "email", "password", "max", "mustermann", "picture", true, new Address("starße", "12344", "Konstanz", "Deutschland", true), [], [], [], [], []);
-            // this.user = this.getUser();
-            // this.articleRating = this.getAvgStars(this.article.ratings);
-            // this.userRating = this.user != null ? this.getAvgStars(this.user.ratings) : 0;
+            // this.user = new User(0, "email", "password", "max", "mustermann", "picture", true, new Address("starße", "12344", "Konstanz", "Deutschland", true), [], [], [], [], []);
+            this.user = this.getUser();
+            this.articleRating = this.getAvgStars(this.article.ratings);
+            this.userRating = this.user != null ? this.getAvgStars(this.user.ratings) : 0;
             if (this.user == null) {
 
             }
@@ -150,10 +155,9 @@
 
         getUser(): User | null {
             let user: User | null = null;
-            console.log(this.article);
 
             $.ajax({
-                url: "http://localhost:9000/user/" + this.article.userId,
+                url: "http://localhost:9000/user/find/" + this.article.userId,
                 type: "GET",
                 success: result => {
                     this.user = result;
@@ -182,6 +186,13 @@
                 starSum += rating.amountOfStars;
             }
             return starSum / ratings.length;
+        }
+
+        routeToUserPage(): void {
+            if(this.user != null) {
+                localStorage.setItem("selectedArticle", JSON.stringify(this.article))
+            }
+            this.$router.push({name: 'user', params: {user: this.user}});
         }
 
         getDate(): string {
