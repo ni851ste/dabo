@@ -1,7 +1,7 @@
 package model.article;
 
-import org.javatuples.Quintet;
-import org.javatuples.Sextet;
+import org.javatuples.Octet;
+import org.javatuples.Septet;
 import persistence.ArticleMapAdapter;
 import persistence.IArticlePersistenceAdapter;
 
@@ -35,13 +35,13 @@ public class ArticleManagement
      * quintet[5]: Category List
      */
     // TODO can this method fail?
-    public Optional<Sextet<Integer, String, String, String, String, List<String>>> createArticle(Quintet<String, String, String, String, List<String>> data)
+    public Optional<Octet<Integer, String, String, String, String, String, String, List<String>>> createArticle(Septet<String, String, String, String, String, String, List<String>> data)
     {
         int localIdCounter = this.globalIdCounter;
 
         // TODO do some basic checks of data is correct
 
-        Optional<Sextet<Integer, String, String, String, String, List<String>>> returnValue = database.createArticle(localIdCounter, data);
+        Optional<Octet<Integer, String, String, String, String, String, String, List<String>>> returnValue = database.createArticle(localIdCounter, data);
 
         this.globalIdCounter += 1;
         // Return value is never Optional.empty since this method does not fail to date
@@ -59,9 +59,9 @@ public class ArticleManagement
      * quintet[4]: City - Location
      * quintet[5]: Category List
      */
-    public Optional<Sextet<Integer, String, String, String, String, List<String>>> getArticleById(int articleId)
+    public Optional<Octet<Integer, String, String, String, String, String, String, List<String>>> getArticleById(int articleId)
     {
-        Optional<Sextet<Integer, String, String, String, String, List<String>>> searchedArticle = database.getArticleById(articleId);
+        Optional<Octet<Integer, String, String, String, String, String, String, List<String>>> searchedArticle = database.getArticleById(articleId);
         return searchedArticle;
     }
 
@@ -82,9 +82,9 @@ public class ArticleManagement
      * quintet[4]: City - Location
      * quintet[5]: Category List
      */
-    public Optional<Sextet<Integer, String, String, String, String, List<String>>> updateArticle(int articleId, Quintet<String, String, String, String, List<String>> data)
+    public Optional<Octet<Integer, String, String, String, String, String, String, List<String>>> updateArticle(int articleId, Septet<String, String, String, String, String, String, List<String>> data)
     {
-        Optional<Sextet<Integer, String, String, String, String, List<String>>> updatedArticle = database.updateArticle(articleId, data);
+        Optional<Octet<Integer, String, String, String, String, String, String, List<String>>> updatedArticle = database.updateArticle(articleId, data);
         return updatedArticle;
     }
 
@@ -99,9 +99,9 @@ public class ArticleManagement
      * quintet[4]: City - Location
      * quintet[5]: Category List
      */
-    public Optional<Sextet<Integer, String, String, String, String, List<String>>> deleteArticle(int articleId)
+    public Optional<Octet<Integer, String, String, String, String, String, String, List<String>>> deleteArticle(int articleId)
     {
-        Optional<Sextet<Integer, String, String, String, String, List<String>>> deletedArticle = database.deleteArticle(articleId);
+        Optional<Octet<Integer, String, String, String, String, String, String, List<String>>> deletedArticle = database.deleteArticle(articleId);
         return deletedArticle;
     }
 
@@ -111,8 +111,8 @@ public class ArticleManagement
      * @param categoryFilter List of Strings to filter categories
      * @return List of found articles that match the filter
      */
-    public List<Sextet<Integer, String, String, String, String, List<String>>> filterArticles(
-//            String nameFilter, String locationFilter,
+    public List<Octet<Integer, String, String, String, String, String, String, List<String>>> filterArticles(
+            //            String nameFilter, String locationFilter,
             List<String> categoryFilter)
     {
         // TODO some empty field or error checks
