@@ -1,6 +1,6 @@
 <template>
     <div class="card">
-        <b-button class="card-body" v-on:click="getFilteredArticles()">
+        <b-button class="card-body" v-on:click="routeToArticleView()">
             <img class="card-img-top" :src="require(`@/assets/categoryImgs/${img}`)" alt="Card image cap">
             <h5 class="categoryLabel">
                 {{category}}
@@ -13,6 +13,7 @@
     import {Component, Prop, Vue} from 'vue-property-decorator';
     import $ from "jquery";
     import Article from "@/components/article/Article";
+    import category from "@/components/category/Category";
 
     @Component
     export default class CategoryCard extends Vue {
@@ -31,7 +32,7 @@
             localStorage.removeItem("categories");
         }
 
-        getFilteredArticles() {
+        routeToArticleView() {
             let articles: Article[] = [];
             $.ajax({
                 url: "http://localhost:9000/users/articles",
@@ -53,6 +54,7 @@
                             []
                         );
                     }
+
                     //code is working, IntelliJ is just fooling around
                     this.$router.push({name: 'articles', params: {articles: articles, category: this.category}});
 
