@@ -44,7 +44,7 @@
 
     export default class ArticleView extends Vue {
         @Prop() articles!: Article[]
-        @Prop() category!: category
+        @Prop() category?: category
         perPage = 5;
         currentPage = 1;
 

@@ -19,14 +19,15 @@
                             <option class="dropdown-item" value="gesuche">Gesuche</option>
                         </select>
                     </div>
-                    <b-button class="input button" variant="info">Finden</b-button>
+                    <b-button class="input button" variant="info" v-on:click="routeToArticleView()">Finden</b-button>
                 </div>
             </div>
         </div>
         <div class="transparent-box">
             <p class="text-p">
                 Du sucht etwas Bestimmtes aber möchtest es nicht kaufen? Dann bist du hier genau richtig!<br/>
-                Dabo ist eine Online-Plattform auf der Du Gegenstände mit Niveau zum Aus- und Verleihen in Deiner Nähe finden kannst.<br/>
+                Dabo ist eine Online-Plattform auf der Du Gegenstände mit Niveau zum Aus- und Verleihen in Deiner Nähe
+                finden kannst.<br/>
                 Denn Du weißt, bei uns gilt: Sharing is caring!
             </p>
         </div>
@@ -38,11 +39,54 @@
     import {Component, Prop, Vue} from 'vue-property-decorator';
     import NavigationBar from "@/components/NavigationBar.vue";
     import $ from "jquery";
+    import Article from "@/components/article/Article";
+    import category from "@/components/category/Category";
 
     @Component({
         components: {NavigationBar}
     })
     export default class StartPage extends Vue {
+
+        routeToArticleView() {
+            this.clearLocalStorageFilters();
+
+            let articles: Article[] = [];
+            $.ajax({
+                url: "http://localhost:9000/users/articles",
+                type: "POST",
+                data: JSON.stringify({
+                    categories: []
+                }),
+                dataType: "json",
+                contentType: "application/json",
+                success: result => {
+                    for (let i = 0; i < result.length; i++) {
+                        articles[i] = new Article(result[i].name,
+                            result[i].description,
+                            result[i].image,
+                            result[i].location,
+                            new Date(result[i].insertionDate),
+                            result[i].category,
+                            //TODO: waiting for backend support
+                            []
+                        );
+                    }
+                    //code is working, IntelliJ is just fooling around
+                    this.$router.push({name: 'articles', params: {articles: articles}});
+
+                },
+                error: error => {
+                    console.log("error ", error)
+                }
+            });
+        }
+
+        clearLocalStorageFilters(): void {
+            localStorage.removeItem("searchString");
+            localStorage.removeItem("location");
+            localStorage.removeItem("ratingValue");
+            localStorage.removeItem("categories");
+        }
     }
 
 </script>

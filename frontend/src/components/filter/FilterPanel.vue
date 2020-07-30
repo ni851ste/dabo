@@ -55,7 +55,7 @@
                         v-model="selectedCategories"
                         v-on:change="saveToLocalStorage"
 
-                        :options="categories"
+                        :options="allCategories"
                 >
                 </b-form-checkbox-group>
             </b-form-group>
@@ -77,16 +77,20 @@
 
     @Component
     export default class FilterPanel extends Vue {
-        @Prop() category!: Category;
-        categories: Category[] = this.getCategories();
+        @Prop() category?: Category;
+        allCategories: Category[] = this.getCategories();
 
         searchString: string = "";
         location: string = "";
         ratingValue: number = 1;
-        selectedCategories: Category[] = [this.category];
+        selectedCategories: Category[] = [];
 
         constructor() {
             super();
+            if ( this.category !=  undefined) {
+                this.selectedCategories = [this.category]
+            }
+
             if(localStorage.getItem("selectedArticle")) {
                 localStorage.removeItem("selectedArticle")
             }
