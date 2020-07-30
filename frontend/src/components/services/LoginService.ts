@@ -1,14 +1,19 @@
 import $ from "jquery"
 import {Md5} from 'ts-md5/dist/md5';
 import VueCookies from "vue-cookies-ts"
+import User from "@/components/user/User";
 
 export default class LoginService {
     static loginService: LoginService;
 
-    loginId: string;
+    loggedInUser: User | null;
 
     constructor() {
-        this.loginId = ""
+        this.loggedInUser = null;
+        this.isLoggedIn = this.isLoggedIn.bind(this)
+        this.register = this.register.bind(this)
+        this.login = this.login.bind(this)
+        this.logout = this.logout.bind(this)
     }
 
     static getInstance(): LoginService {
@@ -33,7 +38,7 @@ export default class LoginService {
             contentType: "application/json",
             success: result => {
                 console.log("success ", result);
-                this.loginId = result.id;
+                this.loggedInUser = result
             },
             error: error => {
                 console.log("error ", error)
@@ -76,11 +81,21 @@ export default class LoginService {
             dataType: "json",
             contentType: "application/json",
             success: (result) => {
-                this.loginId = result.id;
+                console.log("registered ",result)
+                this.loggedInUser = result;
             },
             error: error => {
                 console.log("error ", error)
             }
         });
+    }
+
+    async logout() {
+        this.loggedInUser = null
+        console.log("logged out successfully")
+    }
+
+    isLoggedIn(): boolean {
+        return this.loggedInUser != null;
     }
 }

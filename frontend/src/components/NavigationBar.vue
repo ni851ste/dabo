@@ -28,11 +28,18 @@
                             <a class="nav-link disabled" href="#">Artikel hinzufügen</a>
                         </b-button>
                     </RouterLink>
-                    <RouterLink to="/login">
+                    <RouterLink v-if="!loginService.isLoggedIn()" to="/login">
                         <li class="nav-item login">
                             <a class="nav-link" href="#">Login</a>
                         </li>
                     </RouterLink>
+                    <b-dropdown v-else id="dropdown-1" class="nav-item login" :text="loginService.loggedInUser.firstName">
+                        <b-dropdown-item v-on:click="routeToUserProfile">Profil</b-dropdown-item>
+                        <b-dropdown-item v-on:click="loginService.logout">Logout</b-dropdown-item>
+                    </b-dropdown>
+<!--                    <li v-else class="nav-item login" v-on:click="loginService.logout">-->
+<!--                        <a class="nav-link" href="#">Logout</a>-->
+<!--                    </li>-->
                 </ul>
             </div>
         </nav>
@@ -41,10 +48,20 @@
 
 <script lang="ts">
     import {Component, Prop, Vue} from 'vue-property-decorator';
+    import LoginService from "@/components/services/LoginService";
 
     @Component
     export default class NavigationBar extends Vue {
         @Prop() withContentLayout!: boolean;
+        loginService: LoginService = LoginService.getInstance()
+        constructor() {
+            super();
+        }
+
+        routeToUserProfile(): void {
+            console.log("loggedin User is ",this.loginService.loggedInUser)
+            this.$router.push({name: 'user', params: {user: this.loginService.loggedInUser}});
+        }
     }
 </script>
 
