@@ -222,6 +222,7 @@
                     location: this.city,
                     insertionDate: insertionDate,
                     categories: this.selectedCategories,
+                    //TODO: UserIs of loggedIn User
                     userId: 1662771985
                 }),
                 dataType: "json",
@@ -278,10 +279,6 @@
 
     .validate input:invalid {
         border-color: red;
-    }
-
-    .validate .custom-control-label::before {
-        border: red solid 1px;
     }
 
     invalid-small {
