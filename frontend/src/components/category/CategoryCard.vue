@@ -48,9 +48,10 @@
                             result[i].image,
                             result[i].location,
                             new Date(result[i].insertionDate),
-                            result[i].category,
+                            result[i].categories,
                             //TODO: waiting for backend support
-                            []
+                            result[i].ratings,
+                            result[i].userId
                         );
                     }
                     //code is working, IntelliJ is just fooling around

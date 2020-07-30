@@ -6,7 +6,7 @@
                 <div class="borderbox profile">
                     <div class="profile-cover-img">
                         <img class="placeholer-image" :src="require(`@/assets/userImgs/avatar.png`)">
-                        <h3 class="h3">Max Mustermann</h3>
+                        <h3 class="h3" v-html="userName"></h3>
                     </div>
                     <div class="profile-actions cover-img" data-overlay="0.3">
                         <button class="btn btn-actions">
@@ -18,8 +18,8 @@
                     </div>
                     <div class="profile-info">
                         <ul class="nav">
-                            <li><strong>DE</strong>Konstanz</li>
-                            <li><strong>2</strong>Artikel</li>
+                            <li><strong>DE</strong>{{this.user.address.city}}</li>
+                            <li><strong>{{this.insertedArticlesCount}}</strong>Artikel</li>
                             <li><strong>13</strong>Freunde</li>
                         </ul>
                     </div>
@@ -93,42 +93,42 @@
 
 <script lang="ts">
     import NavigationBar from "@/components/NavigationBar.vue";
-    import {Component, Vue} from 'vue-property-decorator';
+    import {Component, Prop, Vue} from 'vue-property-decorator';
     import ArticleCard from "@/components/article/ArticleCard.vue";
     import Article from "@/components/article/Article";
     import Rating from "@/components/rating/Rating";
     import RatingCard from "@/components/rating/RatingCard.vue";
+    import User from "@/components/user/User";
     import RequestCard from "@/components/user/RequestCard.vue";
 
     @Component({
         components: {RequestCard, RatingCard, NavigationBar, ArticleCard}
     })
     export default class UserProfileView extends Vue {
+        @Prop() private user!: User;
+        articles: Article[] = [];
         perPage = 5;
         currentPage = 1;
-
-        articles: Article[] = [];
         ratings: Rating[] = [];
         requests: Article[] = [];
 
-        constructor() {
-            super();
-            let article: Article = new Article("Beerpong table", "Awesome beerpong table", "", "Konstanz", new Date(), [], []);
-            let article2: Article = new Article("Bohrmaschine", "Toll zum bohren", "", "Konstanz", new Date(), [], []);
-            this.articles.push(article);
-            this.articles.push(article2);
+        get userName(): string {
+            if (!this.user)
+                return "";
 
-            this.requests.push(article);
+            if (this.user.lastNameVisible) {
+                return this.user.firstName + " " + this.user.lastName;
+            } else {
+                return this.user.firstName
+            }
+        };
 
-            let rating: Rating = new Rating(3, "Sehr zuverlässig und unkompliziert.", 1, new Date())
-            let rating2: Rating = new Rating(1, "Lorem Ipsum is simply dummy text of the printing and typesetting industry. " +
-                "Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took " +
-                "a galley of type and scrambled it to make a type specimen book. "
-                , 2, new Date())
-            this.ratings.push(rating)
-            this.ratings.push(rating2)
+        get insertedArticlesCount(): number {
+            if (!this.user || !this.user.insertedArticlesId)
+                return 0;
 
-        }
+            return this.user.insertedArticlesId.length;
+        };
 
         lists(): Article[] {
             const items = this.articles;

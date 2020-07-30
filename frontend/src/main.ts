@@ -22,7 +22,7 @@ Vue.use(VueCookies);
 Vue.use(BootstrapVue);
 Vue.use(BootstrapVueIcons);
 const routes = [
-  {path: '/user', component: UserProfileView},
+  {path: '/user', name:'user', component: UserProfileView, props: true},
   {path: '/categories', component: CategoryPage },
   {path: '/articlePage/:article', name: 'articlePage', component: SingleArticlePage, props: true },
   {path: '/articles', name: 'articles', component: ArticleView, props: true },

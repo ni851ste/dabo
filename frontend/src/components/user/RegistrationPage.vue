@@ -174,13 +174,11 @@
                     this.$cookies.set("sessionCookie", result, {
                         // secure: true
                     });
-
-                    this.$router.push('/home')
+                    this.$router.push({name: 'user', params: {user: result}});
                 })
                 .catch((error) => {
                     this.showLoginFailedAlert = true;
                 });
-
         }
 
         isStatusFailure(status: number): boolean {

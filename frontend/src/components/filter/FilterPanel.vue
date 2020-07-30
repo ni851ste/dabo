@@ -87,6 +87,9 @@
 
         constructor() {
             super();
+            if(localStorage.getItem("selectedArticle")) {
+                localStorage.removeItem("selectedArticle")
+            }
             if(localStorage.getItem("searchString")) {
                 this.searchString = <string>localStorage.getItem("searchString")
             }
@@ -140,8 +143,10 @@
                             result[i].image,
                             result[i].location,
                             new Date(result[i].insertionDate),
-                            result[i].category,
-                            []
+                            result[i].categories,
+                            //TODO: wait for backend support
+                            result[i].ratings,
+                            result[i].userId
                         );
                     }
                     this.$emit('filteredArticles', articles)
