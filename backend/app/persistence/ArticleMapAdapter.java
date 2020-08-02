@@ -136,4 +136,5 @@ public class ArticleMapAdapter implements IArticlePersistenceAdapter
 
         return foundArticles;
     }
+
 }

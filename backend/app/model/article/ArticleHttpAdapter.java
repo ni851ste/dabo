@@ -7,11 +7,22 @@ import org.javatuples.Septet;
 import org.javatuples.Triplet;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import play.libs.Files.TemporaryFile;
+import play.mvc.Http;
 import play.mvc.Http.Request;
 import play.mvc.Result;
 
+import javax.imageio.ImageIO;
+import javax.imageio.stream.ImageInputStream;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import static play.mvc.Results.badRequest;
@@ -19,18 +30,16 @@ import static play.mvc.Results.ok;
 
 
 
-public class ArticleHttpAdapter
-{
+public class ArticleHttpAdapter {
     @Inject
     ArticleManagement articleManagement = new ArticleManagement();
 
-    public Result createArticle(Request request)
-    {
+    public Result createArticle(Request request) {
         JsonNode json = request.body().asJson();
 
         List<String> categoryList = new ArrayList<>();
         // TODO for demo purposes disabled categories
-                json.get("categories").forEach(node -> categoryList.add(node.asText()));
+        json.get("categories").forEach(node -> categoryList.add(node.asText()));
 
         List<String> imagesList = new ArrayList<>();
         json.get("images").forEach(node -> imagesList.add(node.asText()));
@@ -51,20 +60,17 @@ public class ArticleHttpAdapter
 
         // creating an article can not fail to date
         // this will always go into the else case
-        if (createdArticle.isEmpty())
-        {
+        if (createdArticle.isEmpty()) {
             return badRequest();
-        }
-        else
-        {
+        } else {
             JSONObject returnJson = new JSONObject()
                     .put("id", createdArticle.get().getValue0())
                     .put("name", createdArticle.get().getValue1())
                     .put("description", createdArticle.get().getValue2())
                     .put("insertionDate", createdArticle.get().getValue3())
                     .put("location", createdArticle.get().getValue4())
-                    .put("userId",createdArticle.get().getValue5())
-                    .put("images",createdArticle.get().getValue6());
+                    .put("userId", createdArticle.get().getValue5())
+                    .put("images", createdArticle.get().getValue6());
 
             createdArticle.get().getValue7().forEach(category -> returnJson.append("categories", category));
 
@@ -77,13 +83,10 @@ public class ArticleHttpAdapter
     {
         Optional<Octet<Integer, String, String, String, String,String,List<String>, List<String>>> article = articleManagement.getArticleById(id);
 
-        if (article.isEmpty())
-        {
+        if (article.isEmpty()) {
             System.out.println("in Bad Request");
             return badRequest();
-        }
-        else
-        {
+        } else {
             JSONObject returnJson = new JSONObject()
                     .put("id", article.get().getValue0())
                     .put("name", article.get().getValue1())
@@ -101,8 +104,7 @@ public class ArticleHttpAdapter
         }
     }
 
-    public Result updateArticle(int id, Request request)
-    {
+    public Result updateArticle(int id, Request request) {
         JsonNode json = request.body().asJson();
 
         List<String> categoryList = new ArrayList<>();
@@ -125,12 +127,9 @@ public class ArticleHttpAdapter
                 articleManagement.updateArticle(id, toBeUpdatedArticle);
 
 
-        if (updatedArticle.isEmpty())
-        {
+        if (updatedArticle.isEmpty()) {
             return badRequest();
-        }
-        else
-        {
+        } else {
             JSONObject returnJson = new JSONObject()
                     .put("id", updatedArticle.get().getValue0())
                     .put("name", updatedArticle.get().getValue1())
@@ -155,9 +154,7 @@ public class ArticleHttpAdapter
         if (deletedArticle.isEmpty())
         {
             return badRequest();
-        }
-        else
-        {
+        } else {
             JSONObject returnJson = new JSONObject()
                     .put("id", deletedArticle.get().getValue0())
                     .put("name", deletedArticle.get().getValue1())
@@ -183,8 +180,7 @@ public class ArticleHttpAdapter
      * "categories": [ "household", "tools" ]
      * }
      */
-    public Result filterArticles(Request request)
-    {
+    public Result filterArticles(Request request) {
         JsonNode json = request.body().asJson();
 
         //        String nameFilter = json.get("nameFilter").asText();
@@ -223,5 +219,69 @@ public class ArticleHttpAdapter
                 .as("application/json");
 
     }
+
+    public Result tryImage(Request request) throws IOException {
+
+        Http.MultipartFormData body = request.body().asMultipartFormData();
+
+
+        //import play.libs.Files.TemporaryFile;
+        Http.MultipartFormData.FilePart<TemporaryFile> picture = body.getFile("images");
+
+
+
+        createArticleWithMulipartData(body);
+
+        if (picture != null) {
+            String fileName = picture.getFilename();
+            String contentType = picture.getContentType();
+            System.out.println("fileName:" + fileName);
+            TemporaryFile file = picture.getRef();
+            file.copyTo(Paths.get("public/images/Bild4.jpg"), true);
+
+            return ok("File uploaded");
+        } else {
+            return ok("this is not support now");
+        }
+        }
+
+    public Result saveImageinList() throws IOException {
+        BufferedImage imgfromFile= ImageIO.read(new File("C:\\Users\\helen\\Documents\\htwg6\\Teamprojekt\\dabo\\backend\\target\\images\\Bild.jpg"));
+
+        ArrayList<BufferedImage> arrayList = new ArrayList<>();
+        arrayList.add(imgfromFile);
+
+        BufferedImage img = arrayList.get(0);
+
+        ImageInputStream is = ImageIO.createImageInputStream(img);
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        ImageIO.write(img, "png", baos);
+        ByteArrayInputStream bais = new ByteArrayInputStream(baos.toByteArray());
+
+
+    return ok(bais).as("image/jpeg");
+
+    }
+
+
+
+
+    private Result createArticleWithMulipartData(Http.MultipartFormData body) throws IOException {
+
+        Map<String, String[]> data = body.asFormUrlEncoded() ;
+
+        System.out.println(data.entrySet());
+
+        for (Map.Entry<String, String[]> entry : data.entrySet()) {
+            System.out.println(new String(entry.getKey().getBytes("UTF-8"),"ASCII"));
+            System.out.println(new String(entry.getValue()[0].getBytes("UTF-8"),"ASCII"));
+            System.out.println(data.size());
+
+        }
+        return ok();
+
+    }
+
+
 
 }

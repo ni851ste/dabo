@@ -23,3 +23,5 @@ GET         /users/articles/:id               model.article.ArticleHttpAdapter.g
 POST        /users/articles                   model.article.ArticleHttpAdapter.filterArticles(request: Request)
 
 POST        /user/login                       model.user.UserHttpAdapter.loginUser(request: Request)
+POST        /user/articles/images              model.article.ArticleHttpAdapter.tryImage(request: Request)
+GET        /user/articles/images              model.article.ArticleHttpAdapter.saveImageinList()
