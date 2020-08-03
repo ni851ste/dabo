@@ -170,8 +170,10 @@
                 this.password
             )
                 .then((result) => {
+                    console.log(result)
+                    console.log(result.id)
                     //TODO: backend support for sessionCookie
-                    this.$cookies.set("sessionCookie", result, {
+                    this.$cookies.set("sessionCookie", result.id, {
                         // secure: true
                     });
 

@@ -207,7 +207,7 @@
                 return;
             }
 
-            let cookie = this.$cookies.get("sessioncookie");
+            let cookie = this.$cookies.get("sessionCookie");
             if(!cookie) {
                 return;
             }
