@@ -7,22 +7,11 @@ import org.javatuples.Septet;
 import org.javatuples.Triplet;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import play.libs.Files.TemporaryFile;
-import play.mvc.Http;
 import play.mvc.Http.Request;
 import play.mvc.Result;
 
-import javax.imageio.ImageIO;
-import javax.imageio.stream.ImageInputStream;
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 import static play.mvc.Results.badRequest;
@@ -219,69 +208,6 @@ public class ArticleHttpAdapter {
                 .as("application/json");
 
     }
-
-    public Result tryImage(Request request) throws IOException {
-
-        Http.MultipartFormData body = request.body().asMultipartFormData();
-
-
-        //import play.libs.Files.TemporaryFile;
-        Http.MultipartFormData.FilePart<TemporaryFile> picture = body.getFile("images");
-
-
-
-        createArticleWithMulipartData(body);
-
-        if (picture != null) {
-            String fileName = picture.getFilename();
-            String contentType = picture.getContentType();
-            System.out.println("fileName:" + fileName);
-            TemporaryFile file = picture.getRef();
-            file.copyTo(Paths.get("public/images/Bild4.jpg"), true);
-
-            return ok("File uploaded");
-        } else {
-            return ok("this is not support now");
-        }
-        }
-
-    public Result saveImageinList() throws IOException {
-        BufferedImage imgfromFile= ImageIO.read(new File("C:\\Users\\helen\\Documents\\htwg6\\Teamprojekt\\dabo\\backend\\target\\images\\Bild.jpg"));
-
-        ArrayList<BufferedImage> arrayList = new ArrayList<>();
-        arrayList.add(imgfromFile);
-
-        BufferedImage img = arrayList.get(0);
-
-        ImageInputStream is = ImageIO.createImageInputStream(img);
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        ImageIO.write(img, "png", baos);
-        ByteArrayInputStream bais = new ByteArrayInputStream(baos.toByteArray());
-
-
-    return ok(bais).as("image/jpeg");
-
-    }
-
-
-
-
-    private Result createArticleWithMulipartData(Http.MultipartFormData body) throws IOException {
-
-        Map<String, String[]> data = body.asFormUrlEncoded() ;
-
-        System.out.println(data.entrySet());
-
-        for (Map.Entry<String, String[]> entry : data.entrySet()) {
-            System.out.println(new String(entry.getKey().getBytes("UTF-8"),"ASCII"));
-            System.out.println(new String(entry.getValue()[0].getBytes("UTF-8"),"ASCII"));
-            System.out.println(data.size());
-
-        }
-        return ok();
-
-    }
-
-
+    
 
 }
