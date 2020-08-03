@@ -40,37 +40,37 @@
                         </div>
                         <div class="article-info">
                             <h3 class="headline" v-html="article.name"></h3>
-                            <b-form-rating class="rating" variant="warning" readonly v-model="articleRating"></b-form-rating>
-                            <!--TODO: dynamic categories-->
+                            <b-form-rating class="rating" variant="warning" readonly
+                                           v-model="articleRating"></b-form-rating>
                             <div class="categories">
-                                <div class="category">
-                                    Haushalt
-                                </div>
-                                <div class="category">
-                                    Garten
+                                <div class="category" v-for="categoryLabel in this.article.categories">
+                                    {{categoryLabel}}
                                 </div>
                             </div>
                             <p class="description-section section" v-html="article.description"></p>
-<!--                            <div class="section">-->
+                            <!--                            <div class="section">-->
                             <!--                    Verfügbarkeit-->
-<!--                            </div>-->
+                            <!--                            </div>-->
                         </div>
 
                     </b-col>
-                    <b-col cols="4" class="user-col bcol">
-                            <b-row class="user">
-                                <b-col class="bcol" cols="4">
-                                    <img class="clip-circle" :src="require(`@/assets/categoryImgs/haushalt.jpg`)" alt="">
-                                </b-col>
-                                <b-col align-self="stretch bcol" class="user-details" cols="5">
-                                    Max Mustermann
-                                    <b-form-rating class="rating" variant="warning" readonly v-model="userRating"></b-form-rating>
-                                    <p class="section">
-                                        Adresse:
-                                    <p v-html="article.location">
-                                    </p>
-                                </b-col>
-                            </b-row>
+                    <b-col cols="4" class="user-col bcol" v-on:click="routeToUserPage">
+                        <b-row class="user">
+                            <b-col class="bcol" cols="4">
+                                <img class="clip-circle" :src="require(`@/assets/categoryImgs/haushalt.jpg`)" alt="">
+                            </b-col>
+                            <b-col align-self="stretch bcol" class="user-details" cols="5">
+<!--                                //TODO: link to userpage-->
+<!--                                <RouterLink to="/user">-->
+                                    <p v-html="userName"></p>
+<!--                                </RouterLink>-->
+                                <b-form-rating class="rating" variant="warning" readonly
+                                               v-model="userRating"></b-form-rating>
+                                <p class="section"></p>
+                                Adresse:
+                                <p class="address" v-html="userAddress"></p>
+                            </b-col>
+                        </b-row>
                     </b-col>
                 </b-row>
             </b-container>
@@ -84,31 +84,112 @@
     import Article from "@/components/article/Article";
     import moment from "moment";
     import Rating from "@/components/rating/Rating";
-    // import $ from "jquery";
+    import User from "@/components/user/User";
+    import $ from "jquery";
+    import Address from "@/components/user/Address";
 
     @Component({
         components: {NavigationBar}
     })
     export default class SingleArticlePage extends Vue {
-        //TODO: User prop
         @Prop() private article!: Article;
+        @Prop({
+            required: false,
+            default: false
+        }) private showAlert!: boolean;
+
+        user: User | null;
+        articleRating: number;
+        userRating: number;
+
+        get userName(): string {
+            console.log("article is here ", this.article)
+            if (!this.user)
+                return "";
+
+            if (this.user.lastNameVisible) {
+                return this.user.firstName + " " + this.user.lastName;
+            } else {
+                return this.user.firstName
+            }
+        };
+
+        get userAddress(): string{
+            if (!this.user)
+                return "";
+
+            if (this.user.address.streetVisible) {
+                return this.user.address.street + "<br/> " + this.user.address.plz + " "+ this.user.address.city
+                    + "<br/> " + this.user.address.country;
+            } else {
+                return this.user.address.plz + " "+ this.user.address.city
+                    + "<br/> " + this.user.address.country
+            }
+        };
         @Prop({
             required: false,
             default: false
         }) private showAlert!: boolean;
         articleRating: number = this.getAvgStars(this.article.ratings);
 
-        //TODO: use this: userRating: number = this.getAvgStars(this.user.ratings);
-        userRating: number = 2;
+        constructor() {
+            super();
+            if(!this.article || localStorage.getItem("selectedArticle") != null) {
+                this.article = JSON.parse(localStorage.getItem("selectedArticle")!)
+            }
+            this.articleRating = 0
+            this.userRating = 0
+            this.getUser = this.getUser.bind(this)
+            this.getAvgStars = this.getAvgStars.bind(this)
+            // this.user = new User(0, "email", "password", "max", "mustermann", "picture", true, new Address("starße", "12344", "Konstanz", "Deutschland", true), [], [], [], [], []);
+            this.user = this.getUser();
+            this.articleRating = this.getAvgStars(this.article.ratings);
+            this.userRating = this.user != null ? this.getAvgStars(this.user.ratings) : 0;
+            if (this.user == null) {
+
+            }
+        }
+
+        getUser(): User | null {
+            let user: User | null = null;
+
+            $.ajax({
+                url: "http://localhost:9000/user/find/" + this.article.userId,
+                type: "GET",
+                success: result => {
+                    this.user = result;
+                    user = result;
+                    console.log("success ", result);
+                },
+                error: error => {
+                    console.log("error ", error)
+                }
+            })
+                .then(() => {
+                    this.articleRating = this.getAvgStars(this.article.ratings);
+                    this.userRating = this.user ? this.getAvgStars(this.user.ratings) : 0;
+                    }
+                )
+            return user;
+        }
 
         getAvgStars(ratings: Rating[]): number {
+            if(!ratings || ratings.length === 0) {
+                return 0
+            }
             let starSum: number = 0;
 
-            for(let rating of ratings) {
+            for (let rating of ratings) {
                 starSum += rating.amountOfStars;
             }
-
             return starSum / ratings.length;
+        }
+
+        routeToUserPage(): void {
+            if(this.user != null) {
+                localStorage.setItem("selectedArticle", JSON.stringify(this.article))
+            }
+            this.$router.push({name: 'user', params: {user: this.user}});
         }
 
         getDate(): string {
@@ -195,8 +276,16 @@
         margin-top: 15px;
     }
 
+    .address {
+        width: 300px;
+    }
+    
     .alert {
         width: 100%;
         text-align: left;
+    }
+    
+    .address {
+        width: 300px;
     }
 </style>

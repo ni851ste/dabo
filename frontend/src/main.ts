@@ -10,6 +10,7 @@ import "bootstrap"
 import "bootstrap/dist/css/bootstrap.min.css"
 import ArticleView from "@/components/article/ArticleView.vue";
 import ArticleCreationView from "@/components/article/ArticleCreationView.vue";
+import EditArticleView from "@/components/article/EditArticleView.vue";
 import BootstrapVue, {BootstrapVueIcons} from "bootstrap-vue";
 import RegistrationPage from "@/components/user/RegistrationPage.vue";
 import LoginPage from "@/components/user/LoginPage.vue";
@@ -21,11 +22,12 @@ Vue.use(VueCookies);
 Vue.use(BootstrapVue);
 Vue.use(BootstrapVueIcons);
 const routes = [
-  {path: '/user', component: UserProfileView},
+  {path: '/user', name:'user', component: UserProfileView, props: true},
   {path: '/categories', component: CategoryPage },
   {path: '/articlePage/:article', name: 'articlePage', component: SingleArticlePage, props: true },
   {path: '/articles', name: 'articles', component: ArticleView, props: true },
   {path: '/createArticle', component: ArticleCreationView},
+  {path: '/editArticle', component: EditArticleView},
   {path: '/home', component: StartPage},
   {path: '/', component: StartPage},
   {path: '/login', name: 'login', component: LoginPage},

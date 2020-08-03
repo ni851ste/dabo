@@ -214,27 +214,31 @@
                 data: JSON.stringify ({
                     name: this.articleName,
                     description: this.articleDescription,
-                    image: image,
+                    images: image,
                     fromDate: this.minDate,
                     toDate: this.maxDate,
                     country: this.country,
                     plz: this.plz,
                     location: this.city,
                     insertionDate: insertionDate,
-                    categories: this.selectedCategories
+                    categories: this.selectedCategories,
+                    //TODO: UserIs of loggedIn User
+                    userId: 1662771985
                 }),
                 dataType: "json",
 
                 success: result => {
-                    console.log("success ", result);
-                    article = new Article(result.name,
-                        result.description,
-                        result.image,
-                        result.location,
-                        new Date(result.insertionDate),
-                        result.category,
-                        []
-                        );
+                    console.log("success CreateArticle", result);
+                    article = result
+                    console.log("article created is", article);
+                    // article = new Article(result.name,
+                    //     result.description,
+                    //     result.image,
+                    //     result.location,
+                    //     new Date(result.insertionDate),
+                    //     result.category,
+                    //     []
+                    //     );
                     //code is working, IntelliJ is just fooling around
                     this.$router.push({name: 'articlePage', params: {article: article, showAlert: true}});
 
@@ -275,10 +279,6 @@
 
     .validate input:invalid {
         border-color: red;
-    }
-
-    .validate .custom-control-label::before {
-        border: red solid 1px;
     }
 
     invalid-small {
