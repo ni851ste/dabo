@@ -27,6 +27,11 @@ public class ArticleHttpAdapter
     {
         JsonNode json = request.body().asJson();
 
+        String IDToCompare = json.get("sessionCookie").asText();
+        if(!IDToCompare.equals(json.get("userId").asText())){
+            return badRequest("not correct User");
+        }
+
         List<String> categoryList = new ArrayList<>();
         // TODO for demo purposes disabled categories
                 json.get("categories").forEach(node -> categoryList.add(node.asText()));
@@ -101,6 +106,11 @@ public class ArticleHttpAdapter
     {
         JsonNode json = request.body().asJson();
 
+        String IDToCompare = json.get("sessionCookie").asText();
+        if(!IDToCompare.equals(json.get("userId").asText())){
+            return badRequest("not correct User");
+        }
+
         List<String> categoryList = new ArrayList<>();
         json.get("categories").forEach(node -> categoryList.add(node.asText()));
 
@@ -141,21 +151,21 @@ public class ArticleHttpAdapter
 
     public Result deleteArticle(int id)
     {
+
         Optional<Octet<Integer, String, String, String, String,String,String, List<String>>> deletedArticle = articleManagement.deleteArticle(id);
         if (deletedArticle.isEmpty())
         {
             return badRequest();
-        }
-        else
-        {
+//        } else if (id != deletedArticle.get().getValue8()) {
+        } else {
             JSONObject returnJson = new JSONObject()
                     .put("id", deletedArticle.get().getValue0())
                     .put("name", deletedArticle.get().getValue1())
                     .put("description", deletedArticle.get().getValue2())
                     .put("insertionDate", deletedArticle.get().getValue3())
                     .put("location", deletedArticle.get().getValue4())
-                    .put("userId",deletedArticle.get().getValue5())
-                    .put("images",deletedArticle.get().getValue6());
+                    .put("userId", deletedArticle.get().getValue5())
+                    .put("images", deletedArticle.get().getValue6());
 
 
             deletedArticle.get().getValue7().forEach(category -> returnJson.append("categories", category));

@@ -207,6 +207,11 @@
                 return;
             }
 
+            let cookie = this.$cookies.get("sessioncookie");
+            if(!cookie) {
+                return;
+            }
+
             $.ajax({
                 url: "http://localhost:9000/users/articles/create",
                 type: "POST",
@@ -214,7 +219,7 @@
                 data: JSON.stringify ({
                     name: this.articleName,
                     description: this.articleDescription,
-                    images: image,
+                    image: image,
                     fromDate: this.minDate,
                     toDate: this.maxDate,
                     country: this.country,
@@ -222,8 +227,7 @@
                     location: this.city,
                     insertionDate: insertionDate,
                     categories: this.selectedCategories,
-                    //TODO: UserIs of loggedIn User
-                    userId: 1662771985
+                    sessionCookie: cookie
                 }),
                 dataType: "json",
 
@@ -251,7 +255,7 @@
     }
 </script>
 
-<style>
+<style>sessionCookie
     h1 {
         font-size: x-large;
         font-weight: bold;

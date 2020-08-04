@@ -152,20 +152,20 @@ public class UserHttpAdapter
         JsonNode json = update.body().asJson();
 
         List<Integer> lendList = new ArrayList<>();
-        json.get("toLend").forEach(node -> lendList.add(node.asInt()));
+        json.get("insertedArticlesId").forEach(node -> lendList.add(node.asInt()));
 
         List<Integer> borrowList = new ArrayList<>();
-        json.get("borrowed").forEach(node -> borrowList.add(node.asInt()));
+        json.get("borrowedArticlesId").forEach(node -> borrowList.add(node.asInt()));
 
         List<Integer> pinnList = new ArrayList<>();
-        json.get("pinned").forEach(node -> pinnList.add(node.asInt()));
+        json.get("pinnedArticledId").forEach(node -> pinnList.add(node.asInt()));
 
         Map<String, String> addrList = new HashMap<>();
-        addrList.put("street", json.get("street").asText());
-        addrList.put("streetVisible", json.get("streetVisible").asText());
-        addrList.put("plz", json.get("plz").asText());
-        addrList.put("city", json.get("city").asText());
-        addrList.put("country", json.get("country").asText());
+        addrList.put("street", json.get("address").get("street").asText());
+        addrList.put("streetVisible", json.get("address").get("streetVisible").asText());
+        addrList.put("plz", json.get("address").get("plz").asText());
+        addrList.put("city", json.get("address").get("city").asText());
+        addrList.put("country", json.get("address").get("country").asText());
 
 
         Triplet<String, String, Boolean> nameList = new Triplet<>(
@@ -177,7 +177,7 @@ public class UserHttpAdapter
                 new Ennead(json.get("email").asText(),
                         json.get("password").asText(),
                         nameList,
-                        json.get("rating").asInt(),
+                        json.get("ratings").asInt(),
                         json.get("picture").asText(),
                         lendList,
                         borrowList,
