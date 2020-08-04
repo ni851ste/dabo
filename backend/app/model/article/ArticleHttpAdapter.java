@@ -41,7 +41,7 @@ public class ArticleHttpAdapter
                         json.get("description").asText(),
                         json.get("insertionDate").asText(),
                         json.get("location").asText(),
-                        json.get("userId").asText(),
+                        json.get("sessionCookie").asText(),
                         json.get("images").asText(),
                         categoryList);
         System.out.println(toBeCreatedArticle.toString());
