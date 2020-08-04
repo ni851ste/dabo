@@ -66,4 +66,19 @@ public class UserMapAdapter implements IUserPersistenceAdapter {
 
     }
 
+    @Override
+    public Optional<String> findRequestedUserHash(String email, String password)
+    {
+        Optional<Map.Entry<String, Ennead<String, String, Triplet<String, String, Boolean>, Integer, String, List<Integer>, List<Integer>, List<Integer>, Map<String, String>>>> foundUser = savedUsers.entrySet()
+                .stream()
+                .filter(entry -> entry.getValue().getValue0().equals(email))
+                .filter(entry -> entry.getValue().getValue1().equals(password))
+                .findFirst();
+
+        if (foundUser.isPresent()) {
+            return Optional.of(foundUser.get().getKey());
+        }
+        return Optional.empty();
+    }
+
 }

@@ -21,3 +21,5 @@ POST        /users/articles/delete/:id        model.article.ArticleHttpAdapter.d
 POST        /users/articles/update/:id        model.article.ArticleHttpAdapter.updateArticle(id: Int, request: Request)
 GET         /users/articles/:id               model.article.ArticleHttpAdapter.getArticle(id: Int)
 POST        /users/articles                   model.article.ArticleHttpAdapter.filterArticles(request: Request)
+
+POST        /user/login                       model.user.UserHttpAdapter.loginUser(request: Request)
