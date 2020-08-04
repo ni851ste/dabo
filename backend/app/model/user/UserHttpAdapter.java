@@ -212,5 +212,25 @@ public class UserHttpAdapter
         }
     }
 
+    public Result loginUser(Request request)
+    {
+        JsonNode json = request.body().asJson();
+
+        String userEmail = json.get("email").asText();
+        String userPassword = json.get("password").asText();
+
+        Optional<String> userId =   userManagement.loginUser(userEmail, userPassword);
+
+        if (userId.isPresent()) {
+            JSONObject returnJson = new JSONObject()
+                    .put("userHash", userId.get());
+
+            return ok(returnJson.toString())
+                    .as("application/json");
+        }
+        return badRequest("No user found with given credentials");
+
+    }
+
 }
 

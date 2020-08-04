@@ -46,4 +46,8 @@ public class UserManagement
         return database.getUserByID(userId);
     }
 
+    public Optional<String> loginUser(String email, String password) {
+        return database.findRequestedUserHash(email, password);
+    }
+
 }
