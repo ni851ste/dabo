@@ -30,7 +30,7 @@ public class UserManagementTest
         adressMap.put("city", "Test Stadt");
         adressMap.put("country", "Test Land");
 
-        Optional<Decade<Integer, String, String, Triplet<String, String, Boolean>, Integer, String, List<Integer>, List<Integer>, List<Integer>, Map<String, String>>> answer =
+        Optional<Decade<String, String, String, Triplet<String, String, Boolean>, Integer, String, List<Integer>, List<Integer>, List<Integer>, Map<String, String>>> answer =
                 userManagement.createUser(new Ennead<>("test@test.de",
                         "test-password",
                         new Triplet<>("Nik", "Stein", true),
