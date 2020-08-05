@@ -15,6 +15,10 @@
                         <button class="btn btn-actions">
                             <span>Nachricht</span>
                         </button>
+                        <button type="button" class="btn btn-primary tmpButton" data-toggle="modal"
+                                data-target="#editArticleModal">
+                            Account bearbeiten
+                        </button>
                     </div>
                     <div class="profile-info">
                         <ul class="nav">
@@ -88,7 +92,13 @@
                 </div>
             </div>
         </div>
+        <div class="modal fade" id="editArticleModal" tabindex="-1" role="dialog"
+             aria-labelledby="exampleModalLabel"
+             aria-hidden="true">
+            <EditMyAccountView :user="this.user" ></EditMyAccountView>
+        </div>
     </div>
+
 </template>
 
 <script lang="ts">
@@ -100,9 +110,10 @@
     import RatingCard from "@/components/rating/RatingCard.vue";
     import User from "@/components/user/User";
     import RequestCard from "@/components/user/RequestCard.vue";
+    import EditMyAccountView from "@/components/user/EditMyAccountView.vue";
 
     @Component({
-        components: {RequestCard, RatingCard, NavigationBar, ArticleCard}
+        components: {EditMyAccountView, RequestCard, RatingCard, NavigationBar, ArticleCard}
     })
     export default class UserProfileView extends Vue {
         @Prop() private user!: User;
@@ -320,6 +331,10 @@
         line-height: 24px;
         font-weight: 700;
         text-transform: uppercase;
+    }
+
+    .btn {
+        border: #484848;
     }
 
 </style>
