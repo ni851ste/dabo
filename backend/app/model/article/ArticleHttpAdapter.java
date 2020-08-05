@@ -2,6 +2,7 @@ package model.article;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.inject.Inject;
+import model.user.UserManagement;
 import org.javatuples.Octet;
 import org.javatuples.Septet;
 import org.json.JSONArray;
@@ -22,6 +23,7 @@ public class ArticleHttpAdapter
 {
     @Inject
     ArticleManagement articleManagement = new ArticleManagement();
+    UserManagement userManagement = new UserManagement();
 
     public Result createArticle(Request request)
     {
@@ -37,10 +39,17 @@ public class ArticleHttpAdapter
         }
         String sessionCook = json.get("sessionCookie").asText();
         if (sessionCook == null || sessionCook.equals("")){
-            System.out.println(json.get("sessionCookie"));
             return badRequest("No user added");
         }
 
+        //TODO check how to compare if there is a User with the UserID equal to the sessionCookie
+//        Optional<Decade<String, String, String, Triplet<String,String,Boolean>, Integer, String, List<Integer>, List<Integer>,List<Integer>, Map<String,String>>>
+//                checkForUser = userManagement.getUserByID(sessionCook);
+//        System.out.println(sessionCook);
+//        System.out.println(checkForUser);
+//        if(checkForUser.isEmpty()){
+//            return badRequest("No user found to store article");
+//        }
 
         List<String> categoryList = new ArrayList<>();
         // TODO for demo purposes disabled categories
@@ -54,7 +63,7 @@ public class ArticleHttpAdapter
                         json.get("sessionCookie").asText(),
                         json.get("images").asText(),
                         categoryList);
-        System.out.println(toBeCreatedArticle.toString());
+//        System.out.println(toBeCreatedArticle.toString());
 
         Optional<Octet<Integer, String, String, String, String,String,String, List<String>>> createdArticle = articleManagement.createArticle(toBeCreatedArticle);
 
@@ -116,13 +125,12 @@ public class ArticleHttpAdapter
     {
         JsonNode json = request.body().asJson();
 
-        if(!json.get("sessionCookie").isNull()){
-            badRequest();
+        if(json.get("sessionCookie").isNull()){
+            return badRequest("No article found to update");
         }
         Optional<Octet<Integer, String, String, String, String,String,String, List<String>>> article = articleManagement.getArticleById(id);
-        System.out.println(article);
         if(article.isEmpty()){
-            return badRequest("no article found");
+            return badRequest("no article found for Update");
         }
         String value = article.get().getValue(5).toString();
         if (!value.equals(json.get("sessionCookie").asText())){

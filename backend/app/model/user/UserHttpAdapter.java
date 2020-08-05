@@ -78,6 +78,8 @@ public class UserHttpAdapter
                     .put("pinnedArticledId", createdUser.get().getValue8())
                     .put("address", createdUser.get().getValue9());
 
+
+            System.out.println(createdUser);
             return ok(returnJson.toString())
                     .as("application/json");
         }
@@ -112,6 +114,7 @@ public class UserHttpAdapter
                     .put("address", foundUser.get().getValue9());
 
 
+            System.out.println(foundUser);
             return ok(returnJson.toString())
                     .as("application/json");
         }
@@ -149,8 +152,21 @@ public class UserHttpAdapter
     public Result updateUser(String id, Request update)
     {
 
-
         JsonNode json = update.body().asJson();
+
+        if(json.get("sessionCookie").isNull()){
+            return badRequest("illegal request");
+        }
+        Optional<Decade<String, String, String, Triplet<String,String,Boolean>, Integer, String, List<Integer>, List<Integer>,List<Integer>, Map<String,String>>>
+                userAskedFor = userManagement.getUserByID(id);
+        System.out.println(id);
+        System.out.println(userAskedFor);
+        if (userAskedFor.isEmpty()){
+            return badRequest("no User found for Update");
+        }
+        if(userAskedFor.get().getValue0().equals(json.get("sessionCookie").asText())){
+            return badRequest("User is not allowed to perform this action");
+        }
 
         List<Integer> lendList = new ArrayList<>();
         json.get("insertedArticlesId").forEach(node -> lendList.add(node.asInt()));
