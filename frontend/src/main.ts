@@ -15,7 +15,6 @@ import BootstrapVue, {BootstrapVueIcons} from "bootstrap-vue";
 import RegistrationPage from "@/components/user/RegistrationPage.vue";
 import LoginPage from "@/components/user/LoginPage.vue";
 import UserProfileView from "@/components/user/UserProfileView.vue";
-import MyAccountView from "@/components/user/EditMyAccountView.vue";
 
 Vue.config.productionTip = false;
 Vue.use(VueRouter);
@@ -24,7 +23,6 @@ Vue.use(BootstrapVue);
 Vue.use(BootstrapVueIcons);
 const routes = [
   {path: '/user', name:'user', component: UserProfileView, props: true},
-  {path: '/myaccount', component: MyAccountView},
   {path: '/categories', component: CategoryPage },
   {path: '/articlePage/:article', name: 'articlePage', component: SingleArticlePage, props: true },
   {path: '/articles', name: 'articles', component: ArticleView, props: true },
