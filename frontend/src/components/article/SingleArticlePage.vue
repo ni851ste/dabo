@@ -59,6 +59,15 @@
                                 <p class="address" v-html="userAddress"></p>
                             </b-col>
                         </b-row>
+                        <b-row class="borrow-button-wrap">
+                            <button type="button" class="btn btn-primary borrow-button" data-toggle="modal" data-target="#borrowArticle">
+                                Artikel ausleihen
+                            </button>
+                            <div class="modal" tabindex="-1" role="dialog" id="borrowArticle">
+                                <BorrowArticleView/>
+                            </div>
+
+                        </b-row>
 
                     </b-col>
                 </b-row>
@@ -78,9 +87,10 @@
     import EditArticleView from "@/components/article/EditArticleView.vue";
     import LoginService from "@/components/services/LoginService";
     import Address from "@/components/user/Address";
+    import BorrowArticleView from "@/components/article/BorrowArticleView.vue";
 
     @Component({
-        components: {EditArticleView, NavigationBar}
+        components: {EditArticleView, NavigationBar, BorrowArticleView}
     })
     export default class SingleArticlePage extends Vue {
         @Prop() private article!: Article;
@@ -339,20 +349,20 @@
         color: #d0f2e1;
         text-decoration: none;
     }
+    
+    .slides {
+        height: 25vw;
+    }
 
-    .borrowArticle {
-        margin-left: 30%;
-        padding: 0;
-        right: 20vw;
-        margin-top: 20%;
-
+    .borrow-button {
         color: #484848;
         background: #d0f2e1;
         border-color: #d0f2e1;
         border-radius: 3px;
+        width: 100%;
     }
 
-    .editArticleButton:hover .borrowArticle:hover {
+    .editArticleButton:hover .borrow-button:hover {
         color: #484848;
         background-color: #abc7b8;
         border-color: #abc7b8;
@@ -360,8 +370,12 @@
         border-radius: 3px;
     }
 
-    .slides {
-        height: 25vw;
+    .borrow-button:focus {
+        color: #484848;
+        background: #d0f2e1;
+        border-color: #d0f2e1;
+        border-radius: 3px;
+        width: 100%;
+        box-shadow: none;
     }
-
 </style>

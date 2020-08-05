@@ -229,6 +229,7 @@ public class ArticleHttpAdapter
 
         String borrowingUser = body.get("borrower").asText();
         int articleId = body.get("articleId").asInt();
+        String untilDate = body.get("until").asText();
 
         boolean borrowingSuccessful = articleManagement.borrowArticle(articleId, borrowingUser);
 
