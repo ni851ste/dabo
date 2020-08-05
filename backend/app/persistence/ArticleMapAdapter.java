@@ -9,7 +9,7 @@ import java.util.*;
 
 public class ArticleMapAdapter implements IArticlePersistenceAdapter
 {
-    Map<Integer, Septet<String, String, String, String, String, List<String>, List<String>>> savedArticles;
+    Map<Integer,  Septet<String, String, Triplet<String,String,String>, Triplet<String, String, String>,String, List<String>, List<String>>> savedArticles;
 
     public ArticleMapAdapter()
     {
@@ -17,8 +17,8 @@ public class ArticleMapAdapter implements IArticlePersistenceAdapter
     }
 
     @Override
-    public Optional<Octet<Integer, String, String, String, String, String, List<String>, List<String>>> createArticle(int id,
-                                                                                                                Septet<String, String, String, String, String, List<String>, List<String>> data)
+    public Optional<Octet<Integer, String, String, Triplet<String,String,String>, Triplet<String, String, String>,String, List<String>, List<String>>> createArticle(int id,
+                                                                                                                                                                     Septet< String, String, Triplet<String,String,String>, Triplet<String, String, String>,String, List<String>, List<String>> data)
     {
         savedArticles.put(id, data);
 
@@ -26,14 +26,14 @@ public class ArticleMapAdapter implements IArticlePersistenceAdapter
     }
 
     @Override
-    public Optional<Octet<Integer, String, String, String, String, String, List<String>, List<String>>> getArticleById(int id)
+    public Optional<Octet<Integer, String, String, Triplet<String,String,String>, Triplet<String, String, String>,String, List<String>, List<String>>> getArticleById(int id)
     {
         if (!savedArticles.containsKey(id))
         {
             return Optional.empty();
         }
 
-        Septet<String, String, String, String, String, List<String>, List<String>> article = savedArticles.get(id);
+        Septet<String, String, Triplet<String,String,String>, Triplet<String, String, String>,String, List<String>, List<String>> article = savedArticles.get(id);
 
         return Optional.of(
                 new Octet<>(id,
@@ -48,8 +48,8 @@ public class ArticleMapAdapter implements IArticlePersistenceAdapter
     }
 
     @Override
-    public Optional<Octet<Integer, String, String, String, String, String, List<String>, List<String>>>
-    updateArticle(int id, Septet<String, String, String, String, String, List<String>, List<String>> data)
+    public Optional<Octet<Integer, String, String, Triplet<String,String,String>, Triplet<String, String, String>,String, List<String>, List<String>>> updateArticle(int id,
+                                                                                    Septet< String, String, Triplet<String,String,String>, Triplet<String, String, String>,String, List<String>, List<String>> data)
     {
         if (!savedArticles.containsKey(id))
         {
@@ -70,14 +70,14 @@ public class ArticleMapAdapter implements IArticlePersistenceAdapter
     }
 
     @Override
-    public Optional<Octet<Integer, String, String, String, String, String, List<String>, List<String>>> deleteArticle(int id)
+    public Optional<Octet<Integer, String, String, Triplet<String,String,String>, Triplet<String, String, String>,String, List<String>, List<String>>> deleteArticle(int id)
     {
         if (!savedArticles.containsKey(id))
         {
             return Optional.empty();
         }
 
-        Septet<String, String, String, String, String, List<String>, List<String>> removedArticle = savedArticles.remove(id);
+        Septet<String, String, Triplet<String,String,String>, Triplet<String, String, String>,String, List<String>, List<String>> removedArticle = savedArticles.remove(id);
 
         return Optional.of(
                 new Octet<>(id,
@@ -91,11 +91,11 @@ public class ArticleMapAdapter implements IArticlePersistenceAdapter
     }
 
     @Override
-    public List<Octet<Integer, String, String, String, String, String, List<String>, List<String>>> filterArticles(
+    public List<Octet<Integer, String, String, Triplet<String,String,String>, Triplet<String, String, String>,String, List<String>, List<String>>> filterArticles(
             //            String nameFilter, String locationFilter,
             List<String> categoryFilter)
     {
-        List<Octet<Integer, String, String, String, String, String, List<String>, List<String>>> foundArticles = new ArrayList<>();
+        List<Octet<Integer, String, String, Triplet<String,String,String>, Triplet<String, String, String>,String, List<String>, List<String>>> foundArticles = new ArrayList<>();
 
         if (categoryFilter.size() == 0)
         {

@@ -9,17 +9,18 @@ import java.util.Optional;
 
 public interface IArticlePersistenceAdapter
 {
-    Optional<Octet<Integer, String, String, String, String,String,List<String>, List<String>>> createArticle(int id,
-                                                                                                       Septet<String, String, String, String,String,List<String>, List<String>> data);
 
-    Optional<Octet<Integer, String, String, String, String,String,List<String>, List<String>>> getArticleById(int id);
+    Optional<Octet<Integer, String, String, Triplet<String,String,String>, Triplet<String, String, String>,String, List<String>, List<String>>>createArticle(int id,
+                                                                                                                                                             Septet< String, String, Triplet<String,String,String>, Triplet<String, String, String>,String, List<String>, List<String>> data);
 
-    Optional<Octet<Integer, String, String, String, String, String, List<String>, List<String>>> updateArticle(int id,
-                                                                             Septet<String, String, String, String, String, List<String>, List<String>> data);
+    Optional<Octet<Integer, String, String, Triplet<String,String,String>, Triplet<String, String, String>,String, List<String>, List<String>>> getArticleById(int id);
 
-    Optional<Octet<Integer, String, String, String, String, String, List<String>, List<String>>> deleteArticle(int id);
+    Optional<Octet<Integer, String, String, Triplet<String,String,String>, Triplet<String, String, String>,String, List<String>, List<String>>> updateArticle(int id,
+                                                                             Septet<String, String, Triplet<String,String,String>, Triplet<String, String, String>,String, List<String>, List<String>> data);
 
-    List<Octet<Integer, String, String, String, String, String, List<String>, List<String>>> filterArticles(
+    Optional<Octet<Integer, String, String, Triplet<String,String,String>, Triplet<String, String, String>,String, List<String>, List<String>>> deleteArticle(int id);
+
+    List<Octet<Integer, String, String, Triplet<String,String,String>, Triplet<String, String, String>,String, List<String>, List<String>>> filterArticles(
 //            String nameFilter, String locationFilter,
                                                                           List<String> categoryFilter);
 
