@@ -23,7 +23,6 @@
                                     <div class="names">
                                         <label for="firstname">Vorname</label>
                                         <input type="text" class="form-control" id="firstname" placeholder="Vorname"
-                                               value="test"
                                                v-model="firstName"
                                                required>
                                         <small v-bind:style="{ display: firstName ? 'none' : validateInput ? '' : 'none' }">
@@ -32,12 +31,12 @@
 
                                         <label for="surname">Nachname</label>
                                         <input type="text" class="form-control" id="surname" placeholder="Nachname"
-                                               v-model="surName"
+                                               v-model="lastName"
                                                required>
-                                        <small v-bind:style="{ display: surName ? 'none' : validateInput ? '' : 'none' }">
+                                        <small v-bind:style="{ display: lastName ? 'none' : validateInput ? '' : 'none' }">
                                             Bitte Nachnamen eingeben!</small>
                                         <br/>
-                                        <b-form-checkbox class="itemFloatLeft" v-model="surNameVisible">
+                                        <b-form-checkbox class="itemFloatLeft" v-model="lastNameVisible">
                                             <small class="form-text text-muted">Nachname im Profil anzeigen</small>
                                         </b-form-checkbox>
                                     </div>
@@ -112,7 +111,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary">Save changes</button>
+                        <button type="button" class="btn btn-primary" v-on:click="updateUser">Save changes</button>
                     </div>
                 </div>
             </div>
@@ -123,46 +122,99 @@
 </template>
 
 <script lang="ts">
-    import {Component, Prop, Vue} from 'vue-property-decorator';
+    import {Component, Vue} from 'vue-property-decorator';
     import NavigationBar from "@/components/NavigationBar.vue";
-    import $ from "jquery";
     import BaseImageInput from "@/components/BaseImageInput.vue";
     import User from "@/components/user/User";
     import Address from "@/components/user/Address";
-    import Rating from "@/components/rating/Rating";
+    import $ from "jquery";
 
     @Component
     ({
         components: {BaseImageInput, NavigationBar},
     })
+
     export default class RegistrationPage extends Vue {
-        user: User = new User(1, "a.b@c.de", "ASDFG", "a", "b", "",
+        user: User = new User(1, "a.b@c.de", "ASDFG", "Cooler", "Typ", "",
             true, new Address("Musterstraße", "12345", "Musterstadt", "Deutschland",
                 true), [], [], [], [], []);
 
-        passwordVisible: boolean = false;
         validateInput: boolean = false;
-        firstName: string = "";
-        surName: string = "";
-        surNameVisible: boolean = true;
-        country: string = "";
-        plz: string = "";
-        city: string = "";
-        street: string = "";
-        streetVisible: boolean = true;
-        email: string = "";
-        password: string = "";
 
+        firstName: string;
+        lastName: string;
+        lastNameVisible: boolean;
+        street: string;
+        plz: string;
+        city: string;
+        country: string;
+        streetVisible: boolean;
+        // email: string = "";
+        // password: string = "";
+        // passwordVisible: boolean = false;
+
+        constructor() {
+            super();
+            //TODO dynamic user
+            this.firstName = this.user.firstname;
+            this.lastName = this.user.lastname;
+            this.lastNameVisible = this.user.lastNameVisible;
+            this.country = this.user.address.country;
+            this.plz = this.user.address.plz;
+            this.city = this.user.address.city;
+            this.street = this.user.address.street;
+            this.country = this.user.address.country;
+            this.streetVisible = this.user.address.streetVisible;
+        }
+
+        updateUser(): void {
+            // this.validateInput = true;
+            //
+            // if (!this.firstName || !this.lastName || !this.country || !this.plz ||
+            //     !this.street || !this.city) {
+            //     return;
+            // }
+
+            //TODO adjust to dynamic user
+            // $.ajax({
+            //     url: "http://localhost:9000/user/update/0",
+            //     type: "POST",
+            //     data: JSON.stringify({
+            //         email: ,
+            //         password: ,
+            //         firstName: this.firstName,
+            //         lastName: this.lastName,
+            //         lastNameVisible: this.lastNameVisible,
+            //         rating: ,
+            //         picture: ,
+            //         toLend: ,
+            //         borrowed: ,
+            //         pinned: ,
+            //         street: this.street,
+            //         city: this.city,
+            //         plz: this.plz,
+            //         country: this.country,
+            //         streetVisible: this.streetVisible,
+            //     }),
+            //     dataType: "json",
+            //     contentType: "application/json",
+            //     success: (result) => {
+            //         console.log("success ", result)
+            //     },
+            //     error: error => {
+            //         console.log("error ", error)
+            //     }
+            // });
+        }
     }
+
 </script>
 
 <style scoped>
     .contentLayout {
         border: #d0f2e1 solid 2px;
         width: 100%;
-        margin-top: 15px;
-        margin-left: auto;
-        margin-right: auto;
+        margin: 15px auto;
         border-radius: 3px;
         padding: 20px;
     }
