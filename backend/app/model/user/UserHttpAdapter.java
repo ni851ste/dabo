@@ -149,6 +149,7 @@ public class UserHttpAdapter
     public Result updateUser(String id, Request update)
     {
 
+
         JsonNode json = update.body().asJson();
 
         List<Integer> lendList = new ArrayList<>();

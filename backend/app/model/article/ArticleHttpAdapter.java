@@ -27,10 +27,20 @@ public class ArticleHttpAdapter
     {
         JsonNode json = request.body().asJson();
 
-        String IDToCompare = json.get("sessionCookie").asText();
-        if(!IDToCompare.equals(json.get("userId").asText())){
-            return badRequest("not correct User");
+//        String IDToCompare = json.get("sessionCookie").asText();
+//        if(!IDToCompare.equals(json.get("userId").asText())){
+//            return badRequest("not correct User");
+//        }
+
+        if(!json.has("sessionCookie")){
+            return badRequest("not the correct User");
         }
+        String sessionCook = json.get("sessionCookie").asText();
+        if (sessionCook == null || sessionCook.equals("")){
+            System.out.println(json.get("sessionCookie"));
+            return badRequest("No user added");
+        }
+
 
         List<String> categoryList = new ArrayList<>();
         // TODO for demo purposes disabled categories
@@ -106,10 +116,19 @@ public class ArticleHttpAdapter
     {
         JsonNode json = request.body().asJson();
 
-        String IDToCompare = json.get("sessionCookie").asText();
-        if(!IDToCompare.equals(json.get("userId").asText())){
-            return badRequest("not correct User");
+        if(!json.get("sessionCookie").isNull()){
+            badRequest();
         }
+        Optional<Octet<Integer, String, String, String, String,String,String, List<String>>> article = articleManagement.getArticleById(id);
+        System.out.println(article);
+        if(article.isEmpty()){
+            return badRequest("no article found");
+        }
+        String value = article.get().getValue(5).toString();
+        if (!value.equals(json.get("sessionCookie").asText())){
+            return badRequest("wrong User");
+        }
+
 
         List<String> categoryList = new ArrayList<>();
         json.get("categories").forEach(node -> categoryList.add(node.asText()));
@@ -119,7 +138,7 @@ public class ArticleHttpAdapter
                         json.get("description").asText(),
                         json.get("insertionDate").asText(),
                         json.get("location").asText(),
-                        json.get("userId").asText(),
+                        json.get("sessionCookie").asText(),
                         json.get("images").asText(),
                         categoryList);
 
@@ -151,12 +170,10 @@ public class ArticleHttpAdapter
 
     public Result deleteArticle(int id)
     {
-
         Optional<Octet<Integer, String, String, String, String,String,String, List<String>>> deletedArticle = articleManagement.deleteArticle(id);
         if (deletedArticle.isEmpty())
         {
             return badRequest();
-//        } else if (id != deletedArticle.get().getValue8()) {
         } else {
             JSONObject returnJson = new JSONObject()
                     .put("id", deletedArticle.get().getValue0())
