@@ -36,7 +36,6 @@
                                 <small class="form-text text-muted center">Profilbild hochladen</small>
                             </div>
                         </div>
-                        <!--                <br/>-->
 
                         <hr/>
 
@@ -74,26 +73,6 @@
                             <small class="form-text text-muted">Straße im Profil anzeigen</small>
                         </b-form-checkbox>
                         <br/>
-                        <!--                <hr/>-->
-                        <!--                <label for="email">E-Mail-Adresse</label>-->
-                        <!--                <input type="email" class="form-control" id="email" placeholder="E-Mail-Adresse" v-model="email"-->
-                        <!--                       required>-->
-                        <!--                <small v-bind:style="{ display: email ? 'none' : validateInput ? '' : 'none' }">-->
-                        <!--                    Bitte Adresse eingeben!</small>-->
-                        <!--                <br/>-->
-
-                        <!--                <label for="passwordVisible">Passwort</label>-->
-                        <!--                <input v-if="passwordVisible" type="text" class="form-control" id="passwordVisible"-->
-                        <!--                       placeholder="Passwort" v-model="password" required>-->
-                        <!--                <input v-else type="password" class="form-control" id="passwordNotVisible" placeholder="Passwort"-->
-                        <!--                       v-model="password" required>-->
-                        <!--                <small v-bind:style="{ display: password ? 'none' : validateInput ? '' : 'none' }">-->
-                        <!--                    Bitte Passwort eingeben!</small>-->
-                        <!--                <br/>-->
-
-                        <!--                <b-form-checkbox class="itemFloatLeft" id="passwordVisibility" v-model="passwordVisible">-->
-                        <!--                    <small class="form-text text-muted">Passwort anzeigen</small>-->
-                        <!--                </b-form-checkbox>-->
                     </div>
                 </div>
             </div>
@@ -118,7 +97,7 @@
         components: {BaseImageInput, NavigationBar},
     })
 
-    export default class RegistrationPage extends Vue {
+    export default class EditMyAccountView extends Vue {
         @Prop() private user!: User;
 
         validateInput: boolean = false;
@@ -131,9 +110,6 @@
         city: string;
         country: string;
         streetVisible: boolean;
-        // email: string = "";
-        // password: string = "";
-        // passwordVisible: boolean = false;
 
         constructor() {
             super();
