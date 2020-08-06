@@ -16,6 +16,7 @@
     "lodash": "^4.17.15",
     "moment": "latest",
     "ts-md5": "^1.2.7",
+    "password-hash": "^1.2.2",
     "vue": "^2.6.11",
     "vue-class-component": "^7.2.3",
     "vue-cookies-ts": "^1.5.19",
