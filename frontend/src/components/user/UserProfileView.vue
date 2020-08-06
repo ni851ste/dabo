@@ -337,4 +337,23 @@
         border: #484848;
     }
 
+    .btn:hover {
+        color: #484848;
+        background-color: #abc7b8;
+        border: none;
+        text-decoration: none;
+    }
+
+    .btn:focus {
+        background-color: #484848;
+        color: white;
+        border: none;
+    }
+
+    .btn:active {
+        background-color: #484848 !important;
+        color: white !important;
+        border: none;
+    }
+
 </style>

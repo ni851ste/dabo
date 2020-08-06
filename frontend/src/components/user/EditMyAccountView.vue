@@ -205,10 +205,6 @@
         padding: 20px;
     }
 
-    .dialog {
-        width: 50vw;
-    }
-
     .form-group {
         width: 30vw;
         margin: auto;
@@ -256,25 +252,6 @@
     .center {
         float: none;
         padding-top: 20px;
-    }
-
-    .register {
-        width: 100%;
-        padding: 0;
-        color: #484848;
-        background: #d0f2e1;
-        border-color: #d0f2e1;
-        border-radius: 3px;
-        margin-bottom: 30px;
-        margin-top: 20px;
-    }
-
-    .register:hover {
-        color: #484848;
-        background-color: #abc7b8;
-        border-color: #abc7b8;
-        text-decoration: none;
-        border-radius: 3px;
     }
 
     .base-image-input {
