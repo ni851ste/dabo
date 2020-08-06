@@ -2,6 +2,7 @@ import Category from "@/components/category/Category";
 import Rating from "@/components/rating/Rating";
 
 export default class Article {
+    articleId: string;
     name: string;
     description: string;
     image: string[]; //TODO CW: type ???
@@ -14,7 +15,15 @@ export default class Article {
     // Verfügbarkeit
 
 
-    constructor(name: string, description: string, image: string[], location: string, insertionDate: Date, categories : Category[], ratings: Rating[], userId: number) {
+    constructor(name: string,
+                description: string,
+                image: any,
+                location: string,
+                insertionDate: Date,
+                categories : Category[],
+                ratings: Rating[],
+                userId: number,
+                articleId: string) {
         this.description = description;
         this.name = name;
         this.image = image;
@@ -23,5 +32,6 @@ export default class Article {
         this.categories = categories;
         this.ratings = ratings;
         this.userId = userId;
+        this.articleId = articleId;
     }
 }

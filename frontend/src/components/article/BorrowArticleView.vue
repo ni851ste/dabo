@@ -41,7 +41,7 @@
                 url: "http://localhost:9000/user/borrow",
                 type: "POST",
                 data: JSON.stringify({
-                    articleId: this.article.name,
+                    articleId: this.article.articleId,
                     // TODO This is the std user hash from my postman, as placeholder
                     // TODO for when I know how to get the user Id
                     borrower: "-1743314910",
