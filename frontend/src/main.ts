@@ -28,7 +28,7 @@ const routes = [
   {path: '/articles', name: 'articles', component: ArticleView, props: true },
   {path: '/createArticle', component: ArticleCreationView},
   {path: '/editArticle', component: EditArticleView},
-  {path: '/home', component: StartPage},
+  {path: '/home', name: 'home', component: StartPage, props: true},
   {path: '/', component: StartPage},
   {path: '/login', name: 'login', component: LoginPage},
   {path: '/registration', name: 'registration', component: RegistrationPage, props: true},
