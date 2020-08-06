@@ -1,6 +1,7 @@
 <template>
     <div class="body">
         <NavigationBar msg="hallo"></NavigationBar>
+        <b-alert v-model="showAlert" class="alert" variant="success" dismissible>Login erfolgreich.</b-alert>
         <b-img class="logo" :src="require(`@/assets/logoImgs/dabo_logo_quadrat.png`)" fluid
                alt="Responsive image"></b-img>
         <div class="transparent-box">
@@ -46,6 +47,10 @@
         components: {NavigationBar}
     })
     export default class StartPage extends Vue {
+        @Prop({
+            required: false,
+            default: false
+        }) private showAlert!: boolean;
 
         routeToArticleView() {
             this.clearLocalStorageFilters();
@@ -182,6 +187,13 @@
         background-color: #abc7b8;
         border-color: #abc7b8;
         text-decoration: none;
+    }
+
+    .alert {
+        width: 70vw;
+        text-align: left;
+        margin: auto;
+        margin-top: 2vw;
     }
 
 </style>

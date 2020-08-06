@@ -21,15 +21,16 @@ export default class LoginService {
     async login(email: string, password: string) {
 
         let hashedPassword = Md5.hashStr(password);
-
-        $.ajax({
+        console.log("LoginService logging in ...")
+        return $.ajax({
             url: "http://localhost:9000/user/login",
             type: "POST",
-            data: {
+            data: JSON.stringify({
                 email: email,
                 password: hashedPassword
-            },
-            dataType: "application/json",
+            }),
+            dataType: "json",
+            contentType: "application/json",
             success: result => {
                 console.log("success ", result);
                 this.loginId = result.id;

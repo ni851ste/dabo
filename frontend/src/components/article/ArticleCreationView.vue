@@ -228,20 +228,9 @@
                 dataType: "json",
 
                 success: result => {
-                    console.log("success CreateArticle", result);
                     article = result
-                    console.log("article created is", article);
-                    // article = new Article(result.name,
-                    //     result.description,
-                    //     result.image,
-                    //     result.location,
-                    //     new Date(result.insertionDate),
-                    //     result.category,
-                    //     []
-                    //     );
                     //code is working, IntelliJ is just fooling around
                     this.$router.push({name: 'articlePage', params: {article: article, showAlert: true}});
-
                 },
                 error: error => {
                     console.log("error ", error)

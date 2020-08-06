@@ -100,6 +100,7 @@
 
         user: User | null;
         articleRating: number;
+        articleRating: number = this.getAvgStars(this.article.ratings);
         userRating: number;
 
         get userName(): string {
@@ -126,11 +127,6 @@
                     + "<br/> " + this.user.address.country
             }
         };
-        @Prop({
-            required: false,
-            default: false
-        }) private showAlert!: boolean;
-        articleRating: number = this.getAvgStars(this.article.ratings);
 
         constructor() {
             super();
