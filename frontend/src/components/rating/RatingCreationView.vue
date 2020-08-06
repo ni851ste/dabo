@@ -25,9 +25,7 @@
 
                             <div class="form-group rating-comment">
                                 <label>Kommentar:</label>
-                                <textarea class="form-control" v-model="ratingComment" v-on:keyup="countdown"></textarea>
-                                <p class='text-right text-small' v-bind:class="{'text-danger': hasError }">
-                                    {{charCount + '/' + maxCount}}</p>
+                                <textarea class="form-control" v-model="ratingComment"></textarea>
                             </div>
 
                         </div>
@@ -52,28 +50,13 @@
 
         amountOfStars:number = 0;
         ratingComment: string = "";
-        author: number = 1;
+        author: number = 0;
 
-        maxCount: number = 100;
-        hasError: boolean = false;
-        get charCount(): number{
-            return this.ratingComment.length
-        }
-
-        constructor() {
-            super();
-            this.countdown = this.countdown.bind(this)
-        }
-        countdown() {
-            this.hasError = this.ratingComment.length > this.maxCount;
-        }
-
-        saveChanges(): void {
-            let amountOfStars = this.amountOfStars
-            let comment = this.ratingComment
-            let author = this.author
-            let rating = new Rating(amountOfStars, comment, author, new Date())
-        }
+//        saveChanges(): void {
+//            let amountOfStars = this.amountOfStars
+//            let comment = this.ratingComment
+//            let author = this.author
+//        }
     }
 
 </script>
