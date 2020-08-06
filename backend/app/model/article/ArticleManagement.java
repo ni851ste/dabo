@@ -134,6 +134,11 @@ public class ArticleManagement
         return database.borrowArticle(articleId, borrowingUser, untilDate);
     }
 
+    public boolean isArticleBorrowed(int articleId)
+    {
+        return !database.articleCanBeBorrowed(articleId);
+    }
+
 
 }
 

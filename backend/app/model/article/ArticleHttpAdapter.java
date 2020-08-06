@@ -231,14 +231,37 @@ public class ArticleHttpAdapter
         int articleId = body.get("articleId").asInt();
         String untilDate = body.get("until").asText();
 
+        System.out.println("Date: " + untilDate);
+
         Date tmpDate = new Date(2020, Calendar.NOVEMBER, 11);
 
-        if (articleManagement.borrowArticle(articleId, borrowingUser, tmpDate)) {
+        if (articleManagement.borrowArticle(articleId, borrowingUser, tmpDate))
+        {
             System.out.println("Borrowed");
             return ok("Borrowed");
         }
         System.out.println("Could not be borrowed");
         return badRequest("Could not be borrowed");
+
+
+    }
+
+    public Result isArticleBorrowed(Request request)
+    {
+        JsonNode body = request.body().asJson();
+
+        System.out.println("JSON");
+        System.out.println(body.toPrettyString());
+
+        int articleId = body.get("articleId").asInt();
+
+
+        if (articleManagement.isArticleBorrowed(articleId))
+        {
+            return ok(new JSONObject().put("borrowed", "true").toString());
+        }
+
+        return ok(new JSONObject().put("borrowed", "false").toString());
 
 
     }

@@ -60,12 +60,22 @@
                             </b-col>
                         </b-row>
                         <b-row class="borrow-button-wrap">
-                            <button type="button" class="btn btn-primary borrow-button" data-toggle="modal" data-target="#borrowArticle">
-                                Artikel ausleihen
-                            </button>
-                            <div class="modal" tabindex="-1" role="dialog" id="borrowArticle">
-                                <BorrowArticleView :article="this.article" current-user-id="test user Id"></BorrowArticleView>
+                            <div v-if="this.articleIsBorrowed" class="borrow-wrap">
+                                <div class="already-borrowed">
+                                    <div>
+                                        Artikel ist schon ausgeliehen!
+                                    </div>
+                                </div>
                             </div>
+                            <div v-else class="borrow-wrap">
+                                <button type="button" class="btn btn-primary borrow-button" data-toggle="modal" data-target="#borrowArticle">
+                                    Artikel ausleihen
+                                </button>
+                                <div class="modal" tabindex="-1" role="dialog" id="borrowArticle">
+                                    <BorrowArticleView :article="this.article" current-user-id="test user Id"></BorrowArticleView>
+                                </div>
+                            </div>
+
 
                         </b-row>
 
@@ -88,6 +98,7 @@
     import LoginService from "@/components/services/LoginService";
     import Address from "@/components/user/Address";
     import BorrowArticleView from "@/components/article/BorrowArticleView.vue";
+    import $ from "jquery";
 
     @Component({
         components: {EditArticleView, NavigationBar, BorrowArticleView}
@@ -99,6 +110,8 @@
             required: false,
             default: false
         }) private showAlert!: boolean;
+        private articleIsBorrowed: boolean = false;
+
 
         user: User | null;
         articleRating: number = this.getAvgStars(this.article.ratings);
@@ -146,6 +159,7 @@
             if (this.user == null) {
 
             }
+            this.checkIfArticleIsBorrowed();
         }
 
         getUser(): User | null {
@@ -241,6 +255,23 @@
             });
             return true
         }
+
+        checkIfArticleIsBorrowed(): void {
+            $.ajax({
+                url: "http://localhost:9000/user/is-borrowed",
+                type: "POST",
+                data: JSON.stringify({
+                    articleId: this.article.articleId
+                }),
+                dataType: "json",
+                contentType: "application/json",
+                success: result => {
+                    console.log("success ", result);
+                    this.articleIsBorrowed = (result.borrowed == 'true');
+                }
+            });
+        }
+
     }
 
 </script>
@@ -377,5 +408,19 @@
         border-radius: 3px;
         width: 100%;
         box-shadow: none;
+    }
+
+    .borrow-wrap {
+        width: 100%;
+    }
+
+    .already-borrowed {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-top: 20px;
+        padding: 5px;
+        border: 3px solid red;
+        border-radius: 3px;
     }
 </style>
