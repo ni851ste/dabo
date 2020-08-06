@@ -139,7 +139,7 @@ public class ArticleMapAdapter implements IArticlePersistenceAdapter
         return foundArticles;
     }
 
-    public boolean borrowArticle(int articleId, String borrowingUser)
+    public boolean borrowArticle(int articleId, String borrowingUser, Date untilDate)
     {
         borrowedArticles.put(articleId, borrowingUser);
         return true;

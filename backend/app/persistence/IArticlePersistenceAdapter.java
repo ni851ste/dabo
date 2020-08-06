@@ -4,6 +4,7 @@ import org.javatuples.Octet;
 import org.javatuples.Septet;
 import org.javatuples.Triplet;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,6 +25,6 @@ public interface IArticlePersistenceAdapter
                                                                           List<String> categoryFilter);
     boolean articleCanBeBorrowed(int articleId);
 
-    public boolean borrowArticle(int articleId, String borrowingUser);
+    public boolean borrowArticle(int articleId, String borrowingUser, Date untilDate);
 
 }

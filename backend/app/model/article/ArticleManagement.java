@@ -6,6 +6,7 @@ import org.javatuples.Triplet;
 import persistence.ArticleMapAdapter;
 import persistence.IArticlePersistenceAdapter;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -126,11 +127,11 @@ public class ArticleManagement
                 categoryFilter);
     }
 
-    public boolean borrowArticle(int articleId, String borrowingUser)
+    public boolean borrowArticle(int articleId, String borrowingUser, Date untilDate)
     {
         if (!database.articleCanBeBorrowed(articleId)) return false;
 
-        return database.borrowArticle(articleId, borrowingUser);
+        return database.borrowArticle(articleId, borrowingUser, untilDate);
     }
 
 

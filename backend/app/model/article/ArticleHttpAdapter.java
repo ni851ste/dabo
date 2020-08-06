@@ -10,9 +10,7 @@ import org.json.JSONObject;
 import play.mvc.Http.Request;
 import play.mvc.Result;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import static play.mvc.Results.badRequest;
 import static play.mvc.Results.ok;
@@ -227,13 +225,22 @@ public class ArticleHttpAdapter
     {
         JsonNode body = request.body().asJson();
 
+        System.out.println("Borrow Request received.");
+
         String borrowingUser = body.get("borrower").asText();
         int articleId = body.get("articleId").asInt();
         String untilDate = body.get("until").asText();
 
-        boolean borrowingSuccessful = articleManagement.borrowArticle(articleId, borrowingUser);
+        Date tmpDate = new Date(2020, Calendar.NOVEMBER, 11);
 
-        return ok(String.valueOf(borrowingSuccessful));
+        if (articleManagement.borrowArticle(articleId, borrowingUser, tmpDate)) {
+            System.out.println("Borrowed");
+            return ok("Borrowed");
+        }
+        System.out.println("Could not be borrowed");
+        return badRequest("Could not be borrowed");
+
+
     }
 
 }

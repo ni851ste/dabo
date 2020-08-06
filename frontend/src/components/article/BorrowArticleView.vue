@@ -25,10 +25,11 @@
 <script lang="ts">
     import Article from "@/components/article/Article";
     import {Component, Prop, Vue} from 'vue-property-decorator';
+    import $ from "jquery";
 
-
+    @Component
     export default class BorrowArticleView extends Vue {
-        @Prop() private articleId!: string;
+        @Prop() private article!: Article;
         @Prop() private currentUserId!: string;
         minDate: Date = new Date();
         maxDate: any = null;
@@ -36,21 +37,20 @@
 
 
         borrowArticle(): boolean {
-            let articles: Article[] = [];
             $.ajax({
                 url: "http://localhost:9000/user/borrow",
                 type: "POST",
                 data: JSON.stringify({
-                    articleId: this.articleId,
+                    articleId: this.article.name,
                     // TODO This is the std user hash from my postman, as placeholder
-                    // for when I know how to get the user Id
+                    // TODO for when I know how to get the user Id
                     borrower: "-1743314910",
                     until: this.maxDate
                 }),
                 dataType: "json",
                 contentType: "application/json",
                 success: result => {
-                    console.log(result)
+                    console.log("success ", result)
                 },
                 error: error => {
                     console.log("error ", error)

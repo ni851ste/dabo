@@ -64,7 +64,7 @@
                                 Artikel ausleihen
                             </button>
                             <div class="modal" tabindex="-1" role="dialog" id="borrowArticle">
-                                <BorrowArticleView/>
+                                <BorrowArticleView :article="this.article" current-user-id="test user Id"></BorrowArticleView>
                             </div>
 
                         </b-row>
@@ -93,7 +93,7 @@
         components: {EditArticleView, NavigationBar, BorrowArticleView}
     })
     export default class SingleArticlePage extends Vue {
-        @Prop() private article!: Article;
+        @Prop() article!: Article;
         articleRating: number = this.getAvgStars(this.article.ratings);
         @Prop({
             required: false,
