@@ -22,13 +22,13 @@ public class UserManagementTest
         userManagement = new UserManagement();
 
 
-        Map<String, String> adressMap = new HashMap<>();
+        Map<String, String> addressMap = new HashMap<>();
 
-        adressMap.put("street", "Test Straße");
-        adressMap.put("streetVisible", "true");
-        adressMap.put("plz", "21337");
-        adressMap.put("city", "Test Stadt");
-        adressMap.put("country", "Test Land");
+        addressMap.put("street", "Test Straße");
+        addressMap.put("streetVisible", "true");
+        addressMap.put("plz", "21337");
+        addressMap.put("city", "Test Stadt");
+        addressMap.put("country", "Test Land");
 
         Optional<Decade<String, String, String, Triplet<String, String, Boolean>, Integer, String, List<Integer>, List<Integer>, List<Integer>, Map<String, String>>> answer =
                 userManagement.createUser(new Ennead<>("test@test.de",
@@ -39,7 +39,7 @@ public class UserManagementTest
                         new ArrayList<>(),
                         new ArrayList<>(),
                         new ArrayList<>(),
-                        adressMap));
+                        addressMap));
 
     }
 
@@ -47,7 +47,9 @@ public class UserManagementTest
     @Test
     public void testLoginUserSuccessfully()
     {
-        Optional<String> answer = userManagement.loginUser("test@test.de", "test-password");
+        Optional<Decade<String, String, String, Triplet<String, String, Boolean>, Integer, String, List<Integer>, List<Integer>, List<Integer>, Map<String, String>>> answer =
+                userManagement.loginUser("test@test.de", "test-password");
+
         Assert.assertTrue(answer.isPresent());
     }
 
@@ -55,7 +57,9 @@ public class UserManagementTest
     @Test
     public void testLoginUserFailing()
     {
-        Optional<String> answer = userManagement.loginUser("Faile", "Fail");
+        Optional<Decade<String, String, String, Triplet<String, String, Boolean>, Integer, String, List<Integer>, List<Integer>, List<Integer>, Map<String, String>>> answer =
+                userManagement.loginUser("Faile", "Fail");
+
         Assert.assertFalse(answer.isPresent());
     }
 }
