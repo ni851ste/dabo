@@ -124,6 +124,12 @@
         requests: Article[] = [];
         loginService: LoginService = LoginService.getInstance();
 
+        mounted(): void {
+            if(this.loginService.loggedInUser) {
+                this.loginService.getUserWithId(this.loginService.loggedInUser.id)
+            }
+        }
+
         get userName(): string {
             if (!this.user)
                 return "";
