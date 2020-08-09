@@ -76,11 +76,11 @@
                 return;
             }
             await this.loginService.login(this.email, this.password)
-                .then((result) => {
+                .then((result: any) => {
                     this.$cookies.set("sessionCookie", result.userHash);
                     this.$router.push({name: 'home', params: {showAlert: true}});
                 })
-                .catch(error => {
+                .catch((error: any) => {
                     console.log("error LoginPage", error)
                     this.showAlert = true;
                 });

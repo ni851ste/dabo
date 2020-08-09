@@ -38,7 +38,8 @@ export default class LoginService {
             contentType: "application/json",
             success: result => {
                 console.log("success ", result);
-                this.loggedInUser = result
+                this.getUserWithId(result.userHash)
+
             },
             error: error => {
                 console.log("error ", error)
@@ -81,14 +82,28 @@ export default class LoginService {
             dataType: "json",
             contentType: "application/json",
             success: (result) => {
-                console.log("registered ",result)
-                this.loggedInUser = result;
+                console.log("registered ", result)
+                this.loggedInUser = result
             },
             error: error => {
                 console.log("error ", error)
             }
         });
     }
+
+    getUserWithId = async (id: string): Promise<void> => {
+        $.ajax({
+            url: "http://localhost:9000/user/find/" + id,
+            type: "GET",
+            success: result => {
+                this.loggedInUser = result;
+                console.log("got user by id ", result);
+            },
+            error: error => {
+                console.log("error getUserWithId", error)
+            }
+        })
+    };
 
     async logout() {
         this.loggedInUser = null

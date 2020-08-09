@@ -169,14 +169,14 @@
                 this.email,
                 this.password
             )
-                .then((result) => {
+                .then((result: any) => {
                     //TODO: backend support for sessionCookie
                     this.$cookies.set("sessionCookie", result, {
                         // secure: true
                     });
                     this.$router.push({name: 'user', params: {user: result}});
                 })
-                .catch((error) => {
+                .catch((error: any) => {
                     this.showLoginFailedAlert = true;
                 });
         }
