@@ -26,11 +26,11 @@ const routes = [
   {path: '/categories', component: CategoryPage },
   {path: '/articlePage/:article', name: 'articlePage', component: SingleArticlePage, props: true },
   {path: '/articles', name: 'articles', component: ArticleView, props: true },
-  {path: '/createArticle', component: ArticleCreationView},
+  {path: '/createArticle', name: 'createArticle', component: ArticleCreationView},
   {path: '/editArticle', component: EditArticleView},
   {path: '/home', name: 'home', component: StartPage, props: true},
   {path: '/', component: StartPage},
-  {path: '/login', name: 'login', component: LoginPage},
+  {path: '/login', name: 'login', component: LoginPage, props: true},
   {path: '/registration', name: 'registration', component: RegistrationPage, props: true},
   {path: '/refreshComponent', name: 'refresh', component: StartPage}
 ];
