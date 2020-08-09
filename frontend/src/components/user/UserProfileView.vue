@@ -9,15 +9,12 @@
                         <h3 class="h3" v-html="userName"></h3>
                     </div>
                     <div class="profile-actions cover-img" data-overlay="0.3">
-                        <button class="btn btn-actions">
-                            <span>Freund hinzufügen</span>
-                        </button>
-                        <button class="btn btn-actions">
-                            <span>Nachricht</span>
-                        </button>
-                        <button type="button" class="btn btn-primary tmpButton" data-toggle="modal"
+                        <button v-if="this.userAuthorizedForChanges()" type="button" class="btn btn-primary tmpButton" data-toggle="modal"
                                 data-target="#editArticleModal">
                             Account bearbeiten
+                        </button>
+                        <button v-else class="btn btn-actions">
+                            <span>Nachricht</span>
                         </button>
                     </div>
                     <div class="profile-info">
@@ -36,7 +33,7 @@
                     <li class="nav-item">
                         <a class="nav-link ratings" data-toggle="tab" href="#ratings">Bewertungen</a>
                     </li>
-                    <li class="nav-item">
+                    <li v-if="this.userAuthorizedForChanges()" class="nav-item">
                         <a class="nav-link requests" data-toggle="tab" href="#requests">Anfragen</a>
                     </li>
                 </ul>
@@ -44,7 +41,8 @@
                     <div class="tab-pane container active" id="articles">
                         <div class="borderbox">
                             <div class="panel-heading">
-                                <h3 class="panel-title">Max' Artikel</h3>
+                                <h3 v-if="this.userAuthorizedForChanges()" class="panel-title">Meine Artikel</h3>
+                                <h3 v-else class="panel-title">{{this.user.firstName}}s Artikel</h3>
                             </div>
                             <ArticleCard
                                     :key="article.name"
@@ -61,7 +59,8 @@
                     <div class="tab-pane container fade" id="ratings">
                         <div class="borderbox">
                             <div class="panel-heading">
-                                <h3 class="panel-title">Max' Bewertungen</h3>
+                                <h3 v-if="this.userAuthorizedForChanges()" class="panel-title">Meine Bewertungen</h3>
+                                <h3 v-else class="panel-title">{{this.user.firstName}}s Bewertungen</h3>
                             </div>
                             <RatingCard
                                     id="rating-cards"
@@ -73,7 +72,7 @@
                             ></RatingCard>
                         </div>
                     </div>
-                    <div class="tab-pane container fade" id="requests">
+                    <div v-if="this.userAuthorizedForChanges()"  class="tab-pane container fade" id="requests">
                         <div class="borderbox">
                             <div class="panel-heading">
                                 <h3 class="panel-title">Meine Anfragen</h3>
@@ -111,6 +110,7 @@
     import User from "@/components/user/User";
     import RequestCard from "@/components/user/RequestCard.vue";
     import EditMyAccountView from "@/components/user/EditMyAccountView.vue";
+    import LoginService from "@/components/services/LoginService";
 
     @Component({
         components: {EditMyAccountView, RequestCard, RatingCard, NavigationBar, ArticleCard}
@@ -122,6 +122,7 @@
         currentPage = 1;
         ratings: Rating[] = [];
         requests: Article[] = [];
+        loginService: LoginService = LoginService.getInstance();
 
         get userName(): string {
             if (!this.user)
@@ -163,6 +164,13 @@
                 (this.currentPage - 1) * this.perPage,
                 this.currentPage * this.perPage
             )
+        }
+
+        userAuthorizedForChanges(): boolean {
+            if(!this.user || !this.loginService.loggedInUser) {
+                return false;
+            }
+            return this.user.id === this.loginService.loggedInUser.id
         }
 
     }

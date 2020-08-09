@@ -21,7 +21,7 @@
                             Bitte Nachnamen eingeben!</small>
                         <br/>
                         <b-form-checkbox class="itemFloatLeft" v-model="lastNameVisible">
-                            <small class="form-text text-muted">Nachname im Profil anzeigen</small>
+                            <small class="form-text text-muted">Nachname für andere sichtbar</small>
                         </b-form-checkbox>
                     </div>
                     <div class="image">
@@ -60,7 +60,7 @@
                     Bitte Straße eingeben!</small>
                 <br/>
                 <b-form-checkbox class="itemFloatLeft" v-model="streetVisible">
-                    <small class="form-text text-muted">Straße im Profil anzeigen</small>
+                    <small class="form-text text-muted">Straße für andere sichtbar</small>
                 </b-form-checkbox>
                 <br/>
 
