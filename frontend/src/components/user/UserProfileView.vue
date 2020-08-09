@@ -21,7 +21,7 @@
                         <ul class="nav">
                             <li><strong>DE</strong>{{this.user.address.city}}</li>
                             <li><strong>{{this.insertedArticlesCount}}</strong>Artikel</li>
-                            <li><strong>13</strong>Freunde</li>
+                            <li><strong>{{this.ratingsCount}}</strong>Bewertungen</li>
                         </ul>
                     </div>
                 </div>
@@ -146,6 +146,13 @@
                 return 0;
 
             return this.user.insertedArticlesId.length;
+        };
+
+        get ratingsCount(): number {
+            if (!this.user || !this.user.ratings)
+                return 0;
+
+            return this.user.ratings.length;
         };
 
         getUsersInsertedArticles(): Article[] {
