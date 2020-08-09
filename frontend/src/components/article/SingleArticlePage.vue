@@ -42,6 +42,10 @@
                             <h3 class="headline" v-html="article.name"></h3>
                             <b-form-rating class="rating" variant="warning" readonly
                                            v-model="articleRating"></b-form-rating>
+                            <button v-if="this.userAuthorizedForChanges()" type="button" class="btn editArticleButton" data-toggle="modal" data-target="#editArticleModal">
+                                Artikel bearbeiten
+                            </button>
+                            <EditArticleView/>
                             <div class="categories">
                                 <div class="category" v-for="categoryLabel in this.article.categories">
                                     {{categoryLabel}}
@@ -52,18 +56,14 @@
                             <!--                    Verfügbarkeit-->
                             <!--                            </div>-->
                         </div>
-
                     </b-col>
-                    <b-col cols="4" class="user-col bcol" v-on:click="routeToUserPage">
-                        <b-row class="user">
+                    <b-col cols="4" class="user-col bcol">
+                        <b-row class="user" v-on:click="routeToUserPage">
                             <b-col class="bcol" cols="4">
                                 <img class="clip-circle" :src="require(`@/assets/categoryImgs/haushalt.jpg`)" alt="">
                             </b-col>
                             <b-col align-self="stretch bcol" class="user-details" cols="5">
-<!--                                //TODO: link to userpage-->
-<!--                                <RouterLink to="/user">-->
                                     <p v-html="userName"></p>
-<!--                                </RouterLink>-->
                                 <b-form-rating class="rating" variant="warning" readonly
                                                v-model="userRating"></b-form-rating>
                                 <p class="section"></p>
@@ -86,10 +86,11 @@
     import Rating from "@/components/rating/Rating";
     import User from "@/components/user/User";
     import $ from "jquery";
-    import Address from "@/components/user/Address";
+    import EditArticleView from "@/components/article/EditArticleView.vue";
+    import LoginService from "@/components/services/LoginService";
 
     @Component({
-        components: {NavigationBar}
+        components: {EditArticleView, NavigationBar}
     })
     export default class SingleArticlePage extends Vue {
         @Prop() private article!: Article;
@@ -102,6 +103,8 @@
         articleRating: number;
         articleRating: number = this.getAvgStars(this.article.ratings);
         userRating: number;
+
+        loginService: LoginService = LoginService.getInstance();
 
         get userName(): string {
             console.log("article is here ", this.article)
@@ -190,6 +193,14 @@
 
         getDate(): string {
             return moment(this.article.insertionDate).format(" DD MMMM YYYY")
+        }
+
+        userAuthorizedForChanges(): boolean {
+            console.log("checking loggedinuser")
+            if(!this.loginService.loggedInUser || !this.user) {
+                return false;
+            }
+            return this.user.id === this.loginService.loggedInUser.id
         }
     }
 
@@ -284,5 +295,23 @@
     
     .address {
         width: 300px;
+    }
+
+    .editArticleButton {
+        float: right;
+        margin-top: 40px;
+
+        color: #484848;
+        background: #d0f2e1;
+        border-color: #d0f2e1;
+        border-radius: 3px;
+    }
+
+    .editArticleButton:hover {
+        color: #484848;
+        background-color: #abc7b8;
+        border-color: #abc7b8;
+        text-decoration: none;
+        border-radius: 3px;
     }
 </style>
