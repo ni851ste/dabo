@@ -155,7 +155,7 @@
                 success: result => {
                     this.user = result;
                     user = result;
-                    console.log("success ", result);
+                    console.log("success gettingUser", result);
                 },
                 error: error => {
                     console.log("error ", error)

@@ -35,9 +35,6 @@
                         <b-dropdown-item v-on:click="routeToUserProfile">Profil</b-dropdown-item>
                         <b-dropdown-item v-on:click="loginService.logout">Logout</b-dropdown-item>
                     </b-dropdown>
-<!--                    <li v-else class="nav-item login" v-on:click="loginService.logout">-->
-<!--                        <a class="nav-link" href="#">Logout</a>-->
-<!--                    </li>-->
                 </ul>
             </div>
         </nav>
