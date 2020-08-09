@@ -23,11 +23,9 @@
                     </li>
                 </ul>
                 <ul class="navbar-nav ml-auto">
-                    <RouterLink to="/createArticle">
-                        <b-button class="nav-item addArticle">
-                            <a class="nav-link disabled" href="#">Artikel hinzufügen</a>
-                        </b-button>
-                    </RouterLink>
+                    <b-button class="nav-item addArticle" v-on:click="onCreateArticleClick">
+                        <a class="nav-link disabled" href="#">Artikel hinzufügen</a>
+                    </b-button>
                     <RouterLink v-if="!loginService.isLoggedIn()" to="/login">
                         <li class="nav-item login">
                             <a class="nav-link" href="#">Login</a>
@@ -61,6 +59,14 @@
         routeToUserProfile(): void {
             console.log("loggedin User is ",this.loginService.loggedInUser)
             this.$router.push({name: 'user', params: {user: this.loginService.loggedInUser}});
+        }
+
+        onCreateArticleClick(): void {
+            if(!this.loginService.loggedInUser) {
+                this.$router.push({name: 'login', params: {showLoginFirstAlert: true}});
+            } else {
+                this.$router.push({name: 'createArticle'});
+            }
         }
     }
 </script>
