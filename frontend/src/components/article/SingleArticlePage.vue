@@ -206,6 +206,7 @@
 
     .user {
         border-width: 1px;
+        cursor: pointer;
     }
 
     .category {
