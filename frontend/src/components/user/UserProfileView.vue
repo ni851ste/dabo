@@ -47,7 +47,7 @@
                             <ArticleCard
                                     :key="article.name"
                                     id="cards"
-                                    v-for="article in lists()"
+                                    v-for="article in this.getUsersInsertedArticles()"
                                     :article="article"
                                     :per-page="perPage"
                                     :current-page="currentPage"
@@ -64,7 +64,7 @@
                             </div>
                             <RatingCard
                                     id="rating-cards"
-                                    v-for="rating in ratingLists()"
+                                    v-for="rating in getUserRatings()"
                                     :rating="rating"
                                     :per-page="perPage"
                                     :current-page="currentPage"
@@ -142,17 +142,48 @@
             return this.user.insertedArticlesId.length;
         };
 
-        lists(): Article[] {
-            const items = this.articles;
-            return items.slice(
+        getUsersInsertedArticles(): Article[] {
+            if(!this.user.insertedArticlesId || this.user.insertedArticlesId.length === 0) {
+                return [];
+            }
+
+            let insertedArticles: Article[] = [];
+
+            for(let articleId of this.user.insertedArticlesId) {
+                let article: Article | null = this.fetchArticle(articleId);
+                if(article) {
+                    insertedArticles.push(article)
+                }
+            }
+
+            return insertedArticles.slice(
                 (this.currentPage - 1) * this.perPage,
                 this.currentPage * this.perPage
             )
         }
 
-        ratingLists(): Rating[] {
-            const items = this.ratings;
-            return items.slice(
+        fetchArticle(articleId: number): Article | null {
+            let article: Article | null = null
+             $.ajax({
+                url: "http://localhost:9000/users/articles/" + articleId,
+                type: "GET",
+                success: result => {
+                    console.log("success fetching article", result);
+                    article = result
+                },
+                error: error => {
+                    console.log("error ", error)
+                }
+            });
+            return article
+        }
+
+        getUserRatings(): Rating[] {
+            if(!this.user.ratings || this.user.ratings.length === 0) {
+                return []
+            }
+            let ratings: Rating[] = this.user.ratings;
+            return ratings.slice(
                 (this.currentPage - 1) * this.perPage,
                 this.currentPage * this.perPage
             )
