@@ -32,7 +32,7 @@
                                 </b-form-checkbox>
                             </div>
                             <div class="image">
-                                <BaseImageInput class="imgProfile" id="profileImg"/>
+                                <BaseImageInput class="imgProfile" id="profileImg" @input="item => image = item"/>
                                 <small class="form-text text-muted center">Profilbild hochladen</small>
                             </div>
                         </div>
@@ -110,6 +110,7 @@
         city: string;
         country: string;
         streetVisible: boolean;
+        image: File | null;
 
         constructor() {
             super();
@@ -122,6 +123,7 @@
             this.street = this.user.address.street;
             this.country = this.user.address.country;
             this.streetVisible = this.user.address.streetVisible;
+            this.image = null;
         }
 
         updateUser(): void {
@@ -132,6 +134,10 @@
             if (!this.firstName || !this.lastName || !this.country || !this.plz ||
                 !this.street || !this.city) {
                 return;
+            }
+            let imageBase64 : string = this.user.picture;
+            if (this.image !== null) {
+                imageBase64 = this.getBase64(this.image);
             }
 
             $.ajax({
@@ -144,7 +150,7 @@
                     lastName: this.lastName,
                     lastNameVisible: this.lastNameVisible,
                     ratings: this.user.ratings,
-                    picture: this.user.picture,
+                    picture: imageBase64,
                     insertedArticlesId: this.user.insertedArticlesId,
                     borrowedArticlesId: this.user.borrowedArticlesId,
                     pinnedArticledId: this.user.pinnedArticledId,
@@ -167,6 +173,20 @@
                     console.log("error ", error)
                 }
             });
+        }
+
+        getBase64(file : File): string {
+            let reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = function () {
+                console.log(reader.result);
+                return reader.result;
+            };
+            reader.onerror = function (error) {
+                console.log('Error: ', error);
+                return "";
+            };
+            return "";
         }
     }
 

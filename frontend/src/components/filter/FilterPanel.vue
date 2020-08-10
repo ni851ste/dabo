@@ -147,7 +147,7 @@
                     for (let i = 0; i < result.length; i++) {
                         articles[i] = new Article(result[i].name,
                             result[i].description,
-                            result[i].image,
+                            result[i].images,
                             result[i].location,
                             new Date(result[i].insertionDate),
                             result[i].categories,

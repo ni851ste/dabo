@@ -2,7 +2,7 @@
         <div class="card rating">
             <div class="card-body">
                 <img class="card-img-top userImg" src="../../assets/userImgs/avatar.png" alt="Card image cap">
-                <h5 class="card-title" v-html="rating.author"></h5>
+                <h5 class="card-title" v-html="this.user.firstName"></h5>
                 <b-form-rating class="star-rating" variant="warning" readonly v-model="rating.amountOfStars"></b-form-rating>
                 <p class="card-text comment" v-html="rating.text"></p>
                 <p class="card-text rating-date">
@@ -16,18 +16,39 @@
     import {Component, Prop, Vue} from "vue-property-decorator";
     import Rating from "@/components/rating/Rating";
     import moment from "moment"
+    import User from "@/components/user/User";
+    import $ from "jquery";
 
 
     @Component
     export default class RatingCard extends Vue {
         @Prop() private rating!: Rating;
+        user: User | null;
+
+        constructor() {
+            super();
+            this.user = this.getUser();
+        }
 
         getDate(): string {
             return moment(this.rating.date).format("dddd, DD. MMMM YYYY HH:mm")
         }
 
-        getUser() {
+        getUser(): User | null {
+            let user: User | null = null;
 
+            $.ajax({
+                url: "http://localhost:9000/user/find/" + this.rating.author,
+                type: "GET",
+                success: result => {
+                    user = result;
+                    console.log("success ", result);
+                },
+                error: error => {
+                    console.log("error ", error)
+                }
+            })
+            return user;
         }
 
     }
