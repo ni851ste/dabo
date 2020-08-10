@@ -43,7 +43,7 @@
 
     export default class ChatView extends Vue {
 
-        users = ["Max", "Anna", "Lisa"];
+        users = ["Max Mustermann", "Tanja Keller", "Lisa Müller"];
         user: String = this.users[0];
 
 
