@@ -1,0 +1,43 @@
+{
+  "name": "Elektronischer Laubsauger / Laubbläser",
+  "description": "Elektronischer Laubbläser und -sauger. Mit Auffangbeutel und Rollen zur einfachen Bedienung. Ich freue mich auf Ihre Anfragen. Ggf. Finden Sie noch etwas bei meinen restlichen Anzeigen.",
+  "location": "Konstanz",
+  "plz": "78464",
+  "country": "Deutschland",
+  "insertionDate": "today",
+  "userId": "-425903492",
+  "fromDate": "",
+  "toDate": "",
+  "images" : [""],
+  "categories": ["Garten"]
+}
+
+
+
+{
+  "name": "Stihl Heckenschere HS 60AV elektronik",
+  "description": "Ich biete eine voll funktionsfähige Heckenschere an. Sie wird mit Gemisch betrieben. (Schwert 60 cm)",
+  "location": "Konstanz",
+  "plz": "78464",
+  "country": "Deutschland",
+  "insertionDate": "today",
+  "userId": "-425903492",
+  "fromDate": "",
+  "toDate": "",
+  "images" : [""],
+  "categories": ["Garten"]
+}
+
+{
+  "email": "dieter.maier@web.de",
+  "password": "hallo",
+  "firstName":"Dieter",
+  "lastName": "Maier",
+  "lastNameVisible": true,
+  "picture": "",
+  "street":  "Mainaustraße 14",
+  "plz": "78464",
+  "country": "Deutschland",
+  "city": "Konstanz",
+  "streetVisible": "true"
+}
