@@ -14,12 +14,12 @@
                     <div class="input">
                         <b-form-input placeholder="Stadt"></b-form-input>
                     </div>
-                    <div class="form-group input button">
-                        <select class="form-control input dropdown" id="class" name="class">
-                            <option class="dropdown-item" value="angebote">Angebote</option>
-                            <option class="dropdown-item" value="gesuche">Gesuche</option>
-                        </select>
-                    </div>
+<!--                    <div class="form-group input button">-->
+<!--                        <select class="form-control input dropdown" id="class" name="class">-->
+<!--                            <option class="dropdown-item" value="angebote">Angebote</option>-->
+<!--                            <option class="dropdown-item" value="gesuche">Gesuche</option>-->
+<!--                        </select>-->
+<!--                    </div>-->
                     <b-button class="input button" variant="info" v-on:click="routeToArticleView()">Finden</b-button>
                 </div>
             </div>
