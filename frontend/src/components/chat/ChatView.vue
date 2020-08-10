@@ -6,9 +6,13 @@
             <b-row>
                 <b-col class="person-area">
                     <b-list-group align="left">
-                        <b-list-group-item>
-                            <b-avatar button @click="openChat()" variant="secondary" text="M" class="align-baseline"></b-avatar>
-                            Max Mustermann
+                        <b-list-group-item class="d-flex align-items-center"
+                        v-for="user in this.users"
+                        :user = user>
+                            <b-avatar class="mr-3" button @click="openChat(user)" variant="secondary"
+                                      :text= user.charAt(0)></b-avatar>
+                            <span class="mr-auto">{{user}}</span>
+                            <b-badge class="badge">5</b-badge>
                         </b-list-group-item>
                     </b-list-group>
                 </b-col>
@@ -16,8 +20,8 @@
                 <b-col class="chat-area" cols="10">
                     <basic-vue-chat class="basic-vue-chat"
                         :new-message="message"
-                        :title="'Max Mustermann'"
-                    :initialAuthorId = 0>
+                        :title=this.user
+                        :initialAuthorId = 0>
                     </basic-vue-chat>
                 </b-col>
             </b-row>
@@ -39,8 +43,12 @@
 
     export default class ChatView extends Vue {
 
-        openChat() {
-        
+        users = ["Max", "Anna", "Lisa"];
+        user: String = this.users[0];
+
+
+        openChat(user: String) {
+            this.user = user;
         }
 
     }
@@ -48,4 +56,10 @@
 </script>
 
 <style scoped>
+
+    .badge{
+        background: #d0f2e1;
+        color: #484848;
+    }
+
 </style>

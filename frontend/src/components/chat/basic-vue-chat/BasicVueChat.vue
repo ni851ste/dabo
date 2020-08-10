@@ -132,8 +132,6 @@ export default {
 </script>
 
 <style lang="scss">
-  $primary: #d0f2e1;
-  $secondary: #d0f2e1;
   $header-color: #484848;
   @import "../../../assets/scss/main.scss";
 </style>
