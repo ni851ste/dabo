@@ -2,7 +2,6 @@ package model.article;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.inject.Inject;
-import model.user.UserManagement;
 import org.javatuples.Octet;
 import org.javatuples.Septet;
 import org.json.JSONArray;
@@ -18,12 +17,10 @@ import static play.mvc.Results.badRequest;
 import static play.mvc.Results.ok;
 
 
-
 public class ArticleHttpAdapter
 {
     @Inject
     ArticleManagement articleManagement = new ArticleManagement();
-    UserManagement userManagement = new UserManagement();
 
     public Result createArticle(Request request)
     {
@@ -48,9 +45,11 @@ public class ArticleHttpAdapter
 //        System.out.println(sessionCook);
 //        System.out.println(checkForUser);
 //        if(checkForUser.isEmpty()){
+
 //            return badRequest("No user found to store article");
 //        }
 
+        String id = json.get("sessionCookie").asText();
         List<String> categoryList = new ArrayList<>();
         // TODO for demo purposes disabled categories
                 json.get("categories").forEach(node -> categoryList.add(node.asText()));
@@ -60,13 +59,12 @@ public class ArticleHttpAdapter
                         json.get("description").asText(),
                         json.get("insertionDate").asText(),
                         json.get("location").asText(),
-                        json.get("sessionCookie").asText(),
+                        id,
                         json.get("images").asText(),
                         categoryList);
 //        System.out.println(toBeCreatedArticle.toString());
 
         Optional<Octet<Integer, String, String, String, String,String,String, List<String>>> createdArticle = articleManagement.createArticle(toBeCreatedArticle);
-
 
         // creating an article can not fail to date
         // this will always go into the else case
@@ -86,6 +84,7 @@ public class ArticleHttpAdapter
                     .put("images",createdArticle.get().getValue6());
 
             createdArticle.get().getValue7().forEach(category -> returnJson.append("categories", category));
+
 
             return ok(returnJson.toString())
                     .as("application/json");

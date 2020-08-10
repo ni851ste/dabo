@@ -12,15 +12,23 @@ GET         /assets/*file                     controllers.Assets.versioned(path=
 #User
 +nocsrf
 POST        /user/create                      model.user.UserHttpAdapter.createUser(request: Request)
++nocsrf
 GET         /user/find/:id                    model.user.UserHttpAdapter.getUserById(id: String)
++nocsrf
 POST        /user/delete/:id                  model.user.UserHttpAdapter.deleteUser(id: String)
++nocsrf
 POST        /user/update/:id                  model.user.UserHttpAdapter.updateUser(id: String, request: Request)
 
 #Article
++nocsrf
 POST        /users/articles/create            model.article.ArticleHttpAdapter.createArticle(request: Request)
++nocsrf
 POST        /users/articles/delete/:id        model.article.ArticleHttpAdapter.deleteArticle(id: Int)
++nocsrf
 POST        /users/articles/update/:id        model.article.ArticleHttpAdapter.updateArticle(id: Int, request: Request)
 GET         /users/articles/:id               model.article.ArticleHttpAdapter.getArticle(id: Int)
++nocsrf
 POST        /users/articles                   model.article.ArticleHttpAdapter.filterArticles(request: Request)
 
++nocsrf
 POST        /user/login                       model.user.UserHttpAdapter.loginUser(request: Request)
