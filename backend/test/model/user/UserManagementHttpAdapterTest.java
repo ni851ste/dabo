@@ -105,6 +105,7 @@ public class UserManagementHttpAdapterTest extends WithApplication
 
         Result result = route(app, requestshow);
 
+        System.out.println(result.status());
         assertEquals(OK, result.status());
 
         String resultJsonToString = Helpers.contentAsString(result, mat);

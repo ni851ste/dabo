@@ -42,14 +42,14 @@ public class UserHttpAdapter
                 json.get("lastName").asText(),
                 json.get("lastNameVisible").asBoolean());
 
-        Integer rateing = 0;
+        Integer rating = 0;
 
         Optional<Decade<String, String, String, Triplet<String, String, Boolean>, Integer, String, List<Integer>, List<Integer>, List<Integer>, Map<String, String>>> createdUser =
                 userManagement.createUser(new Ennead(
                         json.get("email").asText(),
                         json.get("password").asText(),
                         nameList,
-                        rateing,
+                        rating,
                         json.get("picture").asText(),
                         lendList,
                         borrowList,

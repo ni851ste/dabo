@@ -13,5 +13,6 @@
   "plz": "78464",
   "country": "Germany",
   "city": "Konstanz",
-  "streetVisible": "true"
+  "streetVisible": "true",
+  "sessionCookie": "test-id2"
 }
