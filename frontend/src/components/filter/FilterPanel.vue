@@ -82,7 +82,7 @@
 
         searchString: string = "";
         location: string = "";
-        ratingValue: number = 1;
+        ratingValue: number = 0;
         selectedCategories: Category[] = [];
 
         constructor() {
@@ -137,6 +137,9 @@
                 type: "POST",
                 data: JSON.stringify({
                     categories: this.selectedCategories,
+                    location: this.location,
+                    rating: this.ratingValue,
+                    searchString: this.searchString,
                 }),
                 dataType: "json",
                 contentType: "application/json",
