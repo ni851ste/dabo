@@ -2,6 +2,7 @@
   <div class="input__field">
     <input
       :value="value"
+      autocomplete="off"
       type="text"
       name="message"
       aria-placeholder="Nachricht eingeben..."
