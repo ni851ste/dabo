@@ -36,22 +36,23 @@
 
             </div>
             <b-alert v-model="showAlert" class="alert" variant="danger" dismissible>Login fehlgeschlagen.</b-alert>
+            <b-alert v-model="this.showLoginFirstAlert" class="alert" variant="warning" dismissible>Sie müssen sich erst einloggen.</b-alert>
         </div>
     </div>
 </template>
 
 <script lang="ts">
     import NavigationBar from "../NavigationBar.vue";
-    import {Component, Vue} from 'vue-property-decorator';
-    import {Md5} from 'ts-md5/dist/md5';
+    import {Component, Prop, Vue} from 'vue-property-decorator';
     import LoginService from "@/components/services/LoginService";
-    import $ from "jquery"
 
     @Component({
         components: {NavigationBar}
     })
 
     export default class LoginPage extends Vue {
+        @Prop() private showLoginFirstAlert!: boolean;
+
         passwordVisible: boolean;
         validateInput: boolean;
         email: string;
@@ -76,11 +77,11 @@
                 return;
             }
             await this.loginService.login(this.email, this.password)
-                .then((result) => {
+                .then((result: any) => {
                     this.$cookies.set("sessionCookie", result.userHash);
                     this.$router.push({name: 'home', params: {showAlert: true}});
                 })
-                .catch(error => {
+                .catch((error: any) => {
                     console.log("error LoginPage", error)
                     this.showAlert = true;
                 });

@@ -153,12 +153,15 @@
     import $ from "jquery";
     import Article from "@/components/article/Article";
     import * as _ from "lodash"
+    import LoginService from "@/components/services/LoginService";
 
     @Component({
         components: {NavigationBar, BaseImageInput}
     })
 
     export default class ArticleCreationView extends Vue {
+        loginService: LoginService = LoginService.getInstance()
+
         articleName: string = "";
         articleDescription: string = "";
         selectedCategories: Category[] = [];
@@ -222,8 +225,7 @@
                     location: this.city,
                     insertionDate: insertionDate,
                     categories: this.selectedCategories,
-                    //TODO: UserIs of loggedIn User
-                    userId: 1662771985
+                    userId: this.loginService.loggedInUser.id
                 }),
                 dataType: "json",
 
@@ -233,7 +235,7 @@
                     this.$router.push({name: 'articlePage', params: {article: article, showAlert: true}});
                 },
                 error: error => {
-                    console.log("error ", error)
+                    console.log("error creating article ", error)
                 }
             });
         }

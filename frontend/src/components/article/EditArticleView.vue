@@ -1,9 +1,5 @@
 <template>
     <div>
-        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editArticleModal">
-            Artikel bearbeiten
-        </button>
-
         <div class="modal fade" id="editArticleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
              aria-hidden="true">
             <div class="modal-dialog modal-lg" role="document">
