@@ -23,3 +23,7 @@ GET         /users/articles/:id               model.article.ArticleHttpAdapter.g
 POST        /users/articles                   model.article.ArticleHttpAdapter.filterArticles(request: Request)
 
 POST        /user/login                       model.user.UserHttpAdapter.loginUser(request: Request)
+POST        /user/articles/images             model.article.ArticleWithImage.createArticleWithImage(request: Request)
+GET         /user/articles/article/images     model.article.ArticleWithImage.getArticleWithImage()
+GET         /user/articles/images             model.article.ArticleWithImage.getImage()
+POST        /user/articles/images             model.article.ArticleWithImage.createArticleWithImage(request: Request)
