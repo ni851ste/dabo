@@ -250,8 +250,6 @@ public class ArticleHttpAdapter
     {
         JsonNode body = request.body().asJson();
 
-        System.out.println("JSON");
-        System.out.println(body.toPrettyString());
 
         int articleId = body.get("articleId").asInt();
 

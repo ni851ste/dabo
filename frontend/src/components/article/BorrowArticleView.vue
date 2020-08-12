@@ -8,7 +8,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <p>Wie lange möchtest du den Artikel leihen?</p>
+                    <p>Bis wann möchtest du anfragen?</p>
                     <b-form-datepicker
                             id="toDatepicker" v-model="maxDate" :min="minDate" locale="de"
                             placeholder="bis...">
@@ -16,7 +16,7 @@
                     </b-form-datepicker>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal" v-on:click="borrowArticle">Ausleihen</button>
+                    <button type="button" class="btn btn-secondary request-article" data-dismiss="modal" v-on:click="borrowArticle">Anfragen</button>
                 </div>
             </div>
         </div>
@@ -64,5 +64,21 @@
 </script>
 
 <style scoped>
+    .request-article {
+        float: right;
+
+        color: #484848;
+        background: #d0f2e1;
+        border-color: #d0f2e1;
+        border-radius: 3px;
+    }
+
+    .request-article:hover {
+        color: #484848;
+        background-color: #abc7b8;
+        border-color: #abc7b8;
+        text-decoration: none;
+        border-radius: 3px;
+    }
 
 </style>

@@ -60,21 +60,37 @@
                             </b-col>
                         </b-row>
                         <b-row class="borrow-button-wrap">
-                            <div v-if="this.articleIsBorrowed" class="borrow-wrap">
-                                <div class="already-borrowed">
-                                    <div>
-                                        Artikel ist schon ausgeliehen!
+
+                            <!-- IF USER IS LOGGED IN -->
+                            <div v-if="loginService.isLoggedIn()" class="borrow-wrap">
+
+<!--                                Article already borrowed-->
+                                <div v-if="this.articleIsBorrowed" class="borrow-wrap">
+                                    <div class="already-borrowed">
+                                        <div>
+                                            Artikel ist schon ausgeliehen!
+                                        </div>
+                                    </div>
+                                </div>
+
+<!--                                Article not yet borrowed-->
+                                <div v-else class="borrow-wrap">
+                                    <button type="button" class="btn btn-primary borrow-button" data-toggle="modal" data-target="#borrowArticle">
+                                        Artikel anfragen
+                                    </button>
+                                    <div class="modal" tabindex="-1" role="dialog" id="borrowArticle">
+                                        <BorrowArticleView :article="this.article" current-user-id="test user Id"></BorrowArticleView>
                                     </div>
                                 </div>
                             </div>
+
+                            <!-- User is not logged in -->
                             <div v-else class="borrow-wrap">
-                                <button type="button" class="btn btn-primary borrow-button" data-toggle="modal" data-target="#borrowArticle">
-                                    Artikel ausleihen
+                                <button type="button" class="btn btn-primary borrow-button" v-on:click="notLoggedInBorrowButtonClick" >
+                                    Artikel anfragen
                                 </button>
-                                <div class="modal" tabindex="-1" role="dialog" id="borrowArticle">
-                                    <BorrowArticleView :article="this.article" current-user-id="test user Id"></BorrowArticleView>
-                                </div>
                             </div>
+
 
 
                         </b-row>
@@ -185,7 +201,6 @@
             return user;
         }
 
-
         getAvgStars(ratings: Rating[]): number {
             if(!ratings || ratings.length === 0) {
                 return 0
@@ -208,7 +223,6 @@
         getDate(): string {
             return moment(this.article.insertionDate).format(" DD MMMM YYYY")
         }
-
 
         userAuthorizedForChanges(): boolean {
             console.log("checking loggedinuser")
@@ -235,26 +249,6 @@
             return this.article.image;
         }
 
-        borrowArticle(): boolean {
-            let articles: Article[] = [];
-            $.ajax({
-                url: "http://localhost:9000/user/borrow",
-                type: "POST",
-                data: JSON.stringify({
-                    articleId: this.article,
-                    borrower: ""
-                }),
-                dataType: "json",
-                contentType: "application/json",
-                success: result => {
-                    console.log(result)
-                },
-                error: error => {
-                    console.log("error ", error)
-                }
-            });
-            return true
-        }
 
         checkIfArticleIsBorrowed(): void {
             $.ajax({
@@ -270,6 +264,10 @@
                     this.articleIsBorrowed = (result.borrowed == 'true');
                 }
             });
+        }
+
+        notLoggedInBorrowButtonClick(): void {
+            this.$router.push({name: 'login', params: {showLoginFirstAlert: true}});
         }
 
     }
@@ -380,9 +378,19 @@
         color: #d0f2e1;
         text-decoration: none;
     }
-    
+
     .slides {
         height: 25vw;
+    }
+
+    .editArticleButton {
+        float: right;
+        margin-top: 40px;
+
+        color: #484848;
+        background: #d0f2e1;
+        border-color: #d0f2e1;
+        border-radius: 3px;
     }
 
     .borrow-button {
@@ -393,7 +401,7 @@
         width: 100%;
     }
 
-    .editArticleButton:hover .borrow-button:hover {
+    .editArticleButton:hover, .borrow-button:hover {
         color: #484848;
         background-color: #abc7b8;
         border-color: #abc7b8;
@@ -420,7 +428,10 @@
         justify-content: center;
         margin-top: 20px;
         padding: 5px;
-        border: 3px solid red;
+        border: 3px solid #d0f2e1;
         border-radius: 3px;
+        background-color: #484848;
+        color: white;
+        padding: 0.5em;
     }
 </style>
