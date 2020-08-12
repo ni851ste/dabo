@@ -9,10 +9,11 @@
                         <h3 class="h3" v-html="userName"></h3>
                     </div>
                     <div class="profile-actions cover-img" data-overlay="0.3">
-                        <button class="btn btn-actions">
-                            <span>Freund hinzufügen</span>
+                        <button v-if="this.userAuthorizedForChanges()" type="button" class="btn btn-primary tmpButton" data-toggle="modal"
+                                data-target="#editArticleModal">
+                            Account bearbeiten
                         </button>
-                        <button class="btn btn-actions">
+                        <button v-else class="btn btn-actions">
                             <span>Nachricht</span>
                         </button>
                     </div>
@@ -20,7 +21,7 @@
                         <ul class="nav">
                             <li><strong>DE</strong>{{this.user.address.city}}</li>
                             <li><strong>{{this.insertedArticlesCount}}</strong>Artikel</li>
-                            <li><strong>13</strong>Freunde</li>
+                            <li><strong>{{this.ratingsCount}}</strong>Bewertungen</li>
                         </ul>
                     </div>
                 </div>
@@ -32,7 +33,7 @@
                     <li class="nav-item">
                         <a class="nav-link ratings" data-toggle="tab" href="#ratings">Bewertungen</a>
                     </li>
-                    <li class="nav-item">
+                    <li v-if="this.userAuthorizedForChanges()" class="nav-item">
                         <a class="nav-link requests" data-toggle="tab" href="#requests">Anfragen</a>
                     </li>
                 </ul>
@@ -40,12 +41,13 @@
                     <div class="tab-pane container active" id="articles">
                         <div class="borderbox">
                             <div class="panel-heading">
-                                <h3 class="panel-title">Max' Artikel</h3>
+                                <h3 v-if="this.userAuthorizedForChanges()" class="panel-title">Meine Artikel</h3>
+                                <h3 v-else class="panel-title">{{this.user.firstName}}s Artikel</h3>
                             </div>
                             <ArticleCard
                                     :key="article.name"
                                     id="cards"
-                                    v-for="article in lists()"
+                                    v-for="article in this.getUsersInsertedArticles()"
                                     :article="article"
                                     :per-page="perPage"
                                     :current-page="currentPage"
@@ -57,11 +59,12 @@
                     <div class="tab-pane container fade" id="ratings">
                         <div class="borderbox">
                             <div class="panel-heading">
-                                <h3 class="panel-title">Max' Bewertungen</h3>
+                                <h3 v-if="this.userAuthorizedForChanges()" class="panel-title">Meine Bewertungen</h3>
+                                <h3 v-else class="panel-title">{{this.user.firstName}}s Bewertungen</h3>
                             </div>
                             <RatingCard
                                     id="rating-cards"
-                                    v-for="rating in ratingLists()"
+                                    v-for="rating in getUserRatings()"
                                     :rating="rating"
                                     :per-page="perPage"
                                     :current-page="currentPage"
@@ -69,7 +72,7 @@
                             ></RatingCard>
                         </div>
                     </div>
-                    <div class="tab-pane container fade" id="requests">
+                    <div v-if="this.userAuthorizedForChanges()"  class="tab-pane container fade" id="requests">
                         <div class="borderbox">
                             <div class="panel-heading">
                                 <h3 class="panel-title">Meine Anfragen</h3>
@@ -88,7 +91,13 @@
                 </div>
             </div>
         </div>
+        <div class="modal fade" id="editArticleModal" tabindex="-1" role="dialog"
+             aria-labelledby="exampleModalLabel"
+             aria-hidden="true">
+            <EditMyAccountView :user="this.user" ></EditMyAccountView>
+        </div>
     </div>
+
 </template>
 
 <script lang="ts">
@@ -100,9 +109,11 @@
     import RatingCard from "@/components/rating/RatingCard.vue";
     import User from "@/components/user/User";
     import RequestCard from "@/components/user/RequestCard.vue";
+    import EditMyAccountView from "@/components/user/EditMyAccountView.vue";
+    import LoginService from "@/components/services/LoginService";
 
     @Component({
-        components: {RequestCard, RatingCard, NavigationBar, ArticleCard}
+        components: {EditMyAccountView, RequestCard, RatingCard, NavigationBar, ArticleCard}
     })
     export default class UserProfileView extends Vue {
         @Prop() private user!: User;
@@ -111,6 +122,13 @@
         currentPage = 1;
         ratings: Rating[] = [];
         requests: Article[] = [];
+        loginService: LoginService = LoginService.getInstance();
+
+        mounted(): void {
+            if(this.loginService.loggedInUser) {
+                this.loginService.getUserWithId(this.loginService.loggedInUser.id)
+            }
+        }
 
         get userName(): string {
             if (!this.user)
@@ -130,28 +148,74 @@
             return this.user.insertedArticlesId.length;
         };
 
-        lists(): Article[] {
-            const items = this.articles;
-            return items.slice(
+        get ratingsCount(): number {
+            if (!this.user || !this.user.ratings)
+                return 0;
+
+            return this.user.ratings.length;
+        };
+
+        getUsersInsertedArticles(): Article[] {
+            if(!this.user.insertedArticlesId || this.user.insertedArticlesId.length === 0) {
+                return [];
+            }
+
+            let insertedArticles: Article[] = [];
+
+            for(let articleId of this.user.insertedArticlesId) {
+                let article: Article | null = this.fetchArticle(articleId);
+                if(article) {
+                    insertedArticles.push(article)
+                }
+            }
+
+            return insertedArticles.slice(
                 (this.currentPage - 1) * this.perPage,
                 this.currentPage * this.perPage
             )
         }
 
-        ratingLists(): Rating[] {
-            const items = this.ratings;
-            return items.slice(
+        fetchArticle(articleId: number): Article | null {
+            let article: Article | null = null
+             $.ajax({
+                url: "http://localhost:9000/users/articles/" + articleId,
+                type: "GET",
+                success: result => {
+                    console.log("success fetching article", result);
+                    article = result
+                },
+                error: error => {
+                    console.log("error ", error)
+                }
+            });
+            return article
+        }
+
+        getUserRatings(): Rating[] {
+            if(!this.user.ratings || this.user.ratings.length === 0) {
+                return []
+            }
+            let ratings: Rating[] = this.user.ratings;
+            return ratings.slice(
                 (this.currentPage - 1) * this.perPage,
                 this.currentPage * this.perPage
             )
         }
 
+        //TODO: load from user, not implemented in user yet
         requestLists(): Article[] {
             const items = this.requests;
             return items.slice(
                 (this.currentPage - 1) * this.perPage,
                 this.currentPage * this.perPage
             )
+        }
+
+        userAuthorizedForChanges(): boolean {
+            if(!this.user || !this.loginService.loggedInUser) {
+                return false;
+            }
+            return this.user.id === this.loginService.loggedInUser.id
         }
 
     }
@@ -320,6 +384,29 @@
         line-height: 24px;
         font-weight: 700;
         text-transform: uppercase;
+    }
+
+    .btn {
+        border: #484848;
+    }
+
+    .btn:hover {
+        color: #484848;
+        background-color: #abc7b8;
+        border: none;
+        text-decoration: none;
+    }
+
+    .btn:focus {
+        background-color: #484848;
+        color: white;
+        border: none;
+    }
+
+    .btn:active {
+        background-color: #484848 !important;
+        color: white !important;
+        border: none;
     }
 
 </style>

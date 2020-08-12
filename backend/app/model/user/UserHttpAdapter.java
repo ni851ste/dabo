@@ -221,11 +221,23 @@ public class UserHttpAdapter
         String userEmail = json.get("email").asText();
         String userPassword = json.get("password").asText();
 
-        Optional<String> userId =   userManagement.loginUser(userEmail, userPassword);
+        Optional<Decade<String, String, String, Triplet<String, String, Boolean>, Integer, String, List<Integer>, List<Integer>, List<Integer>, Map<String, String>>> user =
+                userManagement.loginUser(userEmail, userPassword);
 
-        if (userId.isPresent()) {
+        if (user.isPresent()) {
             JSONObject returnJson = new JSONObject()
-                    .put("userHash", userId.get());
+                    .put("id", user.get().getValue0())
+                    .put("email", user.get().getValue1())
+                    .put("password", user.get().getValue2())
+                    .put("firstName", user.get().getValue3().getValue0())
+                    .put("lastName", user.get().getValue3().getValue1())
+                    .put("lastNameVisible", user.get().getValue3().getValue2())
+                    .put("ratings", user.get().getValue4())
+                    .put("picture", user.get().getValue5())
+                    .put("insertedArticlesId", user.get().getValue6())
+                    .put("borrowedArticlesId", user.get().getValue7())
+                    .put("pinnedArticledId", user.get().getValue8())
+                    .put("address", user.get().getValue9());
 
             return ok(returnJson.toString())
                     .as("application/json");

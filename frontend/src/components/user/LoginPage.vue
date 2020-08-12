@@ -35,27 +35,31 @@
                 </p>
 
             </div>
+            <b-alert v-model="showAlert" class="alert" variant="danger" dismissible>Login fehlgeschlagen.</b-alert>
+            <b-alert v-model="this.showLoginFirstAlert" class="alert" variant="warning" dismissible>Sie müssen sich erst einloggen.</b-alert>
         </div>
     </div>
 </template>
 
 <script lang="ts">
     import NavigationBar from "../NavigationBar.vue";
-    import {Component, Vue} from 'vue-property-decorator';
-    import {Md5} from 'ts-md5/dist/md5';
+    import {Component, Prop, Vue} from 'vue-property-decorator';
     import LoginService from "@/components/services/LoginService";
-    import $ from "jquery"
 
     @Component({
         components: {NavigationBar}
     })
 
     export default class LoginPage extends Vue {
+        @Prop() private showLoginFirstAlert!: boolean;
+
         passwordVisible: boolean;
         validateInput: boolean;
         email: string;
         password: string;
         loginService: LoginService;
+
+        showAlert: boolean;
 
         constructor() {
             super();
@@ -64,30 +68,23 @@
             this.email = "";
             this.password = "";
             this.loginService = LoginService.getInstance();
+            this.showAlert = false;
         }
 
-        //TODO: handle success/ error
-        login(): void {
+        async login(): Promise<void> {
             this.validateInput = true;
             if (!this.email || !this.password) {
                 return;
             }
-            if(this.$cookies.get("sessionCookie") == "result")
-                console.log("its equal")
-
-
-            // this.loginService.login(this.email, this.password)
-            //     .then((result) => {
-            //         this.$cookies.set("sessionCookie", result, {
-            //             secure: true
-            //         });
-            //
-            //         this.$router.push('/home')
-            //     });
-                    this.$cookies.set("sessionCookie", "result", {
-                        // secure: true
-                    });
-            console.log(this.$cookies.get("sessionCookie"))
+            await this.loginService.login(this.email, this.password)
+                .then((result: any) => {
+                    this.$cookies.set("sessionCookie", result.userHash);
+                    this.$router.push({name: 'home', params: {showAlert: true}});
+                })
+                .catch((error: any) => {
+                    console.log("error LoginPage", error)
+                    this.showAlert = true;
+                });
         }
     }
 </script>
@@ -143,6 +140,10 @@
         .form-group {
             width: 50vw;
         }
+
+        .alert {
+            width: 50vw!important;
+        }
     }
 
 
@@ -171,5 +172,12 @@
     small {
         color: red;
         float: left
+    }
+
+    .alert {
+        margin: auto;
+        text-align: left;
+        width: 30vw;
+        margin-top: 20px;
     }
 </style>

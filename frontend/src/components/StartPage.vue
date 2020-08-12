@@ -1,6 +1,7 @@
 <template>
     <div class="body">
         <NavigationBar msg="hallo"></NavigationBar>
+        <b-alert v-model="showAlert" class="alert" variant="success" dismissible>Login erfolgreich.</b-alert>
         <b-img class="logo" :src="require(`@/assets/logoImgs/dabo_logo_quadrat.png`)" fluid
                alt="Responsive image"></b-img>
         <div class="transparent-box">
@@ -13,12 +14,12 @@
                     <div class="input">
                         <b-form-input placeholder="Stadt"></b-form-input>
                     </div>
-                    <div class="form-group input button">
-                        <select class="form-control input dropdown" id="class" name="class">
-                            <option class="dropdown-item" value="angebote">Angebote</option>
-                            <option class="dropdown-item" value="gesuche">Gesuche</option>
-                        </select>
-                    </div>
+<!--                    <div class="form-group input button">-->
+<!--                        <select class="form-control input dropdown" id="class" name="class">-->
+<!--                            <option class="dropdown-item" value="angebote">Angebote</option>-->
+<!--                            <option class="dropdown-item" value="gesuche">Gesuche</option>-->
+<!--                        </select>-->
+<!--                    </div>-->
                     <b-button class="input button" variant="info" v-on:click="routeToArticleView()">Finden</b-button>
                 </div>
             </div>
@@ -46,6 +47,10 @@
         components: {NavigationBar}
     })
     export default class StartPage extends Vue {
+        @Prop({
+            required: false,
+            default: false
+        }) private showAlert!: boolean;
 
         routeToArticleView() {
             this.clearLocalStorageFilters();
@@ -182,6 +187,13 @@
         background-color: #abc7b8;
         border-color: #abc7b8;
         text-decoration: none;
+    }
+
+    .alert {
+        width: 70vw;
+        text-align: left;
+        margin: auto;
+        margin-top: 2vw;
     }
 
 </style>

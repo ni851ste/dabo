@@ -1,14 +1,19 @@
 import $ from "jquery"
 import {Md5} from 'ts-md5/dist/md5';
 import VueCookies from "vue-cookies-ts"
+import User from "@/components/user/User";
 
 export default class LoginService {
     static loginService: LoginService;
 
-    loginId: string;
+    loggedInUser: User | null;
 
     constructor() {
-        this.loginId = ""
+        this.loggedInUser = null;
+        this.isLoggedIn = this.isLoggedIn.bind(this)
+        this.register = this.register.bind(this)
+        this.login = this.login.bind(this)
+        this.logout = this.logout.bind(this)
     }
 
     static getInstance(): LoginService {
@@ -21,18 +26,19 @@ export default class LoginService {
     async login(email: string, password: string) {
 
         let hashedPassword = Md5.hashStr(password);
-
-        $.ajax({
+        console.log("LoginService logging in ...")
+        return $.ajax({
             url: "http://localhost:9000/user/login",
             type: "POST",
-            data: {
+            data: JSON.stringify({
                 email: email,
                 password: hashedPassword
-            },
-            dataType: "application/json",
+            }),
+            dataType: "json",
+            contentType: "application/json",
             success: result => {
-                console.log("success ", result);
-                this.loginId = result.id;
+                console.log("success login", result);
+                this.getUserWithId(result.userHash)
             },
             error: error => {
                 console.log("error ", error)
@@ -75,11 +81,35 @@ export default class LoginService {
             dataType: "json",
             contentType: "application/json",
             success: (result) => {
-                this.loginId = result.id;
+                console.log("registered ", result)
+                this.loggedInUser = result
             },
             error: error => {
                 console.log("error ", error)
             }
         });
+    }
+
+    getUserWithId = async (id: string): Promise<void> => {
+        $.ajax({
+            url: "http://localhost:9000/user/find/" + id,
+            type: "GET",
+            success: result => {
+                this.loggedInUser = result;
+                console.log("got user by id ", result);
+            },
+            error: error => {
+                console.log("error getUserWithId", error)
+            }
+        })
+    };
+
+    async logout() {
+        this.loggedInUser = null
+        console.log("logged out successfully")
+    }
+
+    isLoggedIn(): boolean {
+        return this.loggedInUser != null;
     }
 }

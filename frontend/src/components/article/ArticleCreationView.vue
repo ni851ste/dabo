@@ -153,12 +153,15 @@
     import $ from "jquery";
     import Article from "@/components/article/Article";
     import * as _ from "lodash"
+    import LoginService from "@/components/services/LoginService";
 
     @Component({
         components: {NavigationBar, BaseImageInput}
     })
 
     export default class ArticleCreationView extends Vue {
+        loginService: LoginService = LoginService.getInstance()
+
         articleName: string = "";
         articleDescription: string = "";
         selectedCategories: Category[] = [];
@@ -232,23 +235,12 @@
                 dataType: "json",
 
                 success: result => {
-                    console.log("success CreateArticle", result);
                     article = result
-                    console.log("article created is", article);
-                    // article = new Article(result.name,
-                    //     result.description,
-                    //     result.image,
-                    //     result.location,
-                    //     new Date(result.insertionDate),
-                    //     result.category,
-                    //     []
-                    //     );
                     //code is working, IntelliJ is just fooling around
                     this.$router.push({name: 'articlePage', params: {article: article, showAlert: true}});
-
                 },
                 error: error => {
-                    console.log("error ", error)
+                    console.log("error creating article ", error)
                 }
             });
         }

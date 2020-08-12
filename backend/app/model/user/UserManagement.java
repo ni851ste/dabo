@@ -70,7 +70,8 @@ public class UserManagement
         return database.getUserByID(userId);
     }
 
-    public Optional<String> loginUser(String email, String password) {
+    public Optional<Decade<String, String, String, Triplet<String, String, Boolean>, Integer, String, List<Integer>, List<Integer>, List<Integer>, Map<String, String>>>
+    loginUser(String email, String password) {
         return database.findRequestedUserHash(email, password);
     }
 
