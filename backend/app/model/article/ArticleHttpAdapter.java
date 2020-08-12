@@ -13,8 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static play.mvc.Results.badRequest;
-import static play.mvc.Results.ok;
+import static play.mvc.Results.*;
 
 
 public class ArticleHttpAdapter
@@ -26,28 +25,18 @@ public class ArticleHttpAdapter
     {
         JsonNode json = request.body().asJson();
 
-//        String IDToCompare = json.get("sessionCookie").asText();
-//        if(!IDToCompare.equals(json.get("userId").asText())){
-//            return badRequest("not correct User");
-//        }
 
         if(!json.has("sessionCookie")){
-            return badRequest("not the correct User");
+            return unauthorized();
         }
         String sessionCook = json.get("sessionCookie").asText();
         if (sessionCook == null || sessionCook.equals("")){
-            return badRequest("No user added");
+//            return badRequest("No user added");
+            return unauthorized();
         }
 
         //TODO check how to compare if there is a User with the UserID equal to the sessionCookie
-//        Optional<Decade<String, String, String, Triplet<String,String,Boolean>, Integer, String, List<Integer>, List<Integer>,List<Integer>, Map<String,String>>>
-//                checkForUser = userManagement.getUserByID(sessionCook);
-//        System.out.println(sessionCook);
-//        System.out.println(checkForUser);
-//        if(checkForUser.isEmpty()){
 
-//            return badRequest("No user found to store article");
-//        }
 
         String id = json.get("sessionCookie").asText();
         List<String> categoryList = new ArrayList<>();
@@ -125,7 +114,7 @@ public class ArticleHttpAdapter
         JsonNode json = request.body().asJson();
 
         if(json.get("sessionCookie").isNull()){
-            return badRequest("No article found to update");
+            return unauthorized();
         }
         Optional<Octet<Integer, String, String, String, String,String,String, List<String>>> article = articleManagement.getArticleById(id);
         if(article.isEmpty()){

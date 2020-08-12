@@ -92,7 +92,7 @@ public class UserHttpAdapter
         Optional<Decade<String, String, String, Triplet<String, String, Boolean>, Integer, String, List<Integer>, List<Integer>,List<Integer>, Map<String,String>>>
                 foundUser = userManagement.getUserByID(id);
 
-        System.out.println(foundUser);
+//        System.out.println(foundUser);
         if (foundUser.isEmpty())
         {
             return badRequest();
