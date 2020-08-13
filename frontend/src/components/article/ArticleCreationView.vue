@@ -199,18 +199,8 @@
             let article: Article;
 
             this.validateInput = true;
-            let name: string = this.articleName
-            let description: string = this.articleDescription
             let images : File[] = this.images;
-            let fromDate: Date = this.minDate;
-            let toDate: Date = this.maxDate;
-            let country: string = this.country;
-            let plz: string = this.plz;
-            let city: string = this.city;
             let insertionDate: Date = new Date();
-
-            console.log("images in creation: " + images);
-            console.log("images in creation: " + this.images);
 
             if (!this.articleName || _.isEmpty(this.selectedCategories) || !this.country || !this.plz || !this.city) {
                 return;

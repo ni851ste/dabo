@@ -60,7 +60,7 @@
                 url: "http://localhost:9000/users/articles",
                 type: "POST",
                 data: JSON.stringify({
-                    categories: ["Werkzeug"]
+                    categories: [],
                 }),
                 dataType: "json",
                 contentType: "application/json",
@@ -76,20 +76,8 @@
                             //TODO: waiting for backend support
                             [],
                             result[i].userId
-                        ))
-                        // articles[i] = new Article(result[i].name,
-                        //     result[i].description,
-                        //     result[i].images,
-                        //     result[i].location,
-                        //     new Date(result[i].insertionDate),
-                        //     result[i].category,
-                        //     //TODO: waiting for backend support
-                        //     [],
-                        //     result[i].userId
-                        // );
-                        // console.log("for in StartPage " + articles[i]);
+                        ));
                     }
-                    console.log("articles in StartPage " + articles);
                     //code is working, IntelliJ is just fooling around
                     this.$router.push({name: 'articles', params: {articles: articles}});
 
