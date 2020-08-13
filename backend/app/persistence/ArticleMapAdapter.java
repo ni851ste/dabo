@@ -97,25 +97,42 @@ public class ArticleMapAdapter implements IArticlePersistenceAdapter
     {
         List<Octet<Integer, String, String, String, String, String, List<String>, List<String>>> foundArticles = new ArrayList<>();
 
-//        List<Map.Entry<Integer, Quintet<String, String, String, String, List<String>>>> filteredArticles =
-                savedArticles.entrySet()
-                        .stream()
-                        // Name Filter
-                        //.filter(entry -> entry.getValue().getValue0().toLowerCase().contains(nameFilter.toLowerCase()))
-                        // Location Filter
-                        //.filter(entry -> entry.getValue().getValue3().contains(locationFilter))
-                        // Filter for categories
-                        .filter(entry -> CollectionUtils.containsAny(entry.getValue().getValue6(), categoryFilter))
-                        .forEach(article -> {
-                            foundArticles.add(new Octet<>(article.getKey(),
-                                    article.getValue().getValue0(),
-                                    article.getValue().getValue1(),
-                                    article.getValue().getValue2(),
-                                    article.getValue().getValue3(),
-                                    article.getValue().getValue4(),
-                                    article.getValue().getValue5(),
-                                    article.getValue().getValue6()));
-                        });
+        if (categoryFilter.size() == 0)
+        {
+            savedArticles.entrySet()
+                    .forEach(article -> {
+                        foundArticles.add(new Octet<>(article.getKey(),
+                                article.getValue().getValue0(),
+                                article.getValue().getValue1(),
+                                article.getValue().getValue2(),
+                                article.getValue().getValue3(),
+                                article.getValue().getValue4(),
+                                article.getValue().getValue5(),
+                                article.getValue().getValue6()));
+                    });
+        }
+        else
+        {
+            //        List<Map.Entry<Integer, Quintet<String, String, String, String, List<String>>>> filteredArticles =
+            savedArticles.entrySet()
+                    .stream()
+                    // Name Filter
+                    //.filter(entry -> entry.getValue().getValue0().toLowerCase().contains(nameFilter.toLowerCase()))
+                    // Location Filter
+                    //.filter(entry -> entry.getValue().getValue3().contains(locationFilter))
+                    // Filter for categories
+                    .filter(entry -> CollectionUtils.containsAny(entry.getValue().getValue6(), categoryFilter))
+                    .forEach(article -> {
+                        foundArticles.add(new Octet<>(article.getKey(),
+                                article.getValue().getValue0(),
+                                article.getValue().getValue1(),
+                                article.getValue().getValue2(),
+                                article.getValue().getValue3(),
+                                article.getValue().getValue4(),
+                                article.getValue().getValue5(),
+                                article.getValue().getValue6()));
+                    });
+        }
 
         return foundArticles;
     }
