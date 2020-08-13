@@ -9,7 +9,7 @@
             <div class="modal-dialog modal-lg" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="createRatingLabel">Bewertung erstellen für [article/user]</h5>
+                        <h5 class="modal-title" id="createRatingLabel">Bewertung erstellen für {{ratingObject}}</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -31,7 +31,7 @@
                         </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Abbrechen</button>
-                        <button type="button" class="btn btn-primary" href="#" v-on:click="saveChanges()">
+                        <button type="button" class="btn btn-primary" href="#" v-on:click="createRating()">
                             Speichern
                         </button>
                     </div>
@@ -45,18 +45,44 @@
 <script lang="ts">
     import {Vue} from 'vue-property-decorator';
     import Rating from "@/components/rating/Rating";
+    import $ from "jquery";
 
-    export default class RatingCreationView extends Vue{
+    export default class RatingCreationView extends Vue {
 
-        amountOfStars:number = 0;
+        ratingObject: String = "RatingObject";
+        amountOfStars: number = 0;
         ratingComment: string = "";
         author: number = 0;
 
-//        saveChanges(): void {
-//            let amountOfStars = this.amountOfStars
-//            let comment = this.ratingComment
-//            let author = this.author
-//        }
+        createRating(): void {
+            let rating: Rating;
+
+            let date: Date = new Date();
+/*            $.ajax({
+                url: "http://localhost:9000/rating/create",
+                type: "POST",
+                contentType: "application/json",
+                data: JSON.stringify({
+                    amountOfStars: this.amountOfStars,
+                    text: this.ratingComment,
+                    author: this.author,
+                    date: date
+                }),
+                dataType: "json",
+
+                success: result => {
+                    console.log("success CreateRating", result);
+                    rating = result
+                    console.log("rating created is", rating);
+                    this.$router.push({name: '??', params: {rating: rating, showAlert: true}});
+                },
+                error: error => {
+                    console.log("error ", error)
+                }
+            });
+            
+ */
+        }
     }
 
 </script>
