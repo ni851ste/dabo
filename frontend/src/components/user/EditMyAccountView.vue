@@ -32,7 +32,7 @@
                                 </b-form-checkbox>
                             </div>
                             <div class="image">
-                                <BaseImageInput class="imgProfile" id="profileImg" @input="item => image = item"/>
+                                <BaseImageInput class="imgProfile" id="profileImg" @input="item => this.image64String = item"/>
                                 <small class="form-text text-muted center">Profilbild hochladen</small>
                             </div>
                         </div>
@@ -78,7 +78,9 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" v-on:click="updateUser" data-dismiss="modal">Save changes</button>
+                <button type="button" class="btn btn-primary" v-on:click="updateUser" data-dismiss="modal">Save
+                    changes
+                </button>
             </div>
         </div>
     </div>
@@ -110,7 +112,7 @@
         city: string;
         country: string;
         streetVisible: boolean;
-        image: File | null;
+        image64String: string;
 
         constructor() {
             super();
@@ -123,7 +125,7 @@
             this.street = this.user.address.street;
             this.country = this.user.address.country;
             this.streetVisible = this.user.address.streetVisible;
-            this.image = null;
+            this.image64String = "";
         }
 
         updateUser(): void {
@@ -134,10 +136,6 @@
             if (!this.firstName || !this.lastName || !this.country || !this.plz ||
                 !this.street || !this.city) {
                 return;
-            }
-            let imageBase64 : string = this.user.picture;
-            if (this.image !== null) {
-                imageBase64 = this.getBase64(this.image);
             }
 
             $.ajax({
@@ -150,7 +148,7 @@
                     lastName: this.lastName,
                     lastNameVisible: this.lastNameVisible,
                     ratings: this.user.ratings,
-                    picture: imageBase64,
+                    picture: this.image64String,
                     insertedArticlesId: this.user.insertedArticlesId,
                     borrowedArticlesId: this.user.borrowedArticlesId,
                     pinnedArticledId: this.user.pinnedArticledId,
@@ -173,20 +171,6 @@
                     console.log("error ", error)
                 }
             });
-        }
-
-        getBase64(file : File): string {
-            let reader = new FileReader();
-            reader.readAsDataURL(file);
-            reader.onload = function () {
-                console.log(reader.result);
-                return reader.result;
-            };
-            reader.onerror = function (error) {
-                console.log('Error: ', error);
-                return "";
-            };
-            return "";
         }
     }
 

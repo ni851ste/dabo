@@ -20,9 +20,6 @@
                                 @sliding-start="onSlideStart"
                                 @sliding-end="onSlideEnd"
                         >
-<!--                            <b-carousel-slide :img-src="require(`@/assets/categoryImgs/sonstiges.jpg`)"></b-carousel-slide>-->
-<!--                            <b-carousel-slide :img-src="require(`@/assets/categoryImgs/sonstiges.jpg`)"></b-carousel-slide>-->
-
                             <div v-for="image in this.getArticleImages()">
                                 <b-carousel-slide :img-src="image" class="slides"></b-carousel-slide>
                             </div>
