@@ -242,9 +242,8 @@ public class ArticleHttpAdapter
         }
         System.out.println("Could not be borrowed");
         return badRequest("Could not be borrowed");
-
-
     }
+
 
     public Result isArticleBorrowed(Request request)
     {
@@ -260,8 +259,54 @@ public class ArticleHttpAdapter
         }
 
         return ok(new JSONObject().put("borrowed", "false").toString());
-
-
     }
+
+
+    public Result requestArticle(Request request)
+    {
+        JsonNode body = request.body().asJson();
+
+
+        String borrowingUser = body.get("borrower").asText();
+        int articleId = body.get("articleId").asInt();
+        String untilDate = body.get("until").asText();
+
+//        System.out.println("Date: " + untilDate);
+
+        // TODO hardcoded Date, and yes i know its deprecated :D
+        Date tmpDate = new Date(2020, Calendar.NOVEMBER, 11);
+
+        if (articleManagement.requestArticle(articleId, borrowingUser, tmpDate))
+        {
+            return ok("Requested");
+        }
+
+        return badRequest("Could not be requested");
+    }
+
+
+    public Result listArticleRequests(int articleId)
+    {
+        List<Triplet<Integer, String, Date>> requests = articleManagement.listRequestsForArticle(articleId);
+
+
+        JSONArray foundRequests = new JSONArray();
+
+        for (Triplet<Integer, String, Date> request : requests)
+        {
+            JSONObject foundRequest = new JSONObject();
+
+            foundRequest.put("articleId", request.getValue0())
+                    .put("borrower", request.getValue1())
+                    .put("until", request.getValue2());
+
+            foundRequests.put(foundRequest);
+        }
+
+        return ok(foundRequests.toString())
+                .as("application/json");
+    }
+
+
 
 }

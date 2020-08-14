@@ -2,6 +2,7 @@ package model.article;
 
 import org.javatuples.Octet;
 import org.javatuples.Septet;
+import org.javatuples.Triplet;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
@@ -12,6 +13,7 @@ import persistence.ArticleMapAdapter;
 import persistence.IArticlePersistenceAdapter;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,7 +22,7 @@ import static org.junit.Assert.assertEquals;
 public class ArticleManagementTest {
 
     @Mock
-    IArticlePersistenceAdapter database = new ArticleMapAdapter();
+    ArticleMapAdapter database = new ArticleMapAdapter();
 
     @InjectMocks
     ArticleManagement articleManagement = new ArticleManagement();
@@ -133,5 +135,25 @@ public class ArticleManagementTest {
         List<Octet<Integer, String, String, String, String, String,String, List<String>>> result = articleManagement.filterArticles(al);
 
         assertEquals(shouldBefilterList,result);
+    }
+
+
+    @Test
+    public void thereShouldBeNoRequestedArticles()
+    {
+        List<Triplet<Integer, String, Date>> requestedArticles = articleManagement.listRequestsForArticle(5);
+        assertEquals(requestedArticles.size(), 0);
+    }
+
+
+    @Test
+    public void thereShouldBeSomeRequestedArticles()
+    {
+        articleManagement.requestArticle(5, "requesting User", new Date());
+        articleManagement.requestArticle(5, "other requesting user", new Date());
+
+
+        List<Triplet<Integer, String, Date>> requestedArticles = articleManagement.listRequestsForArticle(5);
+        assertEquals(requestedArticles.size(), 2);
     }
 }

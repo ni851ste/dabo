@@ -2,6 +2,7 @@ package persistence;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.javatuples.Octet;
+import org.javatuples.Pair;
 import org.javatuples.Septet;
 import org.javatuples.Triplet;
 
@@ -10,7 +11,8 @@ import java.util.*;
 public class ArticleMapAdapter implements IArticlePersistenceAdapter
 {
     Map<Integer, Septet<String, String, String, String, String, List<String>, List<String>>> savedArticles;
-    Map<Integer, String> borrowedArticles;
+    Map<Integer, Pair<String, Date>> borrowedArticles;
+    Map<Integer, List<Pair<String, Date>>> requestedArticles;
 
     public ArticleMapAdapter()
     {
@@ -102,7 +104,8 @@ public class ArticleMapAdapter implements IArticlePersistenceAdapter
         if (categoryFilter.size() == 0)
         {
             savedArticles.entrySet()
-                    .forEach(article -> {
+                    .forEach(article ->
+                    {
                         foundArticles.add(new Octet<>(article.getKey(),
                                 article.getValue().getValue0(),
                                 article.getValue().getValue1(),
@@ -112,8 +115,7 @@ public class ArticleMapAdapter implements IArticlePersistenceAdapter
                                 article.getValue().getValue5(),
                                 article.getValue().getValue6()));
                     });
-        }
-        else
+        } else
         {
             //        List<Map.Entry<Integer, Quintet<String, String, String, String, List<String>>>> filteredArticles =
             savedArticles.entrySet()
@@ -124,7 +126,8 @@ public class ArticleMapAdapter implements IArticlePersistenceAdapter
                     //.filter(entry -> entry.getValue().getValue3().contains(locationFilter))
                     // Filter for categories
                     .filter(entry -> CollectionUtils.containsAny(entry.getValue().getValue6(), categoryFilter))
-                    .forEach(article -> {
+                    .forEach(article ->
+                    {
                         foundArticles.add(new Octet<>(article.getKey(),
                                 article.getValue().getValue0(),
                                 article.getValue().getValue1(),
@@ -141,7 +144,7 @@ public class ArticleMapAdapter implements IArticlePersistenceAdapter
 
     public boolean borrowArticle(int articleId, String borrowingUser, Date untilDate)
     {
-        borrowedArticles.put(articleId, borrowingUser);
+        borrowedArticles.put(articleId, new Pair<>(borrowingUser, untilDate));
         return true;
     }
 
@@ -149,4 +152,40 @@ public class ArticleMapAdapter implements IArticlePersistenceAdapter
     {
         return !borrowedArticles.containsKey(articleId);
     }
+
+
+    public boolean requestArticle(int articleId, String borrowingUser, Date untilDate)
+    {
+        if (!requestedArticles.containsKey(articleId))
+        {
+            // create new List for new request list
+            requestedArticles.put(articleId, new ArrayList<>());
+        }
+        // add entry to list of requests
+        requestedArticles.get(articleId).add(new Pair<>(borrowingUser, untilDate));
+        return true;
+    }
+
+
+    public List<Triplet<Integer, String, Date>> listRequestsForArticle(int articleId)
+    {
+        if (requestedArticles.containsKey(articleId))
+        {
+            ArrayList<Triplet<Integer, String, Date>> requests = new ArrayList<>();
+
+            requestedArticles.entrySet().stream()
+                    .filter(entry -> entry.getKey() == articleId)
+                    .findFirst()
+                    .get()
+                    .getValue()
+                    .forEach(listElement -> requests.add(new Triplet<>(articleId, listElement.getValue0(), listElement.getValue1())));
+
+            return requests;
+        } else
+        {
+            return new ArrayList<>();
+        }
+
+    }
+
 }

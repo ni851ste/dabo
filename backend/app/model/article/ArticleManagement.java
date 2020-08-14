@@ -15,7 +15,7 @@ public class ArticleManagement
 {
     int globalIdCounter = 0;
     //TODO make this dependent on app.config var
-    IArticlePersistenceAdapter database = new ArticleMapAdapter();
+    ArticleMapAdapter database = new ArticleMapAdapter();
 
 
     // TODO add image, notAvailableDate, rating, category
@@ -134,9 +134,22 @@ public class ArticleManagement
         return database.borrowArticle(articleId, borrowingUser, untilDate);
     }
 
+
     public boolean isArticleBorrowed(int articleId)
     {
         return !database.articleCanBeBorrowed(articleId);
+    }
+
+
+    public boolean requestArticle(int articleId, String borrowingUser, Date untilDate)
+    {
+        return database.requestArticle(articleId, borrowingUser, untilDate);
+    }
+
+
+    List<Triplet<Integer, String, Date>> listRequestsForArticle(int articleId)
+    {
+        return database.listRequestsForArticle(articleId);
     }
 
 

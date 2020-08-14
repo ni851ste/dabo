@@ -26,3 +26,6 @@ POST        /user/login                       model.user.UserHttpAdapter.loginUs
 
 POST        /user/borrow                      model.article.ArticleHttpAdapter.borrowArticle(request: Request)
 POST        /user/is-borrowed                 model.article.ArticleHttpAdapter.isArticleBorrowed(request: Request)
+
+POST        /user/request-borrow              model.article.ArticleHttpAdapter.requestArticle(request: Request)
+POST        /user/borrow-requests/:id         model.article.ArticleHttpAdapter.listArticleRequests(id: Int)
