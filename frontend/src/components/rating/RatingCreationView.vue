@@ -46,10 +46,11 @@
     import {Vue} from 'vue-property-decorator';
     import Rating from "@/components/rating/Rating";
     import $ from "jquery";
+    import Article from "@/components/article/Article";
 
     export default class RatingCreationView extends Vue {
 
-        ratingObject: String = "RatingObject";
+        articleId: number = 0;
         amountOfStars: number = 0;
         ratingComment: string = "";
         author: number = 0;
@@ -58,13 +59,14 @@
             let rating: Rating;
 
             let date: Date = new Date();
-/*            $.ajax({
-                url: "http://localhost:9000/rating/create",
+            $.ajax({
+                url: "http://localhost:9000/article/rating/create",
                 type: "POST",
                 contentType: "application/json",
                 data: JSON.stringify({
+                    articleId: this.articleId,
                     amountOfStars: this.amountOfStars,
-                    text: this.ratingComment,
+                    comment: this.ratingComment,
                     author: this.author,
                     date: date
                 }),
@@ -74,14 +76,12 @@
                     console.log("success CreateRating", result);
                     rating = result
                     console.log("rating created is", rating);
-                    this.$router.push({name: '??', params: {rating: rating, showAlert: true}});
+                    this.$router.push({name: 'ratingPage', params: {rating: rating, showAlert: true}});
                 },
                 error: error => {
                     console.log("error ", error)
                 }
             });
-            
- */
         }
     }
 

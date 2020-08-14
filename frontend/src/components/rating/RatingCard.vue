@@ -4,7 +4,7 @@
                 <img class="card-img-top userImg" src="../../assets/userImgs/avatar.png" alt="Card image cap">
                 <h5 class="card-title" v-html="rating.author"></h5>
                 <b-form-rating class="star-rating" variant="warning" readonly v-model="rating.amountOfStars"></b-form-rating>
-                <p class="card-text comment" v-html="rating.text"></p>
+                <p class="card-text comment" v-html="rating.comment"></p>
                 <p class="card-text rating-date">
                     {{getDate()}}
                 </p>
@@ -25,11 +25,6 @@
         getDate(): string {
             return moment(this.rating.date).format("dddd, DD. MMMM YYYY HH:mm")
         }
-
-        getUser() {
-
-        }
-
     }
 </script>
 
