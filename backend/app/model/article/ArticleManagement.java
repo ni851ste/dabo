@@ -1,8 +1,10 @@
 package model.article;
 
 import org.javatuples.Octet;
+import org.javatuples.Quintet;
 import org.javatuples.Septet;
-import org.javatuples.Triplet;
+
+import org.javatuples.Sextet;
 import persistence.ArticleMapAdapter;
 import persistence.IArticlePersistenceAdapter;
 
@@ -13,6 +15,7 @@ import java.util.Optional;
 public class ArticleManagement
 {
     int globalIdCounter = 0;
+    int globalRatingCounter = 0;
     //TODO make this dependent on app.config var
     IArticlePersistenceAdapter database = new ArticleMapAdapter();
 
@@ -126,6 +129,22 @@ public class ArticleManagement
                 categoryFilter);
     }
 
+    public Optional<Sextet<Integer, String, String, String, String, String>> ratingArticle(Quintet<String, String, String, String, String> ratingQuintet)
+    {
+        int localIdCounter = this.globalRatingCounter;
+
+        // TODO do some basic checks of data is correct
+
+        Optional<Sextet<Integer, String, String, String, String, String>> returnValue = database.ratingArticle(localIdCounter, ratingQuintet);
+
+        this.globalRatingCounter += 1;
+        // Return value is never Optional.empty since this method does not fail to date
+        return returnValue;
+    }
+
+    public List<Sextet<Integer,String,String,String,String,String>> filterRatings(String articleId){
+        return database.filterRatings(articleId);
+    }
 
 }
 

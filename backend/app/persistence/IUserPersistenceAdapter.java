@@ -1,8 +1,6 @@
 package persistence;
 
-import org.javatuples.Decade;
-import org.javatuples.Ennead;
-import org.javatuples.Triplet;
+import org.javatuples.*;
 
 import java.util.List;
 import java.util.Map;
@@ -25,5 +23,11 @@ public interface IUserPersistenceAdapter {
     deleteUser(String id);
 
     Optional<Decade<String, String, String, Triplet<String, String, Boolean>, Integer, String, List<Integer>, List<Integer>, List<Integer>, Map<String, String>>> findRequestedUserHash(String email, String password);
+
+    Optional<Sextet<Integer,String,String,String,String,String>> ratingUser(int id,
+                                                                               Quintet<String,String,String,String,String> ratingQuintet);
+
+    List<Sextet<Integer,String,String,String,String,String>> filterRatings(String userId);
+
 
 }

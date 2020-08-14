@@ -1,23 +1,23 @@
 package persistence;
 
-import org.javatuples.Decade;
-import org.javatuples.Ennead;
-import org.javatuples.Triplet;
+import org.javatuples.*;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 public class UserMapAdapter implements IUserPersistenceAdapter
 {
     Map<String, Ennead<String, String, Triplet<String, String, Boolean>, Integer, String, List<Integer>, List<Integer>, List<Integer>, Map<String, String>>>
             savedUsers;
 
+    Map<Integer,Quintet<String,String,String,String,String>> ratings;
+
+
 
     public UserMapAdapter()
     {
         this.savedUsers = new HashMap<>();
+        this.ratings = new HashMap<>();
+
     }
 
     @Override
@@ -102,6 +102,38 @@ public class UserMapAdapter implements IUserPersistenceAdapter
             return Optional.of(fullUserWithId);
         }
         return Optional.empty();
+    }
+
+
+    @Override
+    public Optional<Sextet<Integer,String,String,String,String,String>> ratingUser(int id,
+                                                                                      Quintet<String,String,String,String,String> ratingQuintet)
+    {
+        ratings.put(id ,ratingQuintet);
+
+        return Optional.of(new Sextet<>(id, ratingQuintet.getValue0(), ratingQuintet.getValue1(), ratingQuintet.getValue2(), ratingQuintet.getValue3(), ratingQuintet.getValue4()));
+    }
+    @Override
+    public List<Sextet<Integer,String,String,String,String,String>> filterRatings(String userId){
+
+        List<Sextet<Integer,String,String,String,String,String>> ratingUserList = new ArrayList<>();
+
+
+        ratings.entrySet()
+                .stream()
+                .filter(entry -> entry.getValue().getValue0().contains(userId))
+                .forEach(article -> {
+                    ratingUserList.add(new Sextet<>(article.getKey(),
+                            article.getValue().getValue0(),
+                            article.getValue().getValue1(),
+                            article.getValue().getValue2(),
+                            article.getValue().getValue3(),
+                            article.getValue().getValue4()));
+
+                });
+
+
+        return ratingUserList;
     }
 
 }

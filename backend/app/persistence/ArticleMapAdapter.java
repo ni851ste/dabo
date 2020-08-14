@@ -2,18 +2,25 @@ package persistence;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.javatuples.Octet;
+import org.javatuples.Quintet;
 import org.javatuples.Septet;
-import org.javatuples.Triplet;
+
+import org.javatuples.Sextet;
+
 
 import java.util.*;
 
 public class ArticleMapAdapter implements IArticlePersistenceAdapter
 {
+
     Map<Integer, Septet<String, String, String, String, String, List<String>, List<String>>> savedArticles;
+    Map<Integer,Quintet<String,String,String,String,String>> ratings;
+
 
     public ArticleMapAdapter()
     {
         this.savedArticles = new HashMap<>();
+        this.ratings = new HashMap<>();
     }
 
     @Override
@@ -135,5 +142,35 @@ public class ArticleMapAdapter implements IArticlePersistenceAdapter
         }
 
         return foundArticles;
+    }
+
+    public Optional<Sextet<Integer,String,String,String,String,String>> ratingArticle(int id,
+                                                                                       Quintet<String,String,String,String,String> ratingQuintet)
+    {
+       ratings.put(id ,ratingQuintet);
+
+        return Optional.of(new Sextet<>(id, ratingQuintet.getValue0(), ratingQuintet.getValue1(), ratingQuintet.getValue2(), ratingQuintet.getValue3(), ratingQuintet.getValue4()));
+    }
+
+    public List<Sextet<Integer,String,String,String,String,String>> filterRatings(String articleId){
+
+        List<Sextet<Integer,String,String,String,String,String>> ratingArticleList = new ArrayList<>();
+
+
+        ratings.entrySet()
+                .stream()
+                .filter(entry -> entry.getValue().getValue0().contains(articleId))
+                .forEach(article -> {
+                    ratingArticleList.add(new Sextet<>(article.getKey(),
+                            article.getValue().getValue0(),
+                            article.getValue().getValue1(),
+                            article.getValue().getValue2(),
+                            article.getValue().getValue3(),
+                            article.getValue().getValue4()));
+
+                });
+
+
+        return ratingArticleList;
     }
 }
