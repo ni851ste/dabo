@@ -133,7 +133,6 @@ public class ArticleMapAdapter implements IArticlePersistenceAdapter
                                 article.getValue().getValue6()));
                     });
         }
-
         return foundArticles;
     }
 
