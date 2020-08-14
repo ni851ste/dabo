@@ -2,9 +2,8 @@ package model.user;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.inject.Inject;
-import org.javatuples.Decade;
-import org.javatuples.Ennead;
-import org.javatuples.Triplet;
+import org.javatuples.*;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import play.mvc.Http.Request;
 import play.mvc.Result;
@@ -241,6 +240,65 @@ public class UserHttpAdapter
         }
         return badRequest("No user found with given credentials");
 
+    }
+
+    public Result ratingUser(Request request){
+
+
+        JsonNode json = request.body().asJson();
+
+        Quintet<String,String,String,String,String> ratingQuintet = new Quintet<>(
+                json.get("userId").asText(),
+                json.get("amountOfStars").asText(),
+                json.get("text").asText(),
+                json.get("author").asText(),
+                json.get("date").asText())
+                ;
+        Optional<Sextet<Integer,String,String,String,String,String>> rating = userManagement.ratingUser(ratingQuintet);
+
+        if (rating.isEmpty())
+        {
+            return badRequest();
+        }
+        else
+        {
+            JSONObject ratingJson = new JSONObject();
+            ratingJson.put("id" , rating.get().getValue0())
+                    .put("userId",rating.get().getValue1())
+                    .put("amountOfStars",rating.get().getValue2())
+                    .put("text",rating.get().getValue3())
+                    .put("author",rating.get().getValue4())
+                    .put("date",rating.get().getValue5())
+            ;
+
+
+            return ok(ratingJson.toString())
+                    .as("application/json");
+        }
+    }
+
+    public Result filterRatings(String userId){
+
+        List<Sextet<Integer,String,String,String,String,String>> ratingUserList = userManagement.filterRatings(userId);
+
+        JSONArray ratingArrayJson = new JSONArray();
+
+        for (Sextet<Integer,String,String,String,String,String> rating : ratingUserList ) {
+            JSONObject ratingJson = new JSONObject();
+            ratingJson.put("id" , rating.getValue0())
+                    .put("userId",rating.getValue1())
+                    .put("amountOfStars",rating.getValue2())
+                    .put("text",rating.getValue3())
+                    .put("author",rating.getValue4())
+                    .put("date",rating.getValue5())
+            ;
+
+            ratingArrayJson.put(ratingJson);
+
+        }
+
+        return ok(ratingArrayJson.toString())
+                .as("application/json");
     }
 
 }

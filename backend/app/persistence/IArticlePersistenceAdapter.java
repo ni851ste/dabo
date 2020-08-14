@@ -1,9 +1,9 @@
 package persistence;
 
 import org.javatuples.Octet;
+import org.javatuples.Quintet;
 import org.javatuples.Septet;
-import org.javatuples.Triplet;
-
+import org.javatuples.Sextet;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,5 +22,10 @@ public interface IArticlePersistenceAdapter
     List<Octet<Integer, String, String, String, String, String, List<String>, List<String>>> filterArticles(
 //            String nameFilter, String locationFilter,
                                                                           List<String> categoryFilter);
+
+    Optional<Sextet<Integer,String,String,String,String,String>> ratingArticle(int id,
+                                                                                      Quintet<String,String,String,String,String> ratingQuintet);
+
+    List<Sextet<Integer,String,String,String,String,String>> filterRatings(String articleId);
 
 }

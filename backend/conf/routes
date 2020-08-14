@@ -22,4 +22,12 @@ POST        /users/articles/update/:id        model.article.ArticleHttpAdapter.u
 GET         /users/articles/:id               model.article.ArticleHttpAdapter.getArticle(id: Int)
 POST        /users/articles                   model.article.ArticleHttpAdapter.filterArticles(request: Request)
 
+
 POST        /user/login                       model.user.UserHttpAdapter.loginUser(request: Request)
+
+POST        /article/rating/create            model.article.ArticleHttpAdapter.ratingArticle(request: Request)
+GET        /article/rating/:id                model.article.ArticleHttpAdapter.filterRatings(id: String)
+
+POST        /user/rating/create               model.user.UserHttpAdapter.ratingUser(request: Request)
+GET        /user/rating/:id                   model.user.UserHttpAdapter.filterRatings(id: String)
+
