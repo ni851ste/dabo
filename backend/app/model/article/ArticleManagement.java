@@ -1,10 +1,9 @@
 package model.article;
 
 import org.javatuples.Octet;
+import org.javatuples.Quartet;
 import org.javatuples.Septet;
-import org.javatuples.Triplet;
 import persistence.ArticleMapAdapter;
-import persistence.IArticlePersistenceAdapter;
 
 import java.util.Date;
 import java.util.List;
@@ -13,12 +12,11 @@ import java.util.Optional;
 
 public class ArticleManagement
 {
-    int globalIdCounter = 0;
-    //TODO make this dependent on app.config var
+    int articleIdCounter = 0;
+    int requestIdCounter = 0;
+
     ArticleMapAdapter database = new ArticleMapAdapter();
 
-
-    // TODO add image, notAvailableDate, rating, category
 
     /**
      * @param data The data of the article that is requested to be created
@@ -36,17 +34,14 @@ public class ArticleManagement
      * quintet[4]: City - Location
      * quintet[5]: Category List
      */
-    // TODO can this method fail?
     public Optional<Octet<Integer, String, String, String, String, String, List<String>, List<String>>>
     createArticle(Septet<String, String, String, String, String, List<String>, List<String>> data)
     {
-        int localIdCounter = this.globalIdCounter;
-
-        // TODO do some basic checks of data is correct
+        int localIdCounter = this.articleIdCounter;
 
         Optional<Octet<Integer, String, String, String, String, String, List<String>, List<String>>> returnValue = database.createArticle(localIdCounter, data);
 
-        this.globalIdCounter += 1;
+        this.articleIdCounter += 1;
         // Return value is never Optional.empty since this method does not fail to date
         return returnValue;
     }
@@ -127,11 +122,11 @@ public class ArticleManagement
                 categoryFilter);
     }
 
-    public boolean borrowArticle(int articleId, String borrowingUser, Date untilDate)
+    public boolean acceptBorrowRequest(int requestId, int articleId)
     {
         if (!database.articleCanBeBorrowed(articleId)) return false;
 
-        return database.borrowArticle(articleId, borrowingUser, untilDate);
+        return database.acceptBorrowRequest(requestId, articleId);
     }
 
 
@@ -143,11 +138,13 @@ public class ArticleManagement
 
     public boolean requestArticle(int articleId, String borrowingUser, Date untilDate)
     {
-        return database.requestArticle(articleId, borrowingUser, untilDate);
+        boolean successful = database.requestArticle(requestIdCounter, articleId, borrowingUser, untilDate);
+        requestIdCounter++;
+        return successful;
     }
 
 
-    List<Triplet<Integer, String, Date>> listRequestsForArticle(int articleId)
+    List<Quartet<Integer, Integer, String, Date>> listRequestsForArticle(int articleId)
     {
         return database.listRequestsForArticle(articleId);
     }

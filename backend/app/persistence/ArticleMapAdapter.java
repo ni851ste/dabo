@@ -1,10 +1,7 @@
 package persistence;
 
 import org.apache.commons.collections4.CollectionUtils;
-import org.javatuples.Octet;
-import org.javatuples.Pair;
-import org.javatuples.Septet;
-import org.javatuples.Triplet;
+import org.javatuples.*;
 
 import java.util.*;
 
@@ -12,12 +9,13 @@ public class ArticleMapAdapter implements IArticlePersistenceAdapter
 {
     Map<Integer, Septet<String, String, String, String, String, List<String>, List<String>>> savedArticles;
     Map<Integer, Pair<String, Date>> borrowedArticles;
-    Map<Integer, List<Pair<String, Date>>> requestedArticles;
+    Map<Integer, List<Triplet<Integer, String, Date>>> requestedArticles;
 
     public ArticleMapAdapter()
     {
         this.savedArticles = new HashMap<>();
         this.borrowedArticles = new HashMap<>();
+        this.requestedArticles = new HashMap<>();
     }
 
     @Override
@@ -142,11 +140,28 @@ public class ArticleMapAdapter implements IArticlePersistenceAdapter
         return foundArticles;
     }
 
-    public boolean borrowArticle(int articleId, String borrowingUser, Date untilDate)
+    public boolean acceptBorrowRequest(int requestId, int articleId)
     {
-        borrowedArticles.put(articleId, new Pair<>(borrowingUser, untilDate));
-        return true;
+        if (!requestedArticles.containsKey(articleId))
+        {
+            return false;
+        }
+
+        List<Triplet<Integer, String, Date>> articleBorrowRequests = requestedArticles.get(articleId);
+
+        Optional<Triplet<Integer, String, Date>> toBeAcceptedBorrowRequest = articleBorrowRequests.stream()
+                .filter(borrowRequest -> borrowRequest.getValue0() == requestId)
+                .findFirst();
+
+        if (toBeAcceptedBorrowRequest.isPresent())
+        {
+            borrowedArticles.put(articleId, new Pair<>(toBeAcceptedBorrowRequest.get().getValue1(), toBeAcceptedBorrowRequest.get().getValue2()));
+            requestedArticles.remove(articleId);
+            return true;
+        }
+        return false;
     }
+
 
     public boolean articleCanBeBorrowed(int articleId)
     {
@@ -154,31 +169,32 @@ public class ArticleMapAdapter implements IArticlePersistenceAdapter
     }
 
 
-    public boolean requestArticle(int articleId, String borrowingUser, Date untilDate)
+    public boolean requestArticle(int requestId, int articleId, String borrowingUser, Date untilDate)
     {
+        System.out.println("Borrow Request received.");
         if (!requestedArticles.containsKey(articleId))
         {
             // create new List for new request list
             requestedArticles.put(articleId, new ArrayList<>());
         }
         // add entry to list of requests
-        requestedArticles.get(articleId).add(new Pair<>(borrowingUser, untilDate));
+        requestedArticles.get(articleId).add(new Triplet<>(requestId, borrowingUser, untilDate));
         return true;
     }
 
 
-    public List<Triplet<Integer, String, Date>> listRequestsForArticle(int articleId)
+    public List<Quartet<Integer, Integer, String, Date>> listRequestsForArticle(int articleId)
     {
         if (requestedArticles.containsKey(articleId))
         {
-            ArrayList<Triplet<Integer, String, Date>> requests = new ArrayList<>();
+            ArrayList<Quartet<Integer, Integer, String, Date>> requests = new ArrayList<>();
 
             requestedArticles.entrySet().stream()
                     .filter(entry -> entry.getKey() == articleId)
                     .findFirst()
                     .get()
                     .getValue()
-                    .forEach(listElement -> requests.add(new Triplet<>(articleId, listElement.getValue0(), listElement.getValue1())));
+                    .forEach(listElement -> requests.add(new Quartet<>(listElement.getValue0(), articleId, listElement.getValue1(), listElement.getValue2())));
 
             return requests;
         } else

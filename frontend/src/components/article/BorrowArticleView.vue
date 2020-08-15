@@ -16,7 +16,7 @@
                     </b-form-datepicker>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary request-article" data-dismiss="modal" v-on:click="borrowArticle">Anfragen</button>
+                    <button type="button" class="btn btn-secondary request-article" data-dismiss="modal" v-on:click="borrowArticle">Artikel anfragen</button>
                 </div>
             </div>
         </div>
@@ -26,6 +26,7 @@
     import Article from "@/components/article/Article";
     import {Component, Prop, Vue} from 'vue-property-decorator';
     import $ from "jquery";
+    import LoginService from "@/components/services/LoginService";
 
     @Component
     export default class BorrowArticleView extends Vue {
@@ -34,17 +35,17 @@
         minDate: Date = new Date();
         maxDate: any = null;
 
+        loginService: LoginService = LoginService.getInstance();
+
 
 
         borrowArticle(): boolean {
             $.ajax({
-                url: "http://localhost:9000/user/borrow",
+                url: "http://localhost:9000/user/request-borrow",
                 type: "POST",
                 data: JSON.stringify({
                     articleId: this.article.articleId,
-                    // TODO This is the std user hash from my postman, as placeholder
-                    // TODO for when I know how to get the user Id
-                    borrower: "-1743314910",
+                    borrower: this.loginService.loggedInUser?.id,
                     until: this.maxDate
                 }),
                 dataType: "json",

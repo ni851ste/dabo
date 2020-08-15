@@ -3,8 +3,8 @@ package model.article;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.inject.Inject;
 import org.javatuples.Octet;
+import org.javatuples.Quartet;
 import org.javatuples.Septet;
-import org.javatuples.Triplet;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import play.mvc.Http.Request;
@@ -221,21 +221,18 @@ public class ArticleHttpAdapter
     }
 
 
-    public Result borrowArticle(Request request)
+    public Result acceptBorrowRequest(Request request)
     {
+        // TODO only if owner of article
+        // maybe do this, that it can only be accepted from frontend buttons
         JsonNode body = request.body().asJson();
 
-        System.out.println("Borrow Request received.");
 
-        String borrowingUser = body.get("borrower").asText();
         int articleId = body.get("articleId").asInt();
-        String untilDate = body.get("until").asText();
+        int requestId = body.get("requestId").asInt();
 
-        System.out.println("Date: " + untilDate);
 
-        Date tmpDate = new Date(2020, Calendar.NOVEMBER, 11);
-
-        if (articleManagement.borrowArticle(articleId, borrowingUser, tmpDate))
+        if (articleManagement.acceptBorrowRequest(requestId, articleId))
         {
             System.out.println("Borrowed");
             return ok("Borrowed");
@@ -287,18 +284,19 @@ public class ArticleHttpAdapter
 
     public Result listArticleRequests(int articleId)
     {
-        List<Triplet<Integer, String, Date>> requests = articleManagement.listRequestsForArticle(articleId);
+        List<Quartet<Integer, Integer, String, Date>> requests = articleManagement.listRequestsForArticle(articleId);
 
 
         JSONArray foundRequests = new JSONArray();
 
-        for (Triplet<Integer, String, Date> request : requests)
+        for (Quartet<Integer, Integer, String, Date> request : requests)
         {
             JSONObject foundRequest = new JSONObject();
 
-            foundRequest.put("articleId", request.getValue0())
-                    .put("borrower", request.getValue1())
-                    .put("until", request.getValue2());
+            foundRequest.put("requestId", request.getValue0())
+                    .put("articleId", request.getValue1())
+                    .put("borrower", request.getValue2())
+                    .put("until", request.getValue3());
 
             foundRequests.put(foundRequest);
         }
