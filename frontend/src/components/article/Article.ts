@@ -10,11 +10,12 @@ export default class Article {
     categories: Category[];
     ratings: Rating[];
     userId: number;
+    id: number;
     // Uuid
     // Verfügbarkeit
 
 
-    constructor(name: string, description: string, image: string[], location: string, insertionDate: Date, categories : Category[], ratings: Rating[], userId: number) {
+    constructor(name: string, description: string, image: string[], location: string, insertionDate: Date, categories : Category[], ratings: Rating[], userId: number, id: number) {
         this.description = description;
         this.name = name;
         this.image = image;
@@ -23,5 +24,6 @@ export default class Article {
         this.categories = categories;
         this.ratings = ratings;
         this.userId = userId;
+        this.id = id;
     }
 }

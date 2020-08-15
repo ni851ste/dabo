@@ -32,7 +32,7 @@
                             <button v-if="this.userAuthorizedForChanges()" type="button" class="btn editArticleButton" data-toggle="modal" data-target="#editArticleModal">
                                 Artikel bearbeiten
                             </button>
-                            <EditArticleView/>
+                            <EditArticleView :article="this.article"/>
                             <div class="categories">
                                 <div class="category" v-for="categoryLabel in this.article.categories">
                                     {{categoryLabel}}

@@ -75,7 +75,8 @@
                             result[i].categories,
                             //TODO: waiting for backend support
                             [],
-                            result[i].userId
+                            result[i].userId,
+                            result[i].id
                         ));
                     }
                     //code is working, IntelliJ is just fooling around
