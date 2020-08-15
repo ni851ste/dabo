@@ -48,7 +48,8 @@
                                     >
                                     </b-form-checkbox-group>
                                 </b-form-group>
-                                <invalid-small v-bind:style="{ display: this.selectedCategories.length !== 0 ? 'none' : validateInput ? '' : 'none' }">
+                                <invalid-small
+                                        v-bind:style="{ display: this.selectedCategories.length !== 0 ? 'none' : validateInput ? '' : 'none' }">
                                     Bitte Kategorie auswählen!
                                 </invalid-small>
                             </div>
@@ -169,33 +170,56 @@
 <script lang="ts">
     import BaseImageInput from "@/components/BaseImageInput.vue";
     import Category from "@/components/category/Category";
-    import {Component, Vue} from 'vue-property-decorator';
+    import {Component, Prop, Vue} from 'vue-property-decorator';
     import moment from "moment"
+    import Article from "@/components/article/Article";
+    import $ from "jquery";
 
     @Component({
         components: {BaseImageInput}
     })
 
     export default class EditArticleView extends Vue {
-        articleName: string = "";
-        articleDescription: string = "";
-        selectedCategories: Category[] = [];
+        @Prop() private article!: Article;
+
+        validateInput = false;
+
+        articleName: string;
+        articleDescription: string;
+        selectedCategories: Category[];
         image1 = '';
         image2 = '';
         image3 = '';
         image4 = '';
         image5 = '';
-        minDate: Date = new Date();
-        maxDate: any = null;
-        country: string = "";
-        plz: string = "";
-        city: string = "";
-        validateInput: boolean = false;
+        minDate: Date;
+        maxDate: any;
+        country: string;
+        plz: string;
+        city: string;
 
         /*Article Description Count*/
         maxCount: number = 200;
         hasError: boolean = false;
         charCount: number = 0
+
+        constructor() {
+            super();
+            this.articleName = this.article.name;
+            this.articleDescription = this.article.description;
+            this.selectedCategories = this.article.categories;
+            // this.image1 = '';
+            // this.image2 = '';
+            // this.image3 = '';
+            // this.image4 = '';
+            // this.image5 = '';
+            this.minDate = new Date();
+            this.maxDate = null;
+            this.country = this.article.location;
+            //TODO with new Jsons
+            this.plz = "";
+            this.city = "";
+        }
 
         countdown() {
             this.charCount = this.articleDescription.length;
@@ -216,43 +240,37 @@
 
         /*Save Changes*/
         saveChanges(): void {
-            this.validateInput = true;
-            let name: string = this.articleDescription
-            let description: string = this.articleDescription
-            let image: any = null;
-            let fromDate: Date = this.minDate;
-            let toDate: Date = this.maxDate;
-            let country: string = this.country;
-            let plz: string = this.plz;
-            let city: string = this.city;
-            let insertionDate: Date = new Date();
-            // let article: Article = new Article(name, description, image, location, insertionDate)
+            let article: Article | null = null;
 
-            /*
+            this.validateInput = true;
+
             $.ajax({
-                url: "http://localhost:9000/users/articles/create",
+                url: "http://localhost:9000/users/articles/update/" + this.article.id,
                 type: "POST",
-                data: JSON.stringify ({
-                    name: name,
-                    description: description,
-                    image: image,
-                    fromDate: fromDate,
-                    toDate: toDate,
-                    country: country,
-                    plz: plz,
-                    city: city,
-                    insertionDate: insertionDate
+                data: JSON.stringify({
+                    name: this.articleName,
+                    description: this.articleDescription,
+                    images: [""],
+                    insertionDate: this.article.insertionDate,
+                    location: this.country,
+                    id: this.article.id,
+                    categories: this.selectedCategories,
+                    userId: this.article.userId
                 }),
-                dataType: "application/json",
+                dataType: "json",
                 contentType: "application/json",
                 success: result => {
+                    article = result;
                     console.log("success ", result)
+                    $('#editArticleModal').modal('hide');
+                    this.$router.push({name: 'refresh'}).then(() => {
+                        this.$router.push({name: 'articlePage', params: {article: article}});
+                    });
                 },
                 error: error => {
                     console.log("error ", error)
                 }
             });
-             */
         }
     }
 </script>
