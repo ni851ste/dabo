@@ -25,10 +25,11 @@
                 if (files && files[0]) {
                     const reader = new FileReader
                     reader.onload = e => {
-                        this.imageData = e.target.result
+                        let image64 = e.target.result;
+                        this.imageData = image64
+                        this.$emit('input', image64)
                     }
                     reader.readAsDataURL(files[0])
-                    this.$emit('input', files[0])
                 }
             }
         }

@@ -4,17 +4,17 @@ import Rating from "@/components/rating/Rating";
 export default class Article {
     name: string;
     description: string;
-    image: any; //TODO CW: type ???
+    image: string[]; //TODO CW: type ???
     location: string;
     insertionDate: Date;
     categories: Category[];
-    ratings: Rating[] ;
+    ratings: Rating[];
     userId: number;
     // Uuid
     // Verfügbarkeit
 
 
-    constructor(name: string, description: string, image: any, location: string, insertionDate: Date, categories : Category[], ratings: Rating[], userId: number) {
+    constructor(name: string, description: string, image: string[], location: string, insertionDate: Date, categories : Category[], ratings: Rating[], userId: number) {
         this.description = description;
         this.name = name;
         this.image = image;

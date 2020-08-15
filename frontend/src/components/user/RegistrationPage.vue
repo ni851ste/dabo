@@ -25,7 +25,7 @@
                         </b-form-checkbox>
                     </div>
                     <div class="image">
-                        <BaseImageInput class="imgProfile" id="profileImg"/>
+                        <BaseImageInput class="imgProfile" id="profileImg" v-model="image"/>
                         <small class="form-text text-muted center">Profilbild hochladen</small>
                     </div>
                 </div>
@@ -125,6 +125,7 @@
         streetVisible: boolean;
         email: string;
         password: string;
+        image: File | undefined;
 
         loginService: LoginService;
 
@@ -156,6 +157,11 @@
                 return;
             }
 
+            let imageBase64: string = "";
+            if (typeof this.image !== "undefined") {
+                imageBase64 = this.getBase64(this.image);
+            }
+
             await this.loginService.register(
                 this.firstName,
                 this.lastName,
@@ -165,7 +171,7 @@
                 this.city,
                 this.street,
                 this.streetVisible,
-                null,
+                imageBase64,
                 this.email,
                 this.password
             )
@@ -185,6 +191,20 @@
             console.log("status ", status)
             return status < 200 || status > 300
 
+        }
+
+        getBase64(file : File): string {
+            let reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = function () {
+                console.log(reader.result);
+                return reader.result;
+            };
+            reader.onerror = function (error) {
+                console.log('Error: ', error);
+                return "";
+            };
+            return "";
         }
     }
 </script>

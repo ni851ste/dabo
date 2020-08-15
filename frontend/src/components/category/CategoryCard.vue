@@ -46,16 +46,16 @@
                     for (let i = 0; i < result.length; i++) {
                         articles[i] = new Article(result[i].name,
                             result[i].description,
-                            result[i].image,
+                            result[i].images,
                             result[i].location,
                             new Date(result[i].insertionDate),
                             result[i].categories,
                             //TODO: waiting for backend support
-                            result[i].ratings,
+                            // result[i].ratings,
+                            [],
                             result[i].userId
                         );
                     }
-
                     //code is working, IntelliJ is just fooling around
                     this.$router.push({name: 'articles', params: {articles: articles, category: this.category}});
 
