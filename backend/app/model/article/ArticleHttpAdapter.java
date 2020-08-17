@@ -229,6 +229,8 @@ public class ArticleHttpAdapter
 
         System.out.println("in rating Article");
 
+        System.out.println(request.body().asJson().toString());
+
         JsonNode json = request.body().asJson();
 
         Quintet<String,String,String,String,String> ratingQuintet = new Quintet<>(
