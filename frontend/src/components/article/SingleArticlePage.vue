@@ -56,6 +56,8 @@
                                 <p class="section"></p>
                                 Adresse:
                                 <p class="address" v-html="userAddress"></p>
+                                E-Mail:
+                                <p v-html="this.user.email"></p>
                             </b-col>
                         </b-row>
                     </b-col>
