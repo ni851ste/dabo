@@ -34,7 +34,8 @@
                         <!-- FOOTER -->
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Abbrechen</button>
-                            <button type="button" class="btn btn-primary btn-save" data-dismiss="modal" onclick="createRating()">Speichern</button>
+                            <button type="button" class="btn btn-primary btn-save" data-dismiss="modal" v-on:click="this.createRating()">
+                                Speichern</button>
                         </div>
 
                     </div>
@@ -55,6 +56,11 @@
     export default class RatingCreationView extends Vue {
         @Prop() private ratingObject!: Article | User;
 
+        constructor() {
+            super();
+            console.log(this.ratingObject)
+        }
+
         get ratingObjectName() {
             if (this.ratingObject instanceof Article) {
                 return this.ratingObject.name;
@@ -69,7 +75,7 @@
         ratingComment: String = "";
         authorId = this.loginService.loggedInUser?.id;
 
-        createRating() {
+        createRating(): void {
             let rating: Rating;
             let date: Date = new Date();
 
