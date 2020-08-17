@@ -47,27 +47,27 @@
                     <b-row>
                         <b-col>
                             <div class="imageUpload">
-                                <base-image-input v-model="image1"/>
+                                <base-image-input v-model="images[0]"/>
                             </div>
                         </b-col>
                         <b-col>
                             <div class="imageUpload">
-                                <base-image-input v-model="image2"/>
+                                <base-image-input v-model="images[1]"/>
                             </div>
                         </b-col>
                         <b-col>
                             <div class="imageUpload">
-                                <base-image-input v-model="image3"/>
+                                <base-image-input v-model="images[2]"/>
                             </div>
                         </b-col>
                         <b-col>
                             <div class="imageUpload">
-                                <base-image-input v-model="image4"/>
+                                <base-image-input v-model="images[3]"/>
                             </div>
                         </b-col>
                         <b-col>
                             <div class="imageUpload">
-                                <base-image-input v-model="image5"/>
+                                <base-image-input v-model="images[4]"/>
                             </div>
                         </b-col>
                     </b-row>
@@ -165,11 +165,7 @@
         articleName: string = "";
         articleDescription: string = "";
         selectedCategories: Category[] = [];
-        image1 = '';
-        image2 = '';
-        image3 = '';
-        image4 = '';
-        image5 = '';
+        images : File[] = [];
         minDate: Date = new Date();
         maxDate: any = null;
         country: string = "";
@@ -203,7 +199,6 @@
             let article: Article;
 
             this.validateInput = true;
-            let image: any = null;
             let insertionDate: Date = new Date();
 
             if (!this.articleName || _.isEmpty(this.selectedCategories) || !this.country || !this.plz || !this.city) {
@@ -222,12 +217,13 @@
                 data: JSON.stringify ({
                     name: this.articleName,
                     description: this.articleDescription,
-                    image: image,
+                    images: this.images,
                     fromDate: this.minDate,
                     toDate: this.maxDate,
                     country: this.country,
                     plz: this.plz,
                     location: this.city,
+
                     insertionDate: insertionDate,
                     categories: this.selectedCategories,
                     sessionCookie: cookie
@@ -244,6 +240,21 @@
                 }
             });
         }
+
+        getBase64(file : File): string {
+            let reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = function () {
+                console.log(reader.result);
+                return reader.result;
+            };
+            reader.onerror = function (error) {
+                console.log('Error: ', error);
+                return "";
+            };
+            return "";
+        }
+
     }
 </script>
 

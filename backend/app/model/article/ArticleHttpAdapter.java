@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.google.inject.Inject;
 import org.javatuples.Octet;
 import org.javatuples.Septet;
+import org.javatuples.Triplet;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import play.mvc.Http.Request;
@@ -32,33 +33,37 @@ public class ArticleHttpAdapter {
         JsonNode json = request.body().asJson();
 
 
-        if (!json.has("sessionCookie")) {
+        if (!json.has("userID")) {
             return unauthorized();
         }
-        String sessionCook = json.get("sessionCookie").asText();
+        String sessionCook = json.get("userID").asText();
         if (sessionCook == null || sessionCook.equals("")) {
 //            return badRequest("No user added");
             return unauthorized();
         }
 
-        //TODO check how to compare if there is a User with the UserID equal to the sessionCookie
+        //TODO check how to compare if there is a User with the UserID equal to the userID
 
 
-        String id = json.get("sessionCookie").asText();
+        String id = json.get("userID").asText();
         List<String> categoryList = new ArrayList<>();
         // TODO for demo purposes disabled categories
         json.get("categories").forEach(node -> categoryList.add(node.asText()));
+        
+        List<String> imagesList = new ArrayList<>();
+        json.get("images").forEach(node -> imagesList.add(node.asText()));
 
-        Septet<String, String, String, String, String, String, List<String>> toBeCreatedArticle =
+
+        Septet<String, String, String, String, String, List<String>, List<String>> toBeCreatedArticle =
                 new Septet<>(json.get("name").asText(),
                         json.get("description").asText(),
                         json.get("insertionDate").asText(),
                         json.get("location").asText(),
                         id,
-                        json.get("images").asText(),
+                        imagesList,
                         categoryList);
 
-        Optional<Octet<Integer, String, String, String, String, String, String, List<String>>> createdArticle = articleManagement.createArticle(toBeCreatedArticle);
+        Optional<Octet<Integer, String, String, String, String,String,List<String>, List<String>>> createdArticle = articleManagement.createArticle(toBeCreatedArticle);
 
 
         URL user = new URL("http://localhost:9000/user/updateArticleID/" + id + "/" + articleIdCounter);
@@ -70,7 +75,6 @@ public class ArticleHttpAdapter {
         in.close();
 
         articleIdCounter += 1;
-
 
 
 
@@ -96,8 +100,9 @@ public class ArticleHttpAdapter {
         }
     }
 
-    public Result getArticle(int id) {
-        Optional<Octet<Integer, String, String, String, String, String, String, List<String>>> article = articleManagement.getArticleById(id);
+    public Result getArticle(int id)
+    {
+        Optional<Octet<Integer, String, String, String, String,String,List<String>, List<String>>> article = articleManagement.getArticleById(id);
 
         if (article.isEmpty()) {
             System.out.println("in Bad Request");
@@ -109,10 +114,10 @@ public class ArticleHttpAdapter {
                     .put("description", article.get().getValue2())
                     .put("insertionDate", article.get().getValue3())
                     .put("location", article.get().getValue4())
-                    .put("userId", article.get().getValue5())
-                    .put("images", article.get().getValue6());
+                    .put("userId",article.get().getValue5());
 
 
+            article.get().getValue6().forEach(images -> returnJson.append("images", images));
             article.get().getValue7().forEach(category -> returnJson.append("categories", category));
 
             return ok(returnJson.toString())
@@ -123,15 +128,15 @@ public class ArticleHttpAdapter {
     public Result updateArticle(int id, Request request) {
         JsonNode json = request.body().asJson();
 
-        if (json.get("sessionCookie").isNull()) {
+        if (json.get("userID").isNull()) {
             return unauthorized();
         }
-        Optional<Octet<Integer, String, String, String, String, String, String, List<String>>> article = articleManagement.getArticleById(id);
+        Optional<Octet<Integer, String, String, String, String, String, List<String>, List<String>>> article = articleManagement.getArticleById(id);
         if (article.isEmpty()) {
             return badRequest("no article found for Update");
         }
         String value = article.get().getValue(5).toString();
-        if (!value.equals(json.get("sessionCookie").asText())) {
+        if (!value.equals(json.get("userID").asText())) {
             return badRequest("wrong User");
         }
 
@@ -139,16 +144,21 @@ public class ArticleHttpAdapter {
         List<String> categoryList = new ArrayList<>();
         json.get("categories").forEach(node -> categoryList.add(node.asText()));
 
-        Septet<String, String, String, String, String, String, List<String>> toBeUpdatedArticle =
+        List<String> imagesList = new ArrayList<>();
+        json.get("images").forEach(node -> imagesList.add(node.asText()));
+
+        Septet<String, String, String, String,String,List<String>, List<String>> toBeUpdatedArticle =
+
                 new Septet<>(json.get("name").asText(),
                         json.get("description").asText(),
                         json.get("insertionDate").asText(),
                         json.get("location").asText(),
-                        json.get("sessionCookie").asText(),
-                        json.get("images").asText(),
+                        json.get("userID").asText(),
+                        imagesList,
                         categoryList);
 
-        Optional<Octet<Integer, String, String, String, String, String, String, List<String>>> updatedArticle = articleManagement.updateArticle(id, toBeUpdatedArticle);
+        Optional<Octet<Integer, String, String, String, String,String,List<String>, List<String>>> updatedArticle =
+                articleManagement.updateArticle(id, toBeUpdatedArticle);
 
 
         if (updatedArticle.isEmpty()) {
@@ -160,10 +170,9 @@ public class ArticleHttpAdapter {
                     .put("description", updatedArticle.get().getValue2())
                     .put("insertionDate", updatedArticle.get().getValue3())
                     .put("location", updatedArticle.get().getValue4())
-                    .put("userId", updatedArticle.get().getValue5())
-                    .put("images", updatedArticle.get().getValue6());
+                    .put("userId",updatedArticle.get().getValue5());
 
-
+            updatedArticle.get().getValue6().forEach(images -> returnJson.append("images", images));
             updatedArticle.get().getValue7().forEach(category -> returnJson.append("categories", category));
 
             return ok(returnJson.toString())
@@ -171,9 +180,13 @@ public class ArticleHttpAdapter {
         }
     }
 
-    public Result deleteArticle(int id) {
-        Optional<Octet<Integer, String, String, String, String, String, String, List<String>>> deletedArticle = articleManagement.deleteArticle(id);
-        if (deletedArticle.isEmpty()) {
+    public Result deleteArticle(int id)
+    {
+        Optional<Octet<Integer, String, String, String, String,String,List<String>, List<String>>> deletedArticle =
+                articleManagement.deleteArticle(id);
+
+        if (deletedArticle.isEmpty())
+        {
             return badRequest();
         } else {
             JSONObject returnJson = new JSONObject()
@@ -182,10 +195,9 @@ public class ArticleHttpAdapter {
                     .put("description", deletedArticle.get().getValue2())
                     .put("insertionDate", deletedArticle.get().getValue3())
                     .put("location", deletedArticle.get().getValue4())
-                    .put("userId", deletedArticle.get().getValue5())
-                    .put("images", deletedArticle.get().getValue6());
+                    .put("userId",deletedArticle.get().getValue5());
 
-
+            deletedArticle.get().getValue6().forEach(images -> returnJson.append("images", images));
             deletedArticle.get().getValue7().forEach(category -> returnJson.append("categories", category));
 
             return ok(returnJson.toString())
@@ -212,13 +224,14 @@ public class ArticleHttpAdapter {
         List<String> categoryFilterList = new ArrayList<>();
         json.get("categories").forEach(node -> categoryFilterList.add(node.asText()));
 
-        List<Octet<Integer, String, String, String, String, String, String, List<String>>> filteredArticles = articleManagement.filterArticles(
+        List<Octet<Integer, String, String, String, String,String,List<String>, List<String>>> filteredArticles = articleManagement.filterArticles(
                 //                nameFilter, locationFilter,
                 categoryFilterList);
 
         JSONArray foundArticles = new JSONArray();
 
-        for (Octet<Integer, String, String, String, String, String, String, List<String>> article : filteredArticles) {
+        for (Octet<Integer, String, String, String, String, String,List<String>, List<String>> article : filteredArticles)
+        {
             JSONObject foundArticleJson = new JSONObject();
 
             foundArticleJson.put("id", article.getValue0())
@@ -226,10 +239,9 @@ public class ArticleHttpAdapter {
                     .put("description", article.getValue2())
                     .put("insertionDate", article.getValue3())
                     .put("location", article.getValue4())
-                    .put("userId", article.getValue5())
-                    .put("images", article.getValue6())
-            ;
+                    .put("userId",article.getValue5());
 
+            article.getValue6().forEach(images -> foundArticleJson.append("images", images));
             article.getValue7().forEach(category -> foundArticleJson.append("categories", category));
 
             foundArticles.put(foundArticleJson);

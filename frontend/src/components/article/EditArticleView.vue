@@ -48,7 +48,8 @@
                                     >
                                     </b-form-checkbox-group>
                                 </b-form-group>
-                                <invalid-small v-bind:style="{ display: this.selectedCategories.length !== 0 ? 'none' : validateInput ? '' : 'none' }">
+                                <invalid-small
+                                        v-bind:style="{ display: this.selectedCategories.length !== 0 ? 'none' : validateInput ? '' : 'none' }">
                                     Bitte Kategorie auswählen!
                                 </invalid-small>
                             </div>
@@ -60,27 +61,27 @@
                                 <b-row>
                                     <b-col>
                                         <div class="imageUpload">
-                                            <base-image-input v-model="image1"/>
+                                            <base-image-input :image="images[0]" v-model="images[0]"/>
                                         </div>
                                     </b-col>
                                     <b-col>
                                         <div class="imageUpload">
-                                            <base-image-input v-model="image2"/>
+                                            <base-image-input :image="images[1]" v-model="images[1]"/>
                                         </div>
                                     </b-col>
                                     <b-col>
                                         <div class="imageUpload">
-                                            <base-image-input v-model="image3"/>
+                                            <base-image-input :image="images[2]" v-model="images[2]"/>
                                         </div>
                                     </b-col>
                                     <b-col>
                                         <div class="imageUpload">
-                                            <base-image-input v-model="image4"/>
+                                            <base-image-input :image="images[3]" v-model="images[3]"/>
                                         </div>
                                     </b-col>
                                     <b-col>
                                         <div class="imageUpload">
-                                            <base-image-input v-model="image5"/>
+                                            <base-image-input :image="images[4]" v-model="images[4]"/>
                                         </div>
                                     </b-col>
                                 </b-row>
@@ -115,42 +116,42 @@
                             </b-container>
                         </div>
 
-                        <div class="borderbox">
-                            <h1>Standort</h1>
-                            <div class="form-group" :class="validateInput ? 'validate' : ''">
-                                <label for="countryInput">Land: *</label>
-                                <input type="text" class="form-control" id="countryInput" v-model="country" required>
-                            </div>
-                            <invalid-small v-bind:style="{ display: country ? 'none' : validateInput ? '' : 'none' }">
-                                Bitte Land eingeben!
-                            </invalid-small>
-                            <br/>
+<!--                        <div class="borderbox">-->
+<!--                            <h1>Standort</h1>-->
+<!--                            <div class="form-group" :class="validateInput ? 'validate' : ''">-->
+<!--                                <label for="countryInput">Land: *</label>-->
+<!--                                <input type="text" class="form-control" id="countryInput" v-model="country" required>-->
+<!--                            </div>-->
+<!--                            <invalid-small v-bind:style="{ display: country ? 'none' : validateInput ? '' : 'none' }">-->
+<!--                                Bitte Land eingeben!-->
+<!--                            </invalid-small>-->
+<!--                            <br/>-->
 
-                            <b-row>
-                                <b-col md="3">
-                                    <div class="form-group" :class="validateInput ? 'validate' : ''">
-                                        <label for="plzInput">PLZ: *</label>
-                                        <input type="text" class="form-control" id="plzInput" v-model="plz" required>
-                                    </div>
-                                    <invalid-small
-                                            v-bind:style="{ display: plz ? 'none' : validateInput ? '' : 'none' }">
-                                        Bitte PLZ eingeben!
-                                    </invalid-small>
-                                    <br/>
-                                </b-col>
-                                <b-col>
-                                    <div class="form-group" :class="validateInput ? 'validate' : ''">
-                                        <label for="cityInput">Stadt: *</label>
-                                        <input type="text" class="form-control" id="cityInput" v-model="city" required>
-                                    </div>
-                                    <invalid-small
-                                            v-bind:style="{ display: city ? 'none' : validateInput ? '' : 'none' }">
-                                        Bitte Stadt eingeben!
-                                    </invalid-small>
-                                    <br/>
-                                </b-col>
-                            </b-row>
-                        </div>
+<!--                            <b-row>-->
+<!--                                <b-col md="3">-->
+<!--                                    <div class="form-group" :class="validateInput ? 'validate' : ''">-->
+<!--                                        <label for="plzInput">PLZ: *</label>-->
+<!--                                        <input type="text" class="form-control" id="plzInput" v-model="plz" required>-->
+<!--                                    </div>-->
+<!--                                    <invalid-small-->
+<!--                                            v-bind:style="{ display: plz ? 'none' : validateInput ? '' : 'none' }">-->
+<!--                                        Bitte PLZ eingeben!-->
+<!--                                    </invalid-small>-->
+<!--                                    <br/>-->
+<!--                                </b-col>-->
+<!--                                <b-col>-->
+<!--                                    <div class="form-group" :class="validateInput ? 'validate' : ''">-->
+<!--                                        <label for="cityInput">Stadt: *</label>-->
+<!--                                        <input type="text" class="form-control" id="cityInput" v-model="city" required>-->
+<!--                                    </div>-->
+<!--                                    <invalid-small-->
+<!--                                            v-bind:style="{ display: city ? 'none' : validateInput ? '' : 'none' }">-->
+<!--                                        Bitte Stadt eingeben!-->
+<!--                                    </invalid-small>-->
+<!--                                    <br/>-->
+<!--                                </b-col>-->
+<!--                            </b-row>-->
+<!--                        </div>-->
 
 
                     </div>
@@ -169,33 +170,56 @@
 <script lang="ts">
     import BaseImageInput from "@/components/BaseImageInput.vue";
     import Category from "@/components/category/Category";
-    import {Component, Vue} from 'vue-property-decorator';
+    import {Component, Prop, Vue} from 'vue-property-decorator';
     import moment from "moment"
+    import Article from "@/components/article/Article";
+    import $ from "jquery";
+    import * as _ from "lodash";
 
     @Component({
         components: {BaseImageInput}
     })
 
     export default class EditArticleView extends Vue {
-        articleName: string = "";
-        articleDescription: string = "";
-        selectedCategories: Category[] = [];
-        image1 = '';
-        image2 = '';
-        image3 = '';
-        image4 = '';
-        image5 = '';
-        minDate: Date = new Date();
-        maxDate: any = null;
-        country: string = "";
-        plz: string = "";
-        city: string = "";
-        validateInput: boolean = false;
+        @Prop() private article!: Article;
+
+        validateInput = false;
+
+        articleName: string;
+        articleDescription: string;
+        selectedCategories: Category[];
+        images: string[] = [];
+        minDate: Date;
+        maxDate: any;
+        country: string;
+        plz: string;
+        city: string;
 
         /*Article Description Count*/
         maxCount: number = 200;
         hasError: boolean = false;
         charCount: number = 0
+
+        constructor() {
+            super();
+            this.articleName = this.article.name;
+            this.articleDescription = this.article.description;
+            this.selectedCategories = this.article.categories;
+            this.minDate = new Date();
+            this.maxDate = null;
+            this.country = this.article.location;
+
+            // let i = 0;
+            // while (i < this.article.images.length) {
+            //     this.images[i] = this.dataURLtoFile(this.article.images[i], String(i));
+            //     console.log(this.images[i]);
+            //     i++;
+            // }
+            this.images = this.article.images;
+            //TODO with new Jsons
+            this.plz = "";
+            this.city = "";
+        }
 
         countdown() {
             this.charCount = this.articleDescription.length;
@@ -216,43 +240,56 @@
 
         /*Save Changes*/
         saveChanges(): void {
-            this.validateInput = true;
-            let name: string = this.articleDescription
-            let description: string = this.articleDescription
-            let image: any = null;
-            let fromDate: Date = this.minDate;
-            let toDate: Date = this.maxDate;
-            let country: string = this.country;
-            let plz: string = this.plz;
-            let city: string = this.city;
-            let insertionDate: Date = new Date();
-            // let article: Article = new Article(name, description, image, location, insertionDate)
+            let article: Article | null = null;
 
-            /*
+            this.validateInput = true;
+
+            if (!this.articleName || _.isEmpty(this.selectedCategories)) {
+                return;
+            }
+
             $.ajax({
-                url: "http://localhost:9000/users/articles/create",
+                url: "http://localhost:9000/users/articles/update/" + this.article.id,
                 type: "POST",
-                data: JSON.stringify ({
-                    name: name,
-                    description: description,
-                    image: image,
-                    fromDate: fromDate,
-                    toDate: toDate,
-                    country: country,
-                    plz: plz,
-                    city: city,
-                    insertionDate: insertionDate
+                data: JSON.stringify({
+                    name: this.articleName,
+                    description: this.articleDescription,
+                    images: this.images,
+                    insertionDate: this.article.insertionDate,
+                    location: this.country,
+                    id: this.article.id,
+                    categories: this.selectedCategories,
+                    userId: this.article.userId
                 }),
-                dataType: "application/json",
+                dataType: "json",
                 contentType: "application/json",
                 success: result => {
+                    article = result;
                     console.log("success ", result)
+                    $('#editArticleModal').modal('hide');
+                    this.$router.push({name: 'refresh'}).then(() => {
+                        this.$router.push({name: 'articlePage', params: {article: article}});
+                    });
                 },
                 error: error => {
                     console.log("error ", error)
                 }
             });
-             */
+        }
+
+        dataURLtoFile(dataurl : string, filename : string) : File {
+
+            let arr = dataurl.split(',');
+            let    mime = arr[0].match(/:(.*?);/)[1];
+            let    bstr = atob(arr[1]);
+            let    n = bstr.length;
+            let    u8arr = new Uint8Array(n);
+
+            while(n--){
+                u8arr[n] = bstr.charCodeAt(n);
+            }
+
+            return new File([u8arr], filename, {type:mime});
         }
     }
 </script>

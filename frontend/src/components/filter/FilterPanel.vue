@@ -147,13 +147,14 @@
                     for (let i = 0; i < result.length; i++) {
                         articles[i] = new Article(result[i].name,
                             result[i].description,
-                            result[i].image,
+                            result[i].images,
                             result[i].location,
                             new Date(result[i].insertionDate),
                             result[i].categories,
                             //TODO: wait for backend support
                             result[i].ratings,
-                            result[i].userId
+                            result[i].userId,
+                            result[i].id
                         );
                     }
                     this.$emit('filteredArticles', articles)

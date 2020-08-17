@@ -32,7 +32,7 @@
                                 </b-form-checkbox>
                             </div>
                             <div class="image">
-                                <BaseImageInput class="imgProfile" id="profileImg"/>
+                                <BaseImageInput :image="this.image64String" class="imgProfile" id="profileImg" @input="item => this.image64String = item"/>
                                 <small class="form-text text-muted center">Profilbild hochladen</small>
                             </div>
                         </div>
@@ -78,7 +78,9 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" v-on:click="updateUser" data-dismiss="modal">Save changes</button>
+                <button type="button" class="btn btn-primary" v-on:click="updateUser" data-dismiss="modal">Save
+                    changes
+                </button>
             </div>
         </div>
     </div>
@@ -110,6 +112,7 @@
         city: string;
         country: string;
         streetVisible: boolean;
+        image64String: string;
 
         constructor() {
             super();
@@ -122,6 +125,7 @@
             this.street = this.user.address.street;
             this.country = this.user.address.country;
             this.streetVisible = this.user.address.streetVisible;
+            this.image64String = this.user.picture;
         }
 
         updateUser(): void {
@@ -144,7 +148,7 @@
                     lastName: this.lastName,
                     lastNameVisible: this.lastNameVisible,
                     ratings: this.user.ratings,
-                    picture: this.user.picture,
+                    picture: this.image64String,
                     insertedArticlesId: this.user.insertedArticlesId,
                     borrowedArticlesId: this.user.borrowedArticlesId,
                     pinnedArticledId: this.user.pinnedArticledId,
