@@ -10,7 +10,7 @@
                     </div>
                     <div class="profile-actions cover-img" data-overlay="0.3">
 
-                        <button type="button" class="btn btn-primary"
+                        <button v-if="this.userAuthorizedForRatings()" type="button" class="btn btn-primary"
                                 data-toggle="modal"
                                 data-target="#createRatingModal">
                             Nutzer bewerten
@@ -265,7 +265,13 @@
             return this.user.picture;
         }
 
-
+        userAuthorizedForRatings(): boolean {
+            console.log("checking loggedinuser")
+            if (!this.loginService.loggedInUser || !this.user) {
+                return false;
+            }
+            return this.user.id !== this.loginService.loggedInUser.id
+        }
     }
 
 </script>
