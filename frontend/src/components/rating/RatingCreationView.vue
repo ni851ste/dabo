@@ -51,15 +51,13 @@
     import LoginService from "@/components/services/LoginService";
     import Rating from "@/components/rating/Rating";
     import User from "@/components/user/User";
+    import $ from "jquery";
 
     @Component
     export default class RatingCreationView extends Vue {
         @Prop() private ratingObject!: Article | User;
 
-        constructor() {
-            super();
-            console.log(this.ratingObject)
-        }
+
 
         get ratingObjectName() {
             if (this.ratingObject instanceof Article) {
@@ -106,7 +104,7 @@
                 });
             }
                 else if (this.ratingObject instanceof User) {
-                    
+
                 $.ajax({
                     url: "http://localhost:9000/user/rating/create",
                     type: "POST",
