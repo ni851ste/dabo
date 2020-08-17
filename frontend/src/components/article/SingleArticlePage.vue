@@ -85,10 +85,23 @@
                             </div>
 
                             <!-- User is not logged in -->
+
                             <div v-else class="borrow-wrap">
-                                <button type="button" class="btn btn-primary borrow-button" v-on:click="notLoggedInBorrowButtonClick" >
-                                    Artikel anfragen
-                                </button>
+                                <!--                                Article already borrowed-->
+                                <div v-if="this.articleIsBorrowed" class="borrow-wrap">
+                                    <div class="already-borrowed">
+                                        <div>
+                                            Artikel ist schon ausgeliehen!
+                                        </div>
+                                    </div>
+                                </div>
+                                <div v-else class="borrow-wrap">
+                                    <button type="button" class="btn btn-primary borrow-button" v-on:click="notLoggedInBorrowButtonClick" >
+                                        Artikel anfragen
+                                    </button>
+                                </div>
+
+
                             </div>
 
 

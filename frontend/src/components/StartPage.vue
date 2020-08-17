@@ -76,7 +76,7 @@
                             //TODO: waiting for backend support
                             [],
                             result[i].userId,
-                            result[i].id);
+                            result[i].id));
                     }
                     //code is working, IntelliJ is just fooling around
                     this.$router.push({name: 'articles', params: {articles: articles}});
