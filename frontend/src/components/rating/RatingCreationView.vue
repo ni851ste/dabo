@@ -88,7 +88,8 @@
                         amountOfStars: this.amountOfStars,
                         comment: this.ratingComment,
                         author: this.authorId,
-                        date: date
+                        date: date,
+                        id: this.ratingObject.id
                     }),
                     dataType: "json",
 

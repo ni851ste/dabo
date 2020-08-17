@@ -11,9 +11,10 @@
 <script>
     export default {
         name:"BaseImageInput",
+        props: ['image'],
         data() {
             return {
-                imageData: null
+                imageData: this.image
             }
         }, methods: {
             chooseImage() {
