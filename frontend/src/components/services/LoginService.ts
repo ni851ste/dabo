@@ -74,7 +74,7 @@ export default class LoginService {
                 city: city,
                 street: street,
                 streetVisible: streetVisible,
-                picture: null,
+                picture: picture,
                 email: email,
                 password: hashedPassword,
             }),

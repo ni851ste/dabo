@@ -199,20 +199,10 @@
             let article: Article;
 
             this.validateInput = true;
-            let images : File[] = this.images;
             let insertionDate: Date = new Date();
 
             if (!this.articleName || _.isEmpty(this.selectedCategories) || !this.country || !this.plz || !this.city) {
                 return;
-            }
-
-            let imagesBase64: string[] = [];
-            let count: number = 0;
-            for (let image of images) {
-                if (typeof image !== "undefined") {
-                    imagesBase64[count] = this.getBase64(image);
-                    count += 1;
-                }
             }
 
             $.ajax({
@@ -222,7 +212,7 @@
                 data: JSON.stringify ({
                     name: this.articleName,
                     description: this.articleDescription,
-                    images: imagesBase64,
+                    images: this.images,
                     fromDate: this.minDate,
                     toDate: this.maxDate,
                     country: this.country,

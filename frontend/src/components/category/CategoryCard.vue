@@ -51,9 +51,9 @@
                             new Date(result[i].insertionDate),
                             result[i].categories,
                             //TODO: waiting for backend support
-                            // result[i].ratings,
-                            [],
-                            result[i].userId
+                            result[i].ratings,
+                            result[i].userId,
+                            result[i].id
                         );
                     }
                     //code is working, IntelliJ is just fooling around
