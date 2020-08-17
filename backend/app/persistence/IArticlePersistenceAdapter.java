@@ -25,6 +25,5 @@ public interface IArticlePersistenceAdapter
                                                                           List<String> categoryFilter);
     boolean articleCanBeBorrowed(int articleId);
 
-    public boolean borrowArticle(int articleId, String borrowingUser, Date untilDate);
 
 }
