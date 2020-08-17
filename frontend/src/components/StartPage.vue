@@ -31,6 +31,11 @@
                 finden kannst.<br/>
                 Denn Du weißt, bei uns gilt: Sharing is caring!
             </p>
+            <RouterLink to="/impressum">
+                <li class="impressum-link">
+                    <a href="#">Impressum</a>
+                </li>
+            </RouterLink>
         </div>
         <br/>
     </div>
@@ -196,6 +201,10 @@
         text-align: left;
         margin: auto;
         margin-top: 2vw;
+    }
+
+    .impressum-link {
+        list-style: none;
     }
 
 </style>

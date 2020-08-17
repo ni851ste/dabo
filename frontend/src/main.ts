@@ -16,6 +16,8 @@ import RegistrationPage from "@/components/user/RegistrationPage.vue";
 import LoginPage from "@/components/user/LoginPage.vue";
 import UserProfileView from "@/components/user/UserProfileView.vue";
 import ChatView from "@/components/chat/ChatView.vue";
+import ImpressumView from "@/components/ImpressumView.vue";
+
 
 Vue.config.productionTip = false;
 Vue.use(VueRouter);
@@ -34,7 +36,8 @@ const routes = [
   {path: '/login', name: 'login', component: LoginPage, props: true},
   {path: '/registration', name: 'registration', component: RegistrationPage, props: true},
   {path: '/refreshComponent', name: 'refresh', component: StartPage},
-  {path: '/chat', name: 'chat', component: ChatView}
+  {path: '/chat', name: 'chat', component: ChatView},
+  {path: '/impressum', name: 'impressum', component: ImpressumView}
 ];
 const router = new VueRouter({
   routes: routes
