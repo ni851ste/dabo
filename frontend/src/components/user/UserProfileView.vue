@@ -225,7 +225,7 @@
         fetchUserRating(): Rating | null {
             let rating: Rating | null = null
             $.ajax({
-                url: "http://localhost:9000/users/articles/" + this.user.id,
+                url: "http://localhost:9000/users/rating/" + this.user.id,
                 type: "GET",
                 success: result => {
                     console.log("success fetching article", result);
