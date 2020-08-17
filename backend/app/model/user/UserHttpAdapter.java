@@ -248,7 +248,7 @@ public class UserHttpAdapter
         JsonNode json = request.body().asJson();
 
         Quintet<String,String,String,String,String> ratingQuintet = new Quintet<>(
-                json.get("userId").asText(),
+                json.get("id").asText(),
                 json.get("amountOfStars").asText(),
                 json.get("comment").asText(),
                 json.get("author").asText(),
