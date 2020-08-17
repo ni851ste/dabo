@@ -4,7 +4,7 @@
                 <div class="card-body">
                     <img class="card-img-top articleImg" :src="this.firstImage" alt="Card image cap">
                     <h5 class="card-title" v-html="article.name"></h5>
-                    <b-form-rating class="rating" variant="warning" readonly v-model="rating"></b-form-rating>
+                    <b-form-rating class="rating" variant="warning" readonly v-model="this.rating"></b-form-rating>
                     <p class="card-text description" v-html="article.description"></p>
                     <p class="card-text location">
                         <b-icon-geo-alt font-scale="1.2"></b-icon-geo-alt>
@@ -20,14 +20,17 @@
     import {Component, Prop, Vue} from "vue-property-decorator";
     import moment from "moment"
     import Article from "@/components/article/Article";
+    import Rating from "@/components/rating/Rating";
+    import $ from "jquery";
 
     @Component
     export default class ArticleCard extends Vue {
         @Prop() private article!: Article;
         firstImage : string = "";
-        rating = this.getAvgStars();
+        rating = 0;
 
         mounted() : void {
+            this.getAvgStarsArticle();
             if (this.article.images !== undefined && this.article.images.length > 0 && this.article.images[0] !== "") {
                 this.firstImage = this.article.images[0];
                 this.$forceUpdate();
@@ -37,14 +40,32 @@
             }
         }
 
-        getAvgStars(): number {
-            let starSum: number = 0;
+        getAvgStarsArticle(): void {
+            let ratings : Rating[] = [];
+            $.ajax({
+                url: "http://localhost:9000/article/rating/" + this.article.id,
+                type: "GET",
+                success: result => {
+                    for(let i = 0; i< result.length; i++){
+                        ratings.push(result[i]);
+                    }
+                    console.log("success", result);
+                },
+                error: error => {
+                    console.log("error ", error)
+                }
+            }).then(() => {
+                if(!ratings || ratings.length === 0) {
+                    this.rating = 0;
+                }else {
+                    let starSum: number = 0;
+                    for (let rating of ratings) {
+                        starSum += parseFloat(rating.amountOfStars)
+                    }
+                    this.rating = starSum / ratings.length;
+                }
 
-            for(let rating of this.article.ratings) {
-                starSum += rating.amountOfStars;
-            }
-
-            return starSum / this.article.ratings.length;
+            })
         }
 
         getDate(): string {
