@@ -65,11 +65,15 @@ public class ArticleHttpAdapter {
                     .put("id", createdArticle.get().getValue0())
                     .put("name", createdArticle.get().getValue1())
                     .put("description", createdArticle.get().getValue2())
-                    .put("insertionDate", createdArticle.get().getValue3())
-                    .put("location", createdArticle.get().getValue4())
-                    .put("userId", createdArticle.get().getValue5())
-                    .put("images", createdArticle.get().getValue6());
+                    .put("insertionDate", createdArticle.get().getValue3().getValue0())
+                    .put("fromDate", createdArticle.get().getValue3().getValue1())
+                    .put("toDate", createdArticle.get().getValue3().getValue2())
+                    .put("location", createdArticle.get().getValue4().getValue0())
+                    .put("country", createdArticle.get().getValue4().getValue1())
+                    .put("plz", createdArticle.get().getValue4().getValue2())
+                    .put("userId", createdArticle.get().getValue5());
 
+            createdArticle.get().getValue6().forEach(images -> returnJson.append("images", images));
             createdArticle.get().getValue7().forEach(category -> returnJson.append("categories", category));
 
             return ok(returnJson.toString())
