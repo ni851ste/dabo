@@ -32,7 +32,7 @@
                                 </b-form-checkbox>
                             </div>
                             <div class="image">
-                                <BaseImageInput class="imgProfile" id="profileImg" @input="item => this.image64String = item"/>
+                                <BaseImageInput :image="this.image64String" class="imgProfile" id="profileImg" @input="item => this.image64String = item"/>
                                 <small class="form-text text-muted center">Profilbild hochladen</small>
                             </div>
                         </div>
@@ -125,7 +125,7 @@
             this.street = this.user.address.street;
             this.country = this.user.address.country;
             this.streetVisible = this.user.address.streetVisible;
-            this.image64String = "";
+            this.image64String = this.user.picture;
         }
 
         updateUser(): void {

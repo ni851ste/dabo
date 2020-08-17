@@ -61,27 +61,27 @@
                                 <b-row>
                                     <b-col>
                                         <div class="imageUpload">
-                                            <base-image-input v-model="images[0]"/>
+                                            <base-image-input :image="images[0]" v-model="images[0]"/>
                                         </div>
                                     </b-col>
                                     <b-col>
                                         <div class="imageUpload">
-                                            <base-image-input v-model="images[1]"/>
+                                            <base-image-input :image="images[1]" v-model="images[1]"/>
                                         </div>
                                     </b-col>
                                     <b-col>
                                         <div class="imageUpload">
-                                            <base-image-input v-model="images[2]"/>
+                                            <base-image-input :image="images[2]" v-model="images[2]"/>
                                         </div>
                                     </b-col>
                                     <b-col>
                                         <div class="imageUpload">
-                                            <base-image-input v-model="images[3]"/>
+                                            <base-image-input :image="images[3]" v-model="images[3]"/>
                                         </div>
                                     </b-col>
                                     <b-col>
                                         <div class="imageUpload">
-                                            <base-image-input v-model="images[4]"/>
+                                            <base-image-input :image="images[4]" v-model="images[4]"/>
                                         </div>
                                     </b-col>
                                 </b-row>
