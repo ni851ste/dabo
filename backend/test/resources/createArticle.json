@@ -5,5 +5,6 @@
   "insertionDate": "today",
   "userId": "example-hash",
   "images" : "no pics",
-  "categories": ["Tools"]
+  "categories": ["Tools"],
+  "sessionCookie": "example-hash"
 }

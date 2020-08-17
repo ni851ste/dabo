@@ -21,8 +21,9 @@ public class UserMapAdapter implements IUserPersistenceAdapter
     }
 
     @Override
-    public Optional<Decade<String, String, String, Triplet<String, String, Boolean>, Integer, String, List<Integer>, List<Integer>, List<Integer>, Map<String, String>>>
-    createUser(String id, Ennead<String, String, Triplet<String, String, Boolean>, Integer, String, List<Integer>, List<Integer>, List<Integer>, Map<String, String>> data)
+    public Optional<Decade<String, String, String, Triplet<String, String, Boolean>, Integer, String, List<Integer>, List<Integer>, List<Integer>, Map<String,String>>>
+    createUser(String id, Ennead<String, String, Triplet<String, String, Boolean>, Integer, String, List<Integer>, List<Integer>, List<Integer>,  Map<String,String>> data)
+
     {
         savedUsers.put(id, data);
 
@@ -75,6 +76,8 @@ public class UserMapAdapter implements IUserPersistenceAdapter
 
     }
 
+
+
     @Override
     public Optional<Decade<String, String, String, Triplet<String, String, Boolean>, Integer, String, List<Integer>, List<Integer>, List<Integer>, Map<String, String>>>
     findRequestedUserHash(String email, String password)
@@ -104,4 +107,42 @@ public class UserMapAdapter implements IUserPersistenceAdapter
         return Optional.empty();
     }
 
+    @Override
+    public Optional<Decade<String, String, String, Triplet<String, String, Boolean>, Integer, String, List<Integer>, List<Integer>, List<Integer>, Map<String, String>>>
+    updateArticle(String id,Integer updateArticle)
+    {
+
+        if (!savedUsers.containsKey(id))
+        {
+            return Optional.empty();
+        }
+        Ennead<String, String, Triplet<String, String, Boolean>, Integer, String, List<Integer>, List<Integer>, List<Integer>, Map<String, String>> user = savedUsers.get(id);
+        Ennead<String, String, Triplet<String, String, Boolean>, Integer, String, List<Integer>, List<Integer>, List<Integer>, Map<String, String>> data =
+                new Ennead<>(user.getValue0(),
+                        user.getValue1(),
+                        user.getValue2(),
+                        user.getValue3(),
+                        user.getValue4(),
+                        user.getValue5(),
+                        user.getValue6(),
+                        user.getValue7(),
+                        user.getValue8());
+
+        savedUsers.put(id, data);
+        Decade<String, String, String, Triplet<String, String, Boolean>, Integer, String, List<Integer>, List<Integer>, List<Integer>, Map<String, String>> returnValue =
+                new Decade(id,
+                        data.getValue0(),
+                        data.getValue1(),
+                        data.getValue2(),
+                        data.getValue3(),
+                        data.getValue4(),
+                        data.getValue5(),
+                        data.getValue6(),
+                        data.getValue7(),
+                        data.getValue8());
+
+        return Optional.of(returnValue);
+    }
+
 }
+
