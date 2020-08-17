@@ -57,21 +57,24 @@
     export default class RatingCreationView extends Vue {
         @Prop() private ratingObject!: Article | User;
 
-
-
         get ratingObjectName() {
             if (this.ratingObject instanceof Article) {
                 return this.ratingObject.name;
             }
-            else if (this.ratingObject instanceof User) {
-                return this.ratingObject.firstName
+            else {
+                if (this.ratingObject.lastNameVisible) {
+                    return this.ratingObject.firstName + " " + this.ratingObject.lastName
+                } else {
+                    return this.ratingObject.firstName
+                }
             }
         }
 
-        loginService: LoginService = LoginService.getInstance();
         amountOfStars: number = 0;
         ratingComment: String = "";
-        authorId = this.loginService.loggedInUser?.id;
+
+        loginService: LoginService = LoginService.getInstance();
+        authorId = this.loginService.loggedInUser.id;
 
         createRating(): void {
             let rating: Rating;
@@ -104,14 +107,14 @@
                     }
                 });
             }
-                else if (this.ratingObject instanceof User) {
 
+                else {
                 $.ajax({
                     url: "http://localhost:9000/user/rating/create",
                     type: "POST",
                     contentType: "application/json",
                     data: JSON.stringify({
-                        userId: this.ratingObject.id,
+                        id: this.ratingObject.id,
                         amountOfStars: this.amountOfStars,
                         comment: this.ratingComment,
                         author: this.authorId,
