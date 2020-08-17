@@ -250,7 +250,7 @@ public class UserHttpAdapter
         Quintet<String,String,String,String,String> ratingQuintet = new Quintet<>(
                 json.get("userId").asText(),
                 json.get("amountOfStars").asText(),
-                json.get("text").asText(),
+                json.get("comment").asText(),
                 json.get("author").asText(),
                 json.get("date").asText())
                 ;
@@ -266,7 +266,7 @@ public class UserHttpAdapter
             ratingJson.put("id" , rating.get().getValue0())
                     .put("userId",rating.get().getValue1())
                     .put("amountOfStars",rating.get().getValue2())
-                    .put("text",rating.get().getValue3())
+                    .put("comment",rating.get().getValue3())
                     .put("author",rating.get().getValue4())
                     .put("date",rating.get().getValue5())
             ;
@@ -288,7 +288,7 @@ public class UserHttpAdapter
             ratingJson.put("id" , rating.getValue0())
                     .put("userId",rating.getValue1())
                     .put("amountOfStars",rating.getValue2())
-                    .put("text",rating.getValue3())
+                    .put("comment",rating.getValue3())
                     .put("author",rating.getValue4())
                     .put("date",rating.getValue5())
             ;
