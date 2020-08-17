@@ -14,6 +14,7 @@ GET         /assets/*file                     controllers.Assets.versioned(path=
 POST        /user/create                      model.user.UserHttpAdapter.createUser(request: Request)
 +nocsrf
 GET         /user/find/:id                    model.user.UserHttpAdapter.getUserById(id: String)
+GET         /user/updateArticleID/:id/:article model.user.UserHttpAdapter.updateArticle(id: String, article: Integer)
 +nocsrf
 POST        /user/delete/:id                  model.user.UserHttpAdapter.deleteUser(id: String)
 +nocsrf

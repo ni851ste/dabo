@@ -15,3 +15,4 @@ libraryDependencies += "org.javatuples" % "javatuples" % "1.2"
 libraryDependencies += "org.apache.commons" % "commons-collections4" % "4.0"
 libraryDependencies += "org.mockito" % "mockito-core" % "3.3.3" % Test
 libraryDependencies += "net.bytebuddy" % "byte-buddy" % "1.9.3"
+libraryDependencies += "org.apache.httpcomponents" % "httpclient" % "4.5.9"

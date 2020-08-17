@@ -14,8 +14,7 @@ import java.util.*;
 import static play.mvc.Results.badRequest;
 import static play.mvc.Results.ok;
 
-public class UserHttpAdapter
-{
+public class UserHttpAdapter {
     @Inject
     UserManagement userManagement = new UserManagement();
 
@@ -57,12 +56,9 @@ public class UserHttpAdapter
                         addrList));
 
 
-        if (createdUser.isEmpty())
-        {
+        if (createdUser.isEmpty()) {
             return badRequest();
-        }
-        else
-        {
+        } else {
 
             JSONObject returnJson = new JSONObject()
                     .put("id", createdUser.get().getValue0())
@@ -85,20 +81,16 @@ public class UserHttpAdapter
 
     }
 
-    public Result getUserById(String id)
-    {
+    public Result getUserById(String id) {
 
         System.out.println(id);
-        Optional<Decade<String, String, String, Triplet<String, String, Boolean>, Integer, String, List<Integer>, List<Integer>,List<Integer>, Map<String,String>>>
+        Optional<Decade<String, String, String, Triplet<String, String, Boolean>, Integer, String, List<Integer>, List<Integer>, List<Integer>, Map<String, String>>>
                 foundUser = userManagement.getUserByID(id);
 
 //        System.out.println(foundUser);
-        if (foundUser.isEmpty())
-        {
+        if (foundUser.isEmpty()) {
             return badRequest();
-        }
-        else
-        {
+        } else {
 
             JSONObject returnJson = new JSONObject()
                     .put("id", foundUser.get().getValue0())
@@ -120,16 +112,13 @@ public class UserHttpAdapter
         }
     }
 
-    public Result deleteUser(String id){
-        Optional<Decade<String, String, String, Triplet<String, String, Boolean>, Integer, String, List<Integer>, List<Integer>,List<Integer>, Map<String,String>>>
+    public Result deleteUser(String id) {
+        Optional<Decade<String, String, String, Triplet<String, String, Boolean>, Integer, String, List<Integer>, List<Integer>, List<Integer>, Map<String, String>>>
                 deletedUser = userManagement.deleteUser(id);
 
-        if(deletedUser.isEmpty())
-        {
+        if (deletedUser.isEmpty()) {
             return badRequest();
-        }
-        else
-        {
+        } else {
             JSONObject returnJson = new JSONObject()
                     .put("id", deletedUser.get().getValue0())
                     .put("email", deletedUser.get().getValue1())
@@ -149,10 +138,65 @@ public class UserHttpAdapter
         }
     }
 
-    public Result updateUser(String id, Request update)
-    {
+    public Result updateArticle(String id, Integer articleID) {
+
+        Optional<Decade<String, String, String, Triplet<String, String, Boolean>, Integer, String, List<Integer>, List<Integer>, List<Integer>, Map<String, String>>>
+                userToUpdate = userManagement.getUserByID(id);
+
+        Decade<String, String, String, Triplet<String, String, Boolean>, Integer, String, List<Integer>, List<Integer>, List<Integer>, Map<String, String>>
+                userNow = userToUpdate.get();
+
+        Ennead<String, String, Triplet<String, String, Boolean>, Integer, String, List<Integer>, List<Integer>, List<Integer>, Map<String, String>> toBeUpdatedUser =
+                new Ennead(userNow.getValue1(),
+                        userNow.getValue2(),
+                        userNow.getValue3(),
+                        userNow.getValue4(),
+                        userNow.getValue5(),
+                        userNow.getValue6(),
+                        userNow.getValue7(),
+                        userNow.getValue8(),
+                        userNow.getValue9());
+
+
+//        System.out.println(articleID);
+        toBeUpdatedUser.getValue5().add(articleID);
+//        System.out.println("USER NOW:  " + toBeUpdatedUser);
+
+
+        System.out.println(toBeUpdatedUser);
+        Optional<Decade<String, String, String, Triplet<String, String, Boolean>, Integer, String, List<Integer>, List<Integer>, List<Integer>, Map<String, String>>>
+                updatedUser = userManagement.updateUser(id, toBeUpdatedUser);
+
+        if (updatedUser.isEmpty()) {
+            return badRequest();
+        } else {
+            JSONObject returnJson = new JSONObject()
+                    .put("id", updatedUser.get().getValue0())
+                    .put("email", updatedUser.get().getValue1())
+                    .put("password", updatedUser.get().getValue2())
+                    .put("firstName", updatedUser.get().getValue3().getValue0())
+                    .put("lastName", updatedUser.get().getValue3().getValue1())
+                    .put("lastNameVisible", updatedUser.get().getValue3().getValue2())
+                    .put("ratings", updatedUser.get().getValue4())
+                    .put("picture", updatedUser.get().getValue5())
+                    .put("insertedArticlesId", updatedUser.get().getValue6())
+                    .put("borrowedArticlesId", updatedUser.get().getValue7())
+                    .put("pinnedArticledId", updatedUser.get().getValue8())
+                    .put("address", updatedUser.get().getValue9());
+            return ok(returnJson.toString())
+                    .as("application/json");
+        }
+    }
+
+
+    public Result updateUser(String id, Request update) {
+
+        System.out.println("UpdateValue: " + update.body().asText() + "\n\n");
+
 
         JsonNode json = update.body().asJson();
+
+        System.out.println("Updated json: " + json + "\n\n");
 
         List<Integer> lendList = new ArrayList<>();
         json.get("insertedArticlesId").forEach(node -> lendList.add(node.asInt()));
@@ -187,15 +231,14 @@ public class UserHttpAdapter
                         pinnList,
                         addrList);
 
-        Optional<Decade<String, String, String, Triplet<String,String,Boolean>, Integer, String, List<Integer>, List<Integer>,List<Integer>, Map<String,String>>>
+
+        System.out.println(toBeUpdatedUser);
+        Optional<Decade<String, String, String, Triplet<String, String, Boolean>, Integer, String, List<Integer>, List<Integer>, List<Integer>, Map<String, String>>>
                 updatedUser = userManagement.updateUser(id, toBeUpdatedUser);
-        
-        if(updatedUser.isEmpty())
-        {
+
+        if (updatedUser.isEmpty()) {
             return badRequest();
-        }
-        else
-        {
+        } else {
             JSONObject returnJson = new JSONObject()
                     .put("id", updatedUser.get().getValue0())
                     .put("email", updatedUser.get().getValue1())
@@ -214,8 +257,7 @@ public class UserHttpAdapter
         }
     }
 
-    public Result loginUser(Request request)
-    {
+    public Result loginUser(Request request) {
         JsonNode json = request.body().asJson();
 
         String userEmail = json.get("email").asText();

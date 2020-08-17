@@ -75,4 +75,10 @@ public class UserManagement
         return database.findRequestedUserHash(email, password);
     }
 
+    public Optional<Decade<String, String, String, Triplet<String, String, Boolean>, Integer, String, List<Integer>, List<Integer>, List<Integer>, Map<String, String>>>
+    updateArticle(String id, Integer ArticleId)
+    {
+        return database.updateArticle(id, ArticleId);
+    }
+
 }
