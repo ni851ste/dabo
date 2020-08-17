@@ -3,7 +3,6 @@ package model.article;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.inject.Inject;
 import org.javatuples.Octet;
-import org.javatuples.Quintet;
 import org.javatuples.Septet;
 import org.javatuples.Sextet;
 import org.json.JSONArray;
@@ -233,34 +232,40 @@ public class ArticleHttpAdapter
 
         JsonNode json = request.body().asJson();
 
-        Quintet<String,String,String,String,String> ratingQuintet = new Quintet<>(
-                json.get("articleId").asText(),
-                json.get("amountOfStars").asText(),
-                json.get("comment").asText(),
-                json.get("author").asText(),
-                json.get("date").asText())
-                ;
-        Optional<Sextet<Integer,String,String,String,String,String>> rating = articleManagement.ratingArticle(ratingQuintet);
+        System.out.println( "stars " + json.get("amountOfStars").asText() +
+               "comment: "+  json.get("comment").asText());
 
-        if (rating.isEmpty())
-        {
-            return badRequest();
-        }
-        else
-        {
-            JSONObject ratingJson = new JSONObject();
-            ratingJson.put("id" , rating.get().getValue0())
-                    .put("articleId",rating.get().getValue1())
-                    .put("amountOfStars",rating.get().getValue2())
-                    .put("comment",rating.get().getValue3())
-                    .put("author",rating.get().getValue4())
-                    .put("date",rating.get().getValue5())
-            ;
+        return ok();
+        
 
-
-            return ok(ratingJson.toString())
-                    .as("application/json");
-        }
+//        Quintet<String,String,String,String,String> ratingQuintet = new Quintet<>(
+//                json.get("articleId").asText(),
+//                json.get("amountOfStars").asText(),
+//                json.get("comment").asText(),
+//                json.get("author").asText(),
+//                json.get("date").asText())
+//                ;
+//        Optional<Sextet<Integer,String,String,String,String,String>> rating = articleManagement.ratingArticle(ratingQuintet);
+//
+//        if (rating.isEmpty())
+//        {
+//            return badRequest();
+//        }
+//        else
+//        {
+//            JSONObject ratingJson = new JSONObject();
+//            ratingJson.put("id" , rating.get().getValue0())
+//                    .put("articleId",rating.get().getValue1())
+//                    .put("amountOfStars",rating.get().getValue2())
+//                    .put("comment",rating.get().getValue3())
+//                    .put("author",rating.get().getValue4())
+//                    .put("date",rating.get().getValue5())
+//            ;
+//
+//
+//            return ok(ratingJson.toString())
+//                    .as("application/json");
+//        }
     }
 
     public Result filterRatings(String articleId){
