@@ -37,8 +37,7 @@ export default class LoginService {
             dataType: "json",
             contentType: "application/json",
             success: result => {
-                console.log("success login", result);
-                this.getUserWithId(result.userHash)
+                this.loggedInUser = result;
             },
             error: error => {
                 console.log("error ", error)
