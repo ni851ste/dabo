@@ -147,7 +147,6 @@
             if (this.user == null) {
 
             }
-            console.log("SingleArticle:" + this.article.name)
         }
 
         getUser(): User | null {

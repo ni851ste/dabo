@@ -57,11 +57,9 @@
 
         get ratingObjectName() {
             if (this.ratingObject instanceof Article) {
-                console.log("ArtikelName:" + this.ratingObject.name)
                 return this.ratingObject.name;
             }
             else if (this.ratingObject instanceof User) {
-                console.log("FIRSTNAME: " + this.ratingObject.firstName)
                 return this.ratingObject.firstName
             }
         }
@@ -74,7 +72,6 @@
         createRating() {
             let rating: Rating;
             let date: Date = new Date();
-            console.log("Creating Rating ...")
 
             if (this.ratingObject instanceof Article) {
 
@@ -108,7 +105,7 @@
                     type: "POST",
                     contentType: "application/json",
                     data: JSON.stringify({
-                        user: this.ratingObject,
+                        userId: this.ratingObject.id,
                         amountOfStars: this.amountOfStars,
                         comment: this.ratingComment,
                         author: this.authorId,
