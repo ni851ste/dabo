@@ -14,7 +14,7 @@
                             Account bearbeiten
                         </button>
                         <button v-else class="btn btn-actions">
-                            <span>Nachricht</span>
+                            <a href="#/chat" style="color:inherit"> Nachricht </a>
                         </button>
                     </div>
                     <div class="profile-info">
