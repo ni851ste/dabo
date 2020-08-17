@@ -34,7 +34,7 @@
                         <!-- FOOTER -->
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Abbrechen</button>
-                            <button type="button" class="btn btn-primary btn-save" data-dismiss="modal" v-on:click="this.createRating()">
+                            <button type="button" class="btn btn-primary btn-save" data-dismiss="modal" @click="createRating">
                                 Speichern</button>
                         </div>
 
@@ -106,6 +106,7 @@
                 });
             }
                 else if (this.ratingObject instanceof User) {
+                    
                 $.ajax({
                     url: "http://localhost:9000/user/rating/create",
                     type: "POST",
