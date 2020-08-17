@@ -47,7 +47,7 @@
                             <ArticleCard
                                     :key="article.name"
                                     id="cards"
-                                    v-for="article in this.getUsersInsertedArticles()"
+                                    v-for="article in usersInsertedArticles"
                                     :article="article"
                                     :per-page="perPage"
                                     :current-page="currentPage"
@@ -111,6 +111,7 @@
     import RequestCard from "@/components/user/RequestCard.vue";
     import EditMyAccountView from "@/components/user/EditMyAccountView.vue";
     import LoginService from "@/components/services/LoginService";
+    import $ from "jquery";
 
     @Component({
         components: {EditMyAccountView, RequestCard, RatingCard, NavigationBar, ArticleCard}
@@ -155,7 +156,7 @@
             return this.user.ratings.length;
         };
 
-        getUsersInsertedArticles(): Article[] {
+        get usersInsertedArticles(): Article[] {
             if(!this.user.insertedArticlesId || this.user.insertedArticlesId.length === 0) {
                 return [];
             }
@@ -183,6 +184,7 @@
                 success: result => {
                     console.log("success fetching article", result);
                     article = result
+                    this.usersInsertedArticles.push(result)
                 },
                 error: error => {
                     console.log("error ", error)

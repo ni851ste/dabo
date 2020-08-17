@@ -259,7 +259,7 @@
                     location: this.country,
                     id: this.article.id,
                     categories: this.selectedCategories,
-                    userId: this.article.userId
+                    userID: this.article.userId
                 }),
                 dataType: "json",
                 contentType: "application/json",

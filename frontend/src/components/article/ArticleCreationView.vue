@@ -205,7 +205,7 @@
                 return;
             }
 
-            let cookie = this.$cookies.get("sessioncookie");
+            let cookie = this.loginService.loggedInUser.id;
             if(!cookie) {
                 return;
             }
@@ -226,12 +226,13 @@
 
                     insertionDate: insertionDate,
                     categories: this.selectedCategories,
-                    sessionCookie: cookie
+                    userID: cookie
                 }),
                 dataType: "json",
 
                 success: result => {
                     article = result
+                    localStorage.setItem("selectedArticle", JSON.stringify(result))
                     //code is working, IntelliJ is just fooling around
                     this.$router.push({name: 'articlePage', params: {article: article, showAlert: true}});
                 },
