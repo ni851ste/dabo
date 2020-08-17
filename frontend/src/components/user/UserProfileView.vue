@@ -107,13 +107,6 @@
              aria-hidden="true">
             <EditMyAccountView :user="this.user"></EditMyAccountView>
         </div>
-
-<!--        <div class="modal fade" id="createRatingModal" tabindex="-1" role="dialog"
-             aria-labelledby="exampleModalLabel"
-             aria-hidden="true">
-            <RatingCreationView :rating-object="this.user"></RatingCreationView>
-        </div>
--->
     </div>
 </template>
 
@@ -213,11 +206,36 @@
             if (!this.user.ratings || this.user.ratings.length === 0) {
                 return []
             }
-            let ratings: Rating[] = this.user.ratings;
-            return ratings.slice(
+
+            let ratings: Rating[] = [];
+
+            for (let userRating of this.user.ratings) {
+                let rating: Rating | null = this.fetchUserRating();
+                if (rating) {
+                    ratings.push(rating)
+                }
+            }
+
+            return this.ratings.slice(
                 (this.currentPage - 1) * this.perPage,
                 this.currentPage * this.perPage
             )
+        }
+
+        fetchUserRating(): Rating | null {
+            let rating: Rating | null = null
+            $.ajax({
+                url: "http://localhost:9000/users/articles/" + this.user.id,
+                type: "GET",
+                success: result => {
+                    console.log("success fetching article", result);
+                    rating = result
+                },
+                error: error => {
+                    console.log("error ", error)
+                }
+            });
+            return rating
         }
 
         //TODO: load from user, not implemented in user yet
