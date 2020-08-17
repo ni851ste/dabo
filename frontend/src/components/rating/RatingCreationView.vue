@@ -1,7 +1,8 @@
 <template>
     <div>
         <!-- Modal -->
-        <div class="modal fade" data-backdrop="false" id="createRatingModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        <div class="modal fade" data-backdrop="false" id="createRatingModal" tabindex="-1" role="dialog"
+             aria-labelledby="exampleModalLabel"
              aria-hidden="true">
             <div class="modal-dialog modal-lg" role="document">
                 <div class="modal-content">
@@ -34,8 +35,10 @@
                         <!-- FOOTER -->
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Abbrechen</button>
-                            <button type="button" class="btn btn-primary btn-save" data-dismiss="modal" @click="createRating">
-                                Speichern</button>
+                            <button type="button" class="btn btn-primary btn-save" data-dismiss="modal"
+                                    @click="createRating">
+                                Speichern
+                            </button>
                         </div>
 
                     </div>
@@ -81,7 +84,6 @@
             let date: Date = new Date();
 
             if (this.ratingObject instanceof Article) {
-
                 $.ajax({
                     url: "http://localhost:9000/article/rating/create",
                     type: "POST",
@@ -95,19 +97,17 @@
                         id: this.ratingObject.id
                     }),
                     dataType: "json",
-
                     success: result => {
                         console.log("success CreateRating", result);
                         rating = result
-                        console.log("rating created is", rating);
-                        this.$router.push({name: 'articlePage', params: {rating: rating, showAlert: true}});
+                        this.$router.push({name: 'refresh'}).then(() => {
+                                this.$router.push({name: 'articlePage', params: {article: this.ratingObject}})});
                     },
                     error: error => {
                         console.log("error ", error)
                     }
                 });
             }
-
                 else {
                 $.ajax({
                     url: "http://localhost:9000/user/rating/create",
@@ -125,8 +125,6 @@
                     success: result => {
                         console.log("success CreateRating", result);
                         rating = result
-                        console.log("rating created is", rating);
-                        this.$router.push({name: 'user', params: {rating: rating, showAlert: true}});
                     },
                     error: error => {
                         console.log("error ", error)

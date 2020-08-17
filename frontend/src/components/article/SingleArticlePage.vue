@@ -77,7 +77,7 @@
 </template>
 
 <script lang="ts">
-    import {Component, Prop, Vue} from 'vue-property-decorator';
+    import {Component, Prop, Vue, Watch} from 'vue-property-decorator';
     import NavigationBar from "@/components/NavigationBar.vue";
     import Article from "@/components/article/Article";
     import moment from "moment";
@@ -135,14 +135,14 @@
                 this.article = JSON.parse(localStorage.getItem("selectedArticle")!)
             }
             this.articleRating = 0
-            this.userRating = 0
+            this.userRating = 0;
             this.getUser = this.getUser.bind(this)
             this.getAvgStarsArticle = this.getAvgStarsArticle.bind(this)
             // this.user = new User(0, "email", "password", "max", "mustermann", "picture", true, new Address("starße", "12344", "Konstanz", "Deutschland", true), [], [], [], [], []);
             this.user = this.getUser();
             this.getAvgStarsArticle();
+            this.getAvgStarsUser();
             // this.userRating = this.user != null ? this.getAvgStarsArticle(this.user.ratings) : 0;
-            this.userRating = 0;
             if (this.user == null) {
 
             }
@@ -165,24 +165,20 @@
             })
                 .then(() => {
                     this.getAvgStarsArticle();
-                    this.userRating = this.user ? this.getAvgStarsUser() : 0;
+                    this.user ? this.getAvgStarsUser() : 0;
                     }
                 )
             return user;
         }
 
-        getAvgStarsArticle(): number {
+        getAvgStarsArticle(): void {
             let ratings : Rating[] = [];
-            console.log("Article ID: ", this.article.id)
             $.ajax({
                 url: "http://localhost:9000/article/rating/" + this.article.id,
                 type: "GET",
                 success: result => {
                 for(let i = 0; i< result.length; i++){
-                    ratings[i] = new Rating(result[i].amountOfStars,
-                    result[i].comment,
-                    result[i].author,
-                    result[i].date);
+                    ratings.push(result[i]);
                 }
                     console.log("success", result);
                 },
@@ -190,48 +186,46 @@
                     console.log("error ", error)
                 }
             }).then(() => {
-
                 if(!ratings || ratings.length === 0) {
                     this.articleRating = 0;
                 }else {
                     let starSum: number = 0;
-
                     for (let rating of ratings) {
                         starSum += parseFloat(rating.amountOfStars)
                     }
                     this.articleRating = starSum / ratings.length;
-
-
                 }
 
             })
-
         }
 
-        getAvgStarsUser(): number {
-            let ratings : Rating[] = [];
-            // $.ajax({
-            //     url: "http://localhost:9000/user/rating/" + this.user?.id,
-            //     type: "GET",
-            //     success: result => {
-                    // ratings = result;
-            //         console.log("success", result);
-            //     },
-            //     error: error => {
-            //         console.log("error ", error)
-            //     }
-            // })
 
-            // if(!ratings || ratings.length === 0) {
-            //     return 0
-            // }
-            // let starSum: number = 0;
-            //
-            // for (let rating of ratings) {
-            //     starSum += rating.amountOfStars;
-            // }
-            // return starSum / ratings.length;
-            return 0;
+        getAvgStarsUser(): void {
+            let ratings : Rating[] = [];
+            console.log("userid " + this.user?.id)
+            $.ajax({
+                url: "http://localhost:9000/user/rating/" + this.user?.id,
+                type: "GET",
+                success: result => {
+                    for(let i = 0; i< result.length; i++){
+                        ratings.push(result[i]);
+                    }
+                    console.log("success", result);
+                },
+                error: error => {
+                    console.log("error ", error)
+                }
+            }).then(() => {
+                if (!ratings || ratings.length === 0) {
+                    this.userRating = 0;
+                }else {
+                    let starSum: number = 0;
+                    for (let rating of ratings) {
+                        starSum += parseFloat(rating.amountOfStars)
+                    }
+                    this.userRating = starSum / ratings.length;
+                }
+            })
         }
 
         routeToUserPage(): void {
