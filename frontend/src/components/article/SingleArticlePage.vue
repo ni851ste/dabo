@@ -100,7 +100,7 @@
         }) private showAlert!: boolean;
 
         user: User | null;
-        articleRating: number = this.getAvgStars(this.article.ratings);
+        articleRating: number;
         userRating: number;
 
         loginService: LoginService = LoginService.getInstance();
@@ -137,11 +137,12 @@
             this.articleRating = 0
             this.userRating = 0
             this.getUser = this.getUser.bind(this)
-            this.getAvgStars = this.getAvgStars.bind(this)
+            this.getAvgStarsArticle = this.getAvgStarsArticle.bind(this)
             // this.user = new User(0, "email", "password", "max", "mustermann", "picture", true, new Address("starße", "12344", "Konstanz", "Deutschland", true), [], [], [], [], []);
             this.user = this.getUser();
-            this.articleRating = this.getAvgStars(this.article.ratings);
-            this.userRating = this.user != null ? this.getAvgStars(this.user.ratings) : 0;
+            this.articleRating = this.getAvgStarsArticle();
+            // this.userRating = this.user != null ? this.getAvgStarsArticle(this.user.ratings) : 0;
+            this.userRating = 0;
             if (this.user == null) {
 
             }
@@ -163,14 +164,27 @@
                 }
             })
                 .then(() => {
-                    this.articleRating = this.getAvgStars(this.article.ratings);
-                    this.userRating = this.user ? this.getAvgStars(this.user.ratings) : 0;
+                    this.articleRating = this.getAvgStarsArticle();
+                    this.userRating = this.user ? this.getAvgStarsUser() : 0;
                     }
                 )
             return user;
         }
 
-        getAvgStars(ratings: Rating[]): number {
+        getAvgStarsArticle(): number {
+            let ratings : Rating[] = [];
+            $.ajax({
+                url: "http://localhost:9000/article/rating/" + this.article.id,
+                type: "GET",
+                success: result => {
+                    ratings = result;
+                    console.log("success", result);
+                },
+                error: error => {
+                    console.log("error ", error)
+                }
+            })
+
             if(!ratings || ratings.length === 0) {
                 return 0
             }
@@ -180,6 +194,32 @@
                 starSum += rating.amountOfStars;
             }
             return starSum / ratings.length;
+        }
+
+        getAvgStarsUser(): number {
+            let ratings : Rating[] = [];
+            // $.ajax({
+            //     url: "http://localhost:9000/user/rating/" + this.user?.id,
+            //     type: "GET",
+            //     success: result => {
+                    // ratings = result;
+            //         console.log("success", result);
+            //     },
+            //     error: error => {
+            //         console.log("error ", error)
+            //     }
+            // })
+
+            // if(!ratings || ratings.length === 0) {
+            //     return 0
+            // }
+            // let starSum: number = 0;
+            //
+            // for (let rating of ratings) {
+            //     starSum += rating.amountOfStars;
+            // }
+            // return starSum / ratings.length;
+            return 0;
         }
 
         routeToUserPage(): void {
