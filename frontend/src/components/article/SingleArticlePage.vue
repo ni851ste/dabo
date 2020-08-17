@@ -31,8 +31,19 @@
                                            v-model="articleRating"></b-form-rating>
                             <button v-if="this.userAuthorizedForChanges()" type="button" class="btn editArticleButton" data-toggle="modal" data-target="#editArticleModal">
                                 Artikel bearbeiten
+                                <EditArticleView></EditArticleView>
                             </button>
+
                             <EditArticleView :article="this.article"/>
+                            
+
+                            <button v-if="this.userAuthorizedForRatings()" type="button" class="btn editArticleButton" data-toggle="modal"
+                                    data-target="#createRatingModal">
+                                Artikel bewerten
+                            </button>
+                            <RatingCreationView :rating-object="this.article"/>
+
+
                             <div class="categories">
                                 <div class="category" v-for="categoryLabel in this.article.categories">
                                     {{categoryLabel}}
@@ -77,9 +88,11 @@
     import $ from "jquery";
     import EditArticleView from "@/components/article/EditArticleView.vue";
     import LoginService from "@/components/services/LoginService";
+    import RatingCreationView from "@/components/rating/RatingCreationView.vue";
+
 
     @Component({
-        components: {EditArticleView, NavigationBar}
+        components: {EditArticleView, RatingCreationView, NavigationBar}
     })
     export default class SingleArticlePage extends Vue {
         @Prop() private article!: Article;
@@ -134,6 +147,7 @@
             if (this.user == null) {
 
             }
+            console.log("SingleArticle:" + this.article.name)
         }
 
         getUser(): User | null {
@@ -188,6 +202,14 @@
                 return false;
             }
             return this.user.id === this.loginService.loggedInUser.id
+        }
+
+        userAuthorizedForRatings(): boolean {
+            console.log("checking loggedinuser")
+            if (!this.loginService.loggedInUser || !this.user) {
+                return false;
+            }
+            return this.user.id !== this.loginService.loggedInUser.id
         }
 
         getUserPicture(): string {
