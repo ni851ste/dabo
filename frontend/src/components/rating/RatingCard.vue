@@ -28,7 +28,6 @@
         constructor() {
             super();
             this.user = this.getUser();
-            console.log("RatingCard User" + this.user)
         }
 
         getDate(): string {
@@ -38,7 +37,6 @@
         getUser(): User | null {
             let user: User | null = null;
 
-            console.log("Rating Author: " + this.rating.author)
             $.ajax({
                 url: "http://localhost:9000/user/find/" + this.rating.author,
                 type: "GET",
@@ -66,7 +64,6 @@
         getUserName(): string {
             let user: User|null = this.getUser()
             if (!user) {
-                console.log("No RatingCard User")
                 return "";
             }
 
