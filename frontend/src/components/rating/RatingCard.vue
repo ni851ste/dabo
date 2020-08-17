@@ -2,9 +2,9 @@
         <div class="card rating">
             <div class="card-body">
                 <img class="card-img-top userImg" :src="this.getUserPicture()" alt="Card image cap">
-                <h5 class="card-title" v-html="this.user.firstName"></h5>
+                <h5 class="card-title" v-html="this.getUserName()"></h5>
                 <b-form-rating class="star-rating" variant="warning" readonly v-model="rating.amountOfStars"></b-form-rating>
-                <p class="card-text comment" v-html="rating.text"></p>
+                <p class="card-text comment" v-html="rating.comment"></p>
                 <p class="card-text rating-date">
                     {{getDate()}}
                 </p>
@@ -28,6 +28,7 @@
         constructor() {
             super();
             this.user = this.getUser();
+            console.log("RatingCard User" + this.user)
         }
 
         getDate(): string {
@@ -37,6 +38,7 @@
         getUser(): User | null {
             let user: User | null = null;
 
+            console.log("Rating Author: " + this.rating.author)
             $.ajax({
                 url: "http://localhost:9000/user/find/" + this.rating.author,
                 type: "GET",
@@ -61,6 +63,19 @@
             return this.user.picture;
         }
 
+        getUserName(): string {
+            let user: User|null = this.getUser()
+            if (!user) {
+                console.log("No RatingCard User")
+                return "";
+            }
+
+            if (user.lastNameVisible) {
+                return user.firstName + " " + user.lastName;
+            } else {
+                return user.firstName
+            }
+        };
     }
 </script>
 

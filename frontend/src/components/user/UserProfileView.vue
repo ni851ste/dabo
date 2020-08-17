@@ -74,7 +74,7 @@
                             </div>
                             <RatingCard
                                     id="rating-cards"
-                                    v-for="rating in getUserRatings()"
+                                    v-for="rating in this.ratings"
                                     :rating="rating"
                                     :per-page="perPage"
                                     :current-page="currentPage"
@@ -122,6 +122,7 @@
     import EditMyAccountView from "@/components/user/EditMyAccountView.vue";
     import LoginService from "@/components/services/LoginService";
     import RatingCreationView from "@/components/rating/RatingCreationView.vue";
+    import $ from "jquery";
 
     @Component({
         components: {EditMyAccountView, RatingCreationView, RequestCard, RatingCard, NavigationBar, ArticleCard}
@@ -139,6 +140,11 @@
             if (this.loginService.loggedInUser) {
                 this.loginService.getUserWithId(this.loginService.loggedInUser.id)
             }
+        }
+
+        constructor() {
+            super();
+            this.getUserRatings()
         }
 
         get userName(): string {
@@ -202,41 +208,31 @@
             return article
         }
 
-        getUserRatings(): Rating[] {
-            if (!this.user.ratings || this.user.ratings.length === 0) {
-                return []
-            }
-
-            let ratings: Rating[] = [];
-
-            for (let userRating of this.user.ratings) {
-                let rating: Rating | null = this.fetchUserRating();
-                if (rating) {
-                    ratings.push(rating)
-                }
-            }
-
-            return this.ratings.slice(
-                (this.currentPage - 1) * this.perPage,
-                this.currentPage * this.perPage
-            )
-        }
-
-        fetchUserRating(): Rating | null {
-            let rating: Rating | null = null
+        getUserRatings(): void {
+            let ratings : Rating[] = [];
+            console.log("userid " + this.user?.id)
             $.ajax({
-                url: "http://localhost:9000/users/rating/" + this.user.id,
+                url: "http://localhost:9000/user/rating/" + this.user.id,
                 type: "GET",
                 success: result => {
-                    console.log("success fetching article", result);
-                    rating = result
+                    for(let i = 0; i< result.length; i++){
+                        ratings.push(result[i]);
+                    }
+                    console.log("success", result);
                 },
                 error: error => {
                     console.log("error ", error)
                 }
-            });
-            return rating
+            }).then(() => {
+                if (!ratings || ratings.length === 0) {
+                    this.ratings = [];
+                } else {
+                     this.ratings = ratings
+                }
+            })
         }
+
+
 
         //TODO: load from user, not implemented in user yet
         requestLists(): Article[] {
