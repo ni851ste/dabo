@@ -101,7 +101,7 @@
             }
                 else if (this.ratingObject instanceof User) {
                 $.ajax({
-                    url: "http://localhost:9000/article/rating/create",
+                    url: "http://localhost:9000/user/rating/create",
                     type: "POST",
                     contentType: "application/json",
                     data: JSON.stringify({
