@@ -9,10 +9,20 @@
                         <h3 class="h3" v-html="userName"></h3>
                     </div>
                     <div class="profile-actions cover-img" data-overlay="0.3">
-                        <button v-if="this.userAuthorizedForChanges()" type="button" class="btn btn-primary tmpButton" data-toggle="modal"
+
+                        <button type="button" class="btn btn-primary"
+                                data-toggle="modal"
+                                data-target="#createRatingModal">
+                            Nutzer bewerten
+                        </button>
+                        <RatingCreationView class="rating-modal" :rating-object="this.user"></RatingCreationView>
+
+                        <button v-if="this.userAuthorizedForChanges()" type="button" class="btn btn-primary tmpButton"
+                                data-toggle="modal"
                                 data-target="#editArticleModal">
                             Account bearbeiten
                         </button>
+
                         <button v-else class="btn btn-actions">
                             <span>Nachricht</span>
                         </button>
@@ -72,7 +82,7 @@
                             ></RatingCard>
                         </div>
                     </div>
-                    <div v-if="this.userAuthorizedForChanges()"  class="tab-pane container fade" id="requests">
+                    <div v-if="this.userAuthorizedForChanges()" class="tab-pane container fade" id="requests">
                         <div class="borderbox">
                             <div class="panel-heading">
                                 <h3 class="panel-title">Meine Anfragen</h3>
@@ -91,13 +101,20 @@
                 </div>
             </div>
         </div>
+
         <div class="modal fade" id="editArticleModal" tabindex="-1" role="dialog"
              aria-labelledby="exampleModalLabel"
              aria-hidden="true">
             <EditMyAccountView :user="this.user"></EditMyAccountView>
         </div>
-    </div>
 
+<!--        <div class="modal fade" id="createRatingModal" tabindex="-1" role="dialog"
+             aria-labelledby="exampleModalLabel"
+             aria-hidden="true">
+            <RatingCreationView :rating-object="this.user"></RatingCreationView>
+        </div>
+-->
+    </div>
 </template>
 
 <script lang="ts">
@@ -111,9 +128,10 @@
     import RequestCard from "@/components/user/RequestCard.vue";
     import EditMyAccountView from "@/components/user/EditMyAccountView.vue";
     import LoginService from "@/components/services/LoginService";
+    import RatingCreationView from "@/components/rating/RatingCreationView.vue";
 
     @Component({
-        components: {EditMyAccountView, RequestCard, RatingCard, NavigationBar, ArticleCard}
+        components: {EditMyAccountView, RatingCreationView, RequestCard, RatingCard, NavigationBar, ArticleCard}
     })
     export default class UserProfileView extends Vue {
         @Prop() private user!: User;
@@ -125,7 +143,7 @@
         loginService: LoginService = LoginService.getInstance();
 
         mounted(): void {
-            if(this.loginService.loggedInUser) {
+            if (this.loginService.loggedInUser) {
                 this.loginService.getUserWithId(this.loginService.loggedInUser.id)
             }
         }
@@ -156,15 +174,15 @@
         };
 
         getUsersInsertedArticles(): Article[] {
-            if(!this.user.insertedArticlesId || this.user.insertedArticlesId.length === 0) {
+            if (!this.user.insertedArticlesId || this.user.insertedArticlesId.length === 0) {
                 return [];
             }
 
             let insertedArticles: Article[] = [];
 
-            for(let articleId of this.user.insertedArticlesId) {
+            for (let articleId of this.user.insertedArticlesId) {
                 let article: Article | null = this.fetchArticle(articleId);
-                if(article) {
+                if (article) {
                     insertedArticles.push(article)
                 }
             }
@@ -177,7 +195,7 @@
 
         fetchArticle(articleId: number): Article | null {
             let article: Article | null = null
-             $.ajax({
+            $.ajax({
                 url: "http://localhost:9000/users/articles/" + articleId,
                 type: "GET",
                 success: result => {
@@ -192,7 +210,7 @@
         }
 
         getUserRatings(): Rating[] {
-            if(!this.user.ratings || this.user.ratings.length === 0) {
+            if (!this.user.ratings || this.user.ratings.length === 0) {
                 return []
             }
             let ratings: Rating[] = this.user.ratings;
@@ -228,6 +246,7 @@
             }
             return this.user.picture;
         }
+
 
     }
 
