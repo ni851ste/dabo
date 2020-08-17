@@ -92,14 +92,18 @@ public class ArticleMapAdapter implements IArticlePersistenceAdapter
 
     @Override
     public List<Octet<Integer, String, String, String, String, String, List<String>, List<String>>> filterArticles(
-            //            String nameFilter, String locationFilter,
-            List<String> categoryFilter)
+            String nameFilter, String locationFilter, List<String> categoryFilter)
     {
         List<Octet<Integer, String, String, String, String, String, List<String>, List<String>>> foundArticles = new ArrayList<>();
 
         if (categoryFilter.size() == 0)
         {
             savedArticles.entrySet()
+                    .stream()
+                    // Name Filter
+                    .filter(entry -> entry.getValue().getValue0().toLowerCase().contains(nameFilter.toLowerCase()))
+                    // Location Filter
+                    .filter(entry -> entry.getValue().getValue3().toLowerCase().contains(locationFilter.toLowerCase()))
                     .forEach(article -> {
                         foundArticles.add(new Octet<>(article.getKey(),
                                 article.getValue().getValue0(),
@@ -113,13 +117,12 @@ public class ArticleMapAdapter implements IArticlePersistenceAdapter
         }
         else
         {
-            //        List<Map.Entry<Integer, Quintet<String, String, String, String, List<String>>>> filteredArticles =
             savedArticles.entrySet()
                     .stream()
                     // Name Filter
-                    //.filter(entry -> entry.getValue().getValue0().toLowerCase().contains(nameFilter.toLowerCase()))
+                    .filter(entry -> entry.getValue().getValue0().toLowerCase().contains(nameFilter.toLowerCase()))
                     // Location Filter
-                    //.filter(entry -> entry.getValue().getValue3().contains(locationFilter))
+                    .filter(entry -> entry.getValue().getValue3().toLowerCase().contains(locationFilter.toLowerCase()))
                     // Filter for categories
                     .filter(entry -> CollectionUtils.containsAny(entry.getValue().getValue6(), categoryFilter))
                     .forEach(article -> {

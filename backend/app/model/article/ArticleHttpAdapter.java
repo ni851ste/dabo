@@ -187,16 +187,17 @@ public class ArticleHttpAdapter
     {
         JsonNode json = request.body().asJson();
 
-        //        String nameFilter = json.get("nameFilter").asText();
-        //        String locationFilter = json.get("location").asText();
+        System.out.println("FILTER-TEST");
+
+        String nameFilter = json.get("nameFilter").asText();
+        String locationFilter = json.get("location").asText();
 
 
         List<String> categoryFilterList = new ArrayList<>();
         json.get("categories").forEach(node -> categoryFilterList.add(node.asText()));
 
-        List<Octet<Integer, String, String, String, String,String,List<String>, List<String>>> filteredArticles = articleManagement.filterArticles(
-                //                nameFilter, locationFilter,
-                categoryFilterList);
+        List<Octet<Integer, String, String, String, String,String,List<String>, List<String>>> filteredArticles =
+                articleManagement.filterArticles(nameFilter, locationFilter, categoryFilterList);
 
         JSONArray foundArticles = new JSONArray();
 

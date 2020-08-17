@@ -19,8 +19,6 @@ public interface IArticlePersistenceAdapter
 
     Optional<Octet<Integer, String, String, String, String, String, List<String>, List<String>>> deleteArticle(int id);
 
-    List<Octet<Integer, String, String, String, String, String, List<String>, List<String>>> filterArticles(
-//            String nameFilter, String locationFilter,
-                                                                          List<String> categoryFilter);
+    List<Octet<Integer, String, String, String, String, String, List<String>, List<String>>> filterArticles(String nameFilter, String locationFilter, List<String> categoryFilter);
 
 }

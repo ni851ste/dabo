@@ -116,14 +116,11 @@ public class ArticleManagement
      * @return List of found articles that match the filter
      */
     public List<Octet<Integer, String, String, String, String, String, List<String>, List<String>>> filterArticles(
-            //            String nameFilter, String locationFilter,
-            List<String> categoryFilter)
+                        String nameFilter, String locationFilter, List<String> categoryFilter)
     {
         // TODO some empty field or error checks
 
-        return database.filterArticles(
-                //                nameFilter, locationFilter,
-                categoryFilter);
+        return database.filterArticles(nameFilter, locationFilter, categoryFilter);
     }
 
 
