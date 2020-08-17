@@ -9,10 +9,10 @@
                 <h4>Finde alles was du brauchst</h4>
                 <div class="search-line">
                     <div class="md-form mt-0 input search-input">
-                        <input class="form-control" type="text" placeholder="Was suchst du?" aria-label="Search">
+                        <input id="article-name-filter" class="form-control" type="text" placeholder="Was suchst du?" aria-label="Search">
                     </div>
                     <div class="input">
-                        <b-form-input placeholder="Stadt"></b-form-input>
+                        <b-form-input id="location-filter" placeholder="Stadt"></b-form-input>
                     </div>
 <!--                    <div class="form-group input button">-->
 <!--                        <select class="form-control input dropdown" id="class" name="class">-->
@@ -61,11 +61,14 @@
             this.clearLocalStorageFilters();
 
             let articles: Article[] = [];
+
             $.ajax({
                 url: "http://localhost:9000/users/articles",
                 type: "POST",
                 data: JSON.stringify({
                     categories: [],
+                    nameFilter: document.getElementById("article-name-filter").value,
+                    location: document.getElementById("location-filter").value
                 }),
                 dataType: "json",
                 contentType: "application/json",

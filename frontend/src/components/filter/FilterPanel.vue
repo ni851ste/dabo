@@ -110,9 +110,9 @@
             }
         }
 
-        mounted(): void {
-            this.getFilteredArticles()
-        }
+        // mounted(): void {
+        //     this.getFilteredArticles()
+        // }
 
         getCategories(): Category[] {
             return Object.values(Category)
@@ -139,7 +139,7 @@
                     categories: this.selectedCategories,
                     location: this.location,
                     rating: this.ratingValue,
-                    searchString: this.searchString,
+                    nameFilter: this.searchString,
                 }),
                 dataType: "json",
                 contentType: "application/json",
