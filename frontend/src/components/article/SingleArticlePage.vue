@@ -427,10 +427,9 @@
         align-items: center;
         justify-content: center;
         margin-top: 20px;
-        padding: 5px;
-        border: 3px solid #d0f2e1;
+        border: 3px solid #484848;
         border-radius: 3px;
-        background-color: #484848;
+        background-color: #8fa69a;
         color: white;
         padding: 0.5em;
     }

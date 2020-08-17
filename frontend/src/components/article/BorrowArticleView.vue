@@ -40,6 +40,8 @@
 
 
         borrowArticle(): boolean {
+            console.log("ArticleId: ", this.article.articleId);
+
             $.ajax({
                 url: "http://localhost:9000/user/request-borrow",
                 type: "POST",
@@ -51,12 +53,14 @@
                 dataType: "json",
                 contentType: "application/json",
                 success: result => {
-                    console.log("success ", result)
+                    console.log("success ", result);
                 },
                 error: error => {
                     console.log("error ", error)
                 }
             });
+            // this.$router.push({name: 'articlePage', params: {article: this.article}});
+            this.$router.push({name: 'home'});
             return true
         }
     }

@@ -24,7 +24,7 @@ POST        /users/articles                   model.article.ArticleHttpAdapter.f
 
 POST        /user/login                       model.user.UserHttpAdapter.loginUser(request: Request)
 
-POST        /user/borrow                      model.article.ArticleHttpAdapter.acceptBorrowRequest(request: Request)
+POST        /user/accept-borrow               model.article.ArticleHttpAdapter.acceptBorrowRequest(request: Request)
 POST        /user/is-borrowed                 model.article.ArticleHttpAdapter.isArticleBorrowed(request: Request)
 
 POST        /user/request-borrow              model.article.ArticleHttpAdapter.requestArticle(request: Request)
