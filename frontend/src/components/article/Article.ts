@@ -4,7 +4,7 @@ import Rating from "@/components/rating/Rating";
 export default class Article {
     name: string;
     description: string;
-    image: string[]; //TODO CW: type ???
+    images: string[];
     location: string;
     insertionDate: Date;
     categories: Category[];
@@ -15,10 +15,10 @@ export default class Article {
     // Verfügbarkeit
 
 
-    constructor(name: string, description: string, image: string[], location: string, insertionDate: Date, categories : Category[], ratings: Rating[], userId: number, id: number) {
+    constructor(name: string, description: string, images: string[], location: string, insertionDate: Date, categories : Category[], ratings: Rating[], userId: number, id: number) {
         this.description = description;
         this.name = name;
-        this.image = image;
+        this.images = images;
         this.location = location;
         this.insertionDate = insertionDate;
         this.categories = categories;
