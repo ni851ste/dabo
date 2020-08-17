@@ -234,7 +234,7 @@ public class ArticleHttpAdapter
         JsonNode json = request.body().asJson();
 
         Quintet<String,String,String,String,String> ratingQuintet = new Quintet<>(
-                json.get("articleId").asText(),
+                json.get("id").asText(), //is articleID
                 json.get("amountOfStars").asText(),
                 json.get("comment").asText(),
                 json.get("author").asText(),
